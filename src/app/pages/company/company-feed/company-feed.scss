@@ -1,0 +1,58 @@
+/* Блок «Лента новостей»: посты — виджет widgets/news-post, здесь только вид ленты внутри карточки */
+.pg-company .nfeed {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pg-company .nfeed {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pg-company .c.cofeed {
+  padding: 0px;
+}
+.pg-company .c.cofeed > .nfeed {
+  padding: 4px 24px 24px;
+}
+.pg-company .cofeed .nfeed {
+  gap: 0px;
+}
+.pg-company .cofeed .npost + .npost {
+  border-top: 1px solid var(--stroke);
+  margin-top: 12px;
+  padding-top: 20px;
+}
+.pg-company .cofeed .npost {
+  background: none;
+  border-radius: 0px;
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+  padding: 0px;
+}
+.pg-company .cofeed .npost .npf {
+  margin: 0px -10px;
+  padding: 6px 0px 0px;
+  border-top-width: medium;
+  border-top-style: none;
+  border-top-color: currentcolor;
+}
+.pg-company .cofeed .npost .npau {
+  margin-bottom: 12px;
+}
+.pg-company .cofeed .npost .npimg {
+  margin-bottom: 12px;
+}
+.pg-company .cofeed .npost .npt {
+  margin-bottom: 8px;
+}
+.pg-company .cofeed .npost .nplead {
+  margin-bottom: 8px;
+}
+.pg-company .cofeed .npost .nphub {
+  margin-bottom: 4px;
+}
+.pg-company .c > .ch ~ .nfeed:last-child {
+  padding-bottom: 20px;
+}

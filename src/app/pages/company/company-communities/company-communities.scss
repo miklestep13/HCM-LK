@@ -1,0 +1,26 @@
+/* Блок «Сообщества» (стили из прототипа) */
+.pg-company .cmrow {
+  cursor: pointer;
+}
+.pg-company .cmav {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  display: block;
+}
+.pg-company .cmav svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+:is(#pg-home, .pg-company) .c > .ch ~ .cb:last-child {
+  padding-bottom: 20px !important;
+}
+:is(#pg-home, .pg-company) .c > .ch ~ .cb:not(:has(~ :not(.hidden):not([hidden]))) {
+  padding-bottom: 20px !important;
+}
+.pg-company .cmrow .rl {
+  font: var(--q-font-ui-description-1);
+}

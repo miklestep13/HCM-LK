@@ -1,0 +1,35 @@
+<app-page-head title="Мои встречи">
+  <div class="calhdr"><button class="btn pri" (click)="$event.stopPropagation(); create()">Добавить встречу</button></div>
+</app-page-head>
+<div class="c calmain">
+  <app-filter-bar inputClass="calq" placeholder="Найти встречу по названию, месту или участнику" [query]="q()" (queryChange)="search($event)" [(opened)]="s.opened" (keydown)="key($event)" (click)="$event.stopPropagation()">
+    <div class="fchips">
+      @for (x of statuses; track x[0]) {
+        <button class="fchip" [class.on]="s.st()[x[0]] !== false" (click)="toggleSt(x[0])">{{ x[1] }}</button>
+      }
+    </div>
+  </app-filter-bar>
+  <div cal-toolbar></div>
+  <div>
+    @if (s.view() === 'month') {
+      <div cal-month (pick)="openEvent($event)" (create)="create($event)"></div>
+    } @else {
+      <div cal-grid (pick)="openEvent($event)" (create)="create($event)"></div>
+    }
+  </div>
+</div>
+@if (pop(); as p) {
+  <app-cal-pop [ev]="p.ev" [day]="p.d" [anchor]="p.el" (closed)="pop.set(null)" />
+}
+@if (hits(); as H) {
+  <div class="fpop selpop clsug" [appFloat]="searchEl!" [style.width.px]="searchEl ? searchEl.offsetWidth : 360" (click)="$event.stopPropagation()">
+    @for (o of H; track $index; let i = $index) {
+      <button class="clsi" [class.on]="i === cur()" (click)="pick(i)">
+        <span class="caldot" style="background: var(--q-primary-500)"></span><span class="cnm"><b>{{ o.ev.t }}</b><small>{{ hitText(o) }}</small></span>
+      </button>
+    } @empty {
+      <div class="foe">Встреч не найдено. Проверьте название или имя участника.</div>
+    }
+  </div>
+}
+<app-cal-form />

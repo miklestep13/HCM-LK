@@ -1,0 +1,68 @@
+/* Виджет «Опрос» (стили из прототипа) */
+.w-poll .pollq {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+  margin-bottom: 12px;
+}
+.w-poll .polls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.w-poll .pollo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--stroke);
+  border-radius: 8px;
+  background: var(--q-content-background);
+  cursor: pointer;
+  padding: 9px 12px;
+  text-align: left;
+  font-family: var(--q-font-family);
+}
+.w-poll .pollo:hover {
+  border-color: var(--blue-br);
+}
+.w-poll .pollb {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+  background: var(--blue-bg);
+  transition: width 0.3s;
+}
+.w-poll .polll {
+  font: var(--q-font-ui-body-2);
+  position: relative;
+  flex: 1 1 0%;
+  color: var(--t2);
+}
+.w-poll .pollv {
+  font: var(--q-font-ui-description-1);
+  position: relative;
+  color: var(--t1);
+}
+.w-poll .pollf {
+  font: var(--q-font-ui-description-1);
+  display: block;
+  margin-top: 12px;
+  color: var(--t3);
+}
+/* состояния: выбранный вариант и опрос после голосования */
+.w-poll .pollo.on {
+  border-color: var(--blue);
+}
+.w-poll .pollo.on .pollb {
+  background: var(--blue-bg2);
+}
+.w-poll .polls.done .polll,
+.w-poll .pollo.on .polll {
+  color: var(--t1);
+}
+.w-poll .pollo.on .pollv {
+  color: var(--blue);
+}

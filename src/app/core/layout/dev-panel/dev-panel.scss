@@ -1,0 +1,13 @@
+/* Dev-панель — пунктирная рамка, как блоки «Демо · …» в прототипе */
+.devp { position: fixed; right: 20px; bottom: 20px; z-index: 55; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.devp-btn { font: var(--q-font-ui-button-m); height: 36px; padding: 0 14px; border-radius: 18px; border: 1px dashed var(--q-primary-300); background: var(--q-content-background); color: var(--q-primary-500); cursor: pointer; box-shadow: 0 6px 20px var(--q-base-transparent-100); }
+.devp.open .devp-btn { background: var(--q-primary-50); }
+.devp-body { width: 520px; max-width: calc(100vw - 40px); background: var(--q-content-background); border: 1px dashed var(--q-base-300); border-radius: 12px; padding: 12px 16px 16px; box-shadow: 0 10px 34px var(--q-base-transparent-100); display: flex; flex-direction: column; gap: 12px; }
+.devp-h { display: flex; align-items: center; justify-content: space-between; }
+.devp-h b { font: var(--q-font-ui-headline-4); color: var(--q-content-text); }
+.devp-x { border: 0; background: none; font: var(--q-font-ui-headline-3); color: var(--q-base-500); cursor: pointer; width: 28px; height: 28px; border-radius: 8px; }
+.devp-x:hover { background: var(--q-base-transparent-100); }
+.devp-row { display: flex; flex-direction: column; gap: 6px; }
+.devp-l { font: var(--q-font-ui-description-1); color: var(--q-base-500); }
+.devp-row .seg { flex-wrap: wrap; }
+.devp-row .seg.wide span { flex: 1 0 auto; }

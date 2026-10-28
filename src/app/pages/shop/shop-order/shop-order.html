@@ -1,0 +1,23 @@
+@let x = o();
+<app-page-head title="Просмотр заказа" backTo="shop" />
+<div class="c">
+  <div class="cb">
+    <div class="odinfo shodi">
+      <div class="iprd"><span class="l">Номер заказа</span>{{ x.no }}</div>
+      <div class="iprd"><span class="l">Дата и время создания</span>{{ x.created }}</div>
+      <div class="iprd"><span class="l">Планируемая дата поставки</span>{{ x.plan }}</div>
+      <div class="iprd shost"><span class="l">Статус заказа</span><span class="bdg" [class]="x.status[0]">{{ x.status[1] }}</span></div>
+      <div class="iprd"><span class="l">Способ получения</span>{{ method(x.method) }}</div>
+      <div class="iprd"><span class="l">Сумма</span><span class="ocoin">{{ fmt(sum()) }}<span style="display: contents" [innerHTML]="coin"></span></span></div>
+      <div class="iprd oadr2"><span class="l">Адрес</span>{{ x.address || '—' }}</div>
+      <div class="iprd odcm"><span class="l">Комментарий к заказу</span>{{ x.comment || '—' }}</div>
+    </div>
+  </div>
+</div>
+<div class="c mt">
+  <div class="ch"><h3>Товары</h3><span class="chip">{{ x.items.length }}</span></div>
+  <div class="cb shcb" shop-items [items]="x.items" [readonly]="true"></div>
+</div>
+@if (canCancel()) {
+  <div class="c mt ipisl"><div class="ipff"><button class="btn dng" (click)="cancel()">Отменить заказ</button></div></div>
+}

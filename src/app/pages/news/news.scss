@@ -1,0 +1,44 @@
+/* Страница «Новости»: раскладка и общие правила (из прототипа). Стили блоков — в их папках. */
+.pg-news {
+  display: block;
+}
+.pg-news .nchead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.pg-news .nlay {
+  display: grid;
+  grid-template-columns: minmax(0px, 1fr) 320px;
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 1100px) {
+  .pg-news .nlay {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 1100px) {
+  .pg-news .nsidew {
+    display: none;
+  }
+}
+.pg-news .nsidew {
+  min-height: 1px;
+}
+.pg-news .nwrole {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+.pg-news .pf-top > .nchead {
+  align-self: center;
+}
+.pg-news .sdlbl {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  white-space: nowrap;
+}

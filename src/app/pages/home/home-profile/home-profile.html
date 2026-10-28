@@ -1,0 +1,13 @@
+<app-card title="Профиль" cls="ecard">
+  <div class="cb">
+    <div class="pf">
+      <img class="ph" [src]="p.photo" alt="" />
+      <div class="info"><div><div class="nm">{{ p.name }}</div><div class="lg">{{ p.role }}</div></div></div>
+    </div>
+  </div>
+  <div class="cb">
+    @for (r of p.rows; track r.label) {
+      <app-kv-row [label]="r.label">@if (r.link) {<a>{{ r.value }}</a>} @else {{{ r.value }}}</app-kv-row>
+    }
+  </div>
+</app-card>

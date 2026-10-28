@@ -1,0 +1,41 @@
+/* Поиск по схеме: подсказки с людьми (стили из прототипа) */
+.pg-org .fpop.ogsug {
+  padding: 6px;
+  max-height: 360px;
+  overflow-y: auto;
+}
+.pg-org .ogsi {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 8px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  text-align: left;
+  font-family: var(--q-font-family);
+  cursor: pointer;
+}
+.pg-org .ogsi:hover,
+.pg-org .ogsi.on {
+  background: var(--blue-bg);
+}
+.pg-org .ogsi .av {
+  width: 32px;
+  height: 32px;
+}
+.pg-org .ogsi .cnm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: normal;
+}
+.pg-org .ogsi .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-org .ogsi .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--grey);
+}

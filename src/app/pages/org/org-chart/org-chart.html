@@ -1,0 +1,77 @@
+@let L = s.layout();
+<div class="ogmap" #map [class.drag]="drag()" (wheel)="wheel($event)" (pointerdown)="down($event)" (click)="closePop()">
+  <div class="ogcv" [style.width.px]="L.w" [style.height.px]="L.h" [style.transform]="transform()">
+    <svg class="oglk" [attr.width]="L.w" [attr.height]="L.h">
+      @for (d of L.lines; track $index) {
+        <path [attr.d]="d" />
+      }
+    </svg>
+    @for (id of L.ids; track id) {
+      @let n = node(id);
+      @let b = L.boxes[id];
+      <div class="ogn" [class.me]="id === me" [class.hit]="id === s.hit()" [style.left.px]="b.x" [style.top.px]="b.y"
+        (click)="openCard(id, $event)">
+        <span class="ogav">
+          @if (n.photo) {
+            <img class="av" [src]="n.photo" alt="" />
+          } @else {
+            <span class="av" [class]="avCls(n.name, n.av!)"></span>
+          }
+        </span>
+        @if (id === me) {
+          <span class="ogme">Вы</span>
+        }
+        <b [title]="n.name">{{ n.name }}</b>
+        <small [title]="n.role">{{ n.role }}</small>
+        @if (n.unit && id !== 'ceo' && !kids(id)) {
+          <span class="ogun" [title]="n.unit">{{ n.unit }}</span>
+        }
+        @if (kids(id)) {
+          <div class="ogf">
+            <button class="ogx" [class.on]="s.open().has(id)" [title]="s.open().has(id) ? 'Свернуть' : 'Показать подчиненных'"
+              (click)="toggle(id, $event)">
+              <svg viewBox="0 0 16 16" fill="none"><path d="M4 3v5.4a1.6 1.6 0 0 0 1.6 1.6H12M9.6 7.6 12 10l-2.4 2.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>{{ kids(id) }}<svg viewBox="0 0 12 12" fill="none"><path d="M3 4.6 6 7.6l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </button>
+            @if (n.unit && id !== 'ceo') {
+              <span class="ogun" [title]="n.unit">{{ n.unit }}</span>
+            }
+            <span title="Всего в подчинении">Σ {{ total(id) }}</span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+  @if (hasUp()) {
+    <div class="ogtop">
+      <button class="ogup" (click)="up()">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M8 13V3.4M4 7.2 8 3.2l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>Уровень выше
+      </button>
+      <span class="ogbc">
+        @for (c of crumbs(); track c; let last = $last) {
+          @if (last) {
+            <b>{{ short(c) }}</b>
+          } @else {
+            <button (click)="crumb(c)">{{ short(c) }}</button><i>›</i>
+          }
+        }
+      </span>
+    </div>
+  }
+  <div class="bkzm ogzm">
+    <button title="Приблизить" (click)="zoom('in')">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M8 3.2v9.6M3.2 8h9.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+    </button>
+    <span>{{ (s.z() * 100).toFixed(0) }}%</span>
+    <button title="Отдалить" (click)="zoom('out')">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M3.2 8h9.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+    </button>
+    <button title="Показать всю схему" (click)="zoom('fit')">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M2.4 5.6V2.4h3.2M10.4 2.4h3.2v3.2M13.6 10.4v3.2h-3.2M5.6 13.6H2.4v-3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </button>
+  </div>
+</div>
+@if (pop(); as p) {
+  <div class="fpop ogecp" [style.left.px]="p.left" [style.top.px]="p.top">
+    <app-employee-card [card]="p.card" (click)="openProfile(p.id)" />
+  </div>
+}

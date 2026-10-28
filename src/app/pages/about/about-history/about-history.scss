@@ -1,0 +1,50 @@
+/* Блок «История банка» (стили из прототипа) */
+.pg-about .hrow {
+  display: flex;
+  gap: 14px;
+  padding: 10px 0px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-about .hrow:last-child {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+}
+.pg-about .yr {
+  font: var(--q-font-ui-headline-4);
+  color: var(--blue);
+  width: 46px;
+  flex-shrink: 0;
+}
+.pg-about .ht {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+}
+.pg-about .abtwo > .c {
+  display: flex;
+  flex-direction: column;
+}
+.pg-about .abtwo > .c > .cb {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+}
+.pg-about .abtwo .hlist {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.pg-about .abtwo .hlist .hrow {
+  padding: 0px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  align-items: flex-start;
+}
+.pg-about .abtwo .hlist .hrow + .hrow {
+  padding-top: 11px;
+  margin-top: 11px;
+  border-top: 1px solid var(--stroke);
+}

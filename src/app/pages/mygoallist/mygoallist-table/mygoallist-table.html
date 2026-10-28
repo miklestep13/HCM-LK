@@ -1,0 +1,106 @@
+<div class="ctabs gllt">
+  <span [class.on]="tab() === 'goal'" (click)="tab.set('goal')">По цели</span>
+  <span [class.on]="tab() === 'emp'" (click)="tab.set('emp')">По сотруднику</span>
+</div>
+<div class="cb">
+  <app-filter-bar placeholder="Поиск по цели или сотруднику" [(query)]="q" />
+  <div class="tw gllsc">
+    <table class="tbl glltbl">
+      <thead>
+        <tr>
+          <th class="gllname">Наименование</th>
+          <th>Сотрудник</th>
+          <th>Тип</th>
+          <th>Период</th>
+          <th>Вес</th>
+          <th>Срок</th>
+          <th>Результат</th>
+          <th>Итоговая оценка</th>
+          <th>Статус карты</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (tab() === 'goal') {
+          @for (r of tree(); track r.g.id) {
+            <ng-container *ngTemplateOutlet="row; context: { $implicit: r }" />
+          } @empty {
+            <tr><td colspan="10" class="empty sm">Ничего не найдено</td></tr>
+          }
+        } @else {
+          @for (gr of groups(); track gr.name) {
+            @let folded = fold().has('e:' + gr.name);
+            <tr class="gllgrp">
+              <td colspan="10">
+                <div class="gtc">
+                  <button class="gtchv" [class.on]="!folded" (click)="toggle('e:' + gr.name)"><ng-container *ngTemplateOutlet="chev" /></button>
+                  <span class="gllp"><span class="av" [class]="'av' + gr.av"></span><span class="cnm"><b>{{ gr.name }}</b><small>{{ gr.sub }}</small></span></span>
+                </div>
+              </td>
+            </tr>
+            @if (!folded) {
+              @for (r of gr.rows; track r.g.id) {
+                <ng-container *ngTemplateOutlet="row; context: { $implicit: r }" />
+              }
+            }
+          } @empty {
+            <tr><td colspan="10" class="empty sm">Ничего не найдено</td></tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #chev><svg viewBox="0 0 12 12" fill="none"><path d="M3 4.6 6 7.6l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg></ng-template>
+
+<ng-template #row let-r>
+  @let g = r.g;
+  @let st = status(g);
+  <tr class="gtrow" [class.gllctx]="!g.mine" [class.dim]="r.dim">
+    <td class="gllname">
+      <div class="gtc" [style.padding-left.px]="r.lv * 28">
+        @if (r.kids) {
+          <button class="gtchv" [class.on]="!fold().has(g.id)" aria-label="Свернуть" (click)="toggle(g.id)"><ng-container *ngTemplateOutlet="chev" /></button>
+        } @else {
+          <span class="gtchv0"></span>
+        }
+        <div class="gllnm"><button class="glltn" (click)="open(g)">{{ g.title }}</button><small>{{ g.level }}</small></div>
+      </div>
+    </td>
+    <td class="gllwho">
+      <span class="gllp"><span class="av" [class]="'av' + g.owner.av"></span><span class="cnm"><b>{{ short(g.owner.name) }}</b><small>{{ g.owner.role }}</small></span></span>
+    </td>
+    <td><span class="bdg gt-t0">{{ g.type }}</span></td>
+    <td class="gr">{{ g.period }}</td>
+    <td>{{ g.weight }}</td>
+    <td class="gr">{{ g.due }}</td>
+    <td>{{ g.result }}</td>
+    <td>
+      @if (g.grade) {
+        <span class="clbg glllt" [class]="'g' + g.grade" [title]="g.gradeName">{{ g.grade }}</span>
+      } @else {
+        <span class="glsno">—</span>
+      }
+    </td>
+    <td>
+      @if (st) {
+        <span class="bdg" [class]="tone(st)">{{ st }}</span>
+      } @else {
+        <span class="glsno">—</span>
+      }
+    </td>
+    <td class="gllact">
+      <span class="acts">
+        @if (canRate(g)) {
+          <button class="btn raised sm" (click)="open(g, 'edit')">{{ rateLabel(g) }}</button>
+        }
+        @if (canEdit(g)) {
+          <button class="actb" title="Редактировать" (click)="edit(g)">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M11.2 2.6a1.7 1.7 0 0 1 2.4 2.4l-7.5 7.5-3.2.8.8-3.2 7.5-7.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" /></svg>
+          </button>
+        }
+      </span>
+    </td>
+  </tr>
+</ng-template>

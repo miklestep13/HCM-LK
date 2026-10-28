@@ -1,0 +1,65 @@
+<div class="calgh">
+  <span></span>
+  @for (d of days(); track key(d)) {
+    <button class="calhd" [class.tdy]="key(d) === todayKey" [class.we]="d.getDay() % 6 === 0" (click)="openDay(d)"><small>{{ wd(d) }}</small><b>{{ d.getDate() }}</b></button>
+  }
+</div>
+@if (allDay().some((x) => x.length)) {
+  <div class="calad">
+    <span>Весь день</span>
+    @for (L of allDay(); track $index) {
+      <div>
+        @for (o of L; track o.ev.id) {
+          <button class="cle ad" [class]="o.ev.my" [class.priv]="o.ev.priv" [class.hit]="s.hit() === o.ev.id" style="--cc: var(--q-primary-500); --ct: var(--q-primary-50)" (click)="onEvent(o.ev, o.d, $event)">
+            <b>{{ o.ev.t }}</b><ng-container *ngTemplateOutlet="ico; context: { $implicit: o.ev }" />
+          </button>
+        }
+      </div>
+    }
+  </div>
+}
+<div class="calsc" #sc>
+  <div class="calgb" [style.height.px]="hours.length * HH">
+    <div class="calhr">
+      @for (i of hours; track i) {
+        <span [style.top.px]="i * HH">{{ i ? hm((H0 + i) * 60) : '' }}</span>
+      }
+    </div>
+    @for (d of days(); track key(d); let di = $index) {
+      <div class="calcol" [class.we]="d.getDay() % 6 === 0" (click)="onCol(d, $event)">
+        @for (o of cols()[di]; track o.ev.id) {
+          @let e = o.ev;
+          @let hh = h(e);
+          <button
+            class="cle"
+            [class]="e.my"
+            [class.priv]="e.priv"
+            [class.hit]="s.hit() === e.id"
+            [class.sh]="hh < 40"
+            [class.md]="hh >= 40 && hh < 70"
+            style="--cc: var(--q-primary-500); --ct: var(--q-primary-50)"
+            [style.top.px]="top(e)"
+            [style.height.px]="hh"
+            [style.left]="'calc(' + (o.c * 100) / o.n + '% + 2px)'"
+            [style.width]="'calc(' + 100 / o.n + '% - 4px)'"
+            [title]="e.t + ', ' + hm(e.s) + '–' + hm(e.e) + ' · ' + my[e.my]"
+            (click)="onEvent(e, d, $event)"
+          >
+            <b>{{ e.t }}</b><span class="clt">{{ time(e) }}</span>
+            @if (hh > 72 && e.loc) {
+              <span class="cll">{{ e.loc }}</span>
+            }
+            <span class="cli"><ng-container *ngTemplateOutlet="ico; context: { $implicit: e }" /></span>
+          </button>
+        }
+        @if (key(d) === todayKey && nowM > H0 * 60 && nowM < 22 * 60) {
+          <i class="calnow" [style.top.px]="((nowM - H0 * 60) / 60) * HH"></i>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+<ng-template #ico let-e
+  >@if (e.priv) {<svg viewBox="0 0 16 16" fill="none"><rect x="3.4" y="7" width="9.2" height="6.6" rx="1.4" stroke="currentColor" stroke-width="1.4" /><path d="M5.4 7V5.2a2.6 2.6 0 0 1 5.2 0V7" stroke="currentColor" stroke-width="1.4" /></svg>}@if (e.rep) {<svg viewBox="0 0 16 16" fill="none"><path d="M12.6 6A5 5 0 0 0 3.4 5M3.4 10a5 5 0 0 0 9.2 1M12.8 2.6V6H9.4M3.2 13.4V10h3.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>}@if (e.my === 'maybe') {<em>?</em>}</ng-template
+>

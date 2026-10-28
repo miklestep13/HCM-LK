@@ -1,0 +1,100 @@
+/* Блок «company-banner» (стили из прототипа) */
+.pg-company .bnr {
+  height: 134px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 0px 22px;
+  margin-bottom: 24px;
+}
+.pg-company .bnr > img {
+  position: absolute;
+  inset: 0px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pg-company .bnr::after {
+  content: "";
+  position: absolute;
+  inset: 0px;
+  background: var(--q-overlay);
+}
+.pg-company .bnr .row {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  width: 100%;
+}
+.pg-company .bnr .tx {
+  flex: 1 1 0%;
+  padding-right: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--q-content-background);
+}
+.pg-company .bnr .tx b {
+  font: var(--q-font-ui-headline-2);
+}
+.pg-company .bnr .tx p {
+  font: var(--q-font-ui-body-1);
+  color: color-mix(in srgb, var(--q-button-primary-text) 90%, transparent);
+}
+.pg-company .bnr .cta {
+  font: var(--q-font-ui-button-m);
+  background: color-mix(in srgb, var(--q-button-primary-text) 95%, transparent);
+  color: var(--q-primary-700);
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  border-radius: 8px;
+  padding: 8px 15px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.pg-company .bnr .dots {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  width: 100%;
+}
+.pg-company .bnr .dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--q-button-primary-text) 45%, transparent);
+  display: block;
+}
+.pg-company .bnr .dots i.on {
+  background: var(--q-content-background);
+}
+.pg-company .bnr.xl {
+  height: 268px;
+  justify-content: space-between;
+  padding: 28px 32px;
+}
+.pg-company .bnr.xl .tx b {
+  font: var(--q-font-ui-headline-2);
+}
+.pg-company .bnr.xl .tx p {
+  font: var(--q-font-ui-body-1);
+  max-width: 720px;
+}
+.pg-company .bnr.xl .row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+.pg-company .bnr.xl .tx {
+  padding-right: 0px;
+}

@@ -1,0 +1,60 @@
+<ng-template #av let-p>
+  @if (p[3] === 0) {
+    <img class="av" [src]="mePhoto" alt="" />
+  } @else {
+    <span class="av" [class]="avCls(p[0], p[3])"></span>
+  }
+</ng-template>
+<div class="tw">
+  <table class="tbl rtbl w-bk">
+    <thead>
+      <tr><th>Место</th><th>Оснащение</th><th>Статус</th><th>Рядом сидят</th><th style="width: 150px"></th></tr>
+    </thead>
+    <tbody>
+      @for (x of rows(); track x.id) {
+        <tr>
+          <td><span class="cnm"><b>{{ x.id }}</b><small>{{ zn[x.z] }}</small></span></td>
+          <td>
+            <span class="bkfc">
+              @for (f of feats(x.f); track f) {
+                <span class="chip">{{ f }}</span>
+              }
+            </span>
+          </td>
+          <td>
+            @if (x.st === 'free') {
+              <span class="bdg ok">Свободно</span>
+            } @else if (x.st === 'mine') {
+              <span class="bdg info">Ваша бронь</span>
+            } @else {
+              <button class="bkper" (click)="person(x, $event)">
+                <ng-container [ngTemplateOutlet]="av" [ngTemplateOutletContext]="{ $implicit: x.p }" />
+                <span class="cnm"><b>{{ x.p![0] }}</b><small>{{ x.till }}</small></span>
+              </button>
+            }
+          </td>
+          <td>
+            <span class="plav">
+              @for (y of near(x); track y.id) {
+                <button class="bkavb" [title]="who(y)[0]" (click)="person(y, $event)">
+                  <ng-container [ngTemplateOutlet]="av" [ngTemplateOutletContext]="{ $implicit: who(y) }" />
+                </button>
+              } @empty {
+                <span class="gr">—</span>
+              }
+            </span>
+          </td>
+          <td class="r">
+            @if (x.st === 'free') {
+              <button class="btn raised" (click)="book(x.id)">Забронировать</button>
+            } @else if (x.st === 'mine') {
+              <button class="btn raised" (click)="cancel(x.id)">Отменить</button>
+            }
+          </td>
+        </tr>
+      } @empty {
+        <tr><td colspan="5" class="empty sm">Нет мест с выбранным оснащением. Уберите часть условий или выберите другой этаж.</td></tr>
+      }
+    </tbody>
+  </table>
+</div>

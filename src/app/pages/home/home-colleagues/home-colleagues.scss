@@ -1,0 +1,66 @@
+/* Коллеги: фото, ФИО, должность, статусы */
+.hm-colleagues .mem {
+  position: relative;
+}
+.hm-colleagues .mem {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 0px;
+  border-bottom: 1px solid var(--stroke);
+}
+.hm-colleagues .mem:last-child {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+}
+.hm-colleagues .cbscroll {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--stroke) transparent;
+}
+.hm-colleagues .cbscroll .mem .rl {
+  font: var(--q-font-ui-description-1);
+}
+.hm-colleagues .mem img {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.hm-colleagues .mem .i {
+  flex: 1 1 0%;
+  min-width: 0px;
+}
+.hm-colleagues .mem .nm {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.hm-colleagues .mem .rl {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  margin-top: 4px;
+}
+.hm-colleagues .mem .gltags {
+  margin-top: 8px;
+  align-items: center;
+}
+.hm-colleagues .mem {
+  cursor: pointer;
+}
+.hm-colleagues .mem {
+  cursor: pointer;
+}
+.hm-colleagues .mem {
+  align-items: flex-start;
+}
+.hm-colleagues .mem {
+  align-items: flex-start;
+}
+.hm-colleagues .mem .rl {
+  font: var(--q-font-ui-description-1);
+}
+.hm-colleagues .mem:hover .nm {
+  color: var(--q-primary-500);
+}

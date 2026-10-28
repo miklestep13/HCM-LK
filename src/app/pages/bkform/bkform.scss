@@ -1,0 +1,323 @@
+/* Страница «Бронирование места / переговорной» (стили из прототипа) */
+.pg-bkform {
+  display: block;
+}
+.pg-bkform .av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+  flex-shrink: 0;
+}
+.pg-bkform .acts {
+  display: flex;
+  gap: 4px;
+}
+.pg-bkform .cusum {
+  font: var(--q-font-ui-body-2);
+  background: var(--s1);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--t2);
+}
+.pg-bkform .cusum b {
+  color: var(--black);
+}
+.pg-bkform .pqerr {
+  font: var(--q-font-ui-body-2);
+  background: var(--dg-bg);
+  color: var(--dg);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.pg-bkform .plav {
+  display: flex;
+  align-items: center;
+}
+.pg-bkform .plav .av {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--q-content-background);
+  margin-left: -8px;
+}
+.pg-bkform .plav .av:first-child {
+  margin-left: 0px;
+}
+.pg-bkform img.av {
+  object-fit: cover;
+  display: block;
+}
+.pg-bkform .bkfc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pg-bkform .bkfc .chip {
+  font: var(--q-font-ui-description-1);
+}
+.pg-bkform .bk2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.pg-bkform .bkf .seg.bkseg {
+  align-self: stretch;
+}
+.pg-bkform .bkf .seg.bkseg span {
+  font: var(--q-font-ui-body-2);
+  flex: 1 1 0%;
+  text-align: center;
+  padding: 7px 12px;
+}
+.pg-bkform .bkseat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--s1);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-top: -6px;
+}
+.pg-bkform .bknb {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--t2);
+}
+.pg-bkform .bknb .plav .av {
+  width: 26px;
+  height: 26px;
+}
+.pg-bkform .narrow {
+  max-width: 760px;
+  margin: 0px auto;
+}
+.pg-bkform .rqfrm {
+  display: grid;
+  gap: 16px;
+}
+.pg-bkform .rqfrm .fld,
+.pg-bkform .rqfrm .fin {
+  width: 100%;
+  max-width: none;
+}
+.pg-bkform .rqfrm .acts {
+  justify-content: flex-end;
+}
+.pg-bkform .fld.flt > .dtin > .fin {
+  font: var(--q-font-ui-body-1);
+  height: 52px;
+  min-height: 52px;
+}
+.pg-bkform .fld.flt.on > .dtin > .fin {
+  padding-top: 20px;
+}
+.pg-bkform .fld.flt > .dtin .dtb {
+  top: 11px;
+}
+.pg-bkform .fld.flt > .dtin {
+  width: 100%;
+}
+.pg-bkform .fld.dis .dtin .fin {
+  background: var(--s1);
+  color: var(--t3);
+}
+.pg-bkform .fld.dis .dtb {
+  display: none;
+}
+.pg-bkform .swt {
+  font: var(--q-font-ui-headline-4);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: var(--t2);
+  margin-left: auto;
+}
+.pg-bkform .swt input {
+  position: absolute;
+  opacity: 0;
+  width: 0px;
+  height: 0px;
+}
+.pg-bkform .swt i {
+  width: 34px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--stroke3);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.16s;
+}
+.pg-bkform .swt i::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--q-content-background);
+  transition: transform 0.16s;
+}
+.pg-bkform .swt input:checked + i {
+  background: var(--blue);
+}
+.pg-bkform .swt input:checked + i::after {
+  transform: translateX(14px);
+}
+.pg-bkform .swt.pqsw {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  white-space: normal;
+  margin: 0px;
+}
+.pg-bkform .pqsw span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pg-bkform .pqsw b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-bkform .pqsw small {
+  font: var(--q-font-ui-description-1);
+  color: var(--grey);
+}
+.pg-bkform .pqsw i {
+  margin-top: 2px;
+}
+.pg-bkform .bkwd {
+  display: flex;
+  gap: 6px;
+  margin-top: -6px;
+}
+.pg-bkform .bkwd button {
+  font: var(--q-font-ui-button-m);
+  flex: 1 1 0%;
+  height: 34px;
+  border: 1px solid var(--stroke2);
+  border-radius: 8px;
+  background: var(--q-content-background);
+  color: var(--t2);
+  cursor: pointer;
+}
+.pg-bkform .bkwd button:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.pg-bkform .bkwd button.on {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--q-content-background);
+}
+.pg-bkform .bkcf {
+  display: block;
+  margin-top: 8px;
+  color: var(--warn);
+}
+.pg-bkform .bkcap {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--t2);
+}
+.pg-bkform .bkcap svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+.pg-bkform .bkeq {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  color: var(--t2);
+}
+.pg-bkform .bkeq span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-bkform .bkeq svg {
+  width: 16px;
+  height: 16px;
+  color: var(--blue);
+}
+.pg-bkform .bkppl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.pg-bkform .bktml {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: -6px;
+}
+.pg-bkform .bktr {
+  position: relative;
+  height: 14px;
+  border-radius: 8px;
+  background: var(--s1);
+  overflow: hidden;
+}
+.pg-bkform .bktr i {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  border-radius: 8px;
+}
+.pg-bkform .bktr .bz {
+  background: repeating-linear-gradient(135deg,var(--q-warning-100) 0 6px,var(--q-warning-100) 6px 12px);
+}
+.pg-bkform .bktr .sel {
+  background: var(--blue);
+  opacity: 0.85;
+}
+.pg-bkform .bktx {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  justify-content: space-between;
+  color: var(--grey);
+}
+.pg-bkform .bktml small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t2);
+}
+.pg-bkform .rqfrm .fld,
+.pg-bkform .rqfrm .sel,
+.pg-bkform .rqfrm .fin {
+  width: 100%;
+  max-width: none;
+}
+.pg-bkform .bkppl .chip {
+  font: var(--q-font-ui-body-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pg-bkform .bkppl .chip button {
+  font: var(--q-font-ui-button-m);
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  padding: 0px 2px;
+  color: var(--grey);
+  cursor: pointer;
+}
+.pg-bkform .bkppl .chip button:hover {
+  color: var(--red);
+}

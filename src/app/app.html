@@ -1,0 +1,10 @@
+<app-header />
+<main class="wrap" [class.hidden]="legacy.active()">
+  <router-outlet />
+</main>
+<app-legacy-host />
+<app-dev-panel />
+<app-toasts />
+<app-confirm />
+<app-attach-preview />
+<app-wallet-send />

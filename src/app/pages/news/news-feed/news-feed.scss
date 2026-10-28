@@ -1,0 +1,53 @@
+/* Блок «Лента»: посты — виджет news-post, здесь вид ленты в карточке */
+.pg-news .nfeed {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pg-news .c.cofeed {
+  padding: 0px;
+}
+.pg-news .c.cofeed > .nfeed {
+  padding: 4px 24px 24px;
+}
+.pg-news .c.cofeed.nwfeed > .nfeed {
+  padding: 24px;
+}
+.pg-news .cofeed .nfeed {
+  gap: 0px;
+}
+.pg-news .cofeed .npost + .npost {
+  border-top: 1px solid var(--stroke);
+  margin-top: 12px;
+  padding-top: 20px;
+}
+.pg-news .cofeed .npost {
+  background: none;
+  border-radius: 0px;
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+  padding: 0px;
+}
+.pg-news .cofeed .npost .npf {
+  margin: 0px -10px;
+  padding: 6px 0px 0px;
+  border-top-width: medium;
+  border-top-style: none;
+  border-top-color: currentcolor;
+}
+.pg-news .cofeed .npost .npau {
+  margin-bottom: 12px;
+}
+.pg-news .cofeed .npost .npimg {
+  margin-bottom: 12px;
+}
+.pg-news .cofeed .npost .npt {
+  margin-bottom: 8px;
+}
+.pg-news .cofeed .npost .nplead {
+  margin-bottom: 8px;
+}
+.pg-news .cofeed .npost .nphub {
+  margin-bottom: 4px;
+}

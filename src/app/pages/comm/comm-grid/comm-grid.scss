@@ -1,0 +1,183 @@
+/* Блок «comm-grid» (стили из прототипа) */
+.pg-comm .cgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0px, 1fr));
+  gap: 16px;
+}
+@media (max-width: 1200px) {
+  .pg-comm .cgrid {
+    grid-template-columns: repeat(3, minmax(0px, 1fr));
+  }
+}
+@media (max-width: 900px) {
+  .pg-comm .cgrid {
+    grid-template-columns: repeat(2, minmax(0px, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .pg-comm .cgrid {
+    grid-template-columns: 1fr;
+  }
+}
+.pg-comm .ccard {
+  background: var(--q-content-background);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: 0.16s;
+}
+.pg-comm .ccard {
+  position: relative;
+}
+.pg-comm .ccard .cc2 {
+  padding: 16px 20px 20px;
+}
+.pg-comm .ccard .cact {
+  padding: 0px 20px 20px;
+}
+.pg-comm .ccard b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+  display: block;
+}
+.pg-comm .ccard.cw {
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+}
+.pg-comm .ccard.cw .cbody {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0%;
+}
+.pg-comm .ccard.cw .cc2 {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 16px;
+}
+.pg-comm .ccard.cw {
+  position: relative;
+}
+.pg-comm .cact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0px 16px 16px;
+}
+.pg-comm .cact .btn {
+  width: 100%;
+}
+.pg-comm .cmc.ccard .cmcv {
+  height: auto;
+  aspect-ratio: 16 / 9;
+  margin: 20px 20px 0px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.pg-comm .cmc.ccard .cmct {
+  font: var(--q-font-ui-description-1);
+  display: block;
+  margin-top: 2px;
+  color: var(--t3);
+}
+.pg-comm .cmc.ccard .cmd {
+  margin: 8px 0px 12px;
+}
+.pg-comm .cmc.ccard .cmm {
+  font: var(--q-font-ui-description-1);
+  margin-top: auto;
+  color: var(--t3);
+}
+.pg-comm .cmc.ccard .cmm {
+  gap: 8px;
+}
+.pg-comm .cmc.ccard .cmm > svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  margin-right: 0px;
+  color: var(--t3);
+}
+.pg-comm .cmc {
+  display: flex;
+  flex-direction: column;
+  background: var(--q-content-background);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.16s, box-shadow 0.16s;
+}
+.pg-comm .cmcv {
+  position: relative;
+  height: 150px;
+}
+.pg-comm .cmcv svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.pg-comm .cmtt {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+}
+.pg-comm .cmc:hover .cmtt {
+  color: var(--blue);
+}
+.pg-comm .cmd {
+  font: var(--q-font-ui-body-2);
+  margin-top: -4px;
+  color: var(--t2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 38px;
+}
+.pg-comm .cmm {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--t2);
+}
+.pg-comm .cmm > svg {
+  width: 15px;
+  height: 15px;
+  color: var(--q-page-text-ui);
+  margin-right: -4px;
+}
+.pg-comm .cmj {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 38px;
+}
+.pg-comm .cmj svg {
+  width: 15px;
+  height: 15px;
+}
+.pg-comm .cmj:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+.pg-comm .cmj {
+  height: 36px;
+}
+.pg-comm .ccard .cc2 > b {
+  font: var(--q-font-ui-headline-3);
+}
+/* пустой результат поиска */
+.pg-comm .bkemp {
+  font: var(--q-font-ui-body-2);
+  padding: 40px 24px 48px;
+  text-align: center;
+  color: var(--grey);
+}
+.pg-comm .cmemp {
+  grid-column: 1 / -1;
+}

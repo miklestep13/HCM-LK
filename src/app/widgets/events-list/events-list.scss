@@ -1,0 +1,58 @@
+/* Виджет «Список мероприятий» (стили из прототипа) */
+.w-events .cmmm {
+  font: var(--q-font-ui-description-1);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  color: var(--t3);
+}
+.w-events .cmmm svg {
+  width: 14px;
+  height: 14px;
+}
+.w-events .cmav.codt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.w-events .cmav.codt b {
+  font: var(--q-font-ui-headline-2);
+}
+.w-events .cmav.codt small {
+  font: var(--q-font-ui-description-1);
+}
+.w-events .coevr .cmmm {
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+.w-events .coevr .coevu {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 10px;
+}
+.w-events .mem.coevr {
+  align-items: flex-start;
+}
+.w-events .coevr .cmmm {
+  vertical-align: top;
+}
+/* строка как в «Сообществах»: плитка 64 слева */
+.w-events .cmrow {
+  cursor: pointer;
+}
+.w-events .cmav {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  display: block;
+}
+.w-events .cmrow .rl {
+  font: var(--q-font-ui-description-1);
+}

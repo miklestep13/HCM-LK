@@ -1,0 +1,478 @@
+/* Курс и мероприятие (стили из прототипа) */
+:where(.pg-course) .secn {
+  font: var(--q-font-ui-description-1);
+  display: inline-block;
+  border-radius: 6px;
+  padding: 2px 7px;
+  white-space: nowrap;
+  background: var(--s2);
+  color: var(--t2);
+  vertical-align: middle;
+}
+:where(.pg-course) .secn {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+:where(.pg-course) .av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+  flex-shrink: 0;
+}
+:where(.pg-course) .crs-adm {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+:where(.pg-course) .cmeta2 {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 12px;
+}
+:where(.pg-course) .cmeta2 span {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  color: var(--grey);
+}
+:where(.pg-course) .cmeta2 svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+:where(.pg-course) .ctabs {
+  display: flex;
+  gap: 4px;
+  padding: 16px 24px 0px;
+  border-bottom: 1px solid var(--stroke);
+}
+:where(.pg-course) .ctabs > span {
+  font: var(--q-font-ui-headline-4);
+  padding: 8px 12px 12px;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  user-select: none;
+  background: none;
+  border-radius: 0px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+:where(.pg-course) .ctabs > span:hover {
+  color: var(--blue);
+}
+:where(.pg-course) .ctabs > span.on {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+  background: none;
+}
+:where(.pg-course) .cpane {
+  padding: 20px 24px 24px;
+}
+:where(.pg-course) .sect {
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+:where(.pg-course) .sect:last-child {
+  margin-bottom: 0px;
+}
+:where(.pg-course) .secth {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  background: var(--s1);
+}
+:where(.pg-course) .secth b {
+  font: var(--q-font-ui-headline-4);
+  flex: 1 1 0%;
+  color: var(--black);
+}
+:where(.pg-course) .cblk {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 11px 16px;
+  border-top: 1px solid var(--stroke);
+}
+:where(.pg-course) .cbi {
+  font:var(--q-font-ui-description-1);
+  flex:0 0 18px;
+  text-align:right;
+  background:none;
+  border-radius:0;
+  color:var(--t3);
+  font-variant-numeric:tabular-nums;
+}
+:where(.pg-course) .cblk > div:not(.cbi) {
+  flex: 1 1 0%;
+  min-width: 0px;
+}
+:where(.pg-course) .cblk b {
+  font: var(--q-font-ui-headline-4);
+  display: block;
+  color: var(--t1);
+}
+:where(.pg-course) .cblk small {
+  font: var(--q-font-ui-description-1);
+  color: var(--grey);
+  display: block;
+  margin-top: 3px;
+}
+:where(.pg-course) .bmeta {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  white-space: nowrap;
+}
+:where(.pg-course) .abt p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin-bottom: 12px;
+}
+:where(.pg-course) .crscm {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px 24px 24px;
+}
+:where(.pg-course) .crscm .cmi {
+  display: flex;
+  gap: 12px;
+}
+:where(.pg-course) .crscm .av {
+  font: var(--q-font-ui-body-2);
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+}
+:where(.pg-course) .crscm .i {
+  min-width: 0px;
+}
+:where(.pg-course) .crscm .h {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+:where(.pg-course) .crscm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+:where(.pg-course) .crscm time {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+:where(.pg-course) .crscm p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin: 4px 0px 0px;
+}
+:where(.pg-course) .crscm .stars {
+  font: var(--q-font-ui-description-1);
+  margin-top: 6px;
+  color: var(--warn);
+}
+:where(.pg-course) .npb.st {
+  cursor: default;
+  margin-left: auto;
+}
+:where(.pg-course) .npb.st:hover {
+  background: none;
+  color: var(--t3);
+}
+:where(.pg-course) .npf {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-top: 1px solid var(--stroke);
+  margin: 0px -24px;
+  padding: 6px 16px;
+}
+:where(.pg-course) .npb {
+  font: var(--q-font-ui-button-m);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--q-page-text-ui);
+}
+:where(.pg-course) .npb:hover {
+  background: var(--raised);
+  color: var(--blue);
+}
+:where(.pg-course) .npb.on {
+  color: var(--red);
+}
+:where(.pg-course) .npb svg {
+  width: 16px;
+  height: 16px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:first-child {
+  padding-top: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:last-child {
+  padding-bottom: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ctabs {
+  padding: 24px 24px 0px;
+}
+:where(.pg-course) .lfact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+:where(.pg-course) .prgbar {
+  margin-top: 16px;
+  max-width: 360px;
+}
+:where(.pg-course) .cblk .cbi svg {
+  width: 16px;
+  height: 16px;
+}
+:where(.pg-course) .prgbar .pr {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+:where(.pg-course) .prgbar .pr .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--grey);
+}
+:where(.pg-course) .prgbar .pr .v {
+  font: var(--q-font-ui-headline-4);
+}
+:where(.pg-course) .crsv .crshd {
+  display: grid;
+  grid-template-columns: 480px minmax(0px, 1fr);
+  gap: 28px;
+  align-items: start;
+  padding-bottom: 0px;
+}
+:where(.pg-course) .crsimg {
+  position: relative;
+}
+:where(.pg-course) .crsimg img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  background: var(--s1);
+}
+:where(.pg-course) .crsinfo {
+  display: flex;
+  flex-direction: column;
+  min-height: 270px;
+}
+:where(.pg-course) .crsf {
+  margin-top: auto;
+}
+:where(.pg-course) .crsimg .bdg {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--white);
+  color: var(--t1);
+  box-shadow: 0 1px 3px var(--q-base-transparent-100);
+}
+:where(.pg-course) .crsinfo {
+  min-width: 0px;
+}
+:where(.pg-course) .crsinfo h2 {
+  font: var(--q-font-ui-headline-2);
+  color: var(--black);
+  margin: 0px 0px 8px;
+}
+:where(.pg-course) .crsm.cmeta2 {
+  flex-flow: wrap;
+  gap: 6px 16px;
+  margin: 0px 0px 16px;
+}
+:where(.pg-course) .crsab p {
+  font: var(--q-font-ui-body-2);
+  margin-bottom: 8px;
+}
+:where(.pg-course) .crsbtn {
+  margin-top: 16px;
+  display: flex;
+}
+:where(.pg-course) .crsbtn .lfact {
+  flex-direction: row;
+}
+:where(.pg-course) .crsf {
+  margin: auto -10px 0px;
+  border-top-width: medium;
+  border-top-style: none;
+  border-top-color: currentcolor;
+  padding: 12px 0px 0px;
+}
+:where(.pg-course) .crsv > .ctabs {
+  padding-top: 32px;
+}
+:where(.pg-course) .crsv > .cpane {
+  padding: 24px;
+}
+:where(.pg-course) .crsv .crscm {
+  padding: 0px;
+  max-width: 720px;
+}
+:where(.pg-course) .secth .secn {
+  font: var(--q-font-ui-headline-4);
+  background: none;
+  color: var(--black);
+  padding: 0px;
+  min-width: 14px;
+}
+:where(.pg-course) .secth > .bmeta {
+  margin-left: auto;
+}
+:where(.pg-course) .secth[data-acc] {
+  cursor: pointer;
+  user-select: none;
+}
+:where(.pg-course) .secth .accar {
+  display: inline-flex;
+  color: var(--t3);
+  transition: transform 0.15s;
+}
+:where(.pg-course) .secth .accar svg {
+  width: 14px;
+  height: 14px;
+}
+:where(.pg-course) .cblk .cbi {
+  flex: 0 0 auto;
+  min-width: 14px;
+  text-align: left;
+}
+:where(.pg-course) .crsf .npb.st {
+  margin-left: 0px;
+  cursor: default;
+}
+:where(.pg-course) .crsf .npb.st:hover {
+  color: var(--q-page-text-ui);
+}
+.pg-course.pg-course .crsv:not(.crsp) .crshd {
+  padding-bottom: 24px;
+}
+.pg-course.pg-course .crsp > .ctabs {
+  padding-top: 16px;
+}
+:where(.pg-course) .crsinfo .crsbtn {
+  margin-top: auto;
+  padding-top: 16px;
+  align-items: center;
+  gap: 8px;
+}
+:where(.pg-course) .crsbtn .crsf {
+  margin: 0px -10px 0px auto;
+  padding: 0px;
+}
+:where(.pg-course) .crsinfo .crsab {
+  max-width: 700px;
+}
+:where(.pg-course) .cmeta2 span.od {
+  color: var(--dg);
+}
+:where(.pg-course) .crsinfo .crspr {
+  max-width: none;
+  width: 100%;
+  margin: 12px 0px 0px;
+}
+:where(.pg-course) .crsinfo .crspr:not(.hidden) {
+  margin-top: auto;
+}
+:where(.pg-course) .crsinfo .crspr:not(.hidden) + .crsbtn {
+  margin-top: 0px;
+}
+:where(.pg-course) .crsinfo .crspr {
+  margin-bottom: 0px;
+}
+:where(.pg-course) .crsv .crshd {
+  grid-template-columns: 560px minmax(0px, 1fr);
+}
+:where(.pg-course) .crsinfo {
+  min-height: 315px;
+}
+:where(.pg-course) .crsinfo .crstags {
+  margin: 0px 0px 10px;
+}
+:where(.pg-course) .prgbar .pr {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8px;
+}
+:where(.pg-course) .prgbar .pr .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+:where(.pg-course) .prgbar .pr .v {
+  font: var(--q-font-ui-headline-2);
+  color: var(--t1);
+}
+:where(.pg-course) .prgbar .bar {
+  margin-top: 8px;
+}
+:where(.pg-course) .crsinfo .crsbtn {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+:where(.pg-course) .crsbtn .crsf {
+  margin: 0px auto 0px -10px;
+}
+:where(.pg-course) .lfnote {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  color: var(--t3);
+}
+:where(.pg-course) .lfnote svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+:where(.pg-course) .crsm .brk {
+  flex-basis: 100%;
+  height: 0px;
+}
+:where(.pg-course) .sect.closed .accar {
+  transform: rotate(-90deg);
+}
+:where(.pg-course) .sect.closed .cblk {
+  display: none;
+}
+/* правила прототипа с id (#cp-toc) */
+.pg-course.pg-course [course-toc] .cblk .cico {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  display: grid;
+  place-items: center;
+  color: var(--blue);
+}
+.pg-course.pg-course [course-toc] .cblk .cico svg {
+  width: 16px;
+  height: 16px;
+}

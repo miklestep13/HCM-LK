@@ -1,0 +1,19 @@
+/* Блок «Дни рождения» (стили из прототипа) */
+.pg-company .cbscroll {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--stroke) transparent;
+}
+.pg-company .cbscroll .mem .rl {
+  font: var(--q-font-ui-description-1);
+}
+.pg-company .mem .gltags {
+  margin-top: 8px;
+  align-items: center;
+}
+:is(#pg-home, .pg-company) .c > .ch ~ .cb:last-child {
+  padding-bottom: 20px !important;
+}
+:is(#pg-home, .pg-company) .c > .ch ~ .cb:not(:has(~ :not(.hidden):not([hidden]))) {
+  padding-bottom: 20px !important;
+}

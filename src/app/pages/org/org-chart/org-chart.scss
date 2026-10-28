@@ -1,0 +1,329 @@
+/* Блок «org-chart» (стили из прототипа) */
+.pg-org .ogun {
+  font: var(--q-font-ui-description-1);
+  display: inline-block;
+  border-radius: 6px;
+  padding: 2px 7px;
+  white-space: nowrap;
+  background: var(--s2);
+  color: var(--t2);
+  vertical-align: middle;
+}
+.pg-org .ogun {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.pg-org .av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+  flex-shrink: 0;
+}
+.pg-org img.av {
+  object-fit: cover;
+  display: block;
+}
+.pg-org .bkzm {
+  background: var(--q-content-background);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px var(--q-base-transparent-100);
+}
+.pg-org .bkzm {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+.pg-org .bkzm button {
+  width: 36px;
+  height: 36px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  color: var(--t2);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.pg-org .bkzm button:hover {
+  background: var(--hv);
+  color: var(--blue);
+}
+.pg-org .bkzm svg {
+  width: 16px;
+  height: 16px;
+}
+.pg-org .bkzm span {
+  font: var(--q-font-ui-description-1);
+  width: 100%;
+  text-align: center;
+  color: var(--grey);
+  padding: 3px 0px;
+  border-top: 1px solid var(--stroke);
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-org .ogmap {
+  position: relative;
+  height: calc(-250px + 100vh);
+  min-height: 560px;
+  margin: 0px 24px 24px;
+  border-radius: 12px;
+  background: var(--s1);
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+.pg-org .ogcv {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  transform-origin: 0px 0px;
+}
+.pg-org .oglk {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  overflow: visible;
+}
+.pg-org .oglk path {
+  fill: none;
+  stroke: var(--q-primary-300);
+  stroke-width: 1.5;
+}
+.pg-org .ogn {
+  position: absolute;
+  width: 264px;
+  height: 128px;
+  box-sizing: border-box;
+  padding: 40px 14px 0px;
+  background: var(--q-content-background);
+  border-top: 3px solid var(--q-info-500);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.pg-org .ogn:hover {
+  box-shadow: 0 6px 18px var(--q-base-transparent-100);
+  border-top-color: var(--q-info-500);
+}
+.pg-org .ogav {
+  position: absolute;
+  top: -34px;
+  left: 50%;
+  margin-left: -34px;
+  width: 68px;
+  height: 68px;
+  box-sizing: border-box;
+  padding: 3px;
+  border-radius: 50%;
+  background: var(--q-content-background);
+}
+.pg-org .ogav .av {
+  display: block;
+  width: 62px;
+  height: 62px;
+}
+.pg-org .ogn b {
+  font: var(--q-font-ui-headline-4);
+  max-width: 100%;
+  color: var(--q-content-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pg-org .ogn small {
+  font: var(--q-font-ui-description-1);
+  max-width: 100%;
+  margin-top: 3px;
+  color: var(--t2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pg-org .ogun {
+  max-width: 100%;
+  margin-top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pg-org .ogf .ogun {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 2.5px);
+  transform: translate(-50%, -50%);
+  margin: 0px;
+  max-width: 50%;
+}
+.pg-org .ogf {
+  font: var(--q-font-ui-description-1);
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 5px;
+  border-top: 1px solid var(--stroke);
+  color: var(--grey);
+}
+.pg-org .ogx {
+  font: var(--q-font-ui-button-s-xs);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: -6px;
+  padding: 2px 6px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--blue);
+  cursor: pointer;
+}
+.pg-org .ogx:hover {
+  background: var(--blue-bg);
+}
+.pg-org .ogx svg {
+  width: 13px;
+  height: 13px;
+}
+.pg-org .ogx svg:last-child {
+  width: 10px;
+  height: 10px;
+  transition: transform 0.15s;
+}
+.pg-org .ogx.on svg:last-child {
+  transform: rotate(180deg);
+}
+.pg-org .ogtop {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: calc(100% - 90px);
+}
+.pg-org .ogbc {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--q-button-primary-text) 90%, transparent);
+  color: var(--t2);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.pg-org .ogbc button {
+  font: var(--q-font-ui-button-m);
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  padding: 0px;
+  color: var(--blue);
+  cursor: pointer;
+}
+.pg-org .ogbc button:hover {
+  text-decoration: underline;
+}
+.pg-org .ogbc b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-org .ogbc i {
+  font-style: normal;
+  color: var(--grey);
+}
+.pg-org .ogup {
+  font: var(--q-font-ui-button-m);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0px 12px;
+  border: 1px solid var(--stroke2);
+  border-radius: 16px;
+  background: var(--q-content-background);
+  color: var(--blue);
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 2px 8px var(--q-base-transparent-50);
+}
+.pg-org .ogup:hover {
+  border-color: var(--blue);
+}
+.pg-org .ogup svg {
+  width: 14px;
+  height: 14px;
+}
+.pg-org :is(.ftbar, .tbar:not(.calbar), .assf) :is(.fchip, .lnk) {
+  font: var(--q-font-ui-button-m);
+}
+/* состояния и всплывающие окна схемы (в прототипе появляются по действию) */
+.pg-org .ogmap.drag {
+  cursor: grabbing;
+}
+.pg-org .ogn.me {
+  border-color: var(--blue-br);
+  border-top-color: var(--blue);
+  background: var(--hv);
+}
+.pg-org .ogme {
+  font: var(--q-font-ui-description-1);
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--blue);
+  color: var(--q-content-background);
+}
+.pg-org .ogn.hit {
+  box-shadow: 0 0 0 3px var(--q-content-background), 0 0 0 6px var(--warn-ac);
+}
+.pg-org .fpop.ogecp {
+  width: 340px;
+  padding: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+.pg-org .ogecp .pf span.ph {
+  display: block;
+  flex: none;
+  width: 112px;
+  height: 112px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+}
+.pg-org .fpop.ogecp > .ecard {
+  margin: 0;
+  box-shadow: 0 12px 32px var(--q-base-transparent-100);
+  cursor: pointer;
+}
+/* в прототипе всплывающая карточка лежит вне страницы — отступы карточек страницы на нее не действуют */
+.pg.pg-org .fpop.ogecp > .ecard.c > .cb:first-child {
+  padding-top: 20px;
+}

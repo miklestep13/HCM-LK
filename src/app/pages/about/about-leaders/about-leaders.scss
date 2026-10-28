@@ -1,0 +1,37 @@
+/* Блок «Руководство» (стили из прототипа) */
+.pg-about .c.mt,
+.pg-about .mt {
+  margin-top: 16px;
+}
+.pg-about .lead {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+@media (max-width: 900px) {
+  .pg-about .lead {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.pg-about .ldc {
+  text-align: center;
+}
+.pg-about .ldc img {
+  width: 88px;
+  height: 88px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin: 0px auto 10px;
+}
+.pg-about .ln {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-about .lr {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 3px;
+}
+.pg-about .c.mt {
+  margin-top: 16px;
+}

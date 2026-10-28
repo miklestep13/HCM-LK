@@ -1,0 +1,65 @@
+@let x = p();
+<app-page-head title="Просмотр товара" backTo="shop"><app-shop-head /></app-page-head>
+<div class="c shpc">
+  <div class="cb shprod">
+    <div class="shgal">
+      <div class="slid">
+        <div class="slidt" [style.transform]="'translateX(' + -slide() * 100 + '%)'">
+          <div class="slide pdsl shsl"><img class="pim" [src]="x.img" alt="" /></div>
+          <div class="slide pdsl shsl" [style.background]="bg()"><img class="pim" [src]="x.img" alt="" /></div>
+          <div class="slide pdsl shsl" data-zoom><img class="pim" [src]="x.img" alt="" /></div>
+        </div>
+        <button class="slidb pr" (click)="move(-1)"><svg viewBox="0 0 16 16" fill="none"><path d="M9.6 3.6 5.2 8l4.4 4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+        <button class="slidb nx" (click)="move(1)"><svg viewBox="0 0 16 16" fill="none"><path d="M6.4 3.6 10.8 8l-4.4 4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+      </div>
+      <div class="slidd">
+        @for (i of [0, 1, 2]; track i) {
+          <span [class.on]="i === slide()" (click)="slide.set(i)"></span>
+        }
+      </div>
+    </div>
+    <div class="shinf">
+      <h2 class="shpt">{{ x.name }}</h2>
+      <small class="shpcat">{{ cats[x.cat] }}</small>
+      <div class="shchs">
+        <div class="shch"><span class="l">Артикул</span><i></i><span class="v">{{ x.art }}</span></div>
+        <div class="shch"><span class="l">Категория</span><i></i><span class="v">{{ cats[x.cat] }}</span></div>
+        <div class="shch"><span class="l">{{ x.stock === 0 ? 'Наличие' : 'В наличии' }}</span><i></i><span class="v">{{ stock() }}</span></div>
+      </div>
+      <p class="shlead">{{ x.desc }}</p>
+      <div class="shbuy">
+        <div class="shbl"><div class="shbpr">{{ fmt(x.price) }}<span style="display: contents" [innerHTML]="coin"></span></div></div>
+        <div class="shbbtn"><app-shop-buy [p]="x" /></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="c mt">
+  <div class="ch"><h3>Описание</h3></div>
+  <div class="cb shdsc">
+    <p>{{ x.desc }}</p>
+    @if (x.long[1].length) {
+      <h4>{{ x.long[0] }}</h4>
+      <ul>
+        @for (l of x.long[1]; track l) {
+          <li>{{ l }}</li>
+        }
+      </ul>
+    }
+    @if (x.cat === 'health') {
+      <h4>Как подключить</h4>
+      <p>После оформления заказа HR-служба передаст заявку страховой компании. Подтверждение и список клиник придут на корпоративную почту.</p>
+    } @else {
+      <h4>Как получить</h4>
+      <p>Заказ собирается в течение 5 рабочих дней. Когда статус сменится на «Готов к выдаче», заберите его в офисе у администратора.</p>
+      <p>Если вы работаете удаленно и в вашем городе нет офиса «Диасофт», доступна доставка СДЭК — укажите в комментарии к заказу ближайший пункт выдачи.</p>
+    }
+    <p>Вопросы по товару задайте в комментариях ниже — ответит менеджер магазина.</p>
+  </div>
+</div>
+<div class="c mt">
+  <div class="ch"><h3>Комментарии</h3><span class="chip">{{ chat().length }}</span></div>
+  <div class="cb">
+    <app-comments [items]="chat()" empty="Комментариев пока нет. Задайте вопрос о товаре первым." (send)="send($event)" (like)="like($event)" (remove)="remove($event)" (todo)="todo($event)" />
+  </div>
+</div>

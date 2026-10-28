@@ -1,0 +1,74 @@
+<ng-template #av let-p>
+  @if (p[3] === 0) {
+    <img class="av" [src]="mePhoto" alt="" />
+  } @else {
+    <span class="av" [class]="avCls(p[0], p[3])"></span>
+  }
+</ng-template>
+@let P = type() === 'per';
+<div class="bkf">
+  <app-field label="Сотрудник" required filled>
+    <app-select [search]="true" [options]="emps" [value]="emp() === emps[0].replace(' (вы)', '') ? emps[0] : emp()" (valueChange)="emp.set($event.replace(' (вы)', ''))" />
+  </app-field>
+  <div class="bk2">
+    <app-field label="Город" required filled><app-select [options]="cities" [value]="city()" (valueChange)="setCity($event)" /></app-field>
+    <app-field label="Филиал" required filled><app-select [options]="s_offices()" [(value)]="office" /></app-field>
+  </div>
+  <div class="bk2">
+    <app-field label="Этаж" required filled><app-select [options]="floorsL" [value]="floor() + ' этаж'" (valueChange)="floor.set(+$event[0])" /></app-field>
+    <app-field label="Помещение" required filled><app-select [options]="zones" [value]="zn[zone()]" (valueChange)="setZone($event)" /></app-field>
+  </div>
+  <app-field label="Место" required filled>
+    @if (free().length) {
+      <app-select [options]="freeIds()" [value]="cur()?.id ?? ''" (valueChange)="seat.set($event)" />
+    } @else {
+      <div class="fin bkdis">Нет свободных мест на {{ d1() }}</div>
+    }
+  </app-field>
+  @if (cur(); as x) {
+    <div class="bkseat">
+      <span class="bkfc">
+        @for (f of feats(x.f); track f) {
+          <span class="chip">{{ f }}</span>
+        }
+      </span>
+      <div class="bknb">
+        <span>{{ near().length ? 'Рядом сидят' : 'Рядом пока никого нет' }}</span>
+        <span class="plav">
+          @for (y of near(); track y.id) {
+            <ng-container [ngTemplateOutlet]="av" [ngTemplateOutletContext]="{ $implicit: who(y) }" />
+          }
+        </span>
+      </div>
+    </div>
+  }
+  <div class="seg bkseg">
+    <span [class.on]="!P" (click)="setType('day')">Один день</span><span [class.on]="P" (click)="setType('per')">Период</span>
+  </div>
+  @if (P) {
+    <div class="bk2">
+      <app-field label="С" required [filled]="!!d1()"><app-date-field [(value)]="d1" /></app-field>
+      <app-field label="По" required [filled]="!!d2()"><app-date-field [(value)]="d2" /></app-field>
+    </div>
+    <app-field label="Повторять" filled><app-select [options]="reps" [value]="rep()" (valueChange)="setRep($event)" /></app-field>
+    <div class="bkwd">
+      @for (d of wd; track d; let i = $index) {
+        <button type="button" [class.on]="!!days()[i]" (click)="flipDay(i)">{{ d }}</button>
+      }
+    </div>
+    <label class="swt pqsw">
+      <input type="checkbox" [checked]="swap()" (change)="swap.set(!swap())" /><i></i>
+      <span><b>Подбирать соседнее место</b><small>Если в какую-то дату место занято, забронируем свободное рядом</small></span>
+    </label>
+  } @else {
+    <app-field label="Дата" required [filled]="!!d1()"><app-date-field [(value)]="d1" /></app-field>
+  }
+  @let S = sum();
+  <div class="cusum">
+    {{ S.pre }}@if (S.b1) {<b>{{ S.b1 }}</b>}{{ S.text }}@if (S.b2) {<br /><b>{{ S.b2 }}</b>{{ S.tail }}}
+    @if (S.cf) {
+      <span class="bkcf">{{ S.cf }}</span>
+    }
+  </div>
+  <div class="pqerr" [class.hidden]="!err()">{{ err() }}</div>
+</div>

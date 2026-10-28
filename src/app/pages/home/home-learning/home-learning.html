@@ -1,0 +1,27 @@
+<app-card title="Обучение" [counter]="data().total" open="dev">
+  <div class="tbar hmlt"><app-seg wide [options]="tabs()" [value]="tab()" (valueChange)="tab.set($event)" /></div>
+  <div class="cb" [class.hm-ev-list]="tab() === 'ev'" [class.hm-crs-list]="tab() === 'crs'" style="padding-top:0">
+    @for (c of items(); track c.title) {
+      <div class="crs" (click)="open(c.id)">
+        <img [src]="c.image" alt="" />
+        <div class="b">
+          <div class="top">
+            <div class="tt" [title]="c.title">{{ c.title }}</div>
+            @if (tab() === 'ev') {
+              <div class="gltags hmst">@for (b of c.badges; track b.text) {<app-badge [tone]="b.tone" [live]="!!b.live">{{ b.text }}</app-badge>}</div>
+            } @else {
+              @for (b of c.badges; track b.text) {<app-badge [tone]="b.tone">{{ b.text }}</app-badge>}
+            }
+          </div>
+          <div class="meta">@for (m of c.meta; track $index) {<span [class.od]="m.danger"><app-icon [name]="m.icon || 'calendar'" />{{ m.text }}</span>}</div>
+          @if (c.place) {
+            <div class="meta evpl"><span><app-icon [name]="c.online ? 'video' : 'pin'" />@if (c.link) {<a class="evlnk" href="#" (click)="link($event)">{{ c.place }}</a>} @else {{{ c.place }}}</span></div>
+          }
+          @if (c.progress; as p) {
+            <div class="hmpr"><div class="pr"><span class="l">{{ p.label }}</span><span class="v">{{ p.value }}</span></div><div class="bar" [class.dg]="p.tone==='dg'" [class.ok]="p.tone==='ok'"><i [style.width.%]="p.percent"></i></div></div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</app-card>

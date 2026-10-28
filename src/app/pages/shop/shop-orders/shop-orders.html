@@ -1,0 +1,31 @@
+@let s = f.osort();
+<div class="c">
+  <div class="tw">
+    <table class="tbl rtbl w-ord" [class]="hc(f.hidden())">
+      <thead>
+        <tr>
+          @for (c of cols; track c[0]; let k = $index) {
+            <th [class.num]="k === 2 || k === 3">
+              <span class="thh">{{ c[0] }}<button class="sortb mts" [class.on]="s.k === k" title="Сортировать" [style.transform]="s.k === k && s.d < 0 ? 'scaleY(-1)' : null" (click)="sortBy(k, $event)"><svg viewBox="0 0 12 12" fill="none"><path d="M3.6 9.4V2.6M1.9 4.3 3.6 2.6l1.7 1.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /><path d="M8.4 2.6v6.8M6.7 7.7l1.7 1.7 1.7-1.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /></svg></button></span>
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of rows(); track r.o.no) {
+          <tr class="clk" (click)="open(r.k)">
+            <td>{{ r.o.no }}</td>
+            <td class="gr">{{ r.o.created }}</td>
+            <td class="num">{{ qty(r.o) }} шт.</td>
+            <td class="num"><span class="ocoin">{{ fmt(sum(r.o)) }}<span style="display: contents" [innerHTML]="coin"></span></span></td>
+            <td>{{ method(r.o.method) }}</td>
+            <td class="oaddr"><span [title]="r.o.address">{{ r.o.address || '—' }}</span></td>
+            <td><span class="bdg" [class]="r.o.status[0]">{{ r.o.status[1] }}</span></td>
+          </tr>
+        } @empty {
+          <tr><td colspan="7" class="gr">Ничего не найдено. Измените запрос или сбросьте фильтры.</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

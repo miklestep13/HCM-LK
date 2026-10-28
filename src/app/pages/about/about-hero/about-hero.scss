@@ -1,0 +1,37 @@
+/* Блок «about-hero» (стили из прототипа) */
+.pg-about .hero {
+  background: linear-gradient(115deg,var(--q-primary-700),var(--q-primary-500) 55%,var(--q-primary-300));
+  border-radius: 12px;
+  padding: 40px;
+  margin-bottom: 16px;
+  color: var(--q-content-background);
+}
+.pg-about .hlogo {
+  font: var(--q-font-ui-headline-4);
+  opacity: 0.8;
+  margin-bottom: 14px;
+}
+.pg-about .hero h1 {
+  font: var(--q-font-ui-headline-1);
+  max-width: 22ch;
+}
+.pg-about .hero p {
+  font: var(--q-font-ui-body-1);
+  margin-top: 14px;
+  max-width: 75ch;
+  color: color-mix(in srgb, var(--q-button-primary-text) 88%, transparent);
+}
+.pg-about .hstats {
+  display: flex;
+  gap: 44px;
+  margin-top: 26px;
+  flex-wrap: wrap;
+}
+.pg-about .hstats b {
+  font: var(--q-font-ui-headline-2);
+  display: block;
+}
+.pg-about .hstats span {
+  font: var(--q-font-ui-body-2);
+  color: color-mix(in srgb, var(--q-button-primary-text) 80%, transparent);
+}

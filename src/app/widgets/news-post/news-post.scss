@@ -1,0 +1,136 @@
+/* Виджет «Пост новости» (стили из прототипа) */
+.npost {
+  display: block;
+}
+.npost {
+  background: var(--q-content-background);
+  border-radius: 12px;
+  padding: 20px 24px 8px;
+  cursor: pointer;
+  transition: box-shadow 0.16s;
+}
+.npost .npau {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.npost .npav {
+  font: var(--q-font-ui-headline-3);
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--blue);
+  color: var(--white);
+}
+.npost .npau .i {
+  display: flex;
+  flex-direction: column;
+  min-width: 0px;
+}
+.npost .npau b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.npost .npau time {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 2px;
+}
+.npost .npt {
+  font: var(--q-font-ui-headline-3);
+  display: block;
+  color: var(--black);
+  margin: 0px 0px 10px;
+}
+.npost:hover .npt {
+  color: var(--blue);
+}
+.npost .nphub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.npost .nphub span {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  background: var(--s1);
+  border-radius: 6px;
+  padding: 3px 8px;
+}
+.npost .npimg {
+  margin: 0px 0px 16px;
+  background: var(--s1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.npost .npb.st {
+  cursor: default;
+  margin-left: auto;
+}
+.npost .npb.st:hover {
+  background: none;
+  color: var(--t3);
+}
+.npost .npimg img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+.npost .nplead {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin-bottom: 14px;
+}
+.npost .npf {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-top: 1px solid var(--stroke);
+  margin: 0px -24px;
+  padding: 6px 16px;
+}
+.npost .npf .npb {
+  font: var(--q-font-ui-body-2);
+}
+.npost .npf .npb {
+  font: var(--q-font-ui-description-1);
+  gap: 6px;
+}
+.npost .npf .npb svg {
+  width: 14px;
+  height: 14px;
+}
+.npost .npb {
+  font: var(--q-font-ui-button-m);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--q-page-text-ui);
+}
+.npost .npb:hover {
+  background: var(--raised);
+  color: var(--blue);
+}
+.npost .npb svg {
+  width: 16px;
+  height: 16px;
+}
+/* отмеченный лайк */
+.npost .npb.on {
+  color: var(--red);
+}

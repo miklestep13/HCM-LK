@@ -1,0 +1,73 @@
+@let D = desk();
+<div class="bkmh">
+  <div class="bkst">{{ stat().pre }}<b>{{ stat().b }}</b>{{ stat().post }}</div>
+  <div class="bkleg">
+    @for (l of legend(); track l[0]) {
+      <span><i [class]="l[0]"></i>{{ l[1] }}</span>
+    }
+  </div>
+  <span class="bkgap"></span>
+  @if (D) {
+    <label class="swt bknear"><input type="checkbox" [checked]="s.near()" (change)="s.near.set(!s.near())" /><i></i>Показывать коллег на карте</label>
+  }
+</div>
+<div class="bkmap" #map [class.rm]="!D" [class.drag]="drag()" (wheel)="wheel($event)" (pointerdown)="down($event)">
+  <div class="bkcv" [style.transform]="transform()">
+    <div style="display: contents" [innerHTML]="plan()"></div>
+    @for (r of s.rooms(); track r.i) {
+      <div class="bkrm" [class]="roomCls(r)" [title]="r.no + ' ' + r.n" [style.left.px]="r.x + 8" [style.top.px]="r.y + 8"
+        [style.width.px]="r.w - 16" [style.height.px]="r.h - 16" (click)="room(r, $event)">
+        <span class="bkrl"><b>{{ r.no }}</b>{{ r.n }}</span>
+        @if (r.st !== 'free') {
+          <span class="bkrb">
+            <span class="bkra">
+              @for (p of r.ppl!.slice(0, 4); track $index) {
+                @if (p[3] === 0) {
+                  <img class="av" [src]="mePhoto" alt="" />
+                } @else {
+                  <span class="av" [class]="avCls(p[0], p[3])"></span>
+                }
+              }
+            </span>
+            <small>{{ r.t }}</small>
+          </span>
+        }
+        <span class="bkri"
+          ><span style="display: contents" [innerHTML]="user"></span>{{ r.cap }}
+          @for (e of r.eq.slice(0, 4); track e) {
+            <i [title]="e" [innerHTML]="eqIcon(e)"></i>
+          }
+          @if (r.eq.length > 4) {
+            <em>+{{ r.eq.length - 4 }}</em>
+          }
+        </span>
+      </div>
+    }
+    @for (x of s.seats(); track x.id) {
+      <button class="bks" [class]="seatCls(x)" [style.left.px]="x.x" [style.top.px]="x.y" [title]="x.id + (x.p ? ' · ' + x.p[0] : '')"
+        (click)="seat(x, $event)">
+        @if (x.st === 'busy' && s.near()) {
+          @if (x.p![3] === 0) {
+            <img class="av" [src]="mePhoto" alt="" />
+          } @else {
+            <span class="av" [class]="avCls(x.p![0], x.p![3])"></span>
+          }
+        } @else if (x.st === 'mine') {
+          <img class="av" [src]="mePhoto" alt="" />
+        }
+      </button>
+    }
+  </div>
+  <div class="bkzm">
+    <button title="Приблизить" (click)="zoom(1.25)">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M8 3.2v9.6M3.2 8h9.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+    </button>
+    <span>{{ (z() * 100).toFixed(0) }}%</span>
+    <button title="Отдалить" (click)="zoom(0.8)">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M3.2 8h9.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+    </button>
+    <button title="Показать весь этаж" (click)="fit()">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M2.4 5.6V2.4h3.2M10.4 2.4h3.2v3.2M13.6 10.4v3.2h-3.2M5.6 13.6H2.4v-3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </button>
+  </div>
+</div>

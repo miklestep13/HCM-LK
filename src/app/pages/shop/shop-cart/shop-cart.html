@@ -1,0 +1,77 @@
+<app-page-head title="Корзина" backTo="shop"><app-shop-head [cart]="false" /></app-page-head>
+@if (done(); as d) {
+  <div class="c">
+    <div class="cb">
+      <div class="empty shdone">
+        <div class="wipi"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="11" stroke="currentColor" stroke-width="1.8" /><path d="m10.8 16.4 3.6 3.6 6.8-7.4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+        <b>Заказ оформлен</b>
+        <small>Заказ {{ d.no }} на {{ coins(d.sum) }} передан в сборку. Планируемая дата поставки — {{ d.plan }}. Статус заказа можно отслеживать в истории заказов.</small>
+        <div class="shdact">
+          <button class="btn raised" (click)="toCatalog()">Вернуться в каталог</button>
+          <button class="btn pri" (click)="openOrder(d.k)">Открыть заказ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+} @else if (!items().length) {
+  <div class="c">
+    <div class="cb">
+      <div class="empty">
+        <div class="wipi"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l11-5 11 5v11l-11 5-11-5z M5 11l11 5 11-5 M16 16v11" /></svg></div>
+        <b>Корзина пуста</b><small>Добавьте товары из каталога</small>
+        <button class="btn pri" (click)="toCatalog()">Перейти в каталог</button>
+      </div>
+    </div>
+  </div>
+} @else {
+  @let sel = shop.selected();
+  <div class="c">
+    <div class="ch"><h3>Товары</h3><span class="chip">{{ items().length }}</span></div>
+    @if (sel.length) {
+      <div class="mtbulk shbulk">
+        <b>Выбрано: {{ sel.length }}</b><button class="lnk" (click)="clearSel()">Снять выделение</button><span class="mtsp"></span>
+        <button class="btn raised shclr" (click)="delSel()"><span style="display: contents" [innerHTML]="del"></span>Удалить выбранные</button>
+      </div>
+    }
+    <div class="cb shcb" shop-items [items]="items()"></div>
+  </div>
+  <div class="c mt shdlv">
+    <div class="ch"><h3>Получение</h3></div>
+    <div class="cb">
+      <div class="frm glf">
+        <app-field label="Способ получения" required filled>
+          <app-select [options]="['Самовывоз', 'Доставка']" [value]="shop.method() === 'dlv' ? 'Доставка' : 'Самовывоз'" (valueChange)="setMethod($event)" />
+        </app-field>
+        <app-field label="Адрес" required full [filled]="shop.method() === 'pick' || !!shop.address()" [error]="addrErr()">
+          <input class="fin" [readOnly]="shop.method() === 'pick'" [value]="shop.method() === 'pick' ? office : shop.address()"
+            (input)="shop.address.set($any($event.target).value); addrErr.set(false)" />
+          <div class="fhelp">
+            {{ shop.method() === 'pick' ? 'Адрес закрепленного за вами офиса. Заберите заказ у администратора, когда статус сменится на «Готов к выдаче».' : 'Укажите город, улицу, дом и квартиру или адрес пункта выдачи СДЭК.' }}
+          </div>
+        </app-field>
+      </div>
+    </div>
+  </div>
+  <div class="c mt">
+    <div class="cb shfoot">
+      <app-field class="shcm" label="Комментарий к заказу" [filled]="!!shop.comment()">
+        <textarea class="fta" rows="4" placeholder="Например, размер одежды или ближайший пункт выдачи СДЭК" [value]="shop.comment()" (input)="shop.comment.set($any($event.target).value)"></textarea>
+        <div class="fhelp">Комментарий увидит менеджер магазина при сборке заказа.</div>
+      </app-field>
+      <div class="ctsum shsumb">
+        <div class="ctsr"><span>Баланс</span><span class="ocoin">{{ fmt(wallet.balance()) }}<span style="display: contents" [innerHTML]="coin"></span></span></div>
+        <div class="ctsr"><span>Выбрано товаров</span><span>{{ shop.selCount() }} шт.</span></div>
+        <div class="ctsr tot"><span>Итого</span><span [class.over]="lack() > 0"><span class="ocoin">{{ fmt(shop.selSum()) }}<span style="display: contents" [innerHTML]="coin"></span></span></span></div>
+        @if (lack() > 0) {
+          <p class="ctlack">Не хватает {{ coins(lack()) }}. Снимите выбор с части товаров, чтобы оформить заказ.</p>
+        }
+        @if (!sel.length) {
+          <p class="ctlack">Выберите товары, которые хотите заказать.</p>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="c mt ipisl">
+    <div class="ipff"><button class="btn pri" [disabled]="lack() > 0 || !sel.length" (click)="order()">Оформить заказ</button></div>
+  </div>
+}

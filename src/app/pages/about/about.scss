@@ -1,0 +1,18 @@
+/* Страница «О компании»: раскладка и общие правила (из прототипа). Стили блоков — в их папках. */
+.pg-about {
+  display: block;
+}
+.pg-about .two2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 1100px) {
+  .pg-about .two2 {
+    grid-template-columns: 1fr;
+  }
+}
+.pg-about .abtwo {
+  align-items: stretch;
+}

@@ -1,0 +1,17 @@
+<div class="ch"><h3>Направления бизнеса</h3><span class="chip">{{ list.length }} {{ plural(list.length, 'направление', 'направления', 'направлений') }}</span></div>
+<div class="cb">
+  <div class="prj">
+    @for (p of list; track p.title) {
+      <div class="prjc">
+        <div class="pt">{{ p.title }}</div>
+        <div class="ps">{{ p.sub }}</div>
+        <div class="pd">{{ p.text }}</div>
+        <div class="pf2">
+          @for (f of p.facts; track f) {
+            <span>{{ f }}</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

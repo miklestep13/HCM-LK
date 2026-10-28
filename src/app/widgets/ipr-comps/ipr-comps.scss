@@ -1,0 +1,218 @@
+/* Разделы ИПР «Задачи» и «Компетенции»: шапка, пустое состояние, таблица компетенций (стили из прототипа; :where/:is(.pg-ipr, .afipr) — страница ИПР и блок ИПР в бланке аттестации) */
+:where(.pg-ipr, .afipr) .c.mt,
+:where(.pg-ipr, .afipr) .mt {
+  margin-top: 16px;
+}
+:where(.pg-ipr, .afipr) .tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--q-font-family);
+}
+:where(.pg-ipr, .afipr) .tbl th {
+  font: var(--q-font-ui-headline-4);
+  text-align: left;
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+:where(.pg-ipr, .afipr) .tbl td {
+  font: var(--q-font-ui-body-2);
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--stroke);
+  vertical-align: middle;
+}
+:where(.pg-ipr, .afipr) table.tbl :is(th, td):first-child {
+  padding-left: 0px;
+}
+:where(.pg-ipr, .afipr) table.tbl :is(th, td):last-child {
+  padding-right: 0px;
+}
+:where(.pg-ipr, .afipr) .tbl tr:last-child td {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+}
+:where(.pg-ipr, .afipr) .tbl td b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  display: block;
+}
+:where(.pg-ipr, .afipr) .tbl td small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: block;
+  margin-top: 3px;
+}
+:where(.pg-ipr, .afipr) .tbl .gr {
+  color: var(--t3);
+}
+:where(.pg-ipr, .afipr) .thh {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+:where(.pg-ipr, .afipr) .sortb {
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  padding: 0px;
+  cursor: pointer;
+  color: var(--t4);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+:where(.pg-ipr, .afipr) .sortb svg {
+  width: 12px;
+  height: 12px;
+  display: block;
+}
+:where(.pg-ipr, .afipr) .sortb:hover {
+  color: var(--q-page-text-ui);
+}
+:where(.pg-ipr, .afipr) .sortb.on {
+  color: var(--blue);
+}
+:where(.pg-ipr, .afipr) .ftrow.hidden {
+  display: none;
+}
+:where(.pg-ipr, .afipr) .ftrow > .ib3.ibsq.ftset {
+  width: 36px;
+  height: 36px;
+}
+:where(.pg-ipr, .afipr) .tw {
+  overflow-x: auto;
+  padding: 0px 24px 20px;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipsect > .ch {
+  align-items: center;
+  gap: 8px;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipsect > .ch .ipcol {
+  margin-left: -8px;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipsect > .ch .ipcol svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.15s;
+}
+:where(.pg-ipr, .afipr) .lvw {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: default;
+}
+:where(.pg-ipr, .afipr) .lvd {
+  display: inline-flex;
+  gap: 5px;
+}
+:where(.pg-ipr, .afipr) .lvd i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--track);
+  display: block;
+}
+:where(.pg-ipr, .afipr) .lvw.l1 .lvd i.l1 {
+  background: var(--q-error-500);
+}
+:where(.pg-ipr, .afipr) .lvw.l2 .lvd i.l2 {
+  background: var(--q-warning-500);
+}
+:where(.pg-ipr, .afipr) .lvw.l3 .lvd i.l3 {
+  background: var(--q-success-500);
+}
+:where(.pg-ipr, .afipr) .lvw.l4 .lvd i.l4 {
+  background: var(--q-primary-500);
+}
+:where(.pg-ipr, .afipr) .tbl.iprc td {
+  vertical-align: middle;
+}
+:where(.pg-ipr, .afipr) .tbl.iprc .lvw {
+  gap: 8px;
+}
+:where(.pg-ipr, .afipr) .thh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ch .actb {
+  color: var(--q-page-text-ui);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ch .actb:hover {
+  color: var(--blue);
+}
+:where(.pg-ipr, .afipr) .c.mt {
+  margin-top: 16px;
+}
+:where(.pg-ipr, .afipr) .lvw small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  white-space: nowrap;
+}
+:where(.pg-ipr, .afipr) .c > .cb.iptcb {
+  padding-top: 4px;
+}
+:where(.pg-ipr, .afipr) .iptcb .iplist {
+  margin-top: 0px;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .iprc tr td {
+  transition: background 0.4s;
+}
+:where(.pg-ipr, .afipr) :is(.ftbar, .tbar:not(.calbar), .assf) :is(.fchip, .lnk) {
+  font: var(--q-font-ui-button-m);
+}
+:where(.pg-ipr, .afipr) .c > .ch ~ .cb > :is(.cyclist, .tw, .adlist, .cform, .iplist):first-child {
+  padding-top: 0px;
+}
+:where(.pg-ipr, .afipr) .c > .ch ~ .cb > :is(.cyclist, .tw, .adlist, .cform, .iplist):is(:last-child, :not(:has(~ :not(.hidden):not([hidden]):not(:empty)))) {
+  padding-bottom: 0px;
+}
+:where(.pg-ipr, .afipr) .c .tbl tbody > tr:not(.hidden):not(:has(~ tr:not(.hidden):not([hidden]))) > td {
+  padding-bottom: 0px;
+  border-bottom: 0px;
+}
+:where(.pg-ipr, .afipr) .empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 48px 24px;
+  text-align: center;
+}
+:where(.pg-ipr, .afipr) .wipi {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+}
+:where(.pg-ipr, .afipr) .wipi svg {
+  width: 26px;
+  height: 26px;
+}
+:where(.pg-ipr, .afipr) .empty b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+:where(.pg-ipr, .afipr) .empty small {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t3);
+  max-width: 360px;
+}
+/* свернутый раздел */
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipsect.ipcold > .ch .ipcol svg {
+  transform: rotate(-90deg);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipsect.ipcold > :not(.ch) {
+  display: none !important;
+}
+:where(.pg-ipr, .afipr) .c.ipsect.ipcold > .ch {
+  padding-top: 22px !important;
+  padding-bottom: 26px !important;
+}

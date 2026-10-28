@@ -1,0 +1,1054 @@
+/* Просмотр цели (стили из прототипа) */
+:where(.pg-mygoalview) .tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--q-font-family);
+}
+:where(.pg-mygoalview) .tbl th {
+  font: var(--q-font-ui-headline-4);
+  text-align: left;
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+:where(.pg-mygoalview) .tbl td {
+  font: var(--q-font-ui-body-2);
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--stroke);
+  vertical-align: middle;
+}
+:where(.pg-mygoalview) table.tbl :is(th, td):first-child {
+  padding-left: 0px;
+}
+:where(.pg-mygoalview) table.tbl :is(th, td):last-child {
+  padding-right: 0px;
+}
+:where(.pg-mygoalview) .tbl tr:last-child td {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+}
+:where(.pg-mygoalview) .cform {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--stroke);
+}
+:where(.pg-mygoalview) .cform > .av {
+  width: 36px;
+  height: 36px;
+  margin-top: 2px;
+}
+:where(.pg-mygoalview) .cfin {
+  flex: 1 1 0%;
+  min-width: 0px;
+}
+:where(.pg-mygoalview) .cfact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+}
+:where(.pg-mygoalview) .cfhint {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+:where(.pg-mygoalview) .clist {
+  display: flex;
+  flex-direction: column;
+}
+:where(.pg-mygoalview) .cmt {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 16px 0px;
+  border-bottom: 1px solid var(--stroke);
+}
+:where(.pg-mygoalview) .cmt:last-child {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+  padding-bottom: 0px;
+}
+:where(.pg-mygoalview) .cmt > .av {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+:where(.pg-mygoalview) .cmt > div {
+  flex: 1 1 0%;
+  min-width: 0px;
+}
+:where(.pg-mygoalview) .cmth {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+:where(.pg-mygoalview) .cmth b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+:where(.pg-mygoalview) .cmth time {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+:where(.pg-mygoalview) .cmt p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+:where(.pg-mygoalview) .cmta {
+  display: flex;
+  gap: 14px;
+  margin-top: 8px;
+}
+:where(.pg-mygoalview) .av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+  flex-shrink: 0;
+}
+:where(.pg-mygoalview) .pf-top .btn.raised {
+  background: var(--white);
+}
+:where(.pg-mygoalview) .pf-top .btn.raised:hover {
+  background: var(--blue-bg2);
+}
+:where(.pg-mygoalview) .tw {
+  overflow-x: auto;
+  padding: 0px 24px 20px;
+}
+:where(.pg-mygoalview) .cb .tw {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+:where(.pg-mygoalview) .av.avme {
+  background-size: cover;
+  background-position: center center;
+}
+.pg-mygoalview.pg-mygoalview .ipsect > .ch {
+  align-items: center;
+  gap: 8px;
+}
+.pg-mygoalview.pg-mygoalview .ipsect > .ch .ipcol {
+  margin-left: -8px;
+}
+.pg-mygoalview.pg-mygoalview .ipsect > .ch .ipcol svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.15s;
+}
+:where(.pg-mygoalview) .npb {
+  font: var(--q-font-ui-button-m);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--q-page-text-ui);
+}
+:where(.pg-mygoalview) .npb:hover {
+  background: var(--raised);
+  color: var(--blue);
+}
+:where(.pg-mygoalview) .npb.on {
+  color: var(--red);
+}
+:where(.pg-mygoalview) .npb svg {
+  width: 16px;
+  height: 16px;
+}
+:where(.pg-mygoalview) .cnm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: normal;
+}
+:where(.pg-mygoalview) .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--grey);
+}
+:where(.pg-mygoalview) .pf-top > .btn {
+  margin-left: auto;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ch {
+  padding: 24px 24px 16px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:first-child {
+  padding-top: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:last-child {
+  padding-bottom: 24px;
+}
+:where(.pg-mygoalview) .ipff {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 28px;
+}
+:where(.pg-mygoalview) .glvw {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+:where(.pg-mygoalview) .glvkv {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  white-space: pre-line;
+}
+:where(.pg-mygoalview) .glvkv .l {
+  font: var(--q-font-ui-description-1);
+  display: block;
+  margin-bottom: 6px;
+  color: var(--t3);
+}
+:where(.pg-mygoalview) .glvsc {
+  margin-top: 0px;
+}
+:where(.pg-mygoalview) .glvrow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0px, 1fr));
+  column-gap: 24px;
+}
+:where(.pg-mygoalview) .glvrow.glvr4 {
+  grid-template-columns: repeat(4, minmax(0px, 1fr));
+}
+:where(.pg-mygoalview) .glpt.glpro-v {
+  --glpcols: minmax(260px,480px) 200px 112px 1fr;
+}
+:where(.pg-mygoalview) .glpro-v .glpth,
+:where(.pg-mygoalview) .glpro-v .glpr {
+  column-gap: 32px;
+}
+:where(.pg-mygoalview) .glpro-v .glpth > span:nth-child(3) {
+  text-align: left;
+  justify-self: start;
+}
+:where(.pg-mygoalview) .glpro-v .glpr:last-child {
+  padding-bottom: 0px;
+}
+:where(.pg-mygoalview) .glpro-v .glpr > .glpvw {
+  text-align: left;
+  justify-self: start;
+  font: var(--q-font-ui-body-2);
+}
+:where(.pg-mygoalview) .glvhd .cb {
+  padding: 20px 24px 24px;
+}
+:where(.pg-mygoalview) .glvt {
+  font: var(--q-font-ui-headline-2);
+  color: var(--t1);
+  margin: 16px 0px;
+}
+:where(.pg-mygoalview) .glvhd .glvw {
+  gap: 16px;
+}
+.pg-mygoalview.pg-mygoalview .ipsect > .ch .ipcol {
+  margin-top: -2px;
+  margin-bottom: -2px;
+}
+.pg-mygoalview.pg-mygoalview .glvsc {
+  margin-top: -8px;
+}
+:where(.pg-mygoalview) .glvsc .tbl {
+  width: 100%;
+}
+:where(.pg-mygoalview) .glsct {
+  margin-top: 18px;
+}
+:where(.pg-mygoalview) .glsct .tw {
+  padding: 0px;
+}
+:where(.pg-mygoalview) .glsct .tbl td {
+  vertical-align: middle;
+}
+:where(.pg-mygoalview) .c.ipisl {
+  padding: 16px 24px;
+}
+:where(.pg-mygoalview) .c.ipisl .ipff {
+  margin-top: 0px;
+}
+:where(.pg-mygoalview) .cmta:has(> .npb) {
+  gap: 2px;
+  margin: 4px 0px 0px -10px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ch ~ .cb:last-child {
+  padding-bottom: 24px !important;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ch ~ .cb:not(:has(~ :not(.hidden):not([hidden]))) {
+  padding-bottom: 24px !important;
+}
+:where(.pg-mygoalview) .c > .ch ~ .cb > :is(.cyclist, .tw, .adlist, .cform, .iplist):first-child {
+  padding-top: 0px;
+}
+:where(.pg-mygoalview) .gvedit {
+  margin-left: auto;
+}
+:where(.pg-mygoalview) .glvtit {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+:where(.pg-mygoalview) .glvtit .glvt {
+  margin: 0px;
+}
+:where(.pg-mygoalview) .glvsc .tw {
+  margin-top: -4px;
+}
+:where(.pg-mygoalview) .bdg.gt-l1 {
+  background: var(--q-primary-50);
+  color: var(--q-primary-700);
+}
+:where(.pg-mygoalview) .bdg.gt-t0 {
+  background: var(--q-warning-50);
+  color: var(--q-warning-700);
+}
+:where(.pg-mygoalview) .bdg.gt-knum {
+  background: transparent;
+  color: var(--t2);
+  box-shadow: inset 0 0 0 1px var(--stroke2);
+}
+:where(.pg-mygoalview) .glbc {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  margin: -8px 0px 18px;
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+:where(.pg-mygoalview) .glbcl {
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  padding: 0px;
+  font: inherit;
+  color: var(--q-primary-500);
+  cursor: pointer;
+  max-width: 320px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+:where(.pg-mygoalview) .glbcl:hover {
+  text-decoration: underline;
+}
+:where(.pg-mygoalview) .glbcs {
+  color: var(--q-base-300);
+}
+:where(.pg-mygoalview) .c .tbl tbody > tr:not(.hidden):not(:has(~ tr:not(.hidden):not([hidden]))) > td {
+  padding-bottom: 0px;
+  border-bottom: 0px;
+}
+:where(.pg-mygoalview) .glpt {
+  --glpcols: minmax(260px,1fr) 200px 112px 168px 168px 36px;
+  display: flex;
+  flex-direction: column;
+}
+:where(.pg-mygoalview) .glpth,
+:where(.pg-mygoalview) .glpr {
+  display: grid;
+  grid-template-columns: var(--glpcols);
+  gap: 12px;
+  align-items: center;
+}
+:where(.pg-mygoalview) .glpth {
+  padding: 0px 0px 10px;
+  border-bottom: 1px solid var(--q-content-border-secondary);
+}
+:where(.pg-mygoalview) .glpth span {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-base-500);
+}
+:where(.pg-mygoalview) .glpr {
+  padding: 12px 0px;
+  border-bottom: 1px solid var(--q-content-border-secondary);
+}
+:where(.pg-mygoalview) .glpr:last-child {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+}
+:where(.pg-mygoalview) .glpwho {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0px;
+}
+:where(.pg-mygoalview) .glpwho > .av {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center center;
+}
+:where(.pg-mygoalview) .glpwho .cnm {
+  display: flex;
+  flex-direction: column;
+  min-width: 0px;
+}
+:where(.pg-mygoalview) .glpwho .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:where(.pg-mygoalview) .glpwho .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:where(.pg-mygoalview) .glpvw {
+  font:var(--q-font-ui-body-2);
+  color:var(--q-content-text);
+  font-variant-numeric:tabular-nums;
+}
+:where(.pg-mygoalview) .glpt {
+  --glpcols: minmax(260px,1fr) 112px 168px 168px 36px;
+}
+:where(.pg-mygoalview) .glpr.exe {
+  min-height: 36px;
+}
+:where(.pg-mygoalview) .glpt {
+  --glpcols: minmax(260px,1fr) 112px 36px;
+}
+:where(.pg-mygoalview) .glpt {
+  --glpcols: minmax(260px,480px) 112px 1fr;
+}
+:where(.pg-mygoalview) .glpth > span:nth-child(2),
+:where(.pg-mygoalview) .glpr > .glpvw {
+  text-align: right;
+  justify-self: end;
+}
+:where(.pg-mygoalview) .glvsc:not(.txt) th:last-child,
+:where(.pg-mygoalview) .glvsc:not(.txt) td:last-child {
+  text-align: right;
+}
+:where(.pg-mygoalview) .glvsc:not(.txt) td:last-child {
+  font-variant-numeric: tabular-nums;
+}
+:where(.pg-mygoalview) .glpth > span:nth-child(2),
+:where(.pg-mygoalview) .glpr > .glpvw {
+  text-align: left;
+  justify-self: start;
+}
+:where(.pg-mygoalview) .glpkdot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+:where(.pg-mygoalview) .glpt.glpt-tp {
+  --glpcols: minmax(260px,480px) 160px 112px 1fr;
+}
+:where(.pg-mygoalview) .glpt.glpt-tp .glpth,
+:where(.pg-mygoalview) .glpt.glpt-tp .glpr {
+  column-gap: 32px;
+}
+:where(.pg-mygoalview) .glpt.glpt-tp .glpth > span:nth-child(3) {
+  text-align: left;
+  justify-self: start;
+}
+:where(.pg-mygoalview) .glptp {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+}
+:where(.pg-mygoalview) .glprl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0px;
+}
+:where(.pg-mygoalview) .glpkdot.glpkdot0 {
+  background: var(--q-base-100);
+}
+:where(.pg-mygoalview) .glpt.glpt-tp {
+  --glpcols: minmax(260px,480px) 200px 112px 1fr;
+}
+:where(.pg-mygoalview) .glvsc.txt .tbl td {
+  vertical-align: top;
+  white-space: normal;
+}
+:where(.pg-mygoalview) .bdg.gt-l0 {
+  background: var(--q-primary-50);
+  color: var(--q-primary-700);
+}
+:where(.pg-mygoalview) .bdg.gt-ktxt {
+  background: transparent;
+  color: var(--t2);
+  box-shadow: inset 0 0 0 1px var(--stroke2);
+}
+:where(.pg-mygoalview) .two {
+  display: grid;
+  grid-template-columns: 342px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 1100px) {
+:where(.pg-mygoalview) .two {
+  grid-template-columns: 1fr;
+}
+}
+:where(.pg-mygoalview) .attl {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+:where(.pg-mygoalview) .dropz.sm {
+  padding: 22px 20px;
+}
+:where(.pg-mygoalview) .dropz {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 34px 20px;
+  border: 1.5px dashed var(--blue-br);
+  border-radius: 12px;
+  background: var(--q-content-background-alt);
+  text-align: center;
+}
+:where(.pg-mygoalview) .dzi {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: var(--raised);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+}
+:where(.pg-mygoalview) .dzi svg {
+  width: 22px;
+  height: 22px;
+}
+:where(.pg-mygoalview) .dropz b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+:where(.pg-mygoalview) .dropz small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+:where(.pg-mygoalview) .dropz .btn {
+  margin-top: 6px;
+}
+:where(.pg-mygoalview) .frm {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px 20px;
+}
+:where(.pg-mygoalview) .numin {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--stroke2);
+  border-radius: 8px;
+  background: var(--q-content-background);
+  height: 38px;
+  overflow: hidden;
+}
+:where(.pg-mygoalview) .numin .fin {
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  height: 36px;
+  flex: 1 1 0%;
+  min-width: 0px;
+  text-align: left;
+  padding: 0px 8px 0px 12px;
+  border-radius: 0px;
+}
+:where(.pg-mygoalview) .nusf {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  align-items: center;
+  color: var(--t3);
+  padding-right: 10px;
+}
+.pg-mygoalview.pg-mygoalview .ipsect.ipcold > .ch .ipcol svg {
+  transform: rotate(-90deg);
+}
+.pg-mygoalview.pg-mygoalview .ipsect.ipcold > :not(.ch) {
+  display: none !important;
+}
+:where(.pg-mygoalview) .pqerr {
+  font: var(--q-font-ui-body-2);
+  background: var(--dg-bg);
+  color: var(--dg);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+:where(.pg-mygoalview) .fld.flt > .numin,
+:where(.pg-mygoalview) .fld.flt > .numin .fin {
+  font: var(--q-font-ui-body-1);
+  height: 52px;
+  min-height: 52px;
+}
+:where(.pg-mygoalview) .fld.flt.on > .numin .fin,
+:where(.pg-mygoalview) .fld.flt.on > .numin .nusf {
+  padding-top: 20px;
+}
+:where(.pg-mygoalview) .fld.flt > .numin {
+  height: 54px;
+}
+:where(.pg-mygoalview) .fld.flt > .numin .fin {
+  height: 52px;
+}
+:where(.pg-mygoalview) .glvrow.two {
+  grid-template-columns: repeat(2, minmax(0px, 1fr));
+}
+:where(.pg-mygoalview) .glf {
+  grid-template-columns: repeat(2, minmax(0px, 1fr));
+}
+:where(.pg-mygoalview) .glvsch {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  margin: 24px 0px 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+:where(.pg-mygoalview) .glvself .glvcm {
+  margin-top: 16px;
+}
+:where(.pg-mygoalview) .glvself .glvsch {
+  margin: 0px 0px 10px;
+}
+:where(.pg-mygoalview) .glvself .glvcm ~ .glvsch {
+  margin-top: 20px;
+}
+:where(.pg-mygoalview) .glrauto {
+  min-height: 40px;
+}
+:where(.pg-mygoalview) .glrah {
+  margin-top: 4px;
+}
+:where(.pg-mygoalview) .glvmeas .glvw {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+:where(.pg-mygoalview) .glvmeas .glvrow.glvrf {
+  align-items: start;
+}
+:where(.pg-mygoalview) .glvmeas .glrfact {
+  display: block;
+  width: 100%;
+  min-width: 0px;
+}
+:where(.pg-mygoalview) .glvmeas .glrfact .fld {
+  margin: 0px;
+  width: 100%;
+}
+:where(.pg-mygoalview) .glvmeas .glsct {
+  margin-top: 0px;
+}
+:where(.pg-mygoalview) .glvmeas .glmsh.glvmsh {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  margin-top: 8px;
+}
+:where(.pg-mygoalview) .glpfu .fin {
+  text-align: left;
+}
+:where(.pg-mygoalview) .glsrg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+  min-height: 52px;
+}
+:where(.pg-mygoalview) .c.ipsect.ipcold > .ch {
+  padding-bottom: 24px !important;
+}
+:where(.pg-mygoalview) .glpw > .ch {
+  align-items: center;
+}
+:where(.pg-mygoalview) .glpw > .ch > h3 {
+  flex: 0 0 auto;
+}
+:where(.pg-mygoalview) .seg.clbseg {
+  display: inline-flex;
+}
+:where(.pg-mygoalview) .seg.clbseg span {
+  font: var(--q-font-ui-headline-4);
+  width: 44px;
+  text-align: center;
+  padding: 6px 0px;
+}
+:where(.pg-mygoalview) .glvself .glsrf {
+  margin-bottom: 16px;
+}
+:where(.pg-mygoalview) .glsrf.glsrb {
+  flex-wrap: wrap;
+  gap: 16px;
+  display: flex !important;
+  align-items: center !important;
+}
+:where(.pg-mygoalview) .glsrf.glsrb > .fld {
+  flex: 0 0 auto;
+  width: auto;
+}
+:where(.pg-mygoalview) .glsrf {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: center;
+}
+:where(.pg-mygoalview) .glsrf .fld {
+  margin: 0px;
+}
+:where(.pg-mygoalview) .glsrf.glsrb {
+  align-items: end;
+}
+:where(.pg-mygoalview) .glsrb .glsrg {
+  min-height: 0px;
+  height: var(--glsegh,40px);
+}
+:where(.pg-mygoalview) .glbtbl .tbl td {
+  vertical-align: middle;
+}
+:where(.pg-mygoalview) .bdg.gt-kstr {
+  background: transparent;
+  color: var(--t2);
+  box-shadow: inset 0 0 0 1px var(--stroke2);
+}
+:where(.pg-mygoalview) .glsrf.glsrb .seg.glbseg {
+  min-width: 280px;
+}
+:where(.pg-mygoalview) .glbres .glsrg {
+  display: none;
+}
+:where(.pg-mygoalview) .seg.glbseg {
+  display: flex;
+  width: 100%;
+}
+:where(.pg-mygoalview) .seg.glbseg > span {
+  flex: 1 1 0%;
+  text-align: center;
+  white-space: nowrap;
+}
+:where(.pg-mygoalview) .afchev {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  color: var(--t3);
+}
+:where(.pg-mygoalview) .glvres > .cb {
+  padding-bottom: 24px;
+}
+:where(.pg-mygoalview) .glacl {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--q-content-border-secondary);
+  border-radius: 12px;
+  overflow: hidden;
+}
+:where(.pg-mygoalview) .glacr {
+  position: relative;
+}
+:where(.pg-mygoalview) .glach2 {
+  display: grid;
+  grid-template-columns: 16px minmax(0px, 1fr) minmax(0px, 1fr);
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 24px 16px 16px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: var(--q-content-background);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+:where(.pg-mygoalview) .glach2[disabled] {
+  cursor: default;
+}
+:where(.pg-mygoalview) .glacr.wait .glacn b {
+  color: var(--q-base-500);
+}
+:where(.pg-mygoalview) .glacgr {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0px;
+}
+:where(.pg-mygoalview) .glacgr .clbg {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  font: var(--q-font-ui-headline-3);
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+:where(.pg-mygoalview) .glacgr .clbg.glrc0 {
+  background: var(--q-base-50);
+  color: var(--q-base-300);
+}
+:where(.pg-mygoalview) .glacn {
+  display: flex;
+  flex-direction: column;
+  min-width: 0px;
+}
+:where(.pg-mygoalview) .glacn b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+}
+:where(.pg-mygoalview) .glacn small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+:where(.pg-mygoalview) .glacpp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0px;
+}
+:where(.pg-mygoalview) .glach2 {
+  grid-template-columns: 16px minmax(0px, 1fr) minmax(0px, 1fr) 96px !important;
+}
+:where(.pg-mygoalview) .glacwt {
+  display: flex;
+  flex-direction: column;
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+}
+:where(.pg-mygoalview) .glacpp > .av {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  flex: 0 0 auto;
+  background-size: cover;
+  background-position: center center;
+}
+:where(.pg-mygoalview) .glacpp .cnm {
+  display: flex;
+  flex-direction: column;
+  min-width: 0px;
+}
+:where(.pg-mygoalview) .glacpp .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+:where(.pg-mygoalview) .glacpp .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+:where(.pg-mygoalview) .atti {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+}
+:where(.pg-mygoalview) .atti svg {
+  width: 24px;
+  height: 24px;
+}
+:where(.pg-mygoalview) .atti.k-pdf {
+  background: var(--dg-bg);
+  color: var(--dg-ac);
+}
+:where(.pg-mygoalview) .afchev svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.15s;
+}
+:where(.pg-mygoalview) .glacb {
+  padding-left: 32px;
+}
+:where(.pg-mygoalview) .glvres .glvcm {
+  margin-top: 16px;
+}
+:where(.pg-mygoalview) .glrhint {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-base-500);
+  margin: 0px 0px 14px;
+}
+:where(.pg-mygoalview) .glacr + .glacr {
+  border-top: 1px solid var(--q-content-border-secondary);
+}
+:where(.pg-mygoalview) .glach2:not([disabled]):hover .glacn b {
+  color: var(--q-primary-500);
+}
+:where(.pg-mygoalview) .glacr.open .afchev svg {
+  transform: rotate(180deg);
+}
+:where(.pg-mygoalview) .glacwt small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+:where(.pg-mygoalview) .glvres .glmyf {
+  margin-top: 24px;
+}
+:where(.pg-mygoalview) .glacb {
+  padding: 0px 24px 16px 44px;
+  background: var(--q-content-background);
+}
+:where(.pg-mygoalview) .glacb .afdcs {
+  margin-top: 6px;
+}
+:where(.pg-mygoalview) .glacb .afdch {
+  padding: 4px 8px 4px 4px;
+  gap: 8px;
+}
+:where(.pg-mygoalview) .glacb .afdch .atti {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+:where(.pg-mygoalview) .glacb .afdch .atti svg {
+  width: 16px;
+  height: 16px;
+}
+:where(.pg-mygoalview) .glacb .afdcn {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 8px;
+}
+:where(.pg-mygoalview) .glacb .afdcn small {
+  margin: 0px;
+}
+:where(.pg-mygoalview) .glacb small {
+  display: block;
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  margin-top: 10px;
+}
+:where(.pg-mygoalview) .glacb small:first-child {
+  margin-top: 0px;
+}
+:where(.pg-mygoalview) .glacb p {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+  margin: 2px 0px 0px;
+}
+:where(.pg-mygoalview) .glevb .glvev .glrmh {
+  margin-bottom: 6px;
+}
+:where(.pg-mygoalview) .glrmh {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+:where(.pg-mygoalview) .glrmh .afrs {
+  margin: 0px;
+}
+:where(.pg-mygoalview) .afrs {
+  font: var(--q-font-ui-headline-3);
+  color: var(--q-content-text);
+  margin: 12px 0px -4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+:where(.pg-mygoalview) .afdcs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+:where(.pg-mygoalview) .afdch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  padding: 6px 8px 6px 6px;
+  border: 1px solid var(--q-content-border-secondary);
+  border-radius: 10px;
+  background: var(--q-content-background);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 150ms, background-color 150ms;
+}
+:where(.pg-mygoalview) .afdch:hover {
+  border-color: var(--q-input-hover-border);
+  background: var(--q-primary-50);
+}
+:where(.pg-mygoalview) .afdch .atti {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+:where(.pg-mygoalview) .afdch .atti svg {
+  width: 18px;
+  height: 18px;
+}
+:where(.pg-mygoalview) .afdcn {
+  min-width: 0px;
+  display: flex;
+  flex-direction: column;
+}
+:where(.pg-mygoalview) .afdcn b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+:where(.pg-mygoalview) .afdcn small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+:where(.pg-mygoalview) .afdcd {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  color: var(--q-primary-500);
+  flex: 0 0 auto;
+}
+:where(.pg-mygoalview) .afdcd:hover {
+  background: var(--q-primary-100);
+}
+:where(.pg-mygoalview) .afdcd svg {
+  width: 16px;
+  height: 16px;
+}
+/* правила прототипа с id (#gvBody) */
+.pg-mygoalview.pg-mygoalview.pg-mygoalview .c > .ch {
+  padding: 18px 24px 20px !important;
+}
+.pg-mygoalview.pg-mygoalview.glgvro .glroev .glvsch {
+  margin: 0 0 10px;
+}
+.pg-mygoalview.pg-mygoalview.glgvro .glroev .glvcm ~ .glvsch {
+  margin-top: 20px;
+}

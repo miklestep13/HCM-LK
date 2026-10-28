@@ -1,0 +1,721 @@
+/* Общие атомы интерфейса: карточка (.c/.ch/.cb), кнопки, бейджи, счетчик, строки списка, сегменты, плитки.
+   Сгенерировано из прототипа; правила, специфичные для блока, лежат в SCSS этого блока. */
+.c {
+  background: var(--q-content-background);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.ch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 20px 24px 16px;
+}
+.ch h3 {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  flex: 1 1 0%;
+}
+.ch h3 small {
+  font: var(--q-font-ui-body-2);
+  display: block;
+  color: var(--t2);
+  margin-top: 4px;
+}
+.chip {
+  font: var(--q-font-ui-description-1);
+  background: var(--chip-bg);
+  color: var(--t1);
+  border-radius: 6px;
+  padding: 2px 8px;
+}
+.btn {
+  font: var(--q-font-ui-button-m);
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  border-radius: 8px;
+  cursor: pointer;
+  height: 36px;
+  padding: 0px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.btn.raised {
+  background: var(--raised);
+  color: var(--blue);
+}
+.btn.pri {
+  background: var(--blue);
+  color: var(--q-content-background);
+}
+.btn.blk {
+  width: 100%;
+  padding: 9px 14px;
+}
+.bar {
+  display: block;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--track);
+  overflow: hidden;
+  margin-top: 8px;
+}
+.bar i {
+  display: block;
+  height: 100%;
+  border-radius: 9999px;
+  background: var(--blue);
+}
+.bar.ok i {
+  background: var(--ok-ac);
+}
+.bar.dg i {
+  background: var(--dg-ac);
+}
+.kv {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  gap: 12px;
+  padding: 9px 0px;
+  border-bottom: 1px solid var(--stroke);
+}
+.kv:last-child {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+}
+.kv .k {
+  color: var(--t3);
+  flex: 1 1 0%;
+}
+.kv .v {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  text-align: right;
+}
+.kv .v a {
+  color: var(--blue);
+  text-decoration: none;
+}
+.cb {
+  padding: 20px 24px;
+}
+.c.mb, .mb {
+  margin-bottom: 16px;
+}
+.bdg {
+  font: var(--q-font-ui-badge);
+  display: inline-block;
+  border-radius: 6px;
+  padding: 4px 8px;
+  white-space: nowrap;
+  background: var(--bdg-n);
+  color: var(--t2);
+  vertical-align: middle;
+}
+.bdg.ok {
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+.bdg.warn {
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+.bdg.dg {
+  background: var(--dg-bg);
+  color: var(--dg);
+}
+.bdg.info {
+  background: var(--blue-bg2);
+  color: var(--blue);
+}
+.bdg.sm {
+  font: var(--q-font-ui-badge);
+  padding: 2px 7px;
+}
+.seg {
+  display: flex;
+  gap: 4px;
+  background: var(--s1);
+  border-radius: 8px;
+  padding: 4px;
+  align-self: flex-start;
+}
+.seg span {
+  font: var(--q-font-ui-description-1);
+  padding: 4px 6px;
+  border-radius: 6px;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+}
+.seg span.on {
+  background: var(--q-content-background);
+  color: var(--blue);
+}
+.st2 {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+.stc {
+  flex: 1 1 0%;
+  background: var(--s1);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.stc .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+.stc .v {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin-top: 2px;
+}
+.stc.w {
+  margin-top: 8px;
+  position: relative;
+}
+.stc.w > .actb {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+.stc.w .v small {
+  display: block;
+}
+.stc .v small {
+  font: var(--q-font-ui-body-2);
+  color: var(--grey);
+}
+.item {
+  display: grid;
+  grid-template-columns: minmax(0px, 1fr) auto;
+  column-gap: 12px;
+  align-items: start;
+  padding: 12px 0px;
+  border-bottom: 1px solid var(--stroke);
+}
+.item:last-child {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+}
+.item[data-go], .item[data-mtid], .item[data-hmg] {
+  cursor: pointer;
+}
+.item .ibd {
+  display: contents;
+}
+.item .it {
+  grid-column: 1;
+}
+.item .im {
+  grid-column: 1 / -1;
+}
+.item > .bdg {
+  grid-area: 1 / 2;
+}
+.item .it {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.item .im {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.item .im span {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  color: var(--t3);
+}
+.item .im svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+.bdg.live::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentcolor;
+  margin-right: 6px;
+  vertical-align: 1px;
+  animation: 1.6s ease 0s infinite normal none running lvp;
+}
+@keyframes lvp { 
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+.gltags:not(:has(> :not(.hidden))) {
+  display: none;
+}
+.hidden {
+  display: none !important;
+}
+.ch .ib2.hubopen {
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  background: none;
+  color: var(--blue);
+  border-radius: 8px;
+}
+.ch .ib2.hubopen:hover {
+  background: var(--raised);
+}
+.ch .ib2.hubopen svg {
+  width: 16px;
+  height: 16px;
+}
+.ch .ib2.hubopen svg path {
+  stroke-width: 1.2;
+}
+.tbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 16px 24px;
+}
+.gltags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.tipt {
+  position: relative;
+  cursor: help;
+}
+.tipt[data-tip]:hover::after {
+  font: var(--q-font-ui-description-1);
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0px;
+  width: 260px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--black);
+  color: var(--white);
+  white-space: normal;
+  text-align: left;
+  pointer-events: none;
+  z-index: 30;
+}
+.ib2 {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--stroke2);
+  border-radius: 8px;
+  background: var(--q-content-background);
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+}
+.ib2:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.ib2 svg {
+  width: 16px;
+  height: 16px;
+}
+.ch .ib2 {
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: var(--raised);
+  color: var(--blue);
+}
+.ch .ib2:hover {
+  background: var(--blue-bg2);
+}
+.actb {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+}
+.actb:hover {
+  background: var(--raised);
+  color: var(--blue);
+}
+.actb svg {
+  width: 16px;
+  height: 16px;
+}
+.tbar .seg {
+  height: 36px;
+  box-sizing: border-box;
+  align-items: center;
+  padding: 4px;
+  align-self: center;
+}
+.tbar .seg span {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  padding: 0px 10px;
+}
+.ch + .cb, .ch + .tbar, .tbar + .cb {
+  padding-top: 0px;
+}
+.ch + .tbar {
+  padding-top: 16px;
+}
+.tbar + .cb {
+  margin-top: 0px;
+}
+.bar > i {
+  border-radius: 9999px;
+}
+.seg.wide {
+  display: flex;
+  align-self: stretch;
+}
+.seg.wide span {
+  font: var(--q-font-ui-description-1);
+  flex: 1 1 0%;
+  text-align: center;
+  padding: 6px 4px;
+  white-space: nowrap;
+}
+.ch h3:has(+ .chip) {
+  flex: 0 0 auto;
+}
+.ch h3 + .chip {
+  margin-right: auto;
+}
+.ch h3 > .bdg {
+  margin-left: 12px;
+  vertical-align: top;
+  margin-top: -1px;
+}
+.ch h3 > .chip {
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.ch h3 > .chip {
+  margin-left: 8px;
+  vertical-align: 2px;
+}
+.item .im .dgt {
+  color: var(--dg);
+}
+.prs {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 6px;
+}
+:is(.ftbar, .tbar:not(.calbar), .assf) :is(.tsearch, .sel, .fsel, .fin, .dtv, .fsv, .seg span, .seg em, .assl) {
+  font: var(--q-font-ui-body-2);
+}
+.pg-home .stc:not(.w) .v small {
+  font: var(--q-font-ui-body-2);
+}
+.btn.blk {
+  padding: 0px 14px;
+  height: 36px;
+}
+.stc .v {
+  font: var(--q-font-ui-headline-3);
+}
+.c > .ch:not(.hidden) + .cb, .c > .ch:not(.hidden) + .tbar {
+  padding-top: 0px !important;
+}
+:is(.pg-home, #pg-company) .c > .ch ~ .cb:last-child {
+  padding-bottom: 20px !important;
+}
+.c > .ch ~ .cb > :first-child, .c > .ch ~ .cb > :first-child > :first-child {
+  margin-top: 0px !important;
+}
+.c > .ch ~ .cb > :last-child, .c > .ch ~ .cb > :last-child > :last-child {
+  margin-bottom: 0px !important;
+}
+:is(.pg-home, #pg-company) .c > .ch ~ .cb:not(:has(~ :not(.hidden):not([hidden]))) {
+  padding-bottom: 20px !important;
+}
+.c > .ch:not(.hidden) + div:not(.cb):not(.ftbar):not(.tbar) > .cb:first-child {
+  padding-top: 0px !important;
+}
+:is(.ch, h1, h2, h3, .tkcmh, .rph, .ctabs span, .tabs span, .tab) > .chip:not(:has(*)) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 22px;
+  min-width: 22px;
+  padding: 0px 6px;
+  line-height: 16px;
+  vertical-align: middle;
+}
+.stc .v small, .stc.w .v small {
+  color: var(--q-base-500);
+}
+.pg-home .st2 > .stc {
+  padding: 10px 12px;
+}
+
+/* иконки в мета-строках списков */
+.im span svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+}
+/* обертка страницы (ширина контента как в прототипе) */
+.wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 24px 20px 40px; }
+@media (min-width: 1280px) { .wrap { max-width: 1240px; } }
+@media (min-width: 1536px) { .wrap { max-width: 1360px; } }
+@media (min-width: 1800px) { .wrap { max-width: 1480px; } }
+/* строки-ссылки в списках виджетов */
+.item.lnkrow, .mem.lnkrow { cursor: pointer; }
+.item.lnkrow:hover .it, .mem.lnkrow:hover .nm { color: var(--q-primary-500); }
+
+/* подсказка [appTip] */
+.apptip { position: fixed; z-index: 200; max-width: 280px; padding: 8px 10px; border-radius: 8px; background: var(--q-base-900); color: var(--q-base-0); display: flex; flex-direction: column; gap: 2px; pointer-events: none; box-shadow: 0 6px 20px var(--q-base-transparent-300); }
+.apptip b { font: var(--q-font-ui-headline-4); }
+.apptip span { font: var(--q-font-ui-description-1); opacity: .9; }
+
+/* главная: общие уточнения для плиток и строк */
+.item[data-go],
+.item[data-mtid],
+.item[data-hmg],
+.item[data-rq] {
+  cursor: pointer;
+}
+.pg-home .stc .l,
+.pg-home .stc.w .v small {
+  font: var(--q-font-ui-description-1);
+}
+.pg-home .stc .v {
+  font: var(--q-font-ui-headline-4);
+}
+/* буква оценки по шкале A–E (.clbg.gA … .gE) */
+.clbg { font: var(--q-font-ui-headline-4); width: 26px; height: 26px; border-radius: 6px; display: inline-grid; place-items: center; background: var(--s2); color: var(--t3); cursor: default; flex: none; }
+.clbg.gA { background: var(--blue-bg); color: var(--blue); }
+.clbg.gB { background: var(--ok-bg); color: var(--ok); }
+.clbg.gD, .clbg.gE { background: var(--dg-bg); color: var(--dg); }
+
+/* уведомления (ToastService) */
+.toasts { position: fixed; right: 20px; bottom: 72px; z-index: 120; display: flex; flex-direction: column; gap: 9px; }
+.toast { background: var(--q-content-background); border-radius: 12px; box-shadow: 0 8px 28px var(--q-base-transparent-100); border-left: 3px solid var(--ok); padding: 14px 16px; min-width: 300px; max-width: 380px; transition: opacity .2s; }
+.toast b { font: var(--q-font-ui-headline-4); display: block; color: var(--t1); }
+.toast small { font: var(--q-font-ui-description-1); color: var(--t2); display: block; margin-top: 3px; }
+
+/* отступы первой/последней строки в карточке (из прототипа) */
+.c > .ch + .cb > .mem:first-child {
+  padding-top: 0px;
+}
+.c > .cb:last-child > .mem:last-child {
+  padding-bottom: 0px;
+}
+.c > .ch ~ .cb > :is(.kv, .item, .mem, .goal, .thx, .prj, .vrow, .s2risk, .dtr, .al, .ml, .coli, .coshi, .sdkvr, .ctc, .evc, .crs):first-child {
+  padding-top: 0px;
+  margin-top: 0px;
+}
+.c > .ch ~ .cb > :is(.kv, .item, .mem, .goal, .thx, .prj, .vrow, .s2risk, .dtr, .al, .ml, .coli, .coshi, .sdkvr, .ctc, .evc, .crs):last-child {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+.c > .ch ~ .cb > :first-child > :is(.kv, .item, .mem, .goal, .thx, .prj, .vrow, .s2risk, .dtr, .al, .ml, .coli, .coshi, .sdkvr, .ctc, .evc, .crs, .stc):first-child {
+  padding-top: 0px;
+  margin-top: 0px;
+}
+.c > .ch ~ .cb :is(.kv, .item, .mem, .goal, .thx, .prj, .vrow, .s2risk, .dtr, .al, .ml, .coli, .coshi, .sdkvr, .ctc, .evc, .crs):not(:has(~ :not(.hidden):not([hidden]))):is(.c > .ch ~ .cb > *, .c > .ch ~ .cb > :last-child > *) {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+.c > .ch ~ div:not(.cb) > .cb:last-child > :is(.kv, .item, .mem, .goal, .thx, .prj, .vrow, .s2risk, .dtr, .al, .ml, .coli, .coshi, .sdkvr, .ctc, .evc, .crs):last-child {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+/* плитки на главной — после правил отступов карточки, чтобы не терять внутренний отступ */
+.pg-home .st2 > .stc {
+  padding: 10px 12px;
+}
+
+/* Общие правила прототипа, впервые понадобившиеся на странице «Компания — обзор» */
+.cols {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+.cL,
+.cR {
+  width: 342px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.cM {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0px;
+}
+.mem {
+  position: relative;
+}
+.mem {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 0px;
+  border-bottom: 1px solid var(--stroke);
+}
+.mem:last-child {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+}
+.mem img {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.mem .i {
+  flex: 1 1 0%;
+  min-width: 0px;
+}
+.mem .nm {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.mem .rl {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  margin-top: 4px;
+}
+.ch + .cb {
+  padding-top: 0px;
+}
+.mem:hover :is(.nm, .it, .tt, .vt, .iprn, .npt, .cmtt, .mlt, .rpt b, .cc2 > b, .pn3, .glgn, .nt, .t),
+.npost:hover :is(.nm, .it, .tt, .vt, .iprn, .npt, .cmtt, .mlt, .rpt b, .cc2 > b, .pn3, .glgn, .nt, .t) {
+  color: var(--blue);
+  transition: color 0.15s;
+}
+.mem {
+  cursor: pointer;
+}
+.mem {
+  align-items: flex-start;
+}
+.c > .ch:not(.hidden) + .cb {
+  padding-top: 0px !important;
+}
+
+
+/* Общие правила прототипа, впервые понадобившиеся на странице «Структура компании» */
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar {
+  padding-top: 16px;
+  padding-right: 24px;
+  padding-bottom: 16px;
+  padding-left: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar:first-child {
+  padding-top: 24px;
+}
+
+/* Общие правила прототипа, впервые понадобившиеся на странице «Структура компании» */
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar {
+  padding: 16px 24px;
+}
+
+/* Общие правила прототипа, впервые понадобившиеся на странице «Сотрудники» */
+.c:has(> .ftbar:last-child) {
+  overflow: visible;
+}
+.ecard[data-emp]:hover :is(.nm, .it, .tt, .vt, .iprn, .npt, .cmtt, .mlt, .rpt b, .cc2 > b, .pn3, .glgn, .nt, .t) {
+  color: var(--blue);
+  transition: color 0.15s;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:first-child {
+  padding-top: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar:last-child {
+  padding-bottom: 24px;
+}
+
+/* Общие правила прототипа, впервые понадобившиеся на странице «Новости» */
+.lnk {
+  font: var(--q-font-ui-button-s-xs);
+  color: var(--blue);
+  cursor: pointer;
+  background: none;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ch {
+  padding: 24px 24px 16px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:last-child {
+  padding-bottom: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ch ~ .cb:last-child {
+  padding-bottom: 24px !important;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ch ~ .cb:not(:has(~ :not(.hidden):not([hidden]))) {
+  padding-bottom: 24px !important;
+}
+
+/* Общие правила прототипа, впервые понадобившиеся на странице «Сообщества» */
+.ccard:hover :is(.nm, .it, .tt, .vt, .iprn, .npt, .cmtt, .mlt, .rpt b, .cc2 > b, .pn3, .glgn, .nt, .t),
+.cmc:hover :is(.nm, .it, .tt, .vt, .iprn, .npt, .cmtt, .mlt, .rpt b, .cc2 > b, .pn3, .glgn, .nt, .t) {
+  color: var(--blue);
+  transition: color 0.15s;
+}
+
+/* Общие правила прототипа, впервые понадобившиеся на странице «База знаний» */
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ctabs {
+  padding: 24px 24px 0px;
+}
+
+/* поле с ошибкой (.fld.err) — красная рамка */
+.fld.err .fin {
+  border-color: var(--dg);
+}
+
+/* очень широкий сайдбар (форма встречи) */
+.drw.xl {
+  width: 1200px;
+  max-width: 96vw;
+}

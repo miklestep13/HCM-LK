@@ -1,0 +1,58 @@
+<app-drawer title="Перечислить валюту" okLabel="Перечислить" [open]="svc.isOpen()" (openChange)="svc.isOpen.set($event)" (ok)="send()">
+  <div class="bkf">
+    <div class="cugs">
+      <div class="cug">
+        <app-field label="Сотрудник" required [filled]="!!who()">
+          <button class="fsel cupick" [class.act]="!!pop()" (click)="togglePop($event)">
+            @if (emp(); as e) {
+              <span class="fsv cuchips"
+                ><span class="cuchip"
+                  ><span class="av" [class]="av(e.name, e.av)"></span>{{ e.name }}<span class="cux" role="button" aria-label="Убрать" (click)="unpick($event)">×</span></span
+                ></span
+              >
+            } @else {
+              <span class="fsv ph">Выберите сотрудника</span>
+            }
+            <svg viewBox="0 0 16 16" fill="none"><path d="M4 6.4 8 10.4l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </button>
+        </app-field>
+        <app-field label="Сумма" required [filled]="!!amt()">
+          <div class="numin cuamt">
+            <input class="fin" inputmode="numeric" [value]="amt() ? fmt(+amt()) : ''" (input)="amtInput($event)" />
+            <span class="nusf"><span class="cucur" title="Коины" [innerHTML]="coin"></span></span>
+          </div>
+        </app-field>
+      </div>
+    </div>
+    <app-field label="Комментарий" [filled]="!!cm()">
+      <textarea class="fta" rows="3" placeholder="За что перечисляете валюту — получатели увидят комментарий" [value]="cm()" (input)="cm.set($any($event.target).value)"></textarea>
+    </app-field>
+    @if (err()) {
+      <div class="pqerr">{{ err() }}</div>
+    }
+  </div>
+  <div drwFoot class="ctsum cusumft">
+    <div class="ctsr"><span>Ваш баланс</span><b>{{ fmt(wallet.balance()) }}<span style="display: contents" [innerHTML]="coin"></span></b></div>
+    <div class="ctsr tot" [class.bad]="rest() < 0">
+      <span>Остаток</span><b>{{ rest() < 0 ? '−' + fmt(-rest()) : fmt(rest()) }}<span style="display: contents" [innerHTML]="coin"></span></b>
+    </div>
+  </div>
+</app-drawer>
+@if (pop(); as p) {
+  <div class="fpop selpop cupop" [style.left.px]="p.left" [style.top.px]="p.top" [style.width.px]="p.width" (click)="$event.stopPropagation()">
+    <input class="fin fsq" placeholder="Поиск по ФИО или должности" [value]="q()" (input)="q.set($any($event.target).value)" />
+    <div class="folist cul">
+      @for (e of list(); track e.name) {
+        <div class="cuo cuo1" role="option" [class.on]="e.name === who()" (click)="pick(e.name)">
+          <span class="av" [class]="av(e.name, e.av)"></span>
+          <span class="cnm"><b>{{ e.name }}</b><small>{{ e.post }}</small></span>
+          @if (e.name === who()) {
+            <svg class="cuck" viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          }
+        </div>
+      } @empty {
+        <div class="foe">Никого не нашли. Проверьте написание.</div>
+      }
+    </div>
+  </div>
+}

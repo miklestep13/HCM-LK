@@ -1,0 +1,112 @@
+/* Мое развитие: оценки по кварталам, позиция 9-box, оценка 360 */
+.hm-development .qgr {
+  display: inline-flex;
+  gap: 2px;
+}
+.hm-development .qgr .bdg {
+  font-style: normal;
+  padding: 2px 7px;
+}
+.hm-development .qgr .bdg:first-child {
+  border-radius: 6px 0px 0px 6px;
+}
+.hm-development .qgr .bdg:last-child {
+  border-radius: 0px 6px 6px 0px;
+}
+.hm-development .qrow {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.hm-development .qrow .qgr {
+  cursor: default;
+}
+.hm-development .qcol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.hm-development .qcol small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  white-space: nowrap;
+}
+.hm-development .qdev {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.hm-development .qdev .qrow {
+  flex: 1 1 0%;
+  min-width: 0px;
+}
+.hm-development .qcol small {
+  text-align: center;
+}
+.hm-development .q9 {
+  display: grid;
+  grid-template-columns: repeat(3, 14px);
+  grid-template-rows: repeat(3, 14px);
+  gap: 2px;
+  flex: 0 0 auto;
+  cursor: default;
+}
+.hm-development .q9 i {
+  display: block;
+  border-radius: 9999px;
+  background: var(--s2);
+}
+.hm-development .q9 i.on {
+  background: var(--blue);
+}
+.hm-development .q360 {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  border-radius: 6px;
+  background: var(--blue-bg);
+  cursor: default;
+}
+.hm-development .q360 b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--blue);
+}
+.hm-development .q360 small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.hm-development .qdev .qrow {
+  justify-content: flex-start;
+  gap: 16px;
+}
+.hm-development .qdev .qrow {
+  flex: 1 1 0%;
+  gap: 12px;
+}
+.hm-development .qdev .qcol {
+  flex: 1 1 0%;
+  min-width: 0px;
+  gap: 6px;
+}
+.hm-development .qdev .qcol .qgr {
+  width: 100%;
+  gap: 2px;
+}
+.hm-development .qdev .qcol .qgr .bdg {
+  font: var(--q-font-ui-headline-3);
+  flex: 1 1 0%;
+  text-align: center;
+  padding: 12px 0px;
+}
+.hm-development .qdev {
+  align-items: flex-start;
+}
+.hm-development .qdev .qcol small {
+  white-space: nowrap;
+}

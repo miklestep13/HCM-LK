@@ -1,0 +1,11 @@
+<div class="ch"><h3>Новичку: с чего начать</h3></div>
+<div class="cb">
+  <div class="steps">
+    @for (s of list; track s.title; let i = $index) {
+      <div class="stp">
+        <span class="sn">{{ i + 1 }}</span>
+        <div><b>{{ s.title }}</b><small>{{ s.text }}</small></div>
+      </div>
+    }
+  </div>
+</div>

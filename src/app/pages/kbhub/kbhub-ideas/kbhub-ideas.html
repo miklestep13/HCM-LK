@@ -1,0 +1,33 @@
+<div class="ch"><h3>Банк идей</h3></div>
+<div class="ctabs hubtabs">
+  <span [class.on]="tab() === 'my'" (click)="tab.set('my')">Мои идеи</span>
+  <span [class.on]="tab() === 'all'" (click)="tab.set('all')">Идеи коллег</span>
+</div>
+<div class="cb">
+  @for (i of list(); track i.id) {
+    <div class="hubir" (click)="viewId.set(i.id)">
+      <div class="i">
+        <span class="colt" [title]="i.title">{{ i.title }}</span>
+        <span class="coim">
+          @if (i.my) {
+            <span><app-icon name="calendar" />{{ i.date }}</span>
+          } @else {
+            <span><app-icon name="user" />{{ short(i.author) }}</span>
+          }
+          <span>{{ i.dir }}</span>
+        </span>
+      </div>
+      <span class="bdg" [class]="tone[i.status]">{{ i.status }}</span>
+      @if (!i.my) {
+        <button class="npb hubv" [class.on]="i.voted" title="Поддержать идею" (click)="vote(i, $event)">
+          <app-icon name="like" /><span>{{ i.votes }}</span>
+        </button>
+      }
+    </div>
+  } @empty {
+    <p class="kbnone">Вы еще не предлагали идей. Расскажите, что можно улучшить, — идею рассмотрят эксперты.</p>
+  }
+</div>
+<div class="hubif"><button class="btn raised" (click)="newOpen.set(true)">Предложить</button></div>
+<app-kbhub-idea-new [(open)]="newOpen" (created)="created()" />
+<app-kbhub-idea-view [ideaId]="viewId()" (closed)="viewId.set(null)" />

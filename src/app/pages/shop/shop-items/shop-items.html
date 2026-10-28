@@ -1,0 +1,52 @@
+@let ro = readonly();
+<div class="tw">
+  <table class="tbl shct" [class.shro]="ro" [class.shsel]="!ro">
+    <thead>
+      <tr>
+        @if (!ro) {
+          <th class="chk"><label class="ckb" title="Выбрать все"><input type="checkbox" [checked]="allOn()" [indeterminate]="some()" (change)="all($any($event.target).checked)" /><i></i></label></th>
+        }
+        <th>Товар</th><th class="num">Цена за ед.</th><th class="num shq">Количество</th><th class="num">Сумма</th><th>{{ ro ? 'Статус' : '' }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (i of items(); track i[0]) {
+        @let x = p(i[0]);
+        <tr [class.shoff]="!ro && shop.unsel().has(i[0])">
+          @if (!ro) {
+            <td class="chk"><label class="ckb"><input type="checkbox" class="ctck" [checked]="!shop.unsel().has(i[0])" (change)="pick(i[0], $any($event.target).checked)" /><i></i></label></td>
+          }
+          <td>
+            <div class="shctp">
+              <span class="ctimg"><img class="pim" [src]="x.img" alt="" /></span>
+              <div class="ctb2">
+                <button class="shnm" [title]="x.name" (click)="open(x.id)">{{ x.name }}</button>
+                @if (!ro) {
+                  <small>{{ stock(x) }}</small>
+                }
+              </div>
+            </div>
+          </td>
+          <td class="num"><span class="ocoin">{{ fmt(x.price) }}<span style="display: contents" [innerHTML]="coin"></span></span></td>
+          <td class="num shq">
+            @if (ro) {
+              {{ i[1] }} шт.
+            } @else {
+              <div class="qty">
+                <button (click)="qty(i[0], -1)">−</button><input [value]="i[1]" inputmode="numeric" (change)="qtyInput(i[0], $any($event.target).value)" /><button (click)="qty(i[0], 1)">+</button>
+              </div>
+            }
+          </td>
+          <td class="num"><b class="shsum"><span class="ocoin">{{ fmt(x.price * i[1]) }}<span style="display: contents" [innerHTML]="coin"></span></span></b></td>
+          <td class="shst">
+            @if (ro) {
+              <span class="bdg" [class]="i[2]">{{ i[3] }}</span>
+            } @else {
+              <button class="ctdel" title="Удалить" [innerHTML]="del" (click)="shop.set(i[0], 0)"></button>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

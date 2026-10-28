@@ -1,0 +1,16 @@
+/* База: сброс, наследование шрифтов, фон страницы (из прототипа) */
+/* база: все наследует стиль от контейнера, браузерные размеры и веса отключены */
+body{font:var(--q-font-ui-body-1);letter-spacing:0}
+button,input,select,textarea,optgroup{font:inherit;letter-spacing:0}
+h1,h2,h3,h4,h5,h6{font:inherit}
+b,strong{font-weight:inherit}   /* полужирный задается только стилем шкалы */
+small{font:var(--q-font-ui-description-1)}
+th{font:var(--q-font-ui-headline-4)}
+
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scrollbar-gutter:stable} /* полоса прокрутки не меняет ширину контейнера при смене контента */
+body{background:var(--page);font-family:var(--q-font-family);color:var(--black);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+.hidden{display:none!important}
+a{color:inherit}

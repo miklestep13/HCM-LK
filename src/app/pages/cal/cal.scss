@@ -1,0 +1,687 @@
+/* Мои встречи (стили из прототипа) */
+.pg-cal .ftrow.hidden {
+  display: none;
+}
+.pg-cal .tbar .ib3 {
+  height: 36px;
+}
+.pg-cal .tbar .btn {
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0px 14px;
+}
+.pg-cal .ctnav svg {
+  width: 15px;
+  height: 15px;
+}
+.pg-cal .ctnav .nx svg {
+  transform: rotate(180deg);
+}
+.pg-cal .calmain {
+  min-width: 0px;
+  overflow: hidden;
+}
+.pg-cal .calbar {
+  gap: 8px;
+}
+.pg-cal .ctnav {
+  display: flex;
+  gap: 4px;
+}
+.pg-cal .callbl {
+  font: var(--q-font-ui-button-l);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0px 10px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--black);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.pg-cal .callbl:hover {
+  background: var(--s1);
+}
+.pg-cal .callbl svg {
+  width: 16px;
+  height: 16px;
+  color: var(--q-page-text-ui);
+}
+.pg-cal .calhdr {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pg-cal .ctg {
+  --nd: 5;
+  padding: 0px 0px 12px;
+}
+.pg-cal .calgh,
+.pg-cal .calad {
+  display: grid;
+  grid-template-columns: 56px repeat(var(--nd),minmax(0,1fr));
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-cal .calhd {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 0px 8px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  font-family: var(--q-font-family);
+  cursor: pointer;
+}
+.pg-cal .calhd small {
+  font: var(--q-font-ui-description-1);
+  color: var(--grey);
+}
+.pg-cal .calhd b {
+  font: var(--q-font-ui-headline-3);
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--t1);
+}
+.pg-cal .calhd:hover b {
+  background: var(--s1);
+}
+.pg-cal .calhd.tdy small {
+  color: var(--blue);
+}
+.pg-cal .calhd.tdy b {
+  background: var(--blue);
+  color: var(--q-content-background);
+}
+.pg-cal .calad {
+  background: var(--hv);
+}
+.pg-cal .calad > span {
+  font: var(--q-font-ui-description-1);
+  padding: 6px 6px 6px 0px;
+  color: var(--grey);
+  text-align: right;
+}
+.pg-cal .calad > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 4px 3px;
+  border-left: 1px solid var(--stroke);
+}
+.pg-cal .calsc {
+  height: calc(-300px + 100vh);
+  min-height: 480px;
+  overflow-y: auto;
+  position: relative;
+}
+.pg-cal .calgb {
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px repeat(var(--nd),minmax(0,1fr));
+  background: repeating-linear-gradient(to bottom,transparent 0 47px,var(--s2) 47px 48px);
+}
+.pg-cal .calhr {
+  position: relative;
+}
+.pg-cal .calhr span {
+  font: var(--q-font-ui-description-1);
+  position: absolute;
+  right: 8px;
+  margin-top: -7px;
+  color: var(--grey);
+}
+.pg-cal .calcol {
+  position: relative;
+  border-left: 1px solid var(--stroke);
+  cursor: copy;
+}
+.pg-cal .calmain .ftbar {
+  padding: 16px 24px 0px;
+}
+.pg-cal .pf-top .calhdr {
+  margin-left: auto;
+}
+.pg-cal .cle {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  padding: 4px 7px;
+  overflow: hidden;
+  text-align: left;
+  border-top-width: medium;
+  border-right-width: medium;
+  border-bottom-width: medium;
+  border-top-style: none;
+  border-right-style: none;
+  border-bottom-style: none;
+  border-top-color: currentcolor;
+  border-right-color: currentcolor;
+  border-bottom-color: currentcolor;
+  border-image: none;
+  border-left: 3px solid var(--cc);
+  border-radius: 6px;
+  background: var(--ct);
+  font-family: var(--q-font-family);
+  color: var(--q-content-text);
+  cursor: pointer;
+  z-index: 1;
+  transition: box-shadow 0.12s;
+}
+.pg-cal .cle:hover {
+  box-shadow: 0 4px 14px var(--q-base-transparent-100);
+  z-index: 4;
+}
+.pg-cal .cle b {
+  font: var(--q-font-ui-headline-4);
+  max-width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.pg-cal .cle .clt {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-content-text-secondary);
+  white-space: nowrap;
+}
+.pg-cal .cle .cll {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.pg-cal .cle .cli {
+  position: absolute;
+  right: 5px;
+  top: 4px;
+  display: flex;
+  gap: 3px;
+  color: var(--cc);
+}
+.pg-cal .cle .cli svg {
+  width: 12px;
+  height: 12px;
+}
+.pg-cal .cle .cli em {
+  font: var(--q-font-ui-description-1);
+  width: 14px;
+  height: 14px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--cc);
+  color: var(--q-content-background);
+}
+.pg-cal .cle:has(.cli svg, .cli em) b {
+  padding-right: 30px;
+}
+.pg-cal .cle.md b {
+  -webkit-line-clamp: 1;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.pg-cal .cle.sh .cli {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.pg-cal .cle.sh {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 7px;
+}
+.pg-cal .cle.sh b {
+  -webkit-line-clamp: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+  flex-shrink: 1;
+  min-width: 0px;
+}
+.pg-cal .cle.sh .clt {
+  flex-shrink: 0;
+  margin-right: 16px;
+}
+.pg-cal .cle.maybe {
+  background: repeating-linear-gradient(135deg,var(--ct) 0 7px,var(--q-content-background) 7px 14px);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb,var(--cc) 55%,transparent);
+}
+.pg-cal .cle.none {
+  background: var(--q-content-background);
+  box-shadow: inset 0 0 0 1px var(--cc);
+}
+.pg-cal .cle.hit {
+  animation: 1.2s ease-in-out 0s 2 normal none running clhit;
+  z-index: 5;
+}
+.pg-cal .cle.ad {
+  position: relative;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 7px;
+}
+.pg-cal .cle.ad b {
+  -webkit-line-clamp: 1;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar {
+  padding: 16px 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar:first-child {
+  padding-top: 24px;
+}
+.pg-cal :is(.ftbar, .tbar:not(.calbar), .assf) :is(.fchip, .lnk) {
+  font: var(--q-font-ui-button-m);
+}
+.pg-cal .calgh {
+  display: grid;
+  grid-template-columns: 56px repeat(var(--nd),minmax(0,1fr));
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-cal .cle.mc {
+  position: relative;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 7px;
+}
+.pg-cal .cle.mc b {
+  -webkit-line-clamp: 1;
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0px;
+}
+.pg-cal .cle.mc span {
+  font: var(--q-font-ui-description-1);
+  flex-shrink: 0;
+  color: var(--cc);
+}
+.pg-cal .calm {
+  padding: 0px 0px 12px;
+}
+.pg-cal .calmhd {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0px, 1fr));
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-cal .calmhd span {
+  font: var(--q-font-ui-description-1);
+  padding: 8px 10px;
+  color: var(--grey);
+}
+.pg-cal .calmb {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0px, 1fr));
+  grid-auto-rows: minmax(112px, auto);
+}
+.pg-cal .calmc {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 4px 5px 6px;
+  border-right: 1px solid var(--stroke);
+  border-bottom: 1px solid var(--stroke);
+  cursor: copy;
+  min-width: 0px;
+}
+.pg-cal .calmc:nth-child(7n) {
+  border-right-width: medium;
+  border-right-style: none;
+  border-right-color: currentcolor;
+}
+.pg-cal .calmc.out {
+  background: var(--hv);
+}
+.pg-cal .calmc.out .calmn {
+  color: var(--t4);
+}
+.pg-cal .calmc.we {
+  background: rgba(105, 114, 123, 0.06);
+}
+.pg-cal .calmn {
+  font: var(--q-font-ui-headline-4);
+  align-self: flex-start;
+  width: 26px;
+  height: 26px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--t1);
+  cursor: pointer;
+}
+.pg-cal .calmn:hover {
+  background: var(--s1);
+}
+.pg-cal .calmc.tdy .calmn {
+  background: var(--blue);
+  color: var(--q-content-background);
+}
+.pg-cal .calmore {
+  font: var(--q-font-ui-description-1);
+  align-self: flex-start;
+  padding: 0px 6px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  color: var(--blue);
+  cursor: pointer;
+}
+.pg-cal .calhd.we b {
+  color: var(--grey);
+}
+.pg-cal .calcol.we {
+  background: rgba(105, 114, 123, 0.06);
+}
+.pg-cal .av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+  flex-shrink: 0;
+}
+.pg-cal .plav {
+  display: flex;
+  align-items: center;
+}
+.pg-cal .plav .av {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--q-content-background);
+  margin-left: -8px;
+}
+.pg-cal .plav .av:first-child {
+  margin-left: 0px;
+}
+.pg-cal img.av {
+  object-fit: cover;
+  display: block;
+}
+.pg-cal .fpop.bkfp {
+  width: 320px;
+  padding: 14px;
+}
+.pg-cal .caldot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.pg-cal .clporg {
+  align-items: center;
+}
+.pg-cal .clporg .clpl {
+  width: 96px;
+  flex: 0 0 auto;
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.pg-cal .clpo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0px;
+}
+.pg-cal .clpo > .av,
+.pg-cal .clpo .plav .av {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  flex: 0 0 auto;
+  background-size: cover;
+}
+.pg-cal .clpo .plav {
+  display: inline-flex;
+}
+.pg-cal .fpop.clpop {
+  width: 380px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pg-cal .clph {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pg-cal .clph .caldot {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+}
+.pg-cal .clph b {
+  font: var(--q-font-ui-headline-3);
+  flex: 1 1 0%;
+  color: var(--black);
+}
+.pg-cal .clpr {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  gap: 10px;
+  color: var(--t1);
+}
+.pg-cal .clpr > svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--q-page-text-ui);
+}
+.pg-cal .clpr em {
+  font-style: normal;
+  color: var(--grey);
+}
+.pg-cal .clpr .plav {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+.pg-cal .clpr .plav .av {
+  width: 22px;
+  height: 22px;
+}
+.pg-cal .clpd {
+  font: var(--q-font-ui-body-2);
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--s1);
+  color: var(--t2);
+}
+.pg-cal .clpa {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--stroke);
+}
+.pg-cal .clpa .seg {
+  display: flex;
+  width: 100%;
+}
+.pg-cal .clpa .seg span {
+  flex: 1 1 0%;
+  text-align: center;
+  white-space: nowrap;
+}
+.pg-cal .cllnk {
+  color: var(--blue);
+  word-break: break-all;
+}
+.pg-cal .bkpa {
+  display: flex;
+  gap: 8px;
+}
+.pg-cal .bkpa .btn {
+  flex: 1 1 0%;
+  min-height: 36px;
+  padding: 8px 10px;
+  white-space: nowrap;
+}
+.pg-cal .btn.bkdg {
+  color: var(--red);
+}
+.pg-cal .clpop .bkpa .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.pg-cal .fpop.calpk {
+  width: 292px;
+  padding: 14px 14px 10px;
+}
+.pg-cal .calpkf {
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+  margin-top: 6px;
+  border-top: 1px solid var(--stroke);
+}
+.pg-cal .calmh {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.pg-cal .calmh b {
+  font: var(--q-font-ui-headline-4);
+  flex: 1 1 0%;
+  color: var(--black);
+}
+.pg-cal .calmh .ib3 {
+  width: 28px;
+  height: 28px;
+}
+.pg-cal .calmh .ib3 svg {
+  width: 15px;
+  height: 15px;
+}
+.pg-cal .calmh .nx svg {
+  transform: rotate(180deg);
+}
+.pg-cal .calmg {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.pg-cal .calmw {
+  font: var(--q-font-ui-description-1);
+  padding: 4px 0px;
+  text-align: center;
+  color: var(--grey);
+}
+.pg-cal .calmd {
+  font: var(--q-font-ui-body-2);
+  position: relative;
+  height: 30px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--t1);
+  cursor: pointer;
+}
+.pg-cal .calmd:hover {
+  background: var(--s1);
+}
+.pg-cal .calmd.out {
+  color: var(--t4);
+}
+.pg-cal .calmd.inr {
+  background: var(--blue-bg);
+  border-radius: 0px;
+}
+.pg-cal .calmd.tdy {
+  color: var(--blue);
+}
+.pg-cal .calmd.sel {
+  color: var(--q-content-background);
+  border-radius: 8px;
+  background: var(--blue) !important;
+}
+.pg-cal .calmd i {
+  position: absolute;
+  left: 50%;
+  bottom: 3px;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: var(--q-primary-300);
+}
+.pg-cal .calmd.sel i {
+  background: var(--q-content-background);
+}
+.pg-cal .cnm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: normal;
+}
+.pg-cal .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--grey);
+}
+.pg-cal .fpop.clsug {
+  padding: 6px;
+  max-height: 380px;
+  overflow-y: auto;
+}
+.pg-cal .clsi {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  border-radius: 8px;
+  background: none;
+  text-align: left;
+  font-family: var(--q-font-family);
+  cursor: pointer;
+}
+.pg-cal .clsi:hover,
+.pg-cal .clsi.on {
+  background: var(--blue-bg);
+}
+.pg-cal .clsi .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}

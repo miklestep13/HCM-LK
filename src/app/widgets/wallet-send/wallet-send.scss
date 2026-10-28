@@ -1,0 +1,225 @@
+/* Сайдбар «Перечислить валюту» (стили из прототипа) */
+.w-wsend .cuamt .nusf {
+  padding-top: 0px !important;
+  padding-right: 10px;
+}
+.w-wsend .cucur {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--s1);
+  color: var(--blue);
+}
+.w-wsend .cucur svg {
+  width: 18px;
+  height: 18px;
+}
+.w-wsend .cugs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.w-wsend .cug {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.w-wsend .fld.flt > .fsel.cupick {
+  height: auto;
+  min-height: 52px;
+  align-items: center;
+  padding-bottom: 8px;
+}
+.w-wsend .fld.flt.on > .fsel.cupick {
+  padding-top: 24px;
+}
+.w-wsend .fld.flt.on > .fsel.cupick > svg {
+  align-self: center;
+}
+.w-wsend .numin {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--stroke2);
+  border-radius: 8px;
+  background: var(--q-content-background);
+  height: 38px;
+  overflow: hidden;
+}
+.w-wsend .numin .fin {
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  height: 36px;
+  flex: 1 1 0%;
+  min-width: 0px;
+  text-align: left;
+  padding: 0px 8px 0px 12px;
+  border-radius: 0px;
+}
+.w-wsend .nusf {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  align-items: center;
+  color: var(--t3);
+  padding-right: 10px;
+}
+.w-wsend .ctsr {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--t2);
+}
+.w-wsend .ctsr.tot {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+}
+.w-wsend .cusumft .ctsr > b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.w-wsend .cusumft .ctsr > b svg {
+  width: 16px;
+  height: 16px;
+}
+.w-wsend .cusumft .ctsr.tot > b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+.w-wsend .cusumft + .drwf {
+  border-top: 1px solid var(--stroke);
+}
+.w-wsend .pqerr {
+  font: var(--q-font-ui-body-2);
+  background: var(--dg-bg);
+  color: var(--dg);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.w-wsend .fld.flt > .numin,
+.w-wsend .fld.flt > .numin .fin {
+  font: var(--q-font-ui-body-1);
+  height: 52px;
+  min-height: 52px;
+}
+.w-wsend .fld.flt.on > .numin .fin,
+.w-wsend .fld.flt.on > .numin .nusf {
+  padding-top: 20px;
+}
+.w-wsend .fld.flt > .numin {
+  height: 54px;
+}
+.w-wsend .fld.flt > .numin .fin {
+  height: 52px;
+}
+.w-wsend .fsel.cupick .fsv.cuchips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  white-space: normal;
+  overflow: visible;
+  padding-top: 2px;
+}
+.w-wsend .cuchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 4px 3px 3px;
+  border-radius: 8px;
+  background: var(--s1);
+  font: var(--q-font-ui-description-1);
+  color: var(--t1);
+  white-space: nowrap;
+}
+.w-wsend .cuchip .av {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background-size: cover;
+}
+.w-wsend .cuchip .cux {
+  color: var(--t3);
+  cursor: pointer;
+  font: var(--q-font-ui-body-2);
+  padding: 0px 4px;
+}
+.w-wsend .cuchip .cux:hover {
+  color: var(--dg);
+}
+.w-wsend .av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+  flex-shrink: 0;
+}
+.w-wsend .fpop.cupop,
+.w-wsend .fpop.selpop.cupop {
+  max-width: none;
+  padding: 6px;
+}
+.w-wsend .cupop .fsq {
+  margin-bottom: 6px;
+}
+.w-wsend .cuo {
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex !important;
+}
+.w-wsend .cuo:hover {
+  background: var(--hv);
+}
+.w-wsend .cuo1.on {
+  background: var(--blue-bg);
+}
+.w-wsend .cuo .av {
+  display: block;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center center;
+}
+.w-wsend .cuo > span:last-child {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.w-wsend .cuo .cnm {
+  min-width: 0px;
+}
+.w-wsend .cuo .cnm b {
+  display: block;
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.w-wsend .cuo .cnm small {
+  display: block;
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.w-wsend .fpop.selpop .fin {
+  height: 34px;
+  margin-bottom: 4px;
+}
+.w-wsend .cnm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: normal;
+}
+.w-wsend .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--grey);
+}

@@ -1,0 +1,457 @@
+/* Плеер курса (стили из прототипа) */
+:where(.pg-player) .secn {
+  font: var(--q-font-ui-description-1);
+  display: inline-block;
+  border-radius: 6px;
+  padding: 2px 7px;
+  white-space: nowrap;
+  background: var(--s2);
+  color: var(--t2);
+  vertical-align: middle;
+}
+:where(.pg-player) .secn {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+:where(.pg-player) .c.full {
+  min-height: calc(-172px + 100vh);
+}
+:where(.pg-player) .c.full {
+  display: flex;
+  flex-direction: column;
+}
+:where(.pg-player) .sect {
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+:where(.pg-player) .sect:last-child {
+  margin-bottom: 0px;
+}
+:where(.pg-player) .secth {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  background: var(--s1);
+}
+:where(.pg-player) .secth b {
+  font: var(--q-font-ui-headline-4);
+  flex: 1 1 0%;
+  color: var(--black);
+}
+:where(.pg-player) .cblk {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 11px 16px;
+  border-top: 1px solid var(--stroke);
+}
+:where(.pg-player) .cbi {
+  font:var(--q-font-ui-description-1);
+  flex:0 0 18px;
+  text-align:right;
+  background:none;
+  border-radius:0;
+  color:var(--t3);
+  font-variant-numeric:tabular-nums;
+}
+:where(.pg-player) .cblk > div:not(.cbi) {
+  flex: 1 1 0%;
+  min-width: 0px;
+}
+:where(.pg-player) .cblk b {
+  font: var(--q-font-ui-headline-4);
+  display: block;
+  color: var(--t1);
+}
+:where(.pg-player) .bmeta {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  white-space: nowrap;
+}
+:where(.pg-player) .plpr {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:first-child {
+  padding-top: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:last-child {
+  padding-bottom: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) :is(.row3, .row4t, .bgrid, .two, .plside, .crow) .c > .cb {
+  padding: 20px 24px;
+}
+:where(.pg-player) .cblk .cbi svg {
+  width: 16px;
+  height: 16px;
+}
+:where(.pg-player) .plpr .pr {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+:where(.pg-player) .plpr .pr .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--grey);
+}
+:where(.pg-player) .plpr .pr .v {
+  font: var(--q-font-ui-headline-4);
+}
+:where(.pg-player) .plmain h2 {
+  font: var(--q-font-ui-headline-2);
+  margin: 6px 0px 8px;
+  color: var(--black);
+}
+:where(.pg-player) .pld {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+  margin: 0px 0px 20px;
+}
+:where(.pg-player) .plnav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+:where(.pg-player) .plq {
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+:where(.pg-player) .plq b {
+  font: var(--q-font-ui-headline-4);
+  display: block;
+  margin-bottom: 8px;
+}
+:where(.pg-player) .plo {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 0px;
+  cursor: pointer;
+}
+:where(.pg-player) .plo input {
+  accent-color: var(--blue);
+}
+:where(.pg-player) .secth .secn {
+  font: var(--q-font-ui-headline-4);
+  background: none;
+  color: var(--black);
+  padding: 0px;
+  min-width: 14px;
+}
+:where(.pg-player) .secth > .bmeta {
+  margin-left: auto;
+}
+:where(.pg-player) .secth[data-acc] {
+  cursor: pointer;
+  user-select: none;
+}
+:where(.pg-player) .secth .accar {
+  display: inline-flex;
+  color: var(--t3);
+  transition: transform 0.15s;
+}
+:where(.pg-player) .secth .accar svg {
+  width: 14px;
+  height: 14px;
+}
+:where(.pg-player) .cblk .cbi {
+  flex: 0 0 auto;
+  min-width: 14px;
+  text-align: left;
+}
+:where(.pg-player) .plgrid {
+  display: grid;
+  grid-template-columns: 380px minmax(0px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+:where(.pg-player) .plside {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 16px;
+}
+:where(.pg-player) .pltitle {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin-bottom: 12px;
+}
+:where(.pg-player) .pli {
+  display: inline-flex;
+}
+:where(.pg-player) .pli svg {
+  width: 16px;
+  height: 16px;
+}
+:where(.pg-player) .pli.ok {
+  color: var(--ok);
+}
+:where(.pg-player) .pli.cur {
+  color: var(--blue);
+}
+:where(.pg-player) .pli.dg {
+  color: var(--dg);
+}
+:where(.pg-player) .c.full.plmain {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0px;
+}
+:where(.pg-player) .plhd {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+:where(.pg-player) .plhd h2 {
+  font: var(--q-font-ui-headline-2);
+  color: var(--black);
+  margin: 0px;
+}
+:where(.pg-player) .plhd .bmeta {
+  font: var(--q-font-ui-body-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+:where(.pg-player) .plhd .bmeta svg {
+  width: 14px;
+  height: 14px;
+}
+:where(.pg-player) .plbody {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+:where(.pg-player) .plq {
+  padding-bottom: 16px;
+}
+:where(.pg-player) .plq .tsearch {
+  width: 100%;
+}
+:where(.pg-player) .pltitle.lfpt {
+  cursor: pointer;
+}
+:where(.pg-player) .pltitle.lfpt:hover {
+  color: var(--blue);
+}
+:where(.pg-player) .lnk.lfcrumb {
+  font: var(--q-font-ui-headline-4);
+  display: block;
+  align-self: flex-start;
+  text-align: left;
+  width: fit-content;
+  margin: 0px 0px 6px;
+  padding: 0px;
+}
+:where(.pg-player) .plpr .pr {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8px;
+}
+:where(.pg-player) .plpr .pr .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+:where(.pg-player) .plpr .pr .v {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+:where(.pg-player) .plpr .bar {
+  margin-top: 8px;
+}
+:where(.pg-player) .plvid {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  max-height: 420px;
+  border-radius: 12px;
+  background: var(--t1) center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+:where(.pg-player) .plvid::before {
+  content: "";
+  position: absolute;
+  inset: 0px;
+  background: linear-gradient(180deg,var(--q-base-transparent-500),var(--q-base-transparent-700));
+}
+:where(.pg-player) .plvp {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--q-button-primary-text) 92%, transparent);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 20px var(--q-overlay);
+  transition: transform 0.15s;
+}
+:where(.pg-player) .plvid:hover .plvp {
+  transform: scale(1.06);
+}
+:where(.pg-player) .plvp svg {
+  width: 28px;
+  height: 28px;
+  color: var(--blue);
+  margin-left: 3px;
+}
+:where(.pg-player) .plvm {
+  font: var(--q-font-ui-headline-4);
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  color: var(--q-content-background);
+}
+:where(.pg-player) .tkfiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+:where(.pg-player) .pldrop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 28px 16px;
+  border: 1.5px dashed var(--stroke2);
+  border-radius: 12px;
+  background: var(--s1);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+:where(.pg-player) .pldrop:hover {
+  border-color: var(--blue);
+  background: var(--blue-bg2);
+}
+:where(.pg-player) .pldrop svg {
+  width: 28px;
+  height: 28px;
+  color: var(--blue);
+  margin-bottom: 4px;
+}
+:where(.pg-player) .pldrop b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+:where(.pg-player) .pldrop b u {
+  color: var(--blue);
+  text-decoration: none;
+}
+:where(.pg-player) .pldrop small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+:where(.pg-player) .pltask .tkfiles {
+  margin-top: 12px;
+}
+:where(.pg-player) .lfres {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 8px 0px 4px;
+}
+:where(.pg-player) .lfres svg {
+  width: 40px;
+  height: 40px;
+}
+:where(.pg-player) .lfres.dg svg {
+  color: var(--dg);
+}
+:where(.pg-player) .lfres b {
+  font: var(--q-font-ui-headline-3);
+}
+:where(.pg-player) .lfres span {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+  max-width: 440px;
+}
+:where(.pg-player) .lfres.inl {
+  align-items: flex-start;
+  text-align: left;
+  padding: 16px;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  gap: 4px;
+}
+:where(.pg-player) .lfres.inl svg {
+  width: 24px;
+  height: 24px;
+}
+:where(.pg-player) .lfres.inl b {
+  font: var(--q-font-ui-headline-4);
+}
+:where(.pg-player) .lfres.ok svg {
+  color: var(--ok);
+}
+:where(.pg-player) .lfstars {
+  font: var(--q-font-ui-headline-1);
+  color: var(--stroke2);
+  margin-bottom: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+:where(.pg-player) .lfstars span.on {
+  color: var(--warn);
+}
+:where(.pg-player) .plfb {
+  max-width: 720px;
+  margin: 24px auto 0px;
+  width: 100%;
+}
+:where(.pg-player) .plfb h3 {
+  font: var(--q-font-ui-headline-3);
+  margin: 0px 0px 6px;
+}
+:where(.pg-player) .sect.closed .accar {
+  transform: rotate(-90deg);
+}
+:where(.pg-player) .sect.closed .cblk {
+  display: none;
+}
+
+/* содержание курса (#plToc прототипа) */
+.pg-player.pg-player .pltoc .sect:last-child{margin-bottom:0}
+.pg-player.pg-player .pltoc .plrow{cursor:pointer;align-items:center;padding:10px 16px}
+.pg-player.pg-player .pltoc .plrow.on{background:var(--blue-bg2)}
+.pg-player.pg-player .pltoc .plrow:hover b{color:var(--blue)}
+.pg-player.pg-player .pltoc .cbi{display:flex;align-items:center;min-width:16px}
+
+/* прикрепленные файлы задания */
+:where(.pg-player) .tkfiles{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+:where(.pg-player) .tkfile{display:inline-flex;align-items:center;gap:10px;padding:8px 14px 8px 10px;border:1px solid var(--stroke2);border-radius:10px;cursor:pointer;max-width:100%}
+:where(.pg-player) .tkfi{width:32px;height:32px;border-radius:8px;background:var(--blue-bg);color:var(--blue);display:grid;place-items:center;flex:none}
+:where(.pg-player) .tkfi svg{width:18px;height:18px}
+:where(.pg-player) .tkfn{display:flex;flex-direction:column;min-width:0}
+:where(.pg-player) .tkfn b{font:var(--q-font-ui-headline-4);color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+:where(.pg-player) .tkfn small{font:var(--q-font-ui-description-1);color:var(--t3)}
+:where(.pg-player) .tkfile:hover b{color:var(--blue)}
+:where(.pg-player) .pltask .tkfiles{margin-top:12px}
+:where(.pg-player) .pltask .tkfile{background:var(--white);cursor:default}
+:where(.pg-player) .pltask .tkfile .tkfx{margin-left:6px;color:var(--t3);display:inline-flex;cursor:pointer}
+:where(.pg-player) .pltask .tkfile .tkfx svg{width:14px;height:14px}
+:where(.pg-player) .pltask .tkfile .tkfx:hover{color:var(--dg)}

@@ -1,0 +1,31 @@
+@if (rows().length) {
+  <div class="bkrg">
+    @for (r of rows(); track r.i) {
+      <div class="bkrc" [class.off]="r.st !== 'free'">
+        <div class="bkimg">
+          <div style="display: contents" [innerHTML]="art(r)"></div>
+          <span class="bkrt" [class]="r.st">{{ r.st === 'free' ? 'свободна ' + r.till : r.st === 'mine' ? 'ваша бронь ' + r.t : 'занята ' + r.t }}</span>
+        </div>
+        <div class="bkrcb">
+          <b>{{ r.no }} {{ r.n }}</b>
+          <span class="bkcap"><span style="display: contents" [innerHTML]="user"></span>{{ r.cap }} {{ ppl(r.cap) }}</span>
+          <span class="bkeq">
+            @for (e of r.eq.slice(0, 4); track e) {
+              <span><span style="display: contents" [innerHTML]="eqIcon(e)"></span>{{ e }}</span>
+            }
+            @if (r.eq.length > 4) {
+              <em>Еще {{ r.eq.length - 4 }}</em>
+            }
+          </span>
+        </div>
+        <div class="bkact">
+          <button class="btn blk" [class.pri]="r.st === 'free'" [class.raised]="r.st !== 'free'" (click)="book(r.i)">
+            {{ r.st === 'free' ? 'Забронировать' : 'Выбрать другое время' }}
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="bkemp">Нет переговорных с такой вместимостью и оборудованием на этом этаже. Уберите часть условий или выберите другой этаж.</div>
+}

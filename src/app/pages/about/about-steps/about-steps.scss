@@ -1,0 +1,47 @@
+/* Блок «Новичку: с чего начать» (стили из прототипа) */
+.pg-about .c.mt,
+.pg-about .mt {
+  margin-top: 16px;
+}
+.pg-about .steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+@media (max-width: 900px) {
+  .pg-about .steps {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.pg-about .stp {
+  display: flex;
+  gap: 12px;
+  background: var(--s1);
+  border-radius: 10px;
+  padding: 16px;
+}
+.pg-about .sn {
+  font: var(--q-font-ui-headline-4);
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--blue);
+  color: var(--q-content-background);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.pg-about .stp b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  display: block;
+}
+.pg-about .stp small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: block;
+  margin-top: 4px;
+}
+.pg-about .c.mt {
+  margin-top: 16px;
+}

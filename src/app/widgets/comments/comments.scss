@@ -1,0 +1,126 @@
+/* Виджет «Комментарии» (стили из прототипа) */
+.w-comments .cform {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--stroke);
+}
+.w-comments .cform > .av {
+  width: 36px;
+  height: 36px;
+  margin-top: 2px;
+}
+.w-comments .cfin {
+  flex: 1 1 0%;
+  min-width: 0px;
+}
+.w-comments .cfact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+}
+.w-comments .cfhint {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.w-comments .clist {
+  display: flex;
+  flex-direction: column;
+}
+.w-comments .cmt {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 16px 0px;
+  border-bottom: 1px solid var(--stroke);
+}
+.w-comments .cmt:last-child {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+  padding-bottom: 0px;
+}
+.w-comments .cmt > .av {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+.w-comments .cmt > div {
+  flex: 1 1 0%;
+  min-width: 0px;
+}
+.w-comments .cmth {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.w-comments .cmth b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+.w-comments .cmth time {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.w-comments .cmt p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.w-comments .cmta {
+  display: flex;
+  gap: 14px;
+  margin-top: 8px;
+}
+.w-comments .av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+  flex-shrink: 0;
+}
+.w-comments .av.avme {
+  background-size: cover;
+  background-position: center center;
+}
+.w-comments .npb {
+  font: var(--q-font-ui-button-m);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--q-page-text-ui);
+}
+.w-comments .npb:hover {
+  background: var(--raised);
+  color: var(--blue);
+}
+.w-comments .npb.on {
+  color: var(--red);
+}
+.w-comments .npb svg {
+  width: 16px;
+  height: 16px;
+}
+.w-comments .cmta:has(> .npb) {
+  gap: 2px;
+  margin: 4px 0px 0px -10px;
+}
+.c > .ch ~ .cb > .w-comments:first-child > .cform {
+  padding-top: 0px;
+}
+
+.w-comments {
+  display: block;
+}

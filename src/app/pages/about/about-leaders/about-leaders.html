@@ -1,0 +1,8 @@
+<div class="ch"><h3>Руководство</h3></div>
+<div class="cb">
+  <div class="lead">
+    @for (l of list; track l.name) {
+      <div class="ldc"><img [src]="l.photo" alt="" /><div class="ln">{{ l.name }}</div><div class="lr">{{ l.role }}</div></div>
+    }
+  </div>
+</div>

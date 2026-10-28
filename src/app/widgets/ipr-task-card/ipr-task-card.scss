@@ -1,0 +1,330 @@
+/* Карточка задачи ИПР (стили из прототипа; :where/:is(.pg-ipr, .afipr) — страница ИПР и блок ИПР в бланке аттестации) */
+:where(.pg-ipr, .afipr) .iprt {
+  flex-wrap: wrap;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipmi.ipmib {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--s1);
+  text-align: left;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipmi.ipmib .ipmt {
+  display: flex;
+  flex-direction: column;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipmi.ipmib .ipmt small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipmi.ipmib .ipmt b {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  text-decoration: none;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipml {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .iprm .ipmx svg,
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .iprm .ipmc svg {
+  width: 14px;
+  height: 14px;
+}
+.pg-ipr.pg-ipr.pg-ipr .ipcards .iprt:not(.open) .ipkres {
+  display: block;
+}
+.pg-ipr.pg-ipr.pg-ipr .ipcards .iprt:not(.open) .ipkres .l {
+  display: block;
+}
+.pg-ipr.pg-ipr.pg-ipr .ipcards .iprt:not(.open) .ipmx {
+  display: inline-flex;
+}
+:where(.pg-ipr, .afipr) .iprt {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  transition: border-color 0.12s, background 0.12s;
+}
+:where(.pg-ipr, .afipr) .iprt:last-child {
+  margin-bottom: 0px;
+}
+:where(.pg-ipr, .afipr) .iprt.done {
+  background: var(--q-content-background);
+}
+:where(.pg-ipr, .afipr) .iprb {
+  flex: 1 1 0%;
+  min-width: 0px;
+}
+:where(.pg-ipr, .afipr) .iprn {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+:where(.pg-ipr, .afipr) .iprd {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin-top: 10px;
+}
+:where(.pg-ipr, .afipr) .iprd .l {
+  font: var(--q-font-ui-description-1);
+  display: block;
+  color: var(--t3);
+  margin-bottom: 6px;
+}
+:where(.pg-ipr, .afipr) .iprt {
+  align-items: flex-start;
+}
+:where(.pg-ipr, .afipr) .iprn {
+  font: var(--q-font-ui-headline-3);
+}
+:where(.pg-ipr, .afipr) .iprr {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .iprt.hidden {
+  display: none;
+}
+:where(.pg-ipr, .afipr) .iprt:hover :is(.nm, .it, .tt, .vt, .iprn, .npt, .cmtt, .mlt, .rpt b, .cc2 > b, .pn3, .glgn, .nt, .t) {
+  color: var(--blue);
+  transition: color 0.15s;
+}
+:where(.pg-ipr, .afipr) .iprm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  align-items: center;
+  margin-top: 10px;
+}
+:where(.pg-ipr, .afipr) .iprm span {
+  font: var(--q-font-ui-description-1);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--t3);
+}
+:where(.pg-ipr, .afipr) .iprm svg {
+  width: 14px;
+  height: 14px;
+}
+:where(.pg-ipr, .afipr) .iprr {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+:where(.pg-ipr, .afipr) .iplist {
+  margin-top: 16px;
+}
+:where(.pg-ipr, .afipr) .iprm .dgt {
+  color: var(--dg);
+}
+:where(.pg-ipr, .afipr) .iprm .dgt svg {
+  color: var(--dg);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .iprr {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .iprt {
+  cursor: default;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .iprt:hover .iprn {
+  color: var(--t1);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iprt {
+  cursor: pointer;
+  flex-wrap: nowrap;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iprt:hover {
+  border-color: var(--blue-br);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iprn {
+  font: var(--q-font-ui-headline-3);
+  overflow-wrap: anywhere;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iprn .bdg {
+  margin: -2px 0px 0px 8px;
+  vertical-align: middle;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iprd {
+  overflow-wrap: anywhere;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipkres {
+  font: var(--q-font-ui-body-2);
+  margin-top: 4px;
+  color: var(--t2);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iprt:not(.open) :is(.iprn, .ipkres) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iprt:not(.open) .ipkres .l {
+  display: none;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iprt.open .ipkres {
+  font: var(--q-font-ui-body-2);
+  margin-top: 14px;
+  color: var(--t1);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iptx {
+  display: none;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iprt.open .iptx {
+  display: block;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iptx .iprd {
+  margin-top: 14px;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipml {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipmi {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: 100%;
+  padding: 0px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--q-font-family);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipmic {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 20px;
+  color: var(--blue);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipmic svg {
+  width: 16px;
+  height: 16px;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipmt {
+  font: var(--q-font-ui-body-2);
+  min-width: 0px;
+  overflow-wrap: anywhere;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipmt b {
+  font: var(--q-font-ui-body-2);
+  color: var(--blue);
+  text-decoration-line: underline;
+  text-decoration-thickness: initial;
+  text-decoration-style: initial;
+  text-decoration-color: var(--blue-br);
+  text-underline-offset: 3px;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipmi:hover .ipmt b {
+  text-decoration-color: var(--blue);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipmt small {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iprm {
+  margin-top: 10px;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iprt:not(.open) .ipmx {
+  display: none;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iprt.open .iprm {
+  margin-top: 16px;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipxb {
+  flex-shrink: 0;
+  margin: -3px -4px 0px -6px;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipxb svg {
+  width: 12px;
+  height: 12px;
+  transition: transform 0.16s;
+  transform: rotate(-90deg);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iprt.open .ipxb svg {
+  transform: none;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipcn {
+  display: inline;
+  padding: 0px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipcn:hover {
+  color: var(--blue);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .iptx .iprd .l {
+  margin-bottom: 6px;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipats {
+  flex: 0 0 auto;
+  align-self: center;
+  gap: 2px;
+  padding: 3px;
+  height: 32px;
+  box-sizing: border-box;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipats span {
+  display: flex;
+  align-items: center;
+  height: 26px;
+  padding: 0px 10px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipats span:hover {
+  color: var(--t1);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipats span.on.d {
+  color: var(--ok);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipats span.on.p {
+  color: var(--warn);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipats span.on.n {
+  color: var(--dg);
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipcmb {
+  font: var(--q-font-ui-description-1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  width: 44px;
+  padding: 0px 6px;
+}
+:is(.pg-ipr.pg-ipr, .afipr.afipr) .ipcards .ipcmb.has {
+  color: var(--blue);
+}
+:where(.pg-ipr, .afipr) .actb.dg:hover {
+  background: var(--dg-bg);
+  color: var(--red);
+}

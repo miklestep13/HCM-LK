@@ -1,0 +1,18 @@
+<app-card title="Карта целей" [counter]="goals.length" open="mygoals" openTitle="Карта целей">
+  <div class="cb">
+    <app-plan-summary [title]="period.title" [status]="stage().label" [statusTone]="stage().tone" [date]="period.from + ' – ' + period.to">
+      @if (isFinal()) {
+        <div class="st2">
+          <app-stat-cell label="Итоговая оценка"><span class="hmgft"><span class="clbg" [class]="'g' + finalGrade()">{{ finalGrade() }}</span>{{ gradeLabel(finalGrade()) }}</span></app-stat-cell>
+        </div>
+      }
+    </app-plan-summary>
+    @if (!isFinal()) {
+      @for (g of goals; track g.id) {
+        <app-list-item [title]="g.title" [meta]="[{ icon: 'calendarGrey', text: 'до ' + g.due }]" link (click)="nav.go('mygoals')" />
+      } @empty {
+        <div class="hmglem">Цели на период еще не поставлены</div>
+      }
+    }
+  </div>
+</app-card>

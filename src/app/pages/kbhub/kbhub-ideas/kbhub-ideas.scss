@@ -1,0 +1,112 @@
+/* Блок «Банк идей» (стили из прототипа) */
+.pg-kbhub .hubg > .c {
+  display: flex;
+  flex-direction: column;
+  min-width: 0px;
+}
+.pg-kbhub .coim > span svg {
+  width: 16px;
+  height: 16px;
+}
+.pg-kbhub .hubic > .ch {
+  padding-bottom: 0px;
+}
+.pg-kbhub .hubic > .ctabs.hubtabs {
+  margin-top: -28px;
+}
+.pg-kbhub .ctabs.hubtabs {
+  padding-top: 0px;
+}
+.pg-kbhub .hubic > .cb {
+  flex: 1 1 0%;
+  padding-top: 16px;
+}
+.pg-kbhub .hubir {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  margin: 0px -8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.pg-kbhub .hubir:hover {
+  background: var(--hv);
+}
+.pg-kbhub .hubir .i {
+  flex: 1 1 0%;
+  min-width: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pg-kbhub .hubir .colt {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pg-kbhub .hubir .bdg {
+  flex: 0 0 auto;
+}
+.pg-kbhub .hubif {
+  padding: 0px 24px 24px;
+}
+.pg-kbhub .hubif .btn {
+  width: 100%;
+}
+.pg-kbhub .ctabs {
+  display: flex;
+  gap: 4px;
+  padding: 16px 24px 0px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-kbhub .ctabs > span {
+  font: var(--q-font-ui-headline-4);
+  padding: 8px 12px 12px;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  user-select: none;
+  background: none;
+  border-radius: 0px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.pg-kbhub .ctabs > span:hover {
+  color: var(--blue);
+}
+.pg-kbhub .ctabs > span.on {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+  background: none;
+}
+.pg-kbhub .ctabs + .cb {
+  padding-top: 0px;
+}
+.pg-kbhub .colt {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-kbhub .coim {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+.pg-kbhub .coim > span {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.pg-kbhub .coim svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}

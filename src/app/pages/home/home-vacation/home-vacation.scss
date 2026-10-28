@@ -1,0 +1,37 @@
+/* Отпуск: использовано дней, доступно, ближайший отпуск */
+.hm-vacation .vr {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.hm-vacation .vr .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+.hm-vacation .vr .v {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+}
+.hm-vacation .vr .v .dgt {
+  color: var(--dg);
+}
+.hm-vacation .vr .vinf {
+  display: inline-flex;
+  vertical-align: -2px;
+  margin-left: 6px;
+  color: var(--q-page-text-ui);
+}
+.hm-vacation .vr .vinf svg {
+  width: 16px;
+  height: 16px;
+}
+.hm-vacation .vr .vinf[data-tip]:hover::after {
+  font: var(--q-font-ui-body-1);
+  inset: calc(100% + 6px) 0px auto auto;
+}
+.hm-vacation .vr .l {
+  font: var(--q-font-ui-description-1);
+}
+.hm-vacation .vr .v {
+  font: var(--q-font-ui-headline-4);
+}

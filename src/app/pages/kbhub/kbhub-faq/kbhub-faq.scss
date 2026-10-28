@@ -1,0 +1,63 @@
+/* Блок «Часто задаваемые вопросы» (стили из прототипа) */
+.pg-kbhub .c.mt,
+.pg-kbhub .mt {
+  margin-top: 16px;
+}
+.pg-kbhub .hubacc .seash {
+  padding: 16px 24px;
+}
+.pg-kbhub .hubacc .seash b {
+  font: var(--q-font-ui-headline-4);
+  flex: 1 1 0%;
+}
+.pg-kbhub .hubacc .seab p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+  margin: 0px 0px 8px;
+  max-width: 820px;
+}
+.pg-kbhub .seaacc {
+  border-top: 1px solid var(--stroke);
+}
+.pg-kbhub .seas {
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-kbhub .seash {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.pg-kbhub .seash b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+.pg-kbhub .seac {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  color: var(--t3);
+  transition: transform 0.16s;
+}
+.pg-kbhub .seac svg {
+  width: 12px;
+  height: 12px;
+}
+.pg-kbhub .seas.open .seac {
+  transform: rotate(180deg);
+  color: var(--blue);
+}
+.pg-kbhub .seab {
+  display: none;
+  padding: 0px 24px 20px;
+}
+.pg-kbhub .seas.open .seab {
+  display: block;
+}
+.pg-kbhub .c.mt {
+  margin-top: 16px;
+}

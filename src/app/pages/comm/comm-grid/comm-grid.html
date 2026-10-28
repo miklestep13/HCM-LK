@@ -1,0 +1,35 @@
+@let role = demo.commRole();
+@for (c of s.list(); track c.id) {
+  <div class="ccard cw cmc" tabindex="0" (click)="open(c)" (keydown.enter)="open(c)">
+    <div class="cbody">
+      <div class="cmcv" app-comm-cover [comm]="c"></div>
+      <div class="cc2">
+        <b class="cmtt">{{ c.name }}</b><small class="cmct">{{ cats[c.cat] }}</small>
+        <p class="cmd">{{ c.short }}</p>
+        <div class="cmm">
+          <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5.4" r="2.6" stroke="currentColor" stroke-width="1.4" /><path d="M3 13.6c.6-2.6 2.6-4 5-4s4.4 1.4 5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg>{{ membersText(c.members) }}
+        </div>
+      </div>
+    </div>
+    <div class="cact">
+      @if (role === 'adm') {
+        <button class="btn raised blk" (click)="edit($event)">Редактировать</button>
+      } @else if (role === 'cadm' && myAdmin.includes(c.id)) {
+        <button class="btn raised blk" (click)="$event.stopPropagation(); open(c)">Управлять</button>
+      } @else if (c.joined) {
+        <button class="btn raised blk cmj on" (click)="join(c, $event)">
+          <svg viewBox="0 0 16 16" fill="none"><path d="m3.4 8.4 3 3 6.2-6.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>Вы участник
+        </button>
+      } @else if (c.sent) {
+        <button class="btn raised blk cmj" disabled>Заявка отправлена</button>
+      } @else {
+        <button class="btn pri blk cmj" (click)="join(c, $event)">{{ c.byRequest ? 'Подать заявку' : 'Присоединиться' }}</button>
+      }
+    </div>
+  </div>
+} @empty {
+  <div class="c bkemp cmemp">
+    Такого сообщества пока нет.
+    {{ role === 'adm' ? 'Добавьте его — кнопка вверху страницы.' : 'Предложите создать его — кнопка вверху страницы.' }}
+  </div>
+}

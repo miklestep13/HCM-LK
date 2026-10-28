@@ -1,0 +1,48 @@
+<div class="hd">
+  <div class="hd-in">
+    <div class="logo" (click)="nav.goMenu('home')">Q.HCM</div>
+    <div class="tabs">
+      @for (tab of tabs; track tab.title) {
+        <div class="nav" [class.closed]="closed() === tab.title" (mouseleave)="closed.set('')">
+          <div class="tab" data-drop [class.on]="activeTab() === tab.title" (click)="open(tab)">{{ tab.title }}<app-icon name="chevron" /></div>
+          <div class="menu">
+            @for (item of tab.items; track $index) {
+              @if (item.hidden) {}
+              @else if (item.sep) { <div class="msep"></div> }
+              @else if (item.children) {
+                <div class="mi hassub">
+                  <span>{{ item.title }}</span><span class="subar"><app-icon name="chevron" /></span>
+                  <div class="menu submenu">
+                    @for (sub of item.children; track $index) {
+                      <div class="mi" [class.on]="nav.isOn(sub.page, sub.attrs)" (click)="open(sub, $event, tab.title)">{{ sub.title }}</div>
+                    }
+                  </div>
+                </div>
+              } @else {
+                <div class="mi" [class.on]="nav.isOn(item.page, item.attrs)" (click)="open(item, $event, tab.title)">{{ item.title }}</div>
+              }
+            }
+          </div>
+        </div>
+      }
+    </div>
+    <div class="hd-r">
+      <button class="ib" title="Поиск"><app-icon name="search" /></button>
+      <button class="ib" title="Уведомления"><app-icon name="bell" /></button>
+      <div class="nav me-nav" [class.closed]="closed() === 'me'" (mouseleave)="closed.set('')">
+        <div class="me" data-drop>
+          <img [src]="me.photo" alt="" />
+          <div><b>{{ me.name }}</b><small>{{ me.role }}</small></div>
+          <app-icon name="chevron" />
+        </div>
+        <div class="menu menu-r">
+          @for (item of meMenu; track $index) {
+            @if (item.hidden) {}
+              @else if (item.sep) { <div class="msep"></div> }
+            @else { <div class="mi" [class.red]="item.danger" (click)="open(item, $event, 'me')">{{ item.title }}@if (item.value) {<span class="mval">{{ item.value }}</span>}</div> }
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+/* Блок «Поблагодари коллегу» (стили из прототипа) */
+.pg-company .cothf {
+  display: flex;
+  flex-direction: column;
+}
+.pg-company .cothtop {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.pg-company .cothpic {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  object-fit: cover;
+  color: var(--pink);
+}
+.pg-company .cothd {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+  margin: 0px;
+  flex: 1 1 0%;
+}
+.pg-company .cothf .btn.blk {
+  width: 100%;
+}
+:is(#pg-home, .pg-company) .c > .ch ~ .cb:last-child {
+  padding-bottom: 20px !important;
+}
+:is(#pg-home, .pg-company) .c > .ch ~ .cb:not(:has(~ :not(.hidden):not([hidden]))) {
+  padding-bottom: 20px !important;
+}

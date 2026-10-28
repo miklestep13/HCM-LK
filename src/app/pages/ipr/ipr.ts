@@ -1,0 +1,236 @@
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, effect, inject, signal, viewChild } from '@angular/core';
+import { IprDemoStatus, IprFill, IprStore } from '../../core/demo/ipr-store.service';
+import { DevPanelService, devValue } from '../../core/layout/dev-panel/dev-panel.service';
+import { NavService } from '../../core/navigation/nav.service';
+import { shortFio } from '../../data/org.data';
+import { ConfirmService } from '../../shared/ui/confirm/confirm.service';
+import { PageHead } from '../../shared/ui/page-head/page-head';
+import { ToastService } from '../../shared/ui/toast/toast.service';
+import { IprComps } from '../../widgets/ipr-comps/ipr-comps';
+import { IprTaskAct } from '../../widgets/ipr-task-card/ipr-task-card';
+import { IprAgree } from './ipr-agree/ipr-agree';
+import { IprChat } from './ipr-chat/ipr-chat';
+import { IprComment } from './ipr-comment/ipr-comment';
+import { IprEmpty } from './ipr-empty/ipr-empty';
+import { IprExperts } from './ipr-experts/ipr-experts';
+import { IprHead } from './ipr-head/ipr-head';
+import { IprIsland, IprIslandAct } from './ipr-island/ipr-island';
+import { IprNew } from './ipr-new/ipr-new';
+import { IprParams } from './ipr-params/ipr-params';
+import { IprTaskForm } from './ipr-task-form/ipr-task-form';
+import { IprTaskRun } from './ipr-task-run/ipr-task-run';
+import { IprTasks } from './ipr-tasks/ipr-tasks';
+
+interface CommentAsk {
+  title: string;
+  hint: string;
+  ok: string;
+  done: () => void;
+}
+
+const STATUSES: { value: IprDemoStatus; label: string }[] = [
+  { value: 'none', label: 'Нет ИПР' },
+  { value: 'new', label: 'Создание' },
+  { value: 'Черновик', label: 'Создан' },
+  { value: 'Предложено', label: 'Предложен' },
+  { value: 'Утверждено', label: 'Утверждено' },
+  { value: 'В работе', label: 'В работе' },
+  { value: 'Аттестация', label: 'Оценка эксперта' },
+  { value: 'Выполнено', label: 'Выполнено' },
+  { value: 'Выполнено частично', label: 'Выполнено частично' },
+  { value: 'Не выполнено', label: 'Не выполнено' },
+];
+const FILLS: { value: IprFill; label: string }[] = [
+  { value: 'full', label: 'Заполнен' },
+  { value: 'new', label: 'Только создан' },
+  { value: 'notasks', label: 'Нет задач' },
+  { value: 'nocomps', label: 'Нет компетенций' },
+];
+
+/**
+ * «Мой кабинет → Аттестация → ИПР»: план развития сотрудника — шапка плана (или форма «Новый ИПР»), заключения экспертов,
+ * задачи, компетенции и остров с переводом на следующий этап. Статус плана, сценарий наполнения и роль на аттестации — в dev-панели.
+ */
+@Component({
+  selector: 'app-ipr',
+  imports: [
+    PageHead,
+    IprHead,
+    IprNew,
+    IprExperts,
+    IprTasks,
+    IprComps,
+    IprIsland,
+    IprEmpty,
+    IprTaskForm,
+    IprTaskRun,
+    IprParams,
+    IprChat,
+    IprComment,
+    IprAgree,
+  ],
+  template: `
+    <app-page-head [title]="s.creating() ? 'Новый ИПР' : 'ИПР'" [noBack]="true" />
+    @if (s.none()) {
+      <app-ipr-empty (ask)="ask()" />
+    } @else {
+      @if (s.creating()) {
+        <div ipr-new [expErr]="expErr()"></div>
+      } @else {
+        <div ipr-head (edit)="params.set(true)"></div>
+      }
+      @if (s.st() === 'Аттестация') {
+        <div ipr-experts></div>
+      }
+      <div ipr-tasks (add)="taskForm.set(-1)" (act)="onTask($event)"></div>
+      <div ipr-comps [comps]="s.comps()" [tasks]="s.plan().tasks" [editable]="s.editable()" (tasksOf)="tasks()?.showComp($event)"></div>
+      @if (s.creating() || ['Черновик', 'Предложено', 'Утверждено', 'В работе'].includes(s.st()) || (s.st() === 'Аттестация' && s.isMgr())) {
+        <div ipr-island (act)="onIsland($event)"></div>
+      }
+    }
+    @if (taskForm() !== null) {
+      <app-ipr-task-form [index]="taskForm()!" (closed)="taskForm.set(null)" />
+    }
+    @if (run() !== null) {
+      <app-ipr-task-run [index]="run()!" (closed)="run.set(null)" />
+    }
+    @if (params()) {
+      <app-ipr-params (closed)="params.set(false)" />
+    }
+    @if (chat(); as c) {
+      <app-ipr-chat [index]="c.i" [why]="c.why" (closed)="chat.set(null)" />
+    }
+    @if (comment(); as c) {
+      <app-ipr-comment [title]="c.title" [hint]="c.hint" [ok]="c.ok" (sent)="c.done()" (closed)="comment.set(null)" />
+    }
+    @if (agree()) {
+      <app-ipr-agree (closed)="agree.set(false)" />
+    }
+  `,
+  styleUrl: './ipr.scss',
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'pg pg-ipr' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class Ipr {
+  protected readonly s = inject(IprStore);
+  private readonly nav = inject(NavService);
+  private readonly toast = inject(ToastService);
+  private readonly confirm = inject(ConfirmService);
+  private readonly dev = inject(DevPanelService);
+  protected readonly tasks = viewChild(IprTasks);
+  private readonly compsW = viewChild(IprComps);
+
+  protected readonly taskForm = signal<number | null>(null);
+  protected readonly run = signal<number | null>(null);
+  protected readonly params = signal(false);
+  protected readonly chat = signal<{ i: number; why: boolean } | null>(null);
+  protected readonly comment = signal<CommentAsk | null>(null);
+  protected readonly agree = signal(false);
+  protected readonly expErr = signal(false);
+  private readonly mgr = computed(() => shortFio(this.s.plan().mgr[0]));
+
+  /** переключатели dev-панели: статус — всегда; сценарий — когда план есть; роль — на аттестации */
+  private readonly showFill = computed(() => !this.s.none() && !this.s.creating());
+  private readonly showRole = computed(() => !this.s.none() && !this.s.creating() && this.s.status() === 'Аттестация');
+
+  constructor() {
+    effect((onCleanup) => {
+      const c = [{ id: 'iprStatus', label: 'Статус ИПР', options: STATUSES, value: devValue<IprDemoStatus>(() => this.s.demoStatus(), (v) => this.s.setDemo(v)) }];
+      if (this.showFill()) c.push({ id: 'iprFill', label: 'Сценарий', options: FILLS as any, value: devValue<IprFill>(() => this.s.fill(), (v) => this.s.setFill(v)) as any });
+      if (this.showRole())
+        c.push({
+          id: 'iprRole',
+          label: 'Роль на аттестации',
+          options: [
+            { value: 'mgr', label: 'Руководитель' },
+            { value: 'emp', label: 'Сотрудник' },
+          ] as any,
+          value: this.s.arole as any,
+        });
+      onCleanup(this.dev.register(...c));
+    });
+  }
+
+  protected async onTask(e: IprTaskAct): Promise<void> {
+    const t = this.s.plan().tasks[e.i];
+    switch (e.a) {
+      case 'open':
+        return this.s.toggleOpen(e.i);
+      case 'crs':
+        return this.nav.go('player', { crs: e.v! });
+      case 'link':
+        return this.toast.show('Скоро', 'Откроется внешний ресурс: ' + e.v);
+      case 'art':
+        return this.nav.go('kb');
+      case 'comp':
+        return this.compsW()?.show(e.v!);
+      case 'edit':
+        return this.taskForm.set(e.i);
+      case 'run':
+        return this.run.set(e.i);
+      case 'chat':
+        return this.chat.set({ i: e.i, why: false });
+      case 'rate':
+        this.s.setRate(e.i, e.v as any);
+        if (this.s.needsWhy(e.i)) this.chat.set({ i: e.i, why: true });
+        return;
+      case 'del':
+        if (await this.confirm.ask({ title: 'Удалить задачу?', text: 'Задача **' + t.t + '** будет удалена из плана.', ok: 'Удалить', danger: true })) {
+          this.s.removeTask(e.i);
+          this.toast.show('Задача удалена', t.t);
+        }
+    }
+  }
+
+  protected onIsland(a: IprIslandAct): void {
+    const go = (st: Parameters<IprStore['setStatus']>[0], title: string, text: string) => {
+      this.s.setStatus(st);
+      this.toast.show(title, text);
+    };
+    switch (a) {
+      case 'newcancel':
+        return this.s.cancelNew();
+      case 'newsave': {
+        const err = this.s.saveNew();
+        this.expErr.set(err === 'expert');
+        if (err === 'emp') return this.toast.show('Новый ИПР', 'Выберите сотрудника.');
+        if (err === 'expert') return this.toast.show('Новый ИПР', 'Выберите эксперта: при повышении грейда он присутствует на итоговой встрече.');
+        window.scrollTo(0, 0);
+        return this.toast.show('ИПР создан', 'Черновик: проверьте задачи и компетенции и отправьте план на согласование.');
+      }
+      case 'send':
+        return go('Предложено', 'Отправлено на согласование', 'Руководитель ' + this.mgr() + ' получил план.');
+      case 'save':
+        return this.toast.show('Сохранено', 'Отметки о выполнении задач сохранены.');
+      case 'recall':
+        return go('Черновик', 'Возвращено в черновик', 'План снова можно редактировать.');
+      case 'approve':
+        return go('В работе', 'План согласован', 'Сотрудник получил уведомление и может выполнять задачи.');
+      case 'back':
+        return this.comment.set({
+          title: 'Вернуть на доработку',
+          hint: 'Напишите, что нужно поправить в плане, — сотрудник увидит комментарий.',
+          ok: 'Вернуть',
+          done: () => go('Черновик', 'План возвращен на доработку', 'Сотрудник получил комментарий.'),
+        });
+      case 'towork':
+        return go('В работе', 'План возвращен в работу', 'Оценки задач сохранены.');
+      case 'wcancel':
+        return window.scrollTo({ top: 0, behavior: 'smooth' });
+      case 'wfinish':
+        return go('Аттестация', 'План завершен', 'Задачи переданы на оценку эксперту.');
+      case 'attok':
+        return this.agree.set(true);
+    }
+  }
+
+  protected ask(): void {
+    this.comment.set({
+      title: 'Запрос руководителю',
+      hint: 'Попросите руководителя назначить план: к какой роли или компетенциям хотите двигаться.',
+      ok: 'Отправить',
+      done: () => this.toast.show('Запрос отправлен', 'Руководитель ' + this.mgr() + ' получил ваш запрос.'),
+    });
+  }
+}

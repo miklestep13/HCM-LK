@@ -1,0 +1,8 @@
+/* Глобальные стили: токены → шрифты → база → общие атомы.
+   Стили конкретного блока — в его *.scss рядом с компонентом. */
+@use 'styles/tokens';
+@use 'styles/fonts';
+@use 'styles/base';
+@use 'styles/avatars';
+@use 'styles/ui';
+@use 'styles/controls';

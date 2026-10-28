@@ -1,0 +1,43 @@
+@let p = post();
+<div class="npau">
+  <span class="npav">{{ ava }}</span>
+  <span class="i"><b>{{ author }}</b><time>{{ p.date }} {{ p.time }}</time></span>
+  @if (admin()) {
+    <button class="actb dots cmpk nwadm" title="Действия" (click)="more($event)">
+      <svg viewBox="0 0 16 16" fill="none"><circle cx="3.4" cy="8" r="1.5" fill="currentColor" /><circle cx="8" cy="8" r="1.5" fill="currentColor" /><circle cx="12.6" cy="8" r="1.5" fill="currentColor" /></svg>
+    </button>
+  }
+</div>
+@if (menu(); as m) {
+  <div class="fpop amenu" [style.left.px]="m.left" [style.top.px]="m.top" (click)="$event.stopPropagation()">
+    <button class="ami" (click)="act($event, 'edit')">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M11.2 2.6a1.7 1.7 0 0 1 2.4 2.4l-7.5 7.5-3.2.8.8-3.2 7.5-7.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" /></svg>Редактировать
+    </button>
+    <button class="ami dg" (click)="act($event, 'remove')">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M2.8 4.4h10.4M6.4 4.4V3.2a1 1 0 0 1 1-1h1.2a1 1 0 0 1 1 1v1.2M4.2 4.4l.6 8.2a1.2 1.2 0 0 0 1.2 1.1h4a1.2 1.2 0 0 0 1.2-1.1l.6-8.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>Удалить
+    </button>
+  </div>
+}
+@if (p.img) {
+  <div class="npimg"><img [src]="p.img" alt="" /></div>
+}
+@if (compact()) {
+  <h4 class="npt">{{ p.title }}</h4>
+} @else {
+  <h3 class="npt">{{ p.title }}</h3>
+  <p class="nplead">{{ p.lead }}</p>
+}
+<div class="nphub">
+  @for (t of p.tags; track t) {
+    <span>#{{ t.toLowerCase() }}</span>
+  }
+</div>
+<div class="npf">
+  <button class="npb" [class.on]="liked()" title="Нравится" (click)="like($event)">
+    <app-icon name="like" /><span>{{ p.lk + (liked() ? 1 : 0) }}</span>
+  </button>
+  <button class="npb" title="Комментарии" (click)="$event.stopPropagation(); open.emit(p.id)">
+    <app-icon name="comment" /><span>{{ p.cm }}</span>
+  </button>
+  <span class="npb st" title="Просмотры"><app-icon name="eye" /><span>{{ p.vw }}</span></span>
+</div>

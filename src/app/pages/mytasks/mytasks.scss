@@ -1,0 +1,306 @@
+/* Задания (стили из прототипа) */
+.pg-mytasks .sub2 {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 8px;
+}
+.pg-mytasks .tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--q-font-family);
+}
+.pg-mytasks .tbl th {
+  font: var(--q-font-ui-headline-4);
+  text-align: left;
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-mytasks .tbl td {
+  font: var(--q-font-ui-body-2);
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--stroke);
+  vertical-align: middle;
+}
+.pg-mytasks table.tbl :is(th, td):first-child {
+  padding-left: 0px;
+}
+.pg-mytasks table.tbl :is(th, td):last-child {
+  padding-right: 0px;
+}
+.pg-mytasks .tbl tr:last-child td {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+}
+.pg-mytasks .tbl td b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  display: block;
+}
+.pg-mytasks .tbl .gr {
+  color: var(--t3);
+}
+.pg-mytasks .mttbl tr[data-mtid] {
+  cursor: pointer;
+}
+.pg-mytasks .mttbl tr[data-mtid]:hover td {
+  background: var(--hv);
+}
+.pg-mytasks .mttbl td .bdg {
+  display: block;
+  text-align: center;
+}
+.pg-mytasks .mttbl .dgt {
+  font: var(--q-font-ui-headline-4);
+  color: var(--dg);
+}
+.pg-mytasks .mttbl tbody tr[data-mtid] {
+  cursor: pointer;
+}
+.pg-mytasks .pf-top h1 .chip {
+  margin-left: 10px;
+  vertical-align: middle;
+}
+.pg-mytasks .vgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0px, 1fr));
+  gap: 16px;
+}
+@media (max-width: 1200px) {
+.pg-mytasks .vgrid {
+  grid-template-columns: repeat(3, minmax(0px, 1fr));
+}
+}
+@media (max-width: 900px) {
+.pg-mytasks .vgrid {
+  grid-template-columns: repeat(2, minmax(0px, 1fr));
+}
+}
+@media (max-width: 600px) {
+.pg-mytasks .vgrid {
+  grid-template-columns: 1fr;
+}
+}
+.pg-mytasks .thh {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.pg-mytasks .sortb {
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  padding: 0px;
+  cursor: pointer;
+  color: var(--t4);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.pg-mytasks .sortb svg {
+  width: 12px;
+  height: 12px;
+  display: block;
+}
+.pg-mytasks .sortb:hover {
+  color: var(--q-page-text-ui);
+}
+.pg-mytasks .sortb.on {
+  color: var(--blue);
+}
+.pg-mytasks .rtbl th {
+  padding: 8px 12px;
+}
+.pg-mytasks .rtbl td {
+  padding: 12px;
+}
+.pg-mytasks .ftrow.hidden {
+  display: none;
+}
+.pg-mytasks .c.full {
+  min-height: calc(-172px + 100vh);
+}
+.pg-mytasks .c.full {
+  display: flex;
+  flex-direction: column;
+}
+.pg-mytasks .rtbl {
+  min-width: 100%;
+}
+.pg-mytasks .rtbl th {
+  white-space: nowrap;
+  background: var(--q-content-background);
+  position: sticky;
+  top: 0px;
+}
+.pg-mytasks .rtbl td {
+  vertical-align: middle;
+}
+.pg-mytasks .rtbl td.gr {
+  color: var(--t2);
+  white-space: nowrap;
+}
+.pg-mytasks .thh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.pg-mytasks .mttbl th .thh {
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:last-child {
+  padding-bottom: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar {
+  padding: 16px 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar:first-child {
+  padding-top: 24px;
+}
+.pg-mytasks .mtccnt {
+  margin-top: 16px;
+}
+.pg-mytasks .c .tbl tbody > tr:not(.hidden):not(:has(~ tr:not(.hidden):not([hidden]))) > td {
+  padding-bottom: 0px;
+  border-bottom: 0px;
+}
+.pg-mytasks .av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+  flex-shrink: 0;
+}
+.pg-mytasks .vcard .cbody {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0%;
+}
+.pg-mytasks .vmeta.row {
+  flex-flow: wrap;
+  gap: 14px;
+}
+.pg-mytasks .vcard {
+  background: var(--q-content-background);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid transparent;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.pg-mytasks .vb {
+  padding: 16px 20px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1 1 0%;
+}
+.pg-mytasks .vt {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+.pg-mytasks .vmeta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pg-mytasks .vmeta span {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--grey);
+}
+.pg-mytasks .vmeta svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.pg-mytasks .vb .bdg {
+  align-self: flex-start;
+  margin-top: auto;
+}
+.pg-mytasks img.av {
+  object-fit: cover;
+  display: block;
+}
+.pg-mytasks .vcard:hover :is(.nm, .it, .tt, .vt, .iprn, .npt, .cmtt, .mlt, .rpt b, .cc2 > b, .pn3, .glgn, .nt, .t) {
+  color: var(--blue);
+  transition: color 0.15s;
+}
+.pg-mytasks .vmeta span.od {
+  color: var(--dg);
+}
+.pg-mytasks .vcard .vt {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.pg-mytasks .vcard .vb {
+  min-height: 98px;
+}
+.pg-mytasks .vcard .vb .vmeta.row {
+  gap: 4px 14px;
+  align-content: flex-start;
+}
+.pg-mytasks .vcard.mtvc {
+  cursor: pointer;
+  outline: none;
+}
+.pg-mytasks .vcard.mtvc .vb {
+  padding-top: 20px;
+}
+.pg-mytasks .vcard.mtvc .mtbd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pg-mytasks .vcard.mtvc .mtbd .bdg {
+  margin-top: 0px;
+}
+.pg-mytasks .vcard.mtvc .mtvf {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0px;
+  padding: 16px 20px 20px;
+}
+.pg-mytasks .vcard.mtvc .mtvf img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: 0 0 auto;
+}
+.pg-mytasks .vcard.mtvc .mtvf > span {
+  display: flex;
+  flex-direction: column;
+  min-width: 0px;
+}
+.pg-mytasks .vcard.mtvc .mtvf b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pg-mytasks .vcard.mtvc .mtvf small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.pg-mytasks .vcard .vt {
+  font: var(--q-font-ui-headline-3);
+}

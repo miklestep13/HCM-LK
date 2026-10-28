@@ -1,0 +1,19 @@
+/* Страница «Сообщества»: раскладка и общие правила (из прототипа). Стили блоков — в их папках. */
+.pg-comm {
+  display: block;
+}
+.pg-comm .nwrole {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+.pg-comm .sdlbl {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  white-space: nowrap;
+}
+.pg-comm > .pf-top {
+  align-items: center;
+}

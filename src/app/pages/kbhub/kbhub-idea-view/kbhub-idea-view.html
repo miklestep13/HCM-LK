@@ -1,0 +1,35 @@
+@let x = i();
+<app-drawer title="Просмотр идеи" cancelLabel="Закрыть" [open]="!!x" (openChange)="!$event && closed.emit()"
+  [okLabel]="x?.my ? 'Удалить идею' : x?.voted ? 'Вы поддержали' : 'Поддержать'" [okDanger]="!!x?.my" (ok)="ok()">
+  @if (x) {
+    <div class="bkf">
+      <div class="fld full ivf"><label class="flab">Название идеи</label><div class="ivv"><b>{{ x.title }}</b></div></div>
+      <div class="fld full ivf">
+        <label class="flab">Статус</label>
+        <div class="ivv"><span class="ivst"><span class="bdg" [class]="tone[x.status]">{{ x.status }}</span><span class="gr">предложена {{ x.date }}</span></span></div>
+      </div>
+      @if (x.my) {
+        <div class="fld full ivf"><label class="flab">Видимость</label><div class="ivv">{{ x.private ? 'Только экспертам' : 'Коллегам после модерации' }}</div></div>
+      } @else {
+        <div class="fld full ivf"><label class="flab">Автор</label><div class="ivv">{{ x.author }}</div></div>
+      }
+      <div class="fld full ivf"><label class="flab">Направление</label><div class="ivv">{{ x.dir }}</div></div>
+      <div class="fld full ivf"><label class="flab">Какую проблему решает</label><div class="ivv">{{ x.problem || '—' }}</div></div>
+      <div class="fld full ivf"><label class="flab">Что предлагаете</label><div class="ivv">{{ x.solution || '—' }}</div></div>
+      <div class="fld full ivf">
+        <label class="flab">Ответ эксперта</label>
+        @if (x.answer; as a) {
+          <div class="ivans"><div class="ivah"><b>{{ a[0] }}</b><span>{{ a[1] }} · {{ a[2] }}</span></div><p>{{ a[3] }}</p></div>
+        } @else {
+          <div class="ivv"><span class="gr">{{ x.status === 'На модерации' ? 'Идея на модерации — после проверки ее рассмотрят эксперты.' : 'Эксперты еще не ответили.' }}</span></div>
+        }
+      </div>
+      @if (x.status !== 'На модерации' && !x.private) {
+        <div class="fld full ivf">
+          <label class="flab">Поддержали</label>
+          <div class="ivv"><span class="ivvt"><app-icon name="like" />{{ votesText(x.votes) }}{{ x.voted ? ' · в том числе вы' : '' }}</span></div>
+        </div>
+      }
+    </div>
+  }
+</app-drawer>

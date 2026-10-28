@@ -1,0 +1,25 @@
+/* Главная: три колонки (стили из прототипа). Стили блоков — в их папках. */
+.pg-home {
+  display: block;
+}
+.pg-home .cols {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+.pg-home .cL,
+.pg-home .cR {
+  width: 342px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.pg-home .cM {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0px;
+}
+

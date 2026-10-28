@@ -1,0 +1,231 @@
+/* Кошелек (стили из прототипа) */
+.pg-cur .tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--q-font-family);
+}
+.pg-cur .tbl th {
+  font: var(--q-font-ui-headline-4);
+  text-align: left;
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-cur .tbl td {
+  font: var(--q-font-ui-body-2);
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--stroke);
+  vertical-align: middle;
+}
+.pg-cur table.tbl :is(th, td):first-child {
+  padding-left: 0px;
+}
+.pg-cur table.tbl :is(th, td):last-child {
+  padding-right: 0px;
+}
+.pg-cur .tbl tr:last-child td {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+}
+.pg-cur .tbl td b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  display: block;
+}
+.pg-cur .tbl td small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: block;
+  margin-top: 3px;
+}
+.pg-cur .tbl .pl {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t2);
+}
+.pg-cur .nchead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.pg-cur .curtbl tr.curx .cnm b,
+.pg-cur .curtbl tr.curx .curam .cbal {
+  color: var(--t3);
+  text-decoration: line-through;
+}
+.pg-cur .curg {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pg-cur .curbal {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 16px;
+}
+.pg-cur .curbal svg {
+  width: 18px;
+  height: 18px;
+  color: var(--blue);
+}
+.pg-cur .curbal b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+.pg-cur .curcp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0px;
+}
+.pg-cur .curcpa {
+  position: relative;
+  flex: 0 0 auto;
+}
+.pg-cur .curcp .av {
+  display: block;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center center;
+}
+.pg-cur .curcp .av.curorg {
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.pg-cur .curcp .av.curorg svg {
+  width: 18px;
+  height: 18px;
+}
+.pg-cur .curdir {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 2px var(--q-content-background);
+}
+.pg-cur .curdir svg {
+  width: 10px;
+  height: 10px;
+}
+.pg-cur .curdir.in {
+  background: var(--ok);
+  color: var(--q-content-background);
+}
+.pg-cur .curdir.out {
+  background: var(--t3);
+  color: var(--q-content-background);
+}
+.pg-cur .curcp .cnm b {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+.pg-cur .curcp .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-cur .curtbl tr.curx .curcp .cnm b {
+  text-decoration: none;
+}
+.pg-cur .curtbl td {
+  vertical-align: middle;
+}
+.pg-cur .curtbl .curdt {
+  white-space: nowrap;
+}
+.pg-cur .curam {
+  text-align: right;
+  white-space: nowrap;
+}
+.pg-cur .curam .cbal {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  justify-content: flex-end;
+}
+.pg-cur .curam.pl .cbal {
+  color: var(--ok);
+}
+.pg-cur .curam .cbal svg {
+  color: var(--blue);
+}
+.pg-cur .av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+  flex-shrink: 0;
+}
+.pg-cur .pcell2 {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--t1);
+  white-space: nowrap;
+}
+.pg-cur .ftrow.hidden {
+  display: none;
+}
+.pg-cur .tw {
+  overflow-x: auto;
+  padding: 0px 24px 20px;
+}
+.pg-cur .cb .tw {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.pg-cur .pf-top > .nchead {
+  align-self: center;
+}
+.pg-cur .cnm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: normal;
+}
+.pg-cur .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--grey);
+}
+.pg-cur .cbal {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-cur .cbal svg {
+  width: 16px;
+  height: 16px;
+  color: var(--warn-ac);
+  flex-shrink: 0;
+}
+.pg-cur .cbal svg {
+  display: block;
+}
+.pg-cur :is(.ftbar, .tbar:not(.calbar), .assf) :is(.fchip, .lnk) {
+  font: var(--q-font-ui-button-m);
+}
+.pg-cur .c > .ch ~ .cb > :is(.cyclist, .tw, .adlist, .cform, .iplist):first-child {
+  padding-top: 0px;
+}
+.pg-cur .c > .ch ~ .cb > :is(.cyclist, .tw, .adlist, .cform, .iplist):is(:last-child, :not(:has(~ :not(.hidden):not([hidden]):not(:empty)))) {
+  padding-bottom: 0px;
+}
+.pg-cur .c .tbl tbody > tr:not(.hidden):not(:has(~ tr:not(.hidden):not([hidden]))) > td {
+  padding-bottom: 0px;
+  border-bottom: 0px;
+}

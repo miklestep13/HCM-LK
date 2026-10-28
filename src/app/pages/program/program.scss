@@ -1,0 +1,598 @@
+/* Программа (стили из прототипа) */
+:where(.pg-program) .secn {
+  font: var(--q-font-ui-description-1);
+  display: inline-block;
+  border-radius: 6px;
+  padding: 2px 7px;
+  white-space: nowrap;
+  background: var(--s2);
+  color: var(--t2);
+  vertical-align: middle;
+}
+:where(.pg-program) .secn {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+:where(.pg-program) .cmeta2 {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 12px;
+}
+:where(.pg-program) .cmeta2 span {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  color: var(--grey);
+}
+:where(.pg-program) .cmeta2 svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+:where(.pg-program) .sect {
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+:where(.pg-program) .sect:last-child {
+  margin-bottom: 0px;
+}
+:where(.pg-program) .secth {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  background: var(--s1);
+}
+:where(.pg-program) .secth b {
+  font: var(--q-font-ui-headline-4);
+  flex: 1 1 0%;
+  color: var(--black);
+}
+:where(.pg-program) .cblk {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 11px 16px;
+  border-top: 1px solid var(--stroke);
+}
+:where(.pg-program) .cbi {
+  font:var(--q-font-ui-description-1);
+  flex:0 0 18px;
+  text-align:right;
+  background:none;
+  border-radius:0;
+  color:var(--t3);
+  font-variant-numeric:tabular-nums;
+}
+:where(.pg-program) .cblk > div:not(.cbi) {
+  flex: 1 1 0%;
+  min-width: 0px;
+}
+:where(.pg-program) .cblk b {
+  font: var(--q-font-ui-headline-4);
+  display: block;
+  color: var(--t1);
+}
+:where(.pg-program) .bmeta {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  white-space: nowrap;
+}
+:where(.pg-program) .abt p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin-bottom: 12px;
+}
+:where(.pg-program) .prow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 0px;
+  border-bottom: 1px solid var(--stroke);
+  cursor: pointer;
+}
+:where(.pg-program) .prow:last-child {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ch {
+  padding: 24px 24px 16px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:first-child {
+  padding-top: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:last-child {
+  padding-bottom: 24px;
+}
+:where(.pg-program) .lfact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+:where(.pg-program) .prgact {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 8px;
+}
+:where(.pg-program) .prgbar {
+  margin-top: 16px;
+  max-width: 360px;
+}
+:where(.pg-program) .prgst .cblk {
+  align-items: center;
+}
+:where(.pg-program) .prgst .cblk .bdg {
+  margin-left: 8px;
+}
+:where(.pg-program) .cblk .cbi svg {
+  width: 16px;
+  height: 16px;
+}
+:where(.pg-program) .prgbar .pr {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+:where(.pg-program) .prgbar .pr .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--grey);
+}
+:where(.pg-program) .prgbar .pr .v {
+  font: var(--q-font-ui-headline-4);
+}
+:where(.pg-program) .prgm.cmeta2 {
+  flex-flow: wrap;
+  gap: 8px 16px;
+  align-items: center;
+  margin-top: 0px;
+}
+:where(.pg-program) .prgm.cmeta2 span {
+  font: var(--q-font-ui-body-2);
+}
+:where(.pg-program) .crsv .crshd {
+  display: grid;
+  grid-template-columns: 480px minmax(0px, 1fr);
+  gap: 28px;
+  align-items: start;
+  padding-bottom: 0px;
+}
+:where(.pg-program) .crsimg {
+  position: relative;
+}
+:where(.pg-program) .crsimg img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  background: var(--s1);
+}
+:where(.pg-program) .crsinfo {
+  display: flex;
+  flex-direction: column;
+  min-height: 270px;
+}
+:where(.pg-program) .crsinfo {
+  min-width: 0px;
+}
+:where(.pg-program) .crsinfo h2 {
+  font: var(--q-font-ui-headline-2);
+  color: var(--black);
+  margin: 0px 0px 8px;
+}
+:where(.pg-program) .crsm.cmeta2 {
+  flex-flow: wrap;
+  gap: 6px 16px;
+  margin: 0px 0px 16px;
+}
+:where(.pg-program) .crsab p {
+  font: var(--q-font-ui-body-2);
+  margin-bottom: 8px;
+}
+:where(.pg-program) .crsbtn {
+  margin-top: 16px;
+  display: flex;
+}
+:where(.pg-program) .secth .secn {
+  font: var(--q-font-ui-headline-4);
+  background: none;
+  color: var(--black);
+  padding: 0px;
+  min-width: 14px;
+}
+:where(.pg-program) .secth > .bmeta {
+  margin-left: auto;
+}
+:where(.pg-program) .secth[data-acc] {
+  cursor: pointer;
+  user-select: none;
+}
+:where(.pg-program) .secth .accar {
+  display: inline-flex;
+  color: var(--t3);
+  transition: transform 0.15s;
+}
+:where(.pg-program) .secth .accar svg {
+  width: 14px;
+  height: 14px;
+}
+:where(.pg-program) .cblk .cbi {
+  flex: 0 0 auto;
+  min-width: 14px;
+  text-align: left;
+}
+:where(.pg-program) .prgv .prgbar {
+  max-width: 420px;
+  margin: 0px 0px 16px;
+}
+:where(.pg-program) .prgv .crsm {
+  margin-bottom: 12px;
+}
+:where(.pg-program) .prgv .prgbar {
+  margin-top: 8px;
+}
+:where(.pg-program) .prgv .prgact {
+  justify-content: flex-start;
+}
+:where(.pg-program) .crsinfo .crsbtn {
+  margin-top: auto;
+  padding-top: 16px;
+  align-items: center;
+  gap: 8px;
+}
+:where(.pg-program) .prgp .prgst {
+  padding-top: 0px;
+}
+:where(.pg-program) .prgmod .secth {
+  cursor: pointer;
+}
+:where(.pg-program) .crsinfo .crsab {
+  max-width: 700px;
+}
+:where(.pg-program) .prgv .prgbar {
+  max-width: none;
+  width: 100%;
+}
+:where(.pg-program) .prgv .prgact {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+:where(.pg-program) .prgmod .prow {
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+}
+:where(.pg-program) .prgmod .prow:hover {
+  background: var(--hv);
+}
+:where(.pg-program) .prgmod .prow .cico {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  color: var(--blue);
+}
+:where(.pg-program) .prgmod .prow .cico svg {
+  width: 16px;
+  height: 16px;
+}
+:where(.pg-program) .prgmod .prow b {
+  font: var(--q-font-ui-headline-4);
+}
+:where(.pg-program) .prm {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 4px;
+  color: var(--t3);
+}
+:where(.pg-program) .prm span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+:where(.pg-program) .prm svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+}
+:where(.pg-program) .prm span.od {
+  color: var(--dg);
+}
+:where(.pg-program) .prgmod .prow {
+  border-bottom: 0px;
+}
+:where(.pg-program) .crsv .crshd {
+  grid-template-columns: 560px minmax(0px, 1fr);
+}
+:where(.pg-program) .crsinfo {
+  min-height: 315px;
+}
+:where(.pg-program) .crsinfo .crstags {
+  margin: 0px 0px 10px;
+}
+:where(.pg-program) .prgv .prgbar {
+  margin-top: auto;
+  padding-top: 16px;
+}
+:where(.pg-program) .prgv .prgbar + .crsbtn {
+  margin-top: 0px;
+}
+:where(.pg-program) .prgbar .pr {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8px;
+}
+:where(.pg-program) .prgbar .pr .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+:where(.pg-program) .prgbar .pr .v {
+  font: var(--q-font-ui-headline-2);
+  color: var(--t1);
+}
+:where(.pg-program) .prgbar .bar {
+  margin-top: 8px;
+}
+:where(.pg-program) .crsinfo .crsbtn {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+:where(.pg-program) .prgv .crsinfo .crsbtn.prgact {
+  flex-direction: row;
+  justify-content: flex-end;
+}
+:where(.pg-program) .prgmod .prow {
+  cursor: default;
+}
+:where(.pg-program) .prgmod .prow:hover {
+  background: none;
+}
+:where(.pg-program) .prgmod .prow .prlnk {
+  cursor: pointer;
+  width: fit-content;
+}
+:where(.pg-program) .prgmod .prow .prlnk:hover {
+  color: var(--blue);
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ch ~ .cb:last-child {
+  padding-bottom: 24px !important;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ch ~ .cb:not(:has(~ :not(.hidden):not([hidden]))) {
+  padding-bottom: 24px !important;
+}
+:where(.pg-program) .vimg .bdgs {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+:where(.pg-program) .vimg .bdgs .bdg {
+  margin: 0px;
+  position: static;
+}
+:where(.pg-program) .vgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0px, 1fr));
+  gap: 16px;
+}
+@media (max-width: 1200px) {
+:where(.pg-program) .vgrid {
+  grid-template-columns: repeat(3, minmax(0px, 1fr));
+}
+}
+@media (max-width: 900px) {
+:where(.pg-program) .vgrid {
+  grid-template-columns: repeat(2, minmax(0px, 1fr));
+}
+}
+@media (max-width: 600px) {
+:where(.pg-program) .vgrid {
+  grid-template-columns: 1fr;
+}
+}
+:where(.pg-program) .vcard .cbody {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0%;
+}
+:where(.pg-program) .vimg {
+  position: relative;
+  padding: 20px 20px 0px;
+}
+:where(.pg-program) .vimg img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+}
+:where(.pg-program) .vmeta.row {
+  flex-flow: wrap;
+  gap: 14px;
+}
+:where(.pg-program) .vcard {
+  background: var(--q-content-background);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid transparent;
+  transition: border-color 0.15s, transform 0.15s;
+}
+:where(.pg-program) .vb {
+  padding: 16px 20px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1 1 0%;
+}
+:where(.pg-program) .vt {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+:where(.pg-program) .vmeta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+:where(.pg-program) .vmeta span {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--grey);
+}
+:where(.pg-program) .vmeta svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+:where(.pg-program) .vact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+}
+:where(.pg-program) .vact .btn {
+  width: 100%;
+}
+:where(.pg-program) .vcard:hover :is(.nm, .it, .tt, .vt, .iprn, .npt, .cmtt, .mlt, .rpt b, .cc2 > b, .pn3, .glgn, .nt, .t) {
+  color: var(--blue);
+  transition: color 0.15s;
+}
+:where(.pg-program) .vcard .vt {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+:where(.pg-program) .vcard .vb {
+  min-height: 98px;
+}
+:where(.pg-program) .vcard .vb .vmeta.row {
+  gap: 4px 14px;
+  align-content: flex-start;
+}
+:where(.pg-program) .vimg .bdgs {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: calc(100% - 60px);
+}
+:where(.pg-program) .bdgs .bdg.bdga {
+  background: var(--white);
+  color: var(--t1);
+  box-shadow: 0 1px 3px var(--q-base-transparent-100);
+}
+:where(.pg-program) .vpr {
+  margin-top: 12px;
+}
+:where(.pg-program) .vpr .pr .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+:where(.pg-program) .vpr .pr .v {
+  font: var(--q-font-ui-headline-4);
+}
+:where(.pg-program) .vpr .bar {
+  margin-top: 6px;
+}
+:where(.pg-program) .vpr .pr {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+:where(.pg-program) .vcard .vpr {
+  margin-top: auto;
+  padding-top: 12px;
+}
+:where(.pg-program) .vimg .bdgs {
+  flex-wrap: nowrap;
+}
+:where(.pg-program) .bdgs > .bdg {
+  flex: 0 0 auto;
+}
+:where(.pg-program) .vimg .bdgs:hover {
+  flex-wrap: wrap;
+}
+:where(.pg-program) .prgmod .prgcards {
+  padding: 16px;
+  grid-template-columns: repeat(4, minmax(0px, 1fr));
+}
+:where(.pg-program) .prgmod .vcard {
+  border: 1px solid var(--stroke);
+}
+:where(.pg-program) .vtest .vimg {
+  position: relative;
+}
+:where(.pg-program) .vtest .vtph {
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  background: var(--blue-bg2);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+}
+:where(.pg-program) .vtest .vtph svg {
+  width: 48px;
+  height: 48px;
+}
+:where(.pg-program) .vtest .vmeta span svg {
+  width: 16px;
+  height: 16px;
+}
+:where(.pg-program) .vpr .pr,
+:where(.pg-program) .prgbar .pr {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8px;
+}
+:where(.pg-program) .vpr .pr .l,
+:where(.pg-program) .prgbar .pr .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+:where(.pg-program) .vpr .pr .v {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+:where(.pg-program) .vpr .bar,
+:where(.pg-program) .prgbar .bar {
+  margin-top: 8px;
+}
+:where(.pg-program) .vcard .vt {
+  font: var(--q-font-ui-headline-3);
+}
+:where(.pg-program) .sect.closed .accar {
+  transform: rotate(-90deg);
+}
+:where(.pg-program) .sect.closed .cblk {
+  display: none;
+}
+:where(.pg-program) .prgmod.closed .prow {
+  display: none;
+}

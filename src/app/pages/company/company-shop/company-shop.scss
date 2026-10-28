@@ -1,0 +1,90 @@
+/* Блок «Новое в магазине» (стили из прототипа) */
+.pg-company .pprice {
+  font: var(--q-font-ui-headline-3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--blue);
+}
+.pg-company .pprice svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  color: var(--blue);
+}
+.pg-company .coshl {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pg-company .coshi {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: none;
+  border: 0px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 10px;
+  font-family: inherit;
+  text-align: left;
+}
+.pg-company .colist.colm,
+.pg-company .coshl {
+  gap: 0px;
+}
+.pg-company .colm .coli,
+.pg-company .coshl .coshi {
+  position: relative;
+}
+.pg-company .coshl .coshi {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.pg-company .colm .coli + .coli::before,
+.pg-company .coshl .coshi + .coshi::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  height: 1px;
+  background: var(--stroke);
+}
+.pg-company .coshl .coshi + .coshi::before {
+  left: 0px;
+  right: 0px;
+}
+.pg-company .coshb b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.pg-company .coshb .pprice {
+  font: var(--q-font-ui-headline-4);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--t2);
+  margin-top: 3px;
+}
+.pg-company .coshb .pprice svg {
+  width: 18px;
+  height: 18px;
+  color: var(--violet);
+}
+.pg-company .coshp {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+:is(#pg-home, .pg-company) .c > .ch ~ .cb:last-child {
+  padding-bottom: 20px !important;
+}
+:is(#pg-home, .pg-company) .c > .ch ~ .cb:not(:has(~ :not(.hidden):not([hidden]))) {
+  padding-bottom: 20px !important;
+}

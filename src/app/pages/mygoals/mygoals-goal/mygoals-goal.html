@@ -1,0 +1,106 @@
+@let g = goal();
+@let ed = s.edit();
+<div class="iprb">
+  <div class="glach">
+    <div class="iprn glnw">
+      <button class="glnl" title="Открыть карточку цели" (click)="open()">{{ g.t }}</button>
+      <span class="bdg gllvl" [class]="'gt-l' + lvlIdx()">{{ lvlName() }}</span><span class="bdg" [class]="'gt-t' + typeIdx()">{{ type() }}</span><span class="bdg" [class]="'gt-k' + F().kind">{{ kindName() }}</span>
+    </div>
+  </div>
+  <div class="iprd gldsc">{{ g.d || g.krs[0]?.t || '—' }}</div>
+  <div class="glacg glacw">
+    <div class="iprd glwf">
+      <span class="l">Вес</span>
+      @if (ed) {
+        <div class="numin glcw">
+          <i class="glpkdot" [style.background]="s.color().get(g.id)"></i>
+          <input class="fin" inputmode="numeric" aria-label="Вес цели, %" placeholder="0" [value]="g.w || ''" (input)="setWeight($event)" />
+          <span class="nusf">%</span>
+          <span class="nustep">
+            <button class="nub" aria-label="Больше" (click)="step(1)"><svg viewBox="0 0 12 12" fill="none"><path d="M3.2 7.4 6 4.6l2.8 2.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+            <button class="nub" aria-label="Меньше" (click)="step(-1)"><svg viewBox="0 0 12 12" fill="none"><path d="M3.2 4.6 6 7.4l2.8-2.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+          </span>
+        </div>
+      } @else {
+        <span class="glwv">{{ g.w ? g.w + '%' : '—' }}</span>
+      }
+    </div>
+    @if (F().kind === 'txt') {
+      @if (showSelf()) {
+        <div class="iprd glsoon">
+          <span class="l">Самооценка</span>
+          @if (g.self; as S) {
+            <span class="glsv"><span class="clbg" [class]="'g' + S.o">{{ S.o }}</span>{{ selfFact() }}{{ S.n }}</span>
+          } @else {
+            <span class="glsno">—</span>
+          }
+        </div>
+      }
+      <div class="iprd glsoon" [class.hidden]="!showFin()">
+        <span class="l">Итоговая оценка</span>
+        @if (g.fin; as A) {
+          <span class="glsv"><span class="clbg" [class]="'g' + A.o">{{ A.o }}</span>{{ A.n }}</span>
+        } @else {
+          <span class="glsno">—</span>
+        }
+      </div>
+    } @else {
+      <div class="iprd glsoon" [class.hidden]="!showSelf()">
+        <span class="l">Итоговая оценка</span>
+        @if (final(); as A) {
+          <span class="glsv"><span class="clbg" [class]="'g' + A.o">{{ A.o }}</span>{{ A.n }}</span>
+        } @else {
+          <span class="glsno">—</span>
+        }
+      </div>
+      @if (F().kind === 'num') {
+        <div class="iprd glsoon" [class.hidden]="!showSelf()">
+          <span class="l">Результат</span>
+          @if (result()) {
+            {{ result() }}
+          } @else {
+            <span class="glsno">—</span>
+          }
+        </div>
+      }
+    }
+  </div>
+  <div class="glmeta">
+    <span>Срок сдачи: до {{ g.due || s.store.period.to }}</span>
+    <span class="glmppl"
+      >Участники:<span class="avs astavs afevav glmavs" (mouseenter)="showPeople($event)" (mouseleave)="hidePeople($event)"
+        >@for (p of people().slice(0, 3); track $index) {<span class="av" [class]="'av' + (p.av || 1)"></span>}@if (people().length > 3) {<span class="more">+{{ people().length - 3 }}</span>}</span
+      ></span
+    >
+  </div>
+</div>
+@if (ed) {
+  <span class="glgr">
+    <button class="actb" title="Редактировать" (click)="edit()">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M11.2 2.6a1.7 1.7 0 0 1 2.4 2.4l-7.5 7.5-3.2.8.8-3.2 7.5-7.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" /></svg>
+    </button>
+    <button class="actb dg" title="Удалить" (click)="remove()">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M2.8 4.4h10.4M6.4 4.4V3.2a1 1 0 0 1 1-1h1.2a1 1 0 0 1 1 1v1.2M4.2 4.4l.6 8.2a1.2 1.2 0 0 0 1.2 1.1h4a1.2 1.2 0 0 0 1.2-1.1l.6-8.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </button>
+  </span>
+}
+@if (canRate()) {
+  <span class="glgr">
+    <button class="actb glsbtn" [title]="rateTitle()" (click)="open('edit')">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M11.2 2.6a1.7 1.7 0 0 1 2.4 2.4l-7.5 7.5-3.2.8.8-3.2 7.5-7.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" /></svg>
+    </button>
+  </span>
+}
+@if (pop(); as p) {
+  <div class="fpop hintpop glpplpop" [appFloat]="p" (mouseleave)="pop.set(null)">
+    <div class="glppw">
+      @for (x of people(); track $index) {
+        <div class="glppr">
+          <span class="av" [class]="'av' + x.av"></span>
+          <span class="cnm"><b>{{ x.n }}</b><small>{{ x.pos || '' }}</small></span>
+          <span class="glppm"><span>{{ x.role || 'Заказчик' }}</span>@if (x.w != null && x.w !== '') {<b>{{ x.w }}%</b>}</span>
+        </div>
+      }
+    </div>
+  </div>
+}

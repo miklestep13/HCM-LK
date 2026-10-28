@@ -1,0 +1,27 @@
+@if (selfBanner()) {
+  <div class="c hm-banner">
+    <span class="t">Открыт период самооценки за IV квартал 2026 — заполните карту целей до 19.12</span>
+    <button class="btn pri sm" (click)="nav.go('mygoals')">Пройти самооценку</button>
+  </div>
+}
+<div class="cols">
+  <div class="cL">
+    <app-home-profile />
+    <app-home-development />
+    <app-home-awards />
+    <app-home-wallet />
+    <app-home-income />
+    <app-home-vacation />
+    <app-home-time-off />
+  </div>
+  <div class="cM">
+    <app-home-tasks />
+    <app-home-learning />
+    <app-home-goals />
+    <app-home-ipr />
+  </div>
+  <div class="cR">
+    <app-home-colleagues />
+    <app-home-requests />
+  </div>
+</div>

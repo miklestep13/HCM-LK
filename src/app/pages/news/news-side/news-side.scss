@@ -1,0 +1,14 @@
+/* Блок «Мероприятия и опрос» (колонка справа): список и опрос — виджеты events-list и poll */
+.pg-news .c.mt,
+.pg-news .mt {
+  margin-top: 16px;
+}
+.pg-news .c.mt {
+  margin-top: 16px;
+}
+/* колонка прилипает под шапкой при прокрутке (в прототипе — .nside.fixd) */
+.pg-news .nside {
+  position: sticky;
+  top: 72px;
+  z-index: 20;
+}

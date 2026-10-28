@@ -1,0 +1,271 @@
+/* Список целей (стили из прототипа) */
+.pg-mygoallist .tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--q-font-family);
+}
+.pg-mygoallist .tbl th {
+  font: var(--q-font-ui-headline-4);
+  text-align: left;
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-mygoallist .tbl td {
+  font: var(--q-font-ui-body-2);
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--stroke);
+  vertical-align: middle;
+}
+.pg-mygoallist table.tbl :is(th, td):first-child {
+  padding-left: 0px;
+}
+.pg-mygoallist table.tbl :is(th, td):last-child {
+  padding-right: 0px;
+}
+.pg-mygoallist .tbl tr:last-child td {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+}
+.pg-mygoallist .tbl td b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  display: block;
+}
+.pg-mygoallist .tbl td small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: block;
+  margin-top: 3px;
+}
+.pg-mygoallist .tbl .gr {
+  color: var(--t3);
+}
+.pg-mygoallist .av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+  flex-shrink: 0;
+}
+.pg-mygoallist .ftrow.hidden {
+  display: none;
+}
+.pg-mygoallist .tw {
+  overflow-x: auto;
+  padding: 0px 24px 20px;
+}
+.pg-mygoallist .cb .tw {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.pg-mygoallist .acts {
+  display: flex;
+  gap: 4px;
+}
+.pg-mygoallist .ctabs {
+  display: flex;
+  gap: 4px;
+  padding: 16px 24px 0px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-mygoallist .ctabs > span {
+  font: var(--q-font-ui-headline-4);
+  padding: 8px 12px 12px;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  user-select: none;
+  background: none;
+  border-radius: 0px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.pg-mygoallist .ctabs > span:hover {
+  color: var(--blue);
+}
+.pg-mygoallist .ctabs > span.on {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+  background: none;
+}
+.pg-mygoallist .ctabs + .cb {
+  padding-top: 0px;
+}
+.pg-mygoallist .cnm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: normal;
+}
+.pg-mygoallist .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--grey);
+}
+.pg-mygoallist .gtc {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pg-mygoallist .gtchv,
+.pg-mygoallist .gtchv0 {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.pg-mygoallist .gtchv {
+  border: 0px;
+  background: none;
+  color: var(--t3);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: transform 0.15s;
+}
+.pg-mygoallist .gtchv svg {
+  width: 14px;
+  height: 14px;
+}
+.pg-mygoallist .gtchv:hover {
+  background: var(--page);
+  color: var(--t1);
+}
+.pg-mygoallist .gtchv {
+  transform: rotate(-90deg);
+}
+.pg-mygoallist .gtchv.on {
+  transform: none;
+}
+.pg-mygoallist .gtc {
+  align-items: flex-start;
+}
+.pg-mygoallist .gtchv {
+  margin-top: 1px;
+}
+.pg-mygoallist .glsno {
+  color: var(--t3);
+}
+.pg-mygoallist .bdg.gt-t0 {
+  background: var(--q-warning-50);
+  color: var(--q-warning-700);
+}
+.pg-mygoallist .glltbl td {
+  vertical-align: middle;
+}
+.pg-mygoallist .glltn {
+  font: var(--q-font-ui-headline-4);
+  text-align: left;
+  padding: 0px;
+  background: none;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  color: var(--q-content-text);
+  cursor: pointer;
+}
+.pg-mygoallist .glltn:hover {
+  color: var(--q-primary-500);
+}
+.pg-mygoallist .ftbar {
+  margin: 0px;
+  padding: 0px 0px 16px;
+}
+.pg-mygoallist .tsearch {
+  flex: 1 1 0%;
+}
+.pg-mygoallist .gllsc {
+  overflow-x: auto;
+}
+.pg-mygoallist .glltbl {
+  min-width: 1560px;
+}
+.pg-mygoallist .glltbl th,
+.pg-mygoallist .glltbl td {
+  white-space: nowrap;
+}
+.pg-mygoallist .glltbl .gllname {
+  min-width: 360px;
+  white-space: normal;
+}
+.pg-mygoallist .gllname .glltn {
+  white-space: normal;
+}
+.pg-mygoallist .gllnm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pg-mygoallist .gllnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.pg-mygoallist .glllt {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+}
+.pg-mygoallist .glltbl th:last-child,
+.pg-mygoallist .glltbl td.gllact {
+  position: sticky;
+  right: 0px;
+  background: var(--q-content-background);
+  z-index: 1;
+  box-shadow: rgba(0, 0, 0, 0.12) -8px 0px 8px -8px;
+}
+.pg-mygoallist .gllp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.pg-mygoallist .gllp .av {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  flex: 0 0 auto;
+  background-size: cover;
+}
+.pg-mygoallist .gllp .cnm {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+}
+.pg-mygoallist .gllp .cnm b {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+}
+.pg-mygoallist .gllp .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.pg-mygoallist .gllact .acts {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+.pg-mygoallist .gllt {
+  margin: 0px;
+}
+.pg-mygoallist .gllt + .cb {
+  padding-top: 16px;
+}
+.pg-mygoallist .c .tbl tbody > tr:not(.hidden):not(:has(~ tr:not(.hidden):not([hidden]))) > td {
+  padding-bottom: 0px;
+  border-bottom: 0px;
+}
+
+.pg-mygoallist .gllgrp td {
+  position: static;
+}
+.pg-mygoallist .gllgrp td {
+  background: none;
+}

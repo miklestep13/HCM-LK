@@ -1,0 +1,15 @@
+/* Страница «База знаний»: раскладка и общие правила (из прототипа). Стили блоков — в их папках. */
+.pg-kbhub {
+  display: block;
+}
+.pg-kbhub .hubg {
+  display: grid;
+  grid-template-columns: minmax(0px, 1fr) minmax(0px, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+@media (max-width: 900px) {
+  .pg-kbhub .hubg {
+    grid-template-columns: 1fr;
+  }
+}

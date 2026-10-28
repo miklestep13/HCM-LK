@@ -1,0 +1,34 @@
+/* Страница «Сотрудники»: сетка карточек (карточка — виджет widgets/employee-card) */
+.pg-people {
+  display: block;
+}
+.pg-people .pgrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 1200px) {
+  .pg-people .pgrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 800px) {
+  .pg-people .pgrid {
+    grid-template-columns: 1fr;
+  }
+}
+.pg-people .pgrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0px, 1fr));
+  gap: 16px;
+}
+@media (max-width: 1200px) {
+  .pg-people .pgrid {
+    grid-template-columns: repeat(3, minmax(0px, 1fr));
+  }
+}
+@media (max-width: 900px) {
+  .pg-people .pgrid {
+    grid-template-columns: repeat(2, minmax(0px, 1fr));
+  }
+}

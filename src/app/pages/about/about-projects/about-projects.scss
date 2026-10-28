@@ -1,0 +1,53 @@
+/* Блок «Направления бизнеса» (стили из прототипа) */
+.pg-about .prj {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 900px) {
+  .pg-about .prj {
+    grid-template-columns: 1fr;
+  }
+}
+.pg-about .prjc {
+  background: var(--s1);
+  border-radius: 12px;
+  padding: 20px;
+}
+.pg-about .pt {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+}
+.pg-about .ps {
+  font: var(--q-font-ui-headline-4);
+  color: var(--blue);
+  margin-top: 4px;
+}
+.pg-about .pd {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+  margin-top: 10px;
+}
+.pg-about .pf2 {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.pg-about .pf2 span {
+  font: var(--q-font-ui-description-1);
+  background: var(--q-content-background);
+  border-radius: 6px;
+  padding: 4px 9px;
+  color: var(--t2);
+}
+.pg-about .prj {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 9px 0px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-about .prj:last-of-type {
+  border-bottom: 0px;
+}

@@ -1,0 +1,75 @@
+@let x = r();
+<div class="bkf">
+  <app-field label="Переговорная" required filled>
+    <app-select [options]="roomNames()" [value]="x.no + ' ' + x.n" (valueChange)="setRoom($event)" />
+  </app-field>
+  <div class="bkseat">
+    <span class="bkcap"><span style="display: contents" [innerHTML]="user"></span>{{ capText(x.cap) }} · {{ s.office() }}, {{ s.floor() }} этаж</span>
+    <span class="bkeq">
+      @for (e of x.eq; track e) {
+        <span><span style="display: contents" [innerHTML]="eqIcon(e)"></span>{{ e }}</span>
+      }
+    </span>
+  </div>
+  <app-field label="Тема встречи" [filled]="!!topic()">
+    <input class="fin" placeholder="Например: кредитный комитет" [value]="topic()" (input)="topic.set($any($event.target).value)" />
+  </app-field>
+  <app-field label="Дата" required [filled]="!!d1()"><app-date-field [(value)]="d1" /></app-field>
+  <div class="bk2">
+    <app-field label="Начало" required filled><app-select [options]="fromOpts" [value]="from()" (valueChange)="setFrom($event)" /></app-field>
+    <app-field label="Окончание" required filled><app-select [options]="toOpts" [(value)]="to" /></app-field>
+  </div>
+  @let L = line();
+  <div class="bktml">
+    <div class="bktr">
+      @if (L.bz; as z) {
+        <i class="bz" [style.left.%]="z.left" [style.width.%]="z.width" [title]="'Занято ' + z.t"></i>
+      }
+      @if (L.sel; as q) {
+        <i class="sel" [class.cf]="q.cf" [style.left.%]="q.left" [style.width.%]="q.width"></i>
+      }
+    </div>
+    <div class="bktx"><span>08:00</span><span>12:00</span><span>16:00</span><span>20:00</span></div>
+    <small>{{ L.note }}</small>
+  </div>
+  <app-field label="Участники" [float]="false">
+    <div id="brPW">
+      <div class="bkppl">
+        @for (n of ppl(); track n) {
+          <span class="chip">{{ short(n) }}<button type="button" title="Убрать" (click)="$event.stopPropagation(); togglePerson(n)">×</button></span>
+        }
+        <button type="button" class="lnk" (click)="openPick($event)">+ Добавить</button>
+      </div>
+      @if (ppl().length + 1 > x.cap) {
+        <small class="bkwarn">Участников больше, чем мест в переговорной</small>
+      }
+    </div>
+  </app-field>
+  @if (pick(); as p) {
+    <div class="fpop selpop chpop" [style.left.px]="p.left" [style.top.px]="p.top" (click)="$event.stopPropagation()">
+      <input class="fin fsq" placeholder="Поиск по ФИО" [value]="pq()" (input)="pq.set($any($event.target).value)" />
+      <div class="folist">
+        @for (n of pickList(); track n) {
+          <div class="foi" [class.on]="ppl().includes(n)" (click)="togglePerson(n)">{{ n }}</div>
+        }
+      </div>
+    </div>
+  }
+  <app-field label="Повторять" filled><app-select [options]="reps" [value]="rep()" (valueChange)="setRep($event)" /></app-field>
+  @if (per()) {
+    <div class="bkwd">
+      @for (d of wd; track d; let i = $index) {
+        <button type="button" [class.on]="!!days()[i]" (click)="flipDay(i)">{{ d }}</button>
+      }
+    </div>
+    <app-field label="До" required [filled]="!!d2()"><app-date-field [(value)]="d2" /></app-field>
+  }
+  @let S = sum();
+  <div class="cusum">
+    @if (S.b1) {<b>{{ S.b1 }}</b>}{{ S.text }}@if (S.tail) {<br />{{ S.tail }}}
+    @if (S.cf) {
+      <span class="bkcf">{{ S.cf }}</span>
+    }
+  </div>
+  <div class="pqerr" [class.hidden]="!err()">{{ err() }}</div>
+</div>

@@ -1,0 +1,86 @@
+@let pop = ui.pop();
+<ng-template #av let-p>
+  @if (p[3] === 0) {
+    <img class="av" [src]="mePhoto" alt="" />
+  } @else {
+    <span class="av" [class]="avCls(p[0], p[3])"></span>
+  }
+</ng-template>
+@if (pop) {
+  <div class="fpop bkfp" [style.left.px]="pop.left" [style.top.px]="pop.top" (click)="$event.stopPropagation()">
+    @if (seat(); as x) {
+      @let my = x.st === 'mine';
+      <div class="bkpop">
+        <div class="bkph"><b>Место {{ x.id }}</b><span class="bdg" [class]="my ? 'bl2' : 'grn'">{{ my ? 'Ваша бронь' : 'Свободно' }}</span></div>
+        <small>{{ zn[x.z] }}, {{ s.floor() }} этаж · {{ s.date() }}{{ my ? ' · ' + x.till : '' }}</small>
+        <span class="bkfc">
+          @for (f of feats(x.f); track f) {
+            <span class="chip">{{ f }}</span>
+          }
+        </span>
+        <div class="bkpn">
+          <span>{{ near().length ? 'Рядом сидят' : 'Рядом пока никого нет' }}</span>
+          @if (near().length) {
+            <div class="bkpnl">
+              @for (y of near(); track y.id) {
+                <button class="bkpnb" (click)="seatPerson(y.id, $event)">
+                  <ng-container [ngTemplateOutlet]="av" [ngTemplateOutletContext]="{ $implicit: who(y) }" />
+                  <span class="cnm"><b>{{ who(y)[0] }}</b><small>{{ who(y)[1] }}</small></span>
+                </button>
+              }
+            </div>
+          }
+        </div>
+        @if (my) {
+          <button class="btn raised blk bkdg" (click)="cancelDesk(x.id)">Отменить бронь</button>
+        } @else {
+          <button class="btn pri blk" (click)="bookDesk(x.id)">Забронировать</button>
+        }
+      </div>
+    }
+    @if (room(); as r) {
+      @let my = r.st === 'mine';
+      <div class="bkpop">
+        <div class="bkph"><b>{{ r.no }} {{ r.n }}</b><span class="bdg" [class]="my ? 'bl2' : 'org'">{{ my ? 'Ваша бронь' : 'Занята' }}</span></div>
+        <small>{{ s.date() }}, {{ r.t }}{{ r.topic ? ' · ' + r.topic : '' }}</small>
+        <div class="bkpn">
+          <span>Участники</span>
+          <div class="bkpnl">
+            @for (q of r.ppl; track $index; let k = $index) {
+              <button class="bkpnb" (click)="personOf(q, [['Встреча', r.t + (r.topic ? ', ' + r.topic : '')], ['Переговорная', r.no + ' ' + r.n]], $event)">
+                <ng-container [ngTemplateOutlet]="av" [ngTemplateOutletContext]="{ $implicit: q }" />
+                <span class="cnm"><b>{{ q[0] }}</b><small>{{ k ? q[1] : 'Организатор' }}</small></span>
+              </button>
+            }
+          </div>
+        </div>
+        @if (my) {
+          <button class="btn raised blk bkdg" (click)="cancelRoom(r.i)">Отменить бронь</button>
+        } @else {
+          <button class="btn raised blk" (click)="bookRoom(r.i)">Забронировать другое время</button>
+        }
+      </div>
+    }
+    @if (person(); as pp) {
+      @let isMe = pp.p[0] === me[0];
+      <div class="bkpop">
+        <div class="bkpp">
+          <ng-container [ngTemplateOutlet]="av" [ngTemplateOutletContext]="{ $implicit: pp.p }" />
+          <span class="cnm"><b>{{ pp.p[0] }}{{ isMe ? ' (вы)' : '' }}</b><small>{{ pp.p[1] }}</small></span>
+        </div>
+        <div class="bkpi">
+          <span>Подразделение</span><b>{{ pp.p[2] }}</b>
+          @for (r of pp.rows; track r[0]) {
+            <span>{{ r[0] }}</span><b>{{ r[1] }}</b>
+          }
+        </div>
+        <div class="bkpa">
+          <button class="btn pri" (click)="profile()">Открыть профиль</button>
+          @if (!isMe) {
+            <button class="btn raised" (click)="chat(pp.p)">Написать</button>
+          }
+        </div>
+      </div>
+    }
+  </div>
+}

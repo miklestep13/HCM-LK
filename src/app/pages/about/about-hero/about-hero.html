@@ -1,0 +1,10 @@
+<div class="hin">
+  <div class="hlogo">{{ h.logo }}</div>
+  <h1>{{ h.title }}</h1>
+  <p>{{ h.text }}</p>
+  <div class="hstats">
+    @for (s of h.stats; track s.l) {
+      <div><b>{{ s.v }}</b><span>{{ s.l }}</span></div>
+    }
+  </div>
+</div>
