@@ -1,76 +1,86 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, ViewEncapsulation, computed, effect, inject, input, signal, untracked, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, ViewEncapsulation, computed, effect, inject, input, untracked, viewChild } from '@angular/core';
 import { goalLetterCap } from '../../core/demo/goals-store.service';
 import { DevPanelService, devValue } from '../../core/layout/dev-panel/dev-panel.service';
 import { NavService } from '../../core/navigation/nav.service';
-import { GOAL_STAGES, GoalStage } from '../../interface/goal';
+import { GOAL_STAGES } from '../../interface/goal';
 import { attachBusy } from '../../shared/ui/attach/attach';
-import { Icon } from '../../shared/ui/icon/icon';
+import { ConfirmService } from '../../shared/ui/confirm/confirm.service';
 import { PageHead } from '../../shared/ui/page-head/page-head';
 import { ToastService } from '../../shared/ui/toast/toast.service';
-import { MygoalviewEval } from './mygoalview-eval/mygoalview-eval';
 import { MygoalviewHead } from './mygoalview-head/mygoalview-head';
 import { MygoalviewMeas } from './mygoalview-meas/mygoalview-meas';
 import { MygoalviewPpl } from './mygoalview-ppl/mygoalview-ppl';
-import { MygoalviewScale } from './mygoalview-scale/mygoalview-scale';
+import { MygoalviewEval } from './mygoalview-eval/mygoalview-eval';
+import { MygoalviewRates } from './mygoalview-rates/mygoalview-rates';
 import { MygoalviewSelf } from './mygoalview-self/mygoalview-self';
 import { MygoalviewState } from './mygoalview.state';
 
-type MapStage = GoalStage | 'idle';
 
 /**
  * «Цели → Просмотр цели»: шапка цели и блоки по этапу карты.
- * До самооценки — участники и шкала; на самооценке — «Показатель и критерии» с фактическим результатом и блок «Оценка»;
- * после — оценки участников аккордеоном; на оценке заказчиков у качественной цели — своя оценка.
+ * Как форма цели, только просмотр: основные поля, «Показатель и критерии», «Участники»; в период оценки и после — оценки.
+ * Количественная и бинарная — самооценка по результату и оценки участников аккордеоном.
+ * Качественная — таблица оценок (как «Требуемые оценки» в бланке аттестации), под ней — «Ваша оценка» (самооценка или оценка участника).
  * Параметры адреса: gl — цель, mode=edit — открыта на оценку.
  */
 @Component({
   selector: 'app-mygoalview',
-  imports: [PageHead, Icon, MygoalviewHead, MygoalviewPpl, MygoalviewScale, MygoalviewMeas, MygoalviewSelf, MygoalviewEval],
+  imports: [PageHead, MygoalviewHead, MygoalviewPpl, MygoalviewMeas, MygoalviewRates, MygoalviewSelf, MygoalviewEval],
   template: `
     <app-page-head title="Просмотр цели" backTo="mygoals" backLabel="К карте целей">
       @if (canEdit()) {
-        <button class="btn raised gvedit" (click)="edit()">Редактировать</button>
+        <span class="objacts">
+          <button class="btn dng" (click)="remove()">Удалить</button>
+          <button class="btn raised" (click)="edit()">Редактировать</button>
+        </span>
       }
     </app-page-head>
     @if (s.goal(); as g) {
       <div mygoalview-head (open)="openGoal($event)"></div>
+      @let txt = s.F().kind === 'txt';
       @switch (s.mode()) {
         @case ('self') {
           <div mygoalview-meas edit></div>
           <div mygoalview-ppl collapsed count></div>
-          <div mygoalview-self></div>
+          @if (txt) {
+            <div mygoalview-rates></div>
+          }
+          <div mygoalview-self [title]="txt ? 'Ваша оценка' : 'Оценка'"></div>
           <div class="c ipisl">
-            <div class="ipff"><button class="btn raised" (click)="close()">Отменить</button><button class="btn pri" (click)="saveSelf()">Сохранить</button></div>
+            <div class="ipff"><button class="btn pri" (click)="saveSelf()">Сохранить</button></div>
           </div>
         }
         @case ('cust') {
           <div mygoalview-meas></div>
           <div mygoalview-ppl collapsed count></div>
-          <div mygoalview-eval [form]="myForm()"></div>
+          @if (txt) {
+            <div mygoalview-rates></div>
+            @if (myForm()) {
+              <div mygoalview-eval [form]="true" [list]="false"></div>
+            }
+          } @else {
+            <div mygoalview-eval [form]="myForm()"></div>
+          }
           <div class="c ipisl">
             <div class="ipff">
-              <button class="btn raised" (click)="close()">{{ myForm() ? 'Отменить' : 'Закрыть' }}</button>
               @if (myForm()) {
                 <button class="btn pri" (click)="saveCust()">Сохранить</button>
+              } @else {
+                <button class="btn raised" (click)="close()">Закрыть</button>
               }
             </div>
           </div>
         }
         @default {
+          <div mygoalview-meas></div>
           <div mygoalview-ppl [collapsed]="s.mode() === 'res'"></div>
-          <div class="c mb ipsect" [class.ipcold]="scaleCold()" [class.hidden]="s.F().kind === 'str'">
-            <div class="ch">
-              <button class="actb ipcol" [title]="scaleCold() ? 'Развернуть' : 'Свернуть'" (click)="scaleCold.set(!scaleCold())"><app-icon name="chevSm" /></button>
-              <h3>Шкала оценки</h3>
-            </div>
-            <div class="cb"><div mygoalview-scale></div></div>
-          </div>
           @if (s.mode() === 'res') {
-            <div mygoalview-eval></div>
+            @if (txt) {
+              <div mygoalview-rates></div>
+            } @else {
+              <div mygoalview-eval></div>
+            }
           }
-          <div class="c ipisl">
-            <div class="ipff"><button class="btn raised" (click)="close()">Отменить</button></div>
-          </div>
         }
       }
     }
@@ -84,15 +94,16 @@ type MapStage = GoalStage | 'idle';
 export class Mygoalview implements OnDestroy {
   protected readonly s = inject(MygoalviewState);
   private readonly nav = inject(NavService);
-  private readonly toast = inject(ToastService);
   private readonly dev = inject(DevPanelService);
-  private readonly evalB = viewChild(MygoalviewEval);
   /** цель (параметр адреса) */
   readonly gl = input('');
   /** edit — открыта на оценку (карандаш) */
   readonly mode = input('');
-  protected readonly scaleCold = signal(false);
   protected readonly canEdit = computed(() => ['draft', 'appr'].includes(this.s.stage()));
+  private readonly toast = inject(ToastService);
+  private readonly confirm = inject(ConfirmService);
+  private readonly evalB = viewChild(MygoalviewEval);
+  /** своя оценка участника — у качественной цели, открытой на оценку */
   protected readonly myForm = computed(() => this.s.edit() && this.s.F().kind === 'txt');
   private readonly off: (() => void)[] = [];
 
@@ -109,24 +120,25 @@ export class Mygoalview implements OnDestroy {
     effect(() => {
       const st = this.s.stage(), id = this.s.id();
       untracked(() => {
-        if (st !== 'idle') this.s.store.prepare(st);
-        this.scaleCold.set(st === 'self' || ['wait', 'cust', 'fin'].includes(st));
+        this.s.store.prepare(st);
         if (id) this.s.initSelf();
       });
     });
     this.off.push(
       this.dev.register({
         id: 'goalStage',
-        label: 'Этап карты целей',
-        options: [{ value: 'idle', label: 'Ожидание' }, ...GOAL_STAGES.map((x) => ({ value: x.value, label: x.value === 'plan' ? 'Утверждены' : x.label }))],
-        value: devValue<MapStage>(
-          () => this.s.stage(),
-          (v) => {
-            this.s.demo.goalIdle.set(v === 'idle');
-            if (v !== 'idle') this.s.demo.goalStage.set(v as GoalStage);
-          },
-        ),
-      }),
+        label: 'Статус карты целей',
+        options: GOAL_STAGES.map((x) => ({ value: x.value, label: x.label })),
+        value: this.s.demo.goalStatus,
+      }, {
+      id: 'goalRole',
+      label: 'Роль',
+      options: [
+        { value: 'emp', label: 'Сотрудник' },
+        { value: 'mgr', label: 'Руководитель' },
+      ],
+      value: this.s.demo.goalRole,
+    }),
     );
     // демо: та же цель как количественная / качественная / бинарная — в просмотре и результатах
     effect((onCleanup) => {
@@ -152,6 +164,13 @@ export class Mygoalview implements OnDestroy {
   }
   protected edit(): void {
     this.nav.go('mygoalnew', { edit: this.s.id() });
+  }
+  protected async remove(): Promise<void> {
+    const g = this.s.goal()!;
+    if (!(await this.confirm.ask({ title: 'Удалить цель?', text: '«' + g.t + '» будет убрана из карты. Действие нельзя отменить.', ok: 'Удалить', danger: true }))) return;
+    this.s.store.remove(g.id);
+    this.toast.show('Цель удалена', 'Карта обновлена.');
+    this.nav.go('mygoals');
   }
   protected close(): void {
     this.nav.go('mygoals');

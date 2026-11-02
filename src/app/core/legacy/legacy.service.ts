@@ -9,7 +9,7 @@ import { ANGULAR_PAGES } from '../navigation/pages';
  *   Angular → прототип: { type: 'hcm:go', page, attrs }       — открыть страницу прототипа
  *   прототип → Angular: { type: 'hcm:ready' }                  — прототип загрузился
  *                       { type: 'hcm:at', page }               — прототип сам перешел на страницу (синхронизируем адрес)
- *                       { type: 'hcm:nav', page }              — переход на страницу, которая уже есть в Angular
+ *                       { type: 'hcm:nav', page, attrs }       — переход на страницу, которая уже есть в Angular (attrs — параметры адреса)
  * Общие данные (share): к 'hcm:go' добавляется state — данные Angular, которые нужны странице прототипа (например, цели карты),
  * к 'hcm:nav' прототип добавляет state со своими изменениями — Angular забирает их обратно.
  */
@@ -49,7 +49,7 @@ export class LegacyService {
         if ((d.type === 'hcm:nav' || d.type === 'hcm:state') && d.state) this.apply(d.state);
         if (d.type === 'hcm:nav' && d.page) {
           const r = ANGULAR_PAGES[d.page];
-          if (r) this.router.navigateByUrl(r);
+          if (r) this.router.navigateByUrl(this.router.createUrlTree([r], { queryParams: d.attrs || undefined }));
         }
       });
     });

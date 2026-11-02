@@ -6,7 +6,7 @@ import { ConfirmService } from './confirm.service';
   selector: 'app-confirm',
   template: `
     @if (c.current(); as o) {
-      <div class="mdlo" (click)="$event.target === $event.currentTarget && c.close(false)">
+      <div class="mdlo" (click)="$event.target === $event.currentTarget ? c.close(false) : null">
         <div class="mdl">
           <div class="mdlh">
             <b>{{ o.title }}</b>

@@ -32,7 +32,7 @@ const RESP = 'Ответственный за бланк';
       <div class="tw">
         <table class="tbl asttbl afpt">
           <thead>
-            <tr><th>Участник</th><th>Роль</th><th>Дата с</th><th>Дата по</th><th>Статус</th><th></th></tr>
+            <tr><th>Участник</th><th>Роль</th><th>Дата с</th><th>Дата по</th><th>Статус</th><th class="tact"></th></tr>
           </thead>
           <tbody>
             @for (x of rows(); track x.name + x.role) {
@@ -65,7 +65,7 @@ const RESP = 'Ответственный за бланк';
                     <span class="bdg ok">Действует</span>
                   }
                 </td>
-                <td>
+                <td class="tact">
                   <span class="acts">
                     @if (s.canEditPeople() && !off && x.role !== 'Руководитель') {
                       <button class="actb dots afpm" title="Действия" (click)="openMenu(x, $event)"><app-icon name="dots" /></button>

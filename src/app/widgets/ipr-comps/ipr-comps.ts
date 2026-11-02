@@ -6,7 +6,6 @@ import { Chips } from '../../shared/ui/chips/chips';
 import { FilterBar } from '../../shared/ui/filter-bar/filter-bar';
 import { Icon } from '../../shared/ui/icon/icon';
 import { Select } from '../../shared/ui/select/select';
-import { ToastService } from '../../shared/ui/toast/toast.service';
 import { IprLevel } from './ipr-level';
 
 const LV = (n: string) => IPR_LEVELS.indexOf(n);
@@ -32,7 +31,6 @@ const COLS: [string, number | null][] = [
       <span class="chip">{{ comps().length }}</span>
     </div>
     <app-filter-bar placeholder="Поиск по компетенциям" [(query)]="q">
-      <button ftAction class="ib3 ibsq ftset" title="Настройка отображения" (click)="toast.show('Скоро', 'Настройка столбцов таблицы компетенций.')"><app-icon name="sliders" /></button>
       @if (comps().length) {
         <app-chips label="Обязательность" [options]="opts(1)" [(value)]="fo" />
         <app-select label="Компетенция" [options]="opts(0)" allLabel="Все" placeholder="Компетенция" [(value)]="fn" />
@@ -102,7 +100,6 @@ export class IprComps {
   /** «N задач» — показать задачи компетенции */
   readonly tasksOf = output<string>();
 
-  protected readonly toast = inject(ToastService);
   private readonly el = inject(ElementRef<HTMLElement>);
   protected readonly cols = COLS;
   protected readonly pl = iprPl;

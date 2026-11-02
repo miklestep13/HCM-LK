@@ -1,15 +1,13 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject } from '@angular/core';
 import { goalAvgLetter, goalLetterCap } from '../../../core/demo/goals-store.service';
 import { MAP_ME } from '../../../data/goals.data';
-import { shortFio } from '../../../data/org.data';
+import { GOAL_STAGES, goalStatusOf } from '../../../interface/goal';
+import { roleWithGrade } from '../../../data/org.data';
+import { ME, ME_PHOTO } from '../../../data/people.data';
 import { MygoalsState } from '../mygoals.state';
 
-const BADGE: Record<string, [string, string]> = {
-  idle: ['', 'Ожидание'], draft: ['', 'Черновик'], appr: ['warn', 'На согласовании'], plan: ['ok', 'Утверждена'],
-  self: ['warn', 'Самооценка'], wait: ['', 'Отправлено'], cust: ['warn', 'Оценка заказчиков'], fin: ['ok', 'Итог'],
-};
 
-/** Шапка карты (как у ИПР): название периода, этап, должность и руководитель; плитки — период, постановка целей, общий вес, итоговая оценка. */
+/** Шапка карты (как у ИПР): название периода и этап, карточка сотрудника (фото, ФИО, должность с грейдом, «Подразделение: …» — только у руководителя); плитки — период, общий вес, итоговая оценка. */
 @Component({
   selector: '[mygoals-head]',
   template: `
@@ -18,12 +16,14 @@ const BADGE: Record<string, [string, string]> = {
         <h2 class="tkt">{{ per.title }}</h2>
         <span class="gltags iptbdg"><span class="bdg" [class]="badge()[0]">{{ badge()[1] }}</span></span>
       </div>
-      <div class="ipsub">
-        <span>Текущая должность: {{ me.role }} ({{ me.grade }})&nbsp;&nbsp;Подразделение: {{ me.unit }}</span><span>Руководитель: {{ mgr }}</span>
-      </div>
-      <div class="kpis k4 ipkpi glhk">
-        <div class="rst"><div class="l">Период оценки</div><div class="v txt">{{ per.from }} – {{ per.to }}</div></div>
-        <div class="rst"><div class="l">Постановка целей</div><div class="v txt">до {{ per.set }}</div></div>
+      @if (s.demo.goalRole() === 'mgr') {
+        <div class="glemp">
+          <img [src]="photo" alt="" />
+          <span class="cnm"><b>{{ name }}</b><small>{{ role }}</small><small>Подразделение: {{ me.unit }}</small></span>
+        </div>
+      }
+      <div class="kpis k3 ipkpi glhk">
+        <div class="rst"><div class="l">Оцениваемый период</div><div class="v txt">{{ per.from }} – {{ per.to }}</div></div>
         <div class="rst glhw">
           <div class="l">Общий вес</div>
           <div class="v txt">
@@ -32,7 +32,7 @@ const BADGE: Record<string, [string, string]> = {
           </div>
         </div>
         <div class="rst">
-          <div class="l">{{ s.stage() === 'wait' ? 'Итоговая оценка по самооценке' : 'Итоговая оценка' }}</div>
+          <div class="l">Итоговая оценка</div>
           <div class="v txt">
             @if (total(); as t) {
               <span class="glsv glhtot"><span class="clbg" [class]="'g' + t">{{ t }}</span>{{ cap(t) }}</span>
@@ -51,14 +51,20 @@ export class MygoalsHead {
   protected readonly s = inject(MygoalsState);
   protected readonly per = this.s.store.period;
   protected readonly me = MAP_ME;
-  protected readonly mgr = shortFio(MAP_ME.mgr);
+  protected readonly name = ME[0];
+  /** «Старший кредитный специалист» */
+  protected readonly role = roleWithGrade(MAP_ME.role, MAP_ME.grade);
+  protected readonly photo = ME_PHOTO;
   protected readonly cap = goalLetterCap;
-  protected readonly badge = computed(() => BADGE[this.s.stage()]);
-  /** «Отправлено» — итог по самооценке; «Итог» — по итоговым оценкам (средняя с учетом весов) */
+  /** статус карты: заведение целей, утверждено, период оценки, завершена */
+  protected readonly badge = computed(() => {
+    const st = GOAL_STAGES.find((x) => x.value === goalStatusOf(this.s.stage()))!;
+    return [st.tone, st.label];
+  });
+  /** «Итог» — по итоговым оценкам (средняя с учетом весов) */
   protected readonly total = computed(() => {
     const L = this.s.list(), st = this.s.stage();
     if (!L.length) return '';
-    if (st === 'wait' && L.every((g) => g.self)) return goalAvgLetter(L.map((g) => [g.self!.o, +(g.w ?? 0) || 0]));
     if (st === 'fin' && L.every((g) => g.fin?.o)) return goalAvgLetter(L.map((g) => [g.fin!.o, +(g.w ?? 0) || 0]));
     return '';
   });

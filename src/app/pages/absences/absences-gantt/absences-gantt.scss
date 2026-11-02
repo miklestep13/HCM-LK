@@ -1,0 +1,307 @@
+/* «График отсутствий»: шапка с периодом и видом, легенда, диаграмма Ганта */
+.ab-gantt .ablg {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  color: var(--t2);
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--q-content-border-secondary);
+}
+.ab-gantt .ablg span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+/* легенда — везде квадраты */
+.ab-gantt .ablg i {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--abf);
+  box-shadow: inset 0 0 0 1px var(--abo, var(--ab));
+}
+.ab-gantt .ablg i.abplanb {
+  background: repeating-linear-gradient(135deg, var(--q-primary-300) 0 2px, var(--blue-bg) 2px 4px);
+  box-shadow: inset 0 0 0 1px var(--q-primary-500);
+}
+/* сетка: слева сотрудник (закреплен), справа шкала; видно полгода (--k: 2) или две недели (--k: дней / 14), дальше — прокрутка;
+   прокрутка за край переключает год / месяц */
+.ab-gantt .abw {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+.ab-gantt .abg {
+  width: calc(300px + (100% - 300px) * var(--k));
+  min-width: 900px;
+}
+.ab-gantt .abr {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--q-content-border-secondary);
+}
+.ab-gantt .abl {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  flex: 0 0 300px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px 10px 0;
+  background: var(--q-content-background);
+  min-width: 0;
+}
+.ab-gantt .abl .av {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-size: cover;
+}
+.ab-gantt .abl .cnm {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1 1 0;
+}
+.ab-gantt .abl .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ab-gantt .abl .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.ab-gantt .abl .bdg,
+.ab-gantt .abl .actb {
+  flex: none;
+}
+.ab-gantt .abt {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 56px;
+}
+.ab-gantt .abhd .abl {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-base-500);
+}
+.ab-gantt .abhd .abt {
+  min-height: 40px;
+}
+.ab-gantt .abc {
+  font: var(--q-font-ui-headline-4);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--q-base-500);
+  border-left: 1px solid var(--q-content-border-secondary);
+}
+.ab-gantt .abc small {
+  font: var(--q-font-ui-description-1);
+}
+.ab-gantt .abc.we {
+  color: var(--q-base-300);
+}
+.ab-gantt .abc.today {
+  color: var(--dg);
+}
+.ab-gantt .abcl {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid var(--q-content-border-secondary);
+}
+.ab-gantt .abcl.we {
+  background: var(--s1);
+}
+.ab-gantt .abnow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--dg);
+  z-index: 2;
+}
+/* полоса отсутствия */
+.ab-gantt .abb {
+  font: var(--q-font-ui-description-1);
+  position: absolute;
+  top: 12px;
+  height: 32px;
+  min-width: 6px;
+  padding: 0 6px;
+  border: none;
+  border-radius: 8px;
+  background: var(--abf);
+  box-shadow: inset 0 0 0 1px var(--abo, var(--ab));
+  color: var(--abx);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: clip;
+  white-space: nowrap;
+  cursor: pointer;
+  z-index: 1;
+}
+/* подпись длинной полосы не уходит под колонку сотрудников при прокрутке */
+.ab-gantt .abb > span {
+  position: sticky;
+  left: 312px;
+  right: 12px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ab-gantt .abb:hover {
+  box-shadow: inset 0 0 0 1px var(--abo, var(--ab)), 0 0 0 2px var(--abg), 0 0 0 3px var(--ab);
+}
+.ab-gantt .abb.plan {
+  background: repeating-linear-gradient(135deg, var(--abg) 0 6px, var(--q-content-background) 6px 12px);
+  box-shadow: inset 0 0 0 1.5px var(--ab);
+  color: var(--abt);
+}
+.ab-gantt .abb.used {
+  opacity: 0.45;
+}
+.ab-gantt .abb.rej {
+  background: var(--q-content-background);
+  box-shadow: inset 0 0 0 1.5px var(--dg);
+  color: var(--dg);
+  text-decoration: line-through;
+}
+/* группы строк: «Моя команда» (сворачивается, шеврон слева), «Добавленные» */
+.ab-gantt .abgr {
+  font: var(--q-font-ui-headline-4);
+  position: sticky;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 300px;
+  padding: 14px 0 6px;
+  border: none;
+  background: none;
+  color: var(--t1);
+  cursor: pointer;
+  text-align: left;
+}
+.ab-gantt .abgr app-icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+  transform: rotate(-90deg);
+  transition: transform 0.15s;
+}
+.ab-gantt .abgr.on app-icon {
+  transform: none;
+}
+.ab-gantt .abgr.abgs {
+  cursor: default;
+}
+.ab-gantt .abe {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  padding: 12px 0;
+}
+/* «Добавить сотрудника» — под последней строкой */
+.ab-gantt .abadd {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+}
+.ab-gantt .abadd app-icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+}
+/* новая строка: поле выбора сотрудника (как в участниках встречи) */
+.ab-gantt .absel {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 10px 0 12px;
+  border: 1px solid var(--q-input-border);
+  border-radius: 8px;
+  background: var(--q-content-background);
+  cursor: pointer;
+  text-align: left;
+}
+.ab-gantt .absel:hover,
+.ab-gantt .absel.act {
+  border-color: var(--q-input-hover-border);
+}
+.ab-gantt .absel .ph {
+  font: var(--q-font-ui-body-2);
+  flex: 1 1 0;
+  color: var(--q-base-300);
+}
+.ab-gantt .absel app-icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+  color: var(--q-base-500);
+}
+/* выбор периода: список лет; в месяце — год со стрелками и сетка месяцев */
+.ab-gantt .abpk .ami.on {
+  color: var(--blue);
+  background: var(--hv);
+}
+.ab-gantt .abpk:not(.amenu) {
+  width: 240px;
+  padding: 10px;
+}
+.ab-gantt .abpkh {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.ab-gantt .abpkh b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.ab-gantt .abpkg {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+.ab-gantt .abpkg button {
+  font: var(--q-font-ui-body-2);
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--t1);
+  cursor: pointer;
+}
+.ab-gantt .abpkg button:hover {
+  background: var(--hv);
+}
+.ab-gantt .abpkg button.on {
+  background: var(--blue);
+  color: var(--q-content-background);
+}
+/* открытый больничный: полоса до сегодня, правый край штрихованный — дата окончания неизвестна */
+.ab-gantt .abb.open {
+  background:
+    linear-gradient(to right, var(--abf) calc(100% - 12px), transparent 0),
+    repeating-linear-gradient(135deg, var(--abf) 0 3px, var(--abg) 3px 6px);
+}
+/* график сразу под панелью фильтров: зазор 16 дает сама панель */
+.ab-gantt > .cb {
+  padding-top: 0;
+}

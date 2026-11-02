@@ -12,7 +12,7 @@ import { PlanSummary } from '../../../widgets/plan-summary/plan-summary';
 import { NavService } from '../../../core/navigation/nav.service';
 import { DemoState } from '../../../core/demo/demo-state.service';
 import { GOAL_PERIOD, MY_GOALS } from '../../../data/goals.data';
-import { GOAL_STAGES, Grade } from '../../../interface/goal';
+import { GOAL_STAGES, Grade, goalStatusOf } from '../../../interface/goal';
 import { gradeLabel, weightedGrade } from '../../../data/grades';
 
 /**
@@ -34,7 +34,7 @@ export class HomeGoals {
   protected readonly period = GOAL_PERIOD;
   protected readonly goals = MY_GOALS;
   protected readonly stage = computed(() =>
-    GOAL_STAGES.find((s) => s.value === this.demo.goalStage())!,
+    GOAL_STAGES.find((s) => s.value === goalStatusOf(this.demo.goalStage()))!,
   );
   protected readonly isFinal = computed(() => this.demo.goalStage() === 'fin');
   protected readonly finalGrade = computed<Grade>(() =>

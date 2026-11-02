@@ -2,7 +2,7 @@ import { DestroyRef, Directive, ElementRef, afterRenderEffect, inject, input } f
 
 /**
  * Описание в шапке курса / программы (lfClamp прототипа): колонка не выше картинки — лишний текст обрезается по строкам,
- * под ним ссылка «Читать все» / «Свернуть».
+ * под ним ссылка «Показать еще» / «Свернуть». Пересчет — при каждом изменении размера картинки (загрузка, ширина окна).
  *   <div class="abt crsab" [appClamp]="text"></div>  — колонка .crsinfo, картинка — .crsimg img соседней колонки
  */
 @Directive({ selector: '[appClamp]' })
@@ -18,7 +18,29 @@ export class Clamp {
       this.reset();
       requestAnimationFrame(() => this.measure());
     });
-    inject(DestroyRef).onDestroy(() => this.btn?.remove());
+    // пересчет, когда меняется размер картинки: загрузка, ширина окна
+    let t = 0, seen: Element | null = null;
+    const ro = new ResizeObserver(() => {
+      clearTimeout(t);
+      t = window.setTimeout(() => {
+        if (this.ab.classList.contains('open')) return;
+        this.reset();
+        this.measure();
+      }, 50);
+    });
+    afterRenderEffect(() => {
+      this.appClamp();
+      const img = this.img();
+      if (img && img !== seen) {
+        if (seen) ro.unobserve(seen);
+        ro.observe(img);
+        seen = img;
+      }
+    });
+    inject(DestroyRef).onDestroy(() => {
+      this.btn?.remove();
+      ro.disconnect();
+    });
   }
 
   private reset(): void {
@@ -27,9 +49,12 @@ export class Clamp {
     this.btn?.remove();
     this.btn = null;
   }
+  private img(): Element | null {
+    return this.ab.closest('.crsinfo')?.parentElement?.querySelector('.crsimg img, .crsimg>svg') ?? null;
+  }
   private measure(): void {
-    const ab = this.ab, info = ab.closest('.crsinfo') as HTMLElement | null, img = info?.parentElement?.querySelector('.crsimg img, .crsimg>svg');
-    if (!info || !img) return;
+    const ab = this.ab, info = ab.closest('.crsinfo') as HTMLElement | null, img = this.img();
+    if (!info || !img || !img.getBoundingClientRect().height) return;
     const lh = parseFloat(getComputedStyle(ab).lineHeight) || 22, over = info.scrollHeight - img.getBoundingClientRect().height;
     if (over <= 1) return;
     const avail = Math.floor((ab.clientHeight - over - 28) / lh) * lh;
@@ -38,7 +63,7 @@ export class Clamp {
     ab.style.maxHeight = avail + 'px';
     const b = document.createElement('button');
     b.className = 'lnk crsmore';
-    b.textContent = 'Читать все';
+    b.textContent = 'Показать еще';
     ab.insertAdjacentElement('afterend', b);
     this.btn = b;
     let bt = b.nextElementSibling as HTMLElement | null;
@@ -50,7 +75,7 @@ export class Clamp {
     b.onclick = () => {
       const op = ab.classList.toggle('open');
       ab.style.maxHeight = op ? '' : avail + 'px';
-      b.textContent = op ? 'Свернуть' : 'Читать все';
+      b.textContent = op ? 'Свернуть' : 'Показать еще';
       b.style.marginTop = op ? '' : mt;
     };
   }

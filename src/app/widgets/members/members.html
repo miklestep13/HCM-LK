@@ -1,0 +1,242 @@
+@if (toolbar()) {
+  <div class="mbbar" [class.c]="!flat()">
+    <app-filter-bar placeholder="Поиск по участникам" [(query)]="q">
+      @if (view() === 'both') {
+        <app-view-switch ftAction [(value)]="mode" />
+      }
+      @if (adding()) {
+        <button ftAction class="btn pri" (click)="edit() === 'inline' ? addRow() : openAdd()">Добавить</button>
+      }
+      <app-select label="Должность" allLabel="Все должности" [search]="true" [options]="posOpts()" [(value)]="fPos" />
+      @if (depOpts().length) {
+        <app-select label="Подразделение" allLabel="Все подразделения" [search]="true" [options]="depOpts()" [(value)]="fDep" />
+      }
+      @if (has('role')) {
+        <app-select label="Роль" allLabel="Все роли" [options]="roleOpts()" [(value)]="fRole" />
+      }
+    </app-filter-bar>
+  </div>
+}
+
+@if (mode() === 'cards') {
+  <div class="mbgrid" [class.mbed]="edit() === 'inline'">
+    @for (r of rows(); track r.i) {
+      @let m = r.m;
+      <div class="c mbc" [class.lock]="m.lock" [class.act]="edit() !== 'inline' && !m.lock" tabindex="0" (click)="click(m, r.i)" (keydown.enter)="click(m, r.i)">
+        @if (edit() === 'inline' && !m.lock) {
+          <ng-container *ngTemplateOutlet="who; context: { m, i: r.i }" />
+        } @else {
+          @if (has('av')) {
+            <span class="av mbav" [class]="av(m)"></span>
+          }
+          <div class="i">
+            <div class="nm">{{ m.n }}</div>
+            @if (has('pos')) {
+              <div class="rl">{{ sub()(m) }}</div>
+            }
+            @if (has('role') && badge(m)) {
+              <div class="gltags">
+                <span class="bdg" [class]="tone(m)">{{ badge(m) }}</span>
+              </div>
+            }
+          </div>
+        }
+        @if (edit() === 'inline' && !m.lock) {
+          <div class="mbcf">
+            @if (has('role')) {
+              <ng-container *ngTemplateOutlet="role; context: { m, i: r.i }" />
+            }
+            @if (has('w')) {
+              <ng-container *ngTemplateOutlet="wt; context: { m, i: r.i }" />
+            }
+            <ng-container *ngTemplateOutlet="del; context: { i: r.i }" />
+          </div>
+        } @else if (has('w') && !m.lock && !noW(m)) {
+          <span class="mbw">{{ m.w }}%</span>
+        }
+        @if (edit() === 'drawer' && !m.lock) {
+          <span class="mbacts"><ng-container *ngTemplateOutlet="ed; context: { m, i: r.i }" /><ng-container *ngTemplateOutlet="del; context: { i: r.i }" /></span>
+        }
+      </div>
+    } @empty {
+      <ng-container *ngTemplateOutlet="none" />
+    }
+  </div>
+} @else {
+  <div class="mbt" [class.c]="toolbar() && !flat()" [style.--mbcols]="cols()">
+    <div class="mbth">
+      <span>Участник</span>
+      @if (has('role')) {
+        <span>Роль</span>
+      }
+      @if (has('w')) {
+        <span>Вес</span>
+      }
+      @if (edit() !== 'none') {
+        <span></span>
+      }
+    </div>
+    @for (r of paged(); track r.i) {
+      @let m = r.m;
+      <div class="mbtr" [class.lock]="m.lock" [class.act]="edit() !== 'inline' && !m.lock" (click)="click(m, r.i)">
+        @if (edit() === 'inline' && !m.lock) {
+          <ng-container *ngTemplateOutlet="who; context: { m, i: r.i }" />
+        } @else {
+          <span class="mbwho">
+            @if (has('av')) {
+              <span class="av" [class]="av(m)"></span>
+            }
+            <span class="cnm"
+              ><b [title]="m.n">{{ m.n }}</b>
+              @if (has('pos')) {
+                <small>{{ sub()(m) }}</small>
+              }
+            </span>
+          </span>
+        }
+        @if (has('role')) {
+          @if (edit() === 'inline' && !m.lock) {
+            <ng-container *ngTemplateOutlet="role; context: { m, i: r.i }" />
+          } @else {
+            <span class="mbrl">
+              @if (dot()) {
+                <i class="mbdot" [style.background]="dotOf(m, r.i)"></i>
+              }
+              @if (dot() || !badge(m)) {
+                {{ m.role || plainRole() }}
+              } @else {
+                <span class="bdg" [class]="tone(m)">{{ badge(m) }}</span>
+              }
+            </span>
+          }
+        }
+        @if (has('w')) {
+          @if (edit() === 'inline' && !m.lock) {
+            <ng-container *ngTemplateOutlet="wt; context: { m, i: r.i }" />
+          } @else {
+            <span class="gr mbnw">{{ m.lock || noW(m) ? '—' : m.w + '%' }}</span>
+          }
+        }
+        @if (edit() !== 'none') {
+          <div class="mbact">
+            @if (!m.lock) {
+              @if (edit() === 'drawer') {
+                <ng-container *ngTemplateOutlet="ed; context: { m, i: r.i }" />
+              }
+              <ng-container *ngTemplateOutlet="del; context: { i: r.i }" />
+            }
+          </div>
+        }
+      </div>
+    } @empty {
+      <ng-container *ngTemplateOutlet="none" />
+    }
+  </div>
+  <!-- постраничный вывод: pageSize > 0 -->
+  @if (pageSize() && tableRows().length > pageSize()) {
+    <div class="mbpg">
+      <small>{{ pageFrom() + 1 }}–{{ pageFrom() + paged().length }} из {{ tableRows().length }}</small>
+      <span class="mbpgn">
+        <button class="mbpgb" title="Предыдущая страница" [disabled]="!page()" (click)="page.set(page() - 1)"><app-icon name="pgPrev" /></button>
+        @for (p of pages(); track p) {
+          <button class="mbpgb" [class.on]="p === page()" (click)="page.set(p)">{{ p + 1 }}</button>
+        }
+        <button class="mbpgb" title="Следующая страница" [disabled]="page() >= pages().length - 1" (click)="page.set(page() + 1)"><app-icon name="pgNext" /></button>
+      </span>
+    </div>
+  }
+}
+
+<ng-template #none>
+  <div class="mbe" [class.c]="toolbar() && !flat()">{{ empty() }}</div>
+</ng-template>
+
+<ng-template #who let-m="m" let-i="i">
+  <button class="mbsel" aria-label="Участник" [class.act]="pick()?.i === i" (click)="openPick($event, i)">
+    @if (m.n) {
+      <span class="fsv mbv"
+        ><span class="av" [class]="av(m)"></span><span class="cnm"><b [title]="m.n">{{ m.n }}</b><small>{{ sub()(m) }}</small></span></span
+      >
+    } @else {
+      <span class="fsv ph">Выберите сотрудника или команду</span>
+    }
+    <app-icon name="chevDown" />
+  </button>
+</ng-template>
+<ng-template #role let-m="m" let-i="i">
+  <span class="mbrl" (click)="$event.stopPropagation()">
+    @if (dot()) {
+      <i class="mbdot" [style.background]="dotOf(m, i)"></i>
+    }
+    <app-select class="mbrs" [options]="roles()" [value]="m.role || plainRole() || roles()[0]" (valueChange)="patch(i, { role: $event })" />
+  </span>
+</ng-template>
+<ng-template #wt let-m="m" let-i="i">
+  <div class="mbwt" (click)="$event.stopPropagation()">
+    <input class="fin" inputmode="numeric" aria-label="Вес, %" [value]="m.w ?? ''" (input)="setW(i, $event)" /><span>%</span>
+  </div>
+</ng-template>
+<ng-template #ed let-m="m" let-i="i">
+  <button class="actb" title="Редактировать" aria-label="Редактировать участника" (click)="$event.stopPropagation(); click(m, i)"><app-icon name="edit" /></button>
+</ng-template>
+<ng-template #del let-i="i">
+  <button class="actb dg" title="Убрать участника" aria-label="Убрать участника" (click)="$event.stopPropagation(); remove(i)"><app-icon name="trashSm" /></button>
+</ng-template>
+
+@if (pick(); as k) {
+  <div class="fpop selpop cupop mbpick" [appFloat]="k.el" [style.width.px]="k.w" (click)="$event.stopPropagation()">
+    <input class="fin fsq" [placeholder]="pkinds().length ? 'Поиск по ФИО, подразделению или команде' : 'Поиск по ФИО или должности'" [value]="pq()" (input)="pq.set($any($event.target).value)" />
+    @if (pkinds().length) {
+      <div class="mbpk" role="tablist">
+        @for (t of pkinds(); track t[0]) {
+          <button role="tab" [class.on]="pkind() === t[0]" [attr.aria-selected]="pkind() === t[0]" (click)="pkind.set(t[0])">{{ t[1] }}</button>
+        }
+      </div>
+    }
+    <div class="folist cul">
+      @for (x of found(); track x.n) {
+        <button class="mbko" [class.on]="x.n === people()[k.i]?.n" (click)="choose(x)">
+          <span class="av" [class]="av(x)"></span><span class="cnm"><b>{{ x.n }}</b><small>{{ x.pos }}</small></span>
+          @if (x.n === people()[k.i]?.n) {
+            <app-icon name="checkSm" />
+          }
+        </button>
+      } @empty {
+        <div class="foe">Ничего не нашли. Проверьте написание.</div>
+      }
+    </div>
+  </div>
+}
+
+<app-drawer
+  [title]="drw() === 'add' ? addTitle() : 'Участник'"
+  [okLabel]="drw() === 'add' ? 'Добавить' : 'Сохранить'"
+  [open]="dOpen()"
+  (openChange)="setDrw($event)"
+  (ok)="save()"
+>
+  <div class="bkf mbdf">
+    @if (dCur(); as m) {
+      <div class="mbwho mbdh">
+        <span class="av" [class]="av(m)"></span><span class="cnm"><b>{{ m.n }}</b><small>{{ sub()(m) }}</small></span>
+      </div>
+    } @else {
+      <app-field label="Сотрудники" required [filled]="!!dNames().length">
+        <app-emp-pick placeholder="Начните вводить ФИО" [people]="free()" [(value)]="dNames" />
+      </app-field>
+    }
+    @if (has('role')) {
+      <app-field label="Роль" required [filled]="!!dRole()">
+        <app-select [options]="roles()" [(value)]="dRole" />
+      </app-field>
+    }
+    @if (has('w')) {
+      <app-field label="Вес, %" [filled]="!!dW()">
+        <input class="fin" inputmode="numeric" [value]="dW()" (input)="dW.set($any($event.target).value)" />
+      </app-field>
+    }
+    @if (dErr()) {
+      <div class="pqerr">{{ dErr() }}</div>
+    }
+  </div>
+</app-drawer>

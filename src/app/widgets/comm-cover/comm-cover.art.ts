@@ -144,3 +144,13 @@ export function commCover(
     '</svg>'
   );
 }
+
+/** обложка по категории как картинка (data URL) — для превью в форме, где ждут ссылку на изображение */
+export function commCoverUrl(c: Pick<Community, 'id' | 'cat'>, v: 'card' | 'wide' | 'post' = 'wide'): string {
+  // в картинке переменные CSS не работают — подставляем текущие значения токенов
+  const css = getComputedStyle(document.documentElement);
+  const svg = commCover(c, v)
+    .replace(/var\((--[\w-]+)\)/g, (_, k) => css.getPropertyValue(k).trim() || '#fff')
+    .replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ');
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}

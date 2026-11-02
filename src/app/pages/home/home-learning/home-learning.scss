@@ -237,3 +237,9 @@
 .hm-learning .crs:hover .tt {
   color: var(--q-primary-500);
 }
+
+/* иконка рядом с серым текстом — 14px */
+.hm-learning .crs .meta svg {
+  width: 14px;
+  height: 14px;
+}

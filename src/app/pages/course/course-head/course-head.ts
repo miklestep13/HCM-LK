@@ -31,16 +31,8 @@ import { LearnActionButton } from '../../../widgets/learn-action/learn-action';
           @if (ev()) {
             <span><app-icon name="calendar" />{{ evDate() }}</span><span><app-icon name="clock" />{{ dur() }}</span><i class="brk"></i>
             <span>
-              @if (place()) {
-                <app-icon name="pin" />{{ place() }}
-              } @else {
-                <app-icon name="video" />
-                @if (st() === 'Вы записаны') {
-                  <a class="evlnk" href="#" (click)="$event.preventDefault(); $event.stopPropagation(); toast.show('Трансляция', 'Ссылка на трансляцию откроется в новой вкладке.')">Онлайн</a>
-                } @else {
-                  Онлайн
-                }
-              }
+              <!-- место проведения: адрес или «Онлайн» — иконка местоположения, серым 12px -->
+              <app-icon name="pin" />{{ place() || 'Онлайн' }}
             </span>
           } @else {
             @if (crs().d !== '—') {
@@ -59,7 +51,9 @@ import { LearnActionButton } from '../../../widgets/learn-action/learn-action';
             <button class="npb" title="Нравится" (click)="toast.show('Готово', 'Отзыв учтен.')"><app-icon name="thumbUp" /><span>{{ info().l }}</span></button>
             <button class="npb" title="Не нравится" (click)="toast.show('Готово', 'Отзыв учтен.')"><app-icon name="thumbDown" /><span>{{ info().dis }}</span></button>
             <span class="npb st" title="Прошли курс"><app-icon name="userXs2" /><span>{{ info().ps ?? info().l * 6 + 40 }}</span></span>
-            <button class="npb" title="В избранное" (click)="toast.show('Готово', 'Курс добавлен в избранное.')"><app-icon name="bookmark" /></button>
+            @if (showFav) {
+              <button class="npb" title="В избранное" (click)="toast.show('Готово', 'Курс добавлен в избранное.')"><app-icon name="bookmark" /></button>
+            }
           </div>
         </div>
       </div>
@@ -71,6 +65,8 @@ import { LearnActionButton } from '../../../widgets/learn-action/learn-action';
 export class CourseHead {
   protected readonly store = inject(LearnStore);
   protected readonly toast = inject(ToastService);
+  /** «В избранное» (закладка) — пока скрыта */
+  protected readonly showFav = false;
   readonly id = input.required<string>();
   /** мероприятие */
   readonly ev = input(false);

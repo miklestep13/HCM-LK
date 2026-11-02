@@ -336,6 +336,13 @@ export const orgPath = (id: string): string[] => {
   return out;
 };
 /** «Смирнова Виктория Олеговна» → «Смирнова В. О.» */
+/**
+ * Должность с грейдом одной строкой: грейд + должность со строчной буквы.
+ * «Старший» + «Кредитный специалист» → «Старший кредитный специалист»; аббревиатуры (HR-…) не меняются.
+ */
+export const roleWithGrade = (role: string, grade?: string): string =>
+  grade ? grade + ' ' + (/^.[А-ЯЁA-Z]/.test(role) ? role : role.charAt(0).toLowerCase() + role.slice(1)) : role;
+
 export const shortFio = (n: string): string => {
   const p = n.split(' ');
   return (

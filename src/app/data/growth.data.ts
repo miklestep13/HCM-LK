@@ -1,3 +1,4 @@
+import { A360_COMPS } from './a360.data';
 import { Growth360Row, GrowthComp, GrowthGrade, GrowthStage, GrowthStat } from '../interface/growth';
 
 /* «Развитие» сотрудника: рейтинг 9-box, оценка 360, компетенции по профилю должности (из прототипа, #pg-growth) */
@@ -12,7 +13,7 @@ export const GROWTH_STAGES: { value: GrowthStage; label: string }[] = [
   { value: 'done', label: 'Итог' },
 ];
 /** этап карты целей → этап цикла оценки */
-export const GROWTH_BY_GOAL_STAGE: Record<string, GrowthStage> = { draft: 'plan', appr: 'plan', plan: 'plan', self: 'self', wait: 'wait', meet: 'wait', done: 'done' };
+export const GROWTH_BY_GOAL_STAGE: Record<string, GrowthStage> = { draft: 'plan', appr: 'plan', plan: 'plan', self: 'self', cust: 'self', wait: 'wait', meet: 'wait', done: 'done' };
 
 export const GROWTH_RATING = {
   /** позиция в 9-box (0–8, слева направо, сверху вниз) */
@@ -36,16 +37,10 @@ export const GROWTH_360_SOURCES: [string, string][] = [
   ['Самооценка', 'var(--q-primary-500)'],
   ['Руководитель', 'var(--q-badge-turquoise-color)'],
   ['Коллеги', 'var(--q-warning-500)'],
-  ['Эксперты', 'var(--q-error-500)'],
+  ['Подчиненные', 'var(--q-error-500)'],
 ];
-export const GROWTH_360: Growth360Row[] = [
-  { name: 'Кредитный анализ и оценка рисков', v: [72, 78, 75, 74] },
-  { name: 'Знание кредитных продуктов банка', v: [80, 82, 79, 81] },
-  { name: 'Использование AI-ассистентов', v: [70, 76, 78, 74] },
-  { name: 'Управление сроками и приоритетами', v: [74, 57, 60, 58] },
-  { name: 'Наставничество', v: [62, 70, 72, 68] },
-  { name: 'Работа с возражениями клиента', v: [66, 64, 63, 65] },
-];
+/** компетенции радара — те же, что в таблице «Оценка по каждой компетенции» */
+export const GROWTH_360: Growth360Row[] = A360_COMPS.map((c) => ({ name: c.name, v: c.v }));
 export const GROWTH_360_INFO = { avg: '3,0', respondents: 14, delta: '+0,2 к прошлому циклу', answered: 9 };
 
 export const GROWTH_LEVELS = ['', 'Специалист', 'Старший', 'Ведущий', 'Лидер'];

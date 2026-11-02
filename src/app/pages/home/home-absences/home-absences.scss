@@ -1,0 +1,97 @@
+/* Мои отсутствия: доступно дней, слайдер ближайших отпусков и отгулов, «Запросить» */
+.hm-absences .abh {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+.hm-absences .abh .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+.hm-absences .abnav {
+  display: flex;
+  gap: 4px;
+}
+.hm-absences .abnav .actb:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.hm-absences .abs {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 8px;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--s1);
+  border-left: 3px solid var(--q-primary-500);
+}
+.hm-absences .abs.off {
+  border-left-color: var(--q-warning-500);
+}
+.hm-absences .abi {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.hm-absences .abs.off .abi {
+  background: var(--q-warning-50);
+  color: var(--q-warning-700);
+}
+.hm-absences .abi app-icon,
+.hm-absences .abi svg {
+  display: flex;
+  width: 16px;
+  height: 16px;
+}
+.hm-absences .abt {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.hm-absences .abt b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.hm-absences .abt small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.hm-absences .abt .bdg {
+  align-self: flex-start;
+  margin-top: 6px;
+}
+.hm-absences .abdots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 10px 0 16px;
+}
+.hm-absences .abdots button {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--q-base-100);
+  cursor: pointer;
+}
+.hm-absences .abdots button.on {
+  width: 16px;
+  border-radius: 3px;
+  background: var(--q-primary-500);
+}
+
+/* «Редактировать» — справа вверху карточки */
+.hm-absences .abs .abed {
+  flex: none;
+  margin: -4px -4px 0 0;
+}

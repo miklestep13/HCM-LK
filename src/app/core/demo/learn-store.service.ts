@@ -350,7 +350,7 @@ export class LearnStore {
     if (st === 'Проведен') return LEARN_EVENTS[id]?.rec ? { kind: 'btn', act: 'rec', label: 'Смотреть запись', raised: true } : null;
     if (st === 'Регистрация закрыта' || LEARN_EV_CLOSED[id]) return { kind: 'note', label: 'Регистрация недоступна', tip: 'Обратитесь к администратору', lock: true };
     if (st === 'Мест нет') return { kind: 'note', label: 'Регистрация закрыта', tip: 'Мест нет — запись закрыта', lock: true };
-    return { kind: 'btn', act: 'reg', label: 'Подать заявку' };
+    return { kind: 'btn', act: 'reg', label: 'Принять участие' };
   }
 
   /** свободная запись на курс: карточка — первой в «Моем обучении» */

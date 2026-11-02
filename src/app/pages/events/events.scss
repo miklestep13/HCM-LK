@@ -1,0 +1,45 @@
+/* Мероприятия: сетка карточек как в «Моем обучении»; карточка — widgets/learn-card */
+.pg-events .pf-top .evadd {
+  margin-left: auto;
+}
+.pg-events .vgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0px, 1fr));
+  gap: 16px;
+}
+@media (max-width: 1200px) {
+  .pg-events .vgrid {
+    grid-template-columns: repeat(3, minmax(0px, 1fr));
+  }
+}
+@media (max-width: 900px) {
+  .pg-events .vgrid {
+    grid-template-columns: repeat(2, minmax(0px, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .pg-events .vgrid {
+    grid-template-columns: 1fr;
+  }
+}
+/* чипсы статусов — обычным шрифтом */
+.pg-events .ftbar .fchip {
+  font: var(--q-font-ui-body-2);
+}
+/* админ: вместо кнопки участия — «Редактировать» и «Удалить» друг под другом */
+.pg-events .evadm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+}
+.pg-events .evadm .btn {
+  width: 100%;
+}
+.pg-events .evempty {
+  grid-column: 1 / -1;
+  padding: 24px;
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+/* «Удалить» у админа — приглушенный красный (светлый фон, темно-красный текст) */

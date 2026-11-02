@@ -357,6 +357,10 @@
 .pg-mygoalnew.pg-mygoalnew .frm.glf3 > .fld.hidden {
   display: none;
 }
+/* «Показатель и критерии»: тип и единица, план и факт — по половине строки */
+.pg-mygoalnew.pg-mygoalnew .frm.glf3.glf2 {
+  grid-template-columns: repeat(2, minmax(0px, 1fr));
+}
 @media (max-width: 1024px) {
 .pg-mygoalnew.pg-mygoalnew .frm.glf3 {
   grid-template-columns: 1fr;
@@ -1117,4 +1121,9 @@
   height: 16px;
   flex: 0 0 auto;
   color: var(--q-primary-500);
+}
+
+/* подписи пустых полей формы цели — 14px */
+.pg-mygoalnew .fld.flt:not(.on) > .flab {
+  font: var(--q-font-ui-body-2);
 }

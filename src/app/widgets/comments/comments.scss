@@ -124,3 +124,35 @@
 .w-comments {
   display: block;
 }
+
+/* ответы на комментарии: под комментарием с отступом, поле ответа — там же */
+.w-comments .cmt.cmrp {
+  margin-left: 48px;
+  padding-top: 12px;
+}
+.w-comments .cmt.cmrp > .av,
+.w-comments .cmrf > .av {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.w-comments .cmto {
+  color: var(--blue);
+}
+.w-comments .cmrf {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-left: 48px;
+  padding: 12px 0 16px;
+  border-bottom: 1px solid var(--stroke);
+}
+.w-comments .cmrf .cmrfa {
+  justify-content: flex-end;
+}
+
+/* поле комментария и ответа — 14px (текст и подсказка) */
+.w-comments :is(.cform, .cmrf) .fta,
+.w-comments :is(.cform, .cmrf) .fta::placeholder {
+  font: var(--q-font-ui-body-2);
+}

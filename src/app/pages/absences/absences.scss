@@ -1,0 +1,421 @@
+/* «График отсутствий» */
+/* цвета видов отсутствий: --ab — акцент (рамка, полоса карточки), --abf / --abx — заливка полосы и текст на ней,
+   --abg / --abt — фон и текст плана (штриховка), --abo — обводка полосы и квадрата легенды (по умолчанию --ab). Главные (отпуск, отгул, больничный) — яркие, командировка и учебный — светлые,
+   отпуск по уходу за ребенком — самый бледный */
+.pg-absences .ab-vac {
+  --ab: var(--q-primary-500);
+  --abf: var(--q-primary-500);
+  --abx: var(--q-content-background);
+  --abt: var(--q-primary-700);
+  --abg: var(--blue-bg);
+}
+.pg-absences .ab-add {
+  --ab: var(--q-primary-300);
+  --abf: var(--q-primary-300);
+  --abx: var(--q-content-background);
+  --abt: var(--q-primary-700);
+  --abg: var(--blue-bg);
+}
+.pg-absences .ab-unp {
+  --ab: var(--q-primary-300);
+  --abf: var(--q-primary-100);
+  --abx: var(--q-primary-700);
+  --abt: var(--q-primary-700);
+  --abg: var(--blue-bg);
+  --abo: var(--q-primary-100);
+}
+.pg-absences .ab-off {
+  --ab: var(--q-warning-500);
+  --abf: var(--q-warning-500);
+  --abx: var(--q-content-background);
+  --abt: var(--q-warning-700);
+  --abg: var(--q-warning-50);
+}
+.pg-absences .ab-sick {
+  --ab: var(--q-error-500);
+  --abf: var(--q-error-500);
+  --abx: var(--q-content-background);
+  --abt: var(--q-error-700);
+  --abg: var(--q-error-50);
+}
+.pg-absences .ab-trip {
+  --ab: var(--q-badge-turquoise-dot);
+  --abf: var(--q-badge-turquoise-bg);
+  /* залита цветом, без обводки */
+  --abo: var(--q-badge-turquoise-bg);
+  --abx: var(--q-badge-turquoise-color);
+  --abt: var(--q-badge-turquoise-color);
+  --abg: var(--q-badge-turquoise-bg);
+}
+.pg-absences .ab-study {
+  --ab: var(--q-success-300);
+  --abf: var(--q-success-100);
+  --abx: var(--q-success-700);
+  --abt: var(--q-success-700);
+  --abg: var(--q-success-50);
+}
+.pg-absences .ab-mat {
+  --ab: var(--q-base-100);
+  --abf: var(--q-base-50);
+  --abx: var(--q-base-500);
+  --abt: var(--q-base-500);
+  --abg: var(--q-base-50);
+}
+
+/* статистика: плитки как на обзоре; полоса использованного отпуска */
+.pg-absences .abst {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 20px;
+}
+/* плитки одной высоты, содержимое — по верхнему краю */
+.pg-absences .abst .stc {
+  padding: 12px 16px;
+}
+.pg-absences .abst .bar {
+  margin-top: 8px;
+}
+/* плитки — шрифты как на обзоре */
+.pg-absences .abst .stc .l {
+  font: var(--q-font-ui-description-1);
+}
+.pg-absences .abst .stc .v {
+  font: var(--q-font-ui-headline-4);
+}
+.pg-absences .abst .stc .v small {
+  font: var(--q-font-ui-body-2);
+}
+/* баннер планирования: прогресс «Запланировано N из 28 дней» — подпись и значение над полосой, полоса на белой дорожке */
+/* текст, под ним прогресс; кнопка справа */
+.pg-absences .abbnr {
+  padding: 14px 16px;
+}
+.pg-absences .abbnr > .btn {
+  flex: none;
+}
+.pg-absences .abbnr .abbi {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/* заголовок и срок — двумя строками */
+.pg-absences .abbnr .t small {
+  font: var(--q-font-ui-body-2);
+  display: block;
+  margin-top: 2px;
+}
+.pg-absences .abbnr .abbp {
+  max-width: 480px;
+}
+.pg-absences .abbnr .pr {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.pg-absences .abbnr .pr .l {
+  color: var(--t2);
+}
+.pg-absences .abbnr .pr .v {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-absences .abbnr .bar {
+  margin-top: 4px;
+  background: var(--q-content-background);
+}
+@media (max-width: 700px) {
+  .pg-absences .abst {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* просмотр отсутствия: поля «подпись — значение», как в просмотре задачи; подпись 12px, значение 14px */
+.pg-absences .abv {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.pg-absences .abv .abwho {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pg-absences .abv .abwho .av {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-size: cover;
+}
+.pg-absences .abv .cnm {
+  display: flex;
+  flex-direction: column;
+}
+.pg-absences .abv .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-absences .abv .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-absences .abvf {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.pg-absences .abvf > .l {
+  font: var(--q-font-ui-description-1);
+  display: block;
+  margin-bottom: 4px;
+  color: var(--t3);
+}
+.pg-absences .abvf .abwho {
+  margin-top: 4px;
+}
+.pg-absences .abvf .abwho .av.sm {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+.pg-absences .abvf > .bdg {
+  display: inline-flex;
+}
+.pg-absences .abvf > app-attach {
+  display: block;
+  margin-top: 6px;
+}
+.pg-absences .abhint {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin: 0;
+}
+.pg-absences .abpf {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.pg-absences .abpf .full {
+  grid-column: 1 / -1;
+}
+/* «Оформить ▾» */
+.pg-absences .abaddb {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-absences .abaddb app-icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+  transition: transform 0.15s;
+}
+.pg-absences .abaddb.on app-icon {
+  transform: rotate(180deg);
+}
+/* заявка: число дней под календарями, «за свой счет», «нужна гостиница» */
+.pg-absences .abdays {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin-top: -6px;
+}
+.pg-absences .abdays span {
+  color: var(--t3);
+}
+.pg-absences .abunp {
+  align-items: center;
+  gap: 8px;
+}
+.pg-absences .abunp span {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.pg-absences .abhot {
+  align-self: center;
+}
+/* заявка: подписи пустых полей — 14px, по центру поля высотой 52 (строка 18) */
+.pg-absences .abpf .fld.flt:not(.on) > .flab {
+  font: var(--q-font-ui-body-2);
+  top: 17px;
+}
+/* заявка: подпись блока, баланс отгулов, пояснения (больничный — желтое, рекомендация по отпуску — голубое), основание */
+.pg-absences .ablbl {
+  font: var(--q-font-ui-description-1);
+  display: block;
+  margin-bottom: 8px;
+  color: var(--t3);
+}
+.pg-absences .abbal {
+  font: var(--q-font-ui-body-2);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.pg-absences .abbal span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--s1);
+  color: var(--t3);
+}
+.pg-absences .abbal b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-absences .abbal b.dgt {
+  color: var(--dg);
+}
+.pg-absences .abnote {
+  font: var(--q-font-ui-body-2);
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+/* сайдбары страницы: меньше отступ после заголовка */
+.pg-absences .drw .drwb {
+  padding-top: 0;
+}
+.pg-absences .abnote.inf {
+  background: var(--blue-bg);
+  color: var(--t1);
+}
+/* заявка: заместитель — поле выбора сотрудника (фото, ФИО, должность) */
+.pg-absences .abdep .absel {
+  width: 100%;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--q-input-border);
+  border-radius: 8px;
+  background: var(--q-content-background);
+  cursor: pointer;
+  text-align: left;
+}
+.pg-absences .abdep .absel:hover,
+.pg-absences .abdep .absel.act {
+  border-color: var(--q-input-hover-border);
+}
+.pg-absences .abdep .absel .ph {
+  font: var(--q-font-ui-body-2);
+  flex: 1 1 0;
+  color: var(--t3);
+}
+.pg-absences .abdep .absel .av {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-size: cover;
+}
+.pg-absences .abdep .absel .cnm {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.pg-absences .abdep .absel .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-absences .abdep .absel .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-absences .abdep .absel app-icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+  margin-left: auto;
+  color: var(--q-base-500);
+}
+/* заявка: время командировки — поле со списком, как в форме мероприятия */
+.pg-absences .abtm {
+  position: relative;
+  width: 100%;
+}
+.pg-absences .fld.flt > .abtm > .fin {
+  width: 100%;
+  font: var(--q-font-ui-body-1);
+  height: 52px;
+  padding-right: 36px;
+}
+.pg-absences .fld.flt.on > .abtm > .fin {
+  padding-top: 20px;
+}
+.pg-absences .abtm > app-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  margin-top: -8px;
+  display: flex;
+  width: 16px;
+  height: 16px;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+}
+/* работа в выходной день: выходные периода — переключатели-плитки */
+.pg-absences .abwed {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pg-absences .abwd {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 96px;
+  padding: 8px 12px;
+  border: 1px solid var(--q-input-border);
+  border-radius: 8px;
+  background: var(--q-content-background);
+  cursor: pointer;
+  text-align: left;
+}
+.pg-absences .abwd b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-absences .abwd small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-absences .abwd:hover {
+  border-color: var(--q-input-hover-border);
+}
+.pg-absences .abwd.on {
+  border-color: var(--blue);
+  background: var(--blue-bg);
+}
+.pg-absences .abwd.on b {
+  color: var(--blue);
+}
+.pg-absences .abwh {
+  font: var(--q-font-ui-description-1);
+  display: block;
+  margin-top: 8px;
+  color: var(--t3);
+}
+/* учебный отпуск: переключатель «Неоплачиваемый» */
+.pg-absences .abswt span {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+/* основание обязательно (донорство) */
+.pg-absences .ablbl .abreq {
+  font-style: normal;
+  margin-left: 4px;
+  color: var(--dg);
+}
+.pg-absences .aberr .dropz {
+  border-color: var(--dg);
+}

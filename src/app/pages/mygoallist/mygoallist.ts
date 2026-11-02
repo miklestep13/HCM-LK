@@ -19,13 +19,25 @@ import { MygoallistTable } from './mygoallist-table/mygoallist-table';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Mygoallist implements OnDestroy {
-  /** этап карты целей: от него зависят статус и действия моих текущих целей */
-  private readonly unregister = inject(DevPanelService).register({
-    id: 'goalStage',
-    label: 'Этап карты целей',
-    options: GOAL_STAGES.map((s) => ({ value: s.value, label: s.label })),
-    value: inject(DemoState).goalStage,
-  });
+  private readonly demo = inject(DemoState);
+  /** статус карты целей и роль: от них зависят статус и действия моих текущих целей */
+  private readonly unregister = inject(DevPanelService).register(
+    {
+      id: 'goalStage',
+      label: 'Статус карты целей',
+      options: GOAL_STAGES.map((s) => ({ value: s.value, label: s.label })),
+      value: this.demo.goalStatus,
+    },
+    {
+      id: 'goalRole',
+      label: 'Роль',
+      options: [
+        { value: 'emp', label: 'Сотрудник' },
+        { value: 'mgr', label: 'Руководитель' },
+      ],
+      value: this.demo.goalRole,
+    },
+  );
   ngOnDestroy(): void {
     this.unregister();
   }

@@ -30,14 +30,27 @@ export class MytasksState {
   readonly opened = signal(false);
   readonly sort = signal<{ k: string; dir: number }>({ k: 'due', dir: 1 });
   readonly view = signal<ViewMode>(this.load());
+  /** открытое небольшое задание — панель справа от списка (разделенный экран) */
+  readonly quick = signal<string | null>(null);
+  toggleQuick(id: string): void {
+    this.quick.set(this.quick() === id ? null : id);
+  }
 
   /** активные задания (без выполненных и отклоненных) */
   readonly active = MY_TASKS.filter((t) => !TASK_FINAL.includes(t.status));
+  /** статусы, измененные быстрыми действиями (выполнить, отложить, делегировать) — до перезагрузки */
+  readonly stOver = signal<Record<string, string>>({});
+  setStatus(id: string, st: string): void {
+    this.stOver.update((o) => ({ ...o, [id]: st }));
+  }
   readonly authors = [...new Set(MY_TASKS.map((t) => t.author))].sort();
   readonly rows = computed(() => {
     const q = this.q().trim().toLowerCase(), a = this.author(), st = this.status(), due = this.due();
     const f = TASK_SORT_KEYS[this.sort().k], dir = this.sort().dir;
+    const O = this.stOver();
     return this.active
+      .map((t) => (O[t.id] ? { ...t, status: O[t.id] } : t))
+      .filter((t) => !TASK_FINAL.includes(t.status))
       .filter((t) => (!st || t.status === st) && (!a || t.author === a) && inRange(due, t.due) && (!q || t.title.toLowerCase().includes(q)))
       .sort((x, y) => (f(x) < f(y) ? -dir : f(x) > f(y) ? dir : 0));
   });

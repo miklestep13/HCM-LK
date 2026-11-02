@@ -94,7 +94,7 @@ export class IprStore {
   /** компетенции черновика (в черновике список пуст, пока их не добавят или не свяжут с задачей) */
   readonly draftComps = signal<IprComp[]>([]);
   /** кто смотрит план на аттестации */
-  readonly arole = signal<'mgr' | 'emp'>('mgr');
+  readonly arole = signal<'mgr' | 'emp'>('emp');
   /** оценки задач на аттестации: индекс задачи → оценка */
   readonly att = signal<Record<number, IprRate>>({});
   /** комментарии к задачам на аттестации */
@@ -109,7 +109,7 @@ export class IprStore {
   /** статус для отображения («Создание» ведет себя как черновик) */
   readonly st = computed<IprStatus>(() => (this.creating() ? 'Черновик' : this.status()));
   readonly demoStatus = computed<IprDemoStatus>(() => (this.none() ? 'none' : this.nf() ? 'new' : this.status()));
-  readonly editable = computed(() => this.st() === 'Черновик' || this.st() === 'Утверждено');
+  readonly editable = computed(() => this.st() === 'Черновик');
   readonly comps = computed(() => {
     const raw = this.status() === 'Черновик' || this.creating() ? this.draftComps() : this.plan().comps;
     return this.fill() === 'nocomps' ? raw : iprCompsWithTasks(raw, this.plan().tasks);
@@ -120,10 +120,15 @@ export class IprStore {
     return T.length ? Math.round((this.doneN() / T.length) * 100) : 0;
   });
   readonly over = computed(
-    () => (this.st() === 'Утверждено' || this.st() === 'В работе') && this.plan().tasks.some((t) => !t.done && dNum(t.due) < dNum(IPR_TODAY)),
+    () => this.st() === 'Утверждено' && this.plan().tasks.some((t) => !t.done && dNum(t.due) < dNum(IPR_TODAY)),
   );
   readonly attN = computed(() => this.plan().tasks.filter((_, i) => this.att()[i]).length);
   readonly isMgr = computed(() => this.arole() === 'mgr');
+  /** итог плана при завершении — по выполненным задачам */
+  finishResult(): IprStatus {
+    const n = this.doneN(), all = this.plan().tasks.length;
+    return n && n === all ? 'Выполнено' : n ? 'Выполнено частично' : 'Не выполнено';
+  }
   /** предварительный итог аттестации по оценкам задач */
   readonly attResult = computed<IprStatus>(() => {
     const v = this.plan().tasks.map((_, i) => this.att()[i]);

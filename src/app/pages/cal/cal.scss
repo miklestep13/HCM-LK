@@ -2,57 +2,9 @@
 .pg-cal .ftrow.hidden {
   display: none;
 }
-.pg-cal .tbar .ib3 {
-  height: 36px;
-}
-.pg-cal .tbar .btn {
-  height: 36px;
-  display: inline-flex;
-  align-items: center;
-  padding: 0px 14px;
-}
-.pg-cal .ctnav svg {
-  width: 15px;
-  height: 15px;
-}
-.pg-cal .ctnav .nx svg {
-  transform: rotate(180deg);
-}
 .pg-cal .calmain {
   min-width: 0px;
   overflow: hidden;
-}
-.pg-cal .calbar {
-  gap: 8px;
-}
-.pg-cal .ctnav {
-  display: flex;
-  gap: 4px;
-}
-.pg-cal .callbl {
-  font: var(--q-font-ui-button-l);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 36px;
-  padding: 0px 10px;
-  border-width: medium;
-  border-style: none;
-  border-color: currentcolor;
-  border-image: none;
-  border-radius: 8px;
-  background: none;
-  color: var(--black);
-  white-space: nowrap;
-  cursor: pointer;
-}
-.pg-cal .callbl:hover {
-  background: var(--s1);
-}
-.pg-cal .callbl svg {
-  width: 16px;
-  height: 16px;
-  color: var(--q-page-text-ui);
 }
 .pg-cal .calhdr {
   display: flex;

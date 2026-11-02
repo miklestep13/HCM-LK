@@ -14,7 +14,7 @@ import { COIN_SVG, fmt } from '../../../data/shop.data';
       <b>{{ bal() }}</b><span style="display: contents" [innerHTML]="coin"></span>
     </button>
     @if (cart()) {
-      <button class="btn raised cartb" (click)="router.navigateByUrl('/shop/cart')">
+      <button class="btn pri cartb" (click)="router.navigateByUrl('/shop/cart')">
         <svg viewBox="0 0 20 20" fill="none"><path d="M3 4h2.2l1.8 9.2a1.6 1.6 0 0 0 1.6 1.3h6.2a1.6 1.6 0 0 0 1.6-1.3L17.6 7H6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /><circle cx="9" cy="17" r="1.2" fill="currentColor" /><circle cx="15" cy="17" r="1.2" fill="currentColor" /></svg>Корзина<span class="cartn" [class.hidden]="!shop.count()">{{ shop.count() }}</span>
       </button>
     }

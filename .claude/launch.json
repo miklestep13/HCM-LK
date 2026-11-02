@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "hcm-ui",
+      "runtimeExecutable": "/Users/mihailstepanov/.nvm/versions/node/v22.13.1/bin/node",
+      "runtimeArgs": ["node_modules/@angular/cli/bin/ng.js", "serve"],
+      "port": 4200,
+      "autoPort": false
+    }
+  ]
+}

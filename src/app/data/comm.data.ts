@@ -1,4 +1,7 @@
-import { CommCat, Community } from '../interface/comm';
+import { CommCat, CommFeed, CommMeet, CommPost, Community } from '../interface/comm';
+import { Member } from '../interface/member';
+import { GOAL_PEOPLE } from './goals.data';
+import { ME, PEOPLE, pplList } from './people.data';
 
 export const COMM_CATS: Record<CommCat, string> = {
   prof: 'Профессиональные',
@@ -213,3 +216,78 @@ export const COMMUNITIES: Community[] = [
 /** сообщества, которыми управляет пользователь в роли «Админ сообщества» */
 export const COMM_MY_ADMIN = ['games'];
 export const COMM_SORTS = ['Сначала новые', 'Сначала старые', 'По числу участников', 'По названию'];
+
+/** Роли участника сообщества: «Участник» — по умолчанию (серый бейдж), «Лидер сообщества» — голубой бейдж */
+export const COMM_ROLE_MEMBER = 'Участник';
+export const COMM_ROLE_ADMIN = 'Лидер сообщества';
+export const COMM_ROLES = [COMM_ROLE_MEMBER, COMM_ROLE_ADMIN];
+/** цвет бейджа роли: лидер — голубой, остальные — серые */
+export const COMM_ROLE_TONE: Record<string, string> = { [COMM_ROLE_ADMIN]: 'info' };
+/** порядковые номера участников-администраторов в списке (0 — куратор) */
+const COMM_ADMIN_AT = [0, 5, 11];
+
+/** кого можно пригласить в сообщество: сотрудники из демо-списков, кроме текущего пользователя */
+export const COMM_POOL: Member[] = [
+  ...PEOPLE.map((p) => ({ n: p[0], pos: p[1], dep: p[2], av: p[3] })),
+  ...GOAL_PEOPLE.filter((g) => g.n !== ME[0] && !PEOPLE.some((p) => p[0] === g.n)).map((g) => ({ n: g.n, pos: g.pos, av: g.av })),
+];
+
+/** участники (cmMembers прототипа): до 18 человек, начиная с куратора (остальных можно пригласить); несколько — администраторы */
+export function commMembers(c: Community): Member[] {
+  return pplList(Math.min(c.members, 18), c.curator).map((p, i) => ({
+    n: p[0],
+    pos: p[1],
+    dep: p[2],
+    av: p[3],
+    role: COMM_ADMIN_AT.includes(i) ? COMM_ROLE_ADMIN : COMM_ROLE_MEMBER,
+  }));
+}
+
+/** лента (cmPosts прототипа): добавленные новости сверху, удаленные скрыты, отредактированные — с правками */
+export function commPosts(c: Community, f: CommFeed = {}): CommPost[] {
+  const M = pplList(Math.min(c.members, 24), c.curator), a = (k: number) => M[k % M.length];
+  const P: CommPost[] = [];
+  const ev = c.event;
+  if (ev)
+    P.push({ key: 'g0', au: a(0), t: 'Анонс: ' + ev.title, d: 'Вчера 16:20', lk: 18, cm: 7, img: 1, tags: ['анонс', 'встреча'], vw: 0,
+      x: 'Встречаемся ' + ev.day + ' ' + ev.mon + ' (' + ev.when.toLowerCase() + '). Место: ' + ev.place + '. Отметьтесь в комментариях, если придете, — так проще подготовиться.' });
+  P.push({ key: 'g1', au: a(1), t: 'Как прошла прошлая встреча', d: '05.09.2026 11:40', lk: 34, cm: 12, tags: ['встреча', 'итоги'], vw: 0,
+    x: 'Спасибо всем, кто пришел! Собралось ' + Math.round(c.members * 0.3) + ' человек — рекорд этого сезона. Фото и материалы уже в канале ' + c.channel + '.' });
+  P.push({ key: 'g2', au: a(2), t: 'Добро пожаловать новым участникам', d: '28.08.2026 09:15', lk: 21, cm: 3, tags: ['участники', 'новички'], vw: 0,
+    x: 'За август к нам присоединились ' + (4 + (c.members % 9)) + ' коллег. Познакомьтесь с коллегами во вкладке «Участники», а вопросы о встречах задавайте администраторам сообщества.' });
+  P.forEach((p) => (p.vw = p.lk * 7 + p.cm * 3 + c.members));
+  return (f.posts || []).concat(P).filter((x) => !(f.pdel || {})[x.key]).map((x) => ({ ...x, ...(f.pedit || {})[x.key] }));
+}
+
+const MLEN: Record<string, number> = { янв: 31, фев: 28, мар: 31, апр: 30, май: 31, июн: 30, июл: 31, авг: 31, сен: 30, окт: 31, ноя: 30, дек: 31 };
+const MONS = Object.keys(MLEN);
+/** месяцы «янв» … «дек» — порядок для сортировки встреч */
+export const COMM_MONTHS = MONS;
+/** мероприятия (cmEvents прототипа): ближайшее из данных + две регулярные встречи через неделю и через две */
+export function commMeets(c: Community): CommMeet[] {
+  const ev = c.event;
+  if (!ev) return [];
+  const shift = (k: number): [string, string] => {
+    let d = +ev.day + k, m = MONS.indexOf(ev.mon);
+    while (d > MLEN[MONS[m]]) { d -= MLEN[MONS[m]]; m = (m + 1) % 12; }
+    return [String(d), MONS[m]];
+  };
+  return [
+    [ev.day, ev.mon, ev.when, ev.title, ev.place, Math.round(c.members * 0.3)],
+    [...shift(7), ev.when, 'Открытая встреча для новичков', ev.place, Math.round(c.members * 0.2)],
+    [...shift(14), ev.when, 'Итоги месяца и планы', c.place, Math.round(c.members * 0.15)],
+  ];
+}
+
+/** дни рождения участников (cmBirthdays прототипа) */
+export function commBirthdays(c: Community): { p: Member; when: string }[] {
+  const M = commMembers(c);
+  return ([[3, 'Сегодня'], [6, 'Завтра'], [9, '12 октября']] as [number, string][])
+    .map(([k, when]) => ({ p: M[k % M.length], when }))
+    .filter((x, i, a) => a.findIndex((y) => y.p.n === x.p.n) === i);
+}
+
+/** оценки: [лайки, дизлайки] с учетом голоса пользователя (1 / -1 / 0) */
+export const commRate = (c: Community, my = 0): [number, number] => [Math.round(c.members * 0.45) + (my === 1 ? 1 : 0), (c.members % 4) + (my === -1 ? 1 : 0)];
+
+export const COMM_NEWS_SORTS = ['Сначала новые', 'Сначала старые', 'По просмотрам', 'По лайкам'];

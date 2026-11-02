@@ -1,7 +1,16 @@
 @let p = post();
 <div class="npau">
-  <span class="npav">{{ ava }}</span>
-  <span class="i"><b>{{ author }}</b><time>{{ p.date }} {{ p.time }}</time></span>
+  @if (by(); as b) {
+    @if (b.photo) {
+      <img class="npavp" [src]="b.photo" alt="" />
+    } @else {
+      <span class="av npavp" [class]="b.av"></span>
+    }
+    <span class="i"><b>{{ b.name }}</b><time>{{ p.date }} {{ p.time }}</time></span>
+  } @else {
+    <span class="npav">{{ ava }}</span>
+    <span class="i"><b>{{ author }}</b><time>{{ p.date }} {{ p.time }}</time></span>
+  }
   @if (admin()) {
     <button class="actb dots cmpk nwadm" title="Действия" (click)="more($event)">
       <svg viewBox="0 0 16 16" fill="none"><circle cx="3.4" cy="8" r="1.5" fill="currentColor" /><circle cx="8" cy="8" r="1.5" fill="currentColor" /><circle cx="12.6" cy="8" r="1.5" fill="currentColor" /></svg>
@@ -21,6 +30,7 @@
 @if (p.img) {
   <div class="npimg"><img [src]="p.img" alt="" /></div>
 }
+<ng-content select="[npCover]" />
 @if (compact()) {
   <h4 class="npt">{{ p.title }}</h4>
 } @else {

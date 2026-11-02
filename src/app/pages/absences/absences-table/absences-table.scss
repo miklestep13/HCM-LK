@@ -1,0 +1,145 @@
+/* Таблица заявок «Графика отсутствий» */
+.ab-table {
+  display: block;
+}
+.ab-table .abtbl {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+}
+.ab-table .abtbl th,
+.ab-table .abtbl td {
+  padding: 12px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--q-content-border-secondary);
+}
+.ab-table .abtbl th {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-base-500);
+  white-space: nowrap;
+}
+.ab-table .abtbl td {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.ab-table .abtbl :is(th, td):first-child {
+  padding-left: 0;
+}
+.ab-table .abtbl.adm :is(th, td).abtch {
+  padding-left: 4px;
+}
+.ab-table .abtbl .nw {
+  white-space: nowrap;
+}
+.ab-table .abtr {
+  cursor: pointer;
+}
+.ab-table .abtr:hover td {
+  background: var(--hv);
+}
+/* вид отсутствия: квадрат цвета, как в легенде */
+.ab-table .abtk {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.ab-table .abtk i {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--abf);
+  box-shadow: inset 0 0 0 1px var(--abo, var(--ab));
+}
+/* администратор: строка сотрудника, шеврон слева */
+.ab-table .abtch {
+  width: 40px;
+  padding-right: 0;
+}
+.ab-table .abtchv {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--q-base-500);
+  cursor: pointer;
+}
+.ab-table .abtchv:hover {
+  background: var(--s1);
+}
+.ab-table .abtchv app-icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+  transform: rotate(-90deg);
+  transition: transform 0.15s;
+}
+.ab-table .abtchv.on app-icon {
+  transform: none;
+}
+.ab-table .abtg td {
+  background: var(--s1);
+}
+.ab-table .abtp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ab-table .abtp .av {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-size: cover;
+}
+.ab-table .abtp .cnm {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.ab-table .abtp .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.ab-table .abtp .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.ab-table .abtcnt,
+.ab-table .abtno {
+  color: var(--t3);
+}
+/* новая строка: поле выбора сотрудника */
+.ab-table .absel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 420px;
+  height: 40px;
+  padding: 0 10px 0 12px;
+  border: 1px solid var(--q-input-border);
+  border-radius: 8px;
+  background: var(--q-content-background);
+  cursor: pointer;
+  text-align: left;
+}
+.ab-table .absel:hover {
+  border-color: var(--q-input-hover-border);
+}
+.ab-table .absel .ph {
+  font: var(--q-font-ui-body-2);
+  flex: 1 1 0;
+  color: var(--q-base-300);
+}
+.ab-table .absel app-icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+  color: var(--q-base-500);
+}

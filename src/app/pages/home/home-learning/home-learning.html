@@ -15,10 +15,10 @@
           </div>
           <div class="meta">@for (m of c.meta; track $index) {<span [class.od]="m.danger"><app-icon [name]="m.icon || 'calendar'" />{{ m.text }}</span>}</div>
           @if (c.place) {
-            <div class="meta evpl"><span><app-icon [name]="c.online ? 'video' : 'pin'" />@if (c.link) {<a class="evlnk" href="#" (click)="link($event)">{{ c.place }}</a>} @else {{{ c.place }}}</span></div>
+            <div class="meta evpl"><span><app-icon name="pin" />{{ c.place }}</span></div>
           }
           @if (c.progress; as p) {
-            <div class="hmpr"><div class="pr"><span class="l">{{ p.label }}</span><span class="v">{{ p.value }}</span></div><div class="bar" [class.dg]="p.tone==='dg'" [class.ok]="p.tone==='ok'"><i [style.width.%]="p.percent"></i></div></div>
+            <div class="hmpr"><div class="pr"><span class="l">{{ p.label }}</span><span class="v">{{ p.value }}</span></div><div class="bar" [class.dg]="p.tone==='dg'" [class.ok]="p.tone==='ok' || (p.tone!=='dg' && p.percent >= 100)" [class.warn]="p.tone!=='dg' && p.tone!=='ok' && p.percent < 100"><i [style.width.%]="p.percent"></i></div></div>
           }
         </div>
       </div>

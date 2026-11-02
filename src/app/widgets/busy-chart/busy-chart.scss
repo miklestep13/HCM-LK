@@ -1,0 +1,275 @@
+/* Занятость участников на шкале дня (как в сайдбаре встречи календаря) */
+/* как таблица участников: без внешней рамки, строки разделены линиями, шапка — серым */
+.w-busy .bcw {
+  display: grid;
+  grid-template-columns: 560px minmax(0, 1fr);
+}
+/* отступ до шкалы — внутри левой колонки, чтобы линии строк шли без разрыва */
+.w-busy .bcn > :is(.bch, .bcr) {
+  padding-right: 16px;
+}
+.w-busy .bch {
+  font: var(--q-font-ui-headline-4);
+  height: 34px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--q-content-border-secondary);
+  color: var(--q-base-500);
+}
+.w-busy .bcr {
+  font: var(--q-font-ui-body-2);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border-bottom: 1px solid var(--q-content-border-secondary);
+  color: var(--t1);
+  box-sizing: border-box;
+}
+.w-busy .bcr > .actb {
+  flex: none;
+}
+.w-busy .bcg {
+  position: relative;
+  overflow: auto hidden;
+}
+/* шкала на всю ширину: 12 часов по 1/12, линия между часами; уже 600px — прокрутка */
+.w-busy .bct {
+  position: relative;
+  height: 100%;
+  min-height: 100%;
+  min-width: 600px;
+  background: linear-gradient(to right, transparent calc(100% - 1px), var(--s2) 0) 0 0 / calc(100% / 12) 100%;
+}
+.w-busy .bct > span {
+  font: var(--q-font-ui-headline-4);
+  position: absolute;
+  top: 0;
+  height: 34px;
+  width: calc(100% / 12);
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  color: var(--q-base-500);
+  border-bottom: 1px solid var(--q-content-border-secondary);
+}
+.w-busy .bcl {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 60px;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--q-content-border-secondary);
+}
+.w-busy .bcbz {
+  position: absolute;
+  top: 14px;
+  height: 32px;
+  border-radius: 6px;
+  background: var(--q-error-300);
+}
+.w-busy .bcbz.all {
+  background: repeating-linear-gradient(135deg, var(--q-error-100) 0 6px, var(--q-error-50) 6px 12px);
+}
+.w-busy .bcbz.mb {
+  background: repeating-linear-gradient(135deg, var(--q-error-100) 0 6px, var(--q-content-background) 6px 12px);
+  box-shadow: inset 0 0 0 1px var(--q-error-300);
+}
+.w-busy .bcband {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--q-primary-transparent-100);
+  box-shadow: inset 0 0 0 2px var(--q-primary-transparent-500);
+  border-radius: 6px;
+  z-index: 2;
+  pointer-events: none;
+}
+.w-busy .bchit {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  z-index: 3;
+}
+.w-busy .bcwarn {
+  font: var(--q-font-ui-body-2);
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--q-warning-50);
+  color: var(--q-warning-700);
+}
+.w-busy .bcok {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  color: var(--q-success-700);
+}
+.w-busy .bcok svg {
+  width: 14px;
+  height: 14px;
+}
+@media (max-width: 700px) {
+  .w-busy .bcw {
+    grid-template-columns: 420px minmax(0, 1fr);
+  }
+}
+
+/* «Добавить» — справа в шапке */
+.w-busy > .ch .bcadd {
+  margin-left: auto;
+}
+.w-busy .bcadd app-icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+}
+.w-busy .bcr.bcem {
+  color: var(--t3);
+}
+
+/* строка участника: поле выбора (как в таблице участников) — фото, ФИО, должность или состав группы */
+.w-busy .bcsel,
+.w-busy .bcwho {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 10px 0 8px;
+  border-radius: 8px;
+  text-align: left;
+  color: var(--q-content-text);
+}
+.w-busy .bcsel {
+  border: 1px solid var(--q-input-border);
+  background: var(--q-content-background);
+  cursor: pointer;
+}
+.w-busy .bcsel:hover,
+.w-busy .bcsel.act {
+  border-color: var(--q-input-hover-border);
+}
+.w-busy .bcwho {
+  border: 1px solid transparent;
+}
+.w-busy .bcsel > app-icon {
+  flex: none;
+  margin-left: auto;
+  color: var(--q-base-500);
+}
+.w-busy .bcsel .ph {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-base-300);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.w-busy :is(.bcsel, .bcwho) .av {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+.w-busy :is(.bcsel, .bcwho) .cnm {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1 1 0;
+}
+.w-busy :is(.bcsel, .bcwho) .cnm b {
+  font: var(--q-font-ui-headline-4);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.w-busy :is(.bcsel, .bcwho) .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.w-busy .bcr.cf .cnm b {
+  color: var(--dg);
+}
+
+/* колонка «Роль»: список, у организатора (вы) — текст; под корзину — место той же ширины */
+.w-busy .bch .bchn {
+  flex: 1 1 0;
+  /* «Участник» — по левому краю фото: рамка поля 1px + отступ 8px */
+  padding-left: 9px;
+}
+.w-busy .bch .bchr {
+  width: 168px;
+  margin-right: 34px;
+  /* текст «Роль», роль организатора и значение в списке — с одной линии: рамка 1px + отступ 12px */
+  padding-left: 13px;
+  box-sizing: border-box;
+}
+.w-busy .bcrl {
+  flex: none;
+  width: 168px;
+}
+.w-busy .bcrl .fsel {
+  width: 100%;
+  height: 36px;
+  min-height: 36px;
+  padding: 0 10px 0 12px;
+  border: 1px solid var(--q-input-border);
+  border-radius: 8px;
+  background: var(--q-content-background);
+}
+.w-busy .bcrl .fsel:hover {
+  border-color: var(--q-input-hover-border);
+}
+.w-busy .bcrl .fsel .fsv {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+  flex: 1 1 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.w-busy .bcrl .fsel svg {
+  width: 14px;
+  height: 14px;
+  color: var(--q-base-500);
+  flex: none;
+}
+.w-busy .bcrlt {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+  padding-left: 13px;
+  box-sizing: border-box;
+}
+.w-busy .bctr {
+  flex: none;
+  width: 28px;
+}
+
+/* день на шкале: стрелки и дата над шкалой */
+.w-busy .bcday {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.w-busy .bcday b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  min-width: 180px;
+  text-align: center;
+}
+.w-busy .bcday .bcback {
+  font: var(--q-font-ui-link-2);
+  margin-left: 8px;
+}

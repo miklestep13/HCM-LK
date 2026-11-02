@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, ViewEncapsulation, inject, signal } from '@angular/core';
 import { CAL_MONTHS_GEN, CAL_WD } from '../../data/cal.data';
+import { NavService } from '../../core/navigation/nav.service';
 import { CalEvent } from '../../interface/cal';
 import { FilterBar } from '../../shared/ui/filter-bar/filter-bar';
 import { Float } from '../../shared/ui/float/float';
@@ -15,8 +16,8 @@ import { CAL_TODAY, cAdd, cHM, cWd } from './cal.utils';
 const STATUSES: [string, string][] = [['yes', 'Принято'], ['maybe', 'Под вопросом'], ['none', 'Нет ответа'], ['no', 'Отклонено']];
 
 /**
- * «Мой кабинет → Встречи»: поиск встречи (подсказки), фильтр по ответу, панель периода и вида, сетка дня / недели или месяц.
- * Клик по встрече — карточка встречи; по пустому месту или «Добавить встречу» — форма встречи.
+ * «Мой кабинет → Календарь → Мой календарь»: поиск встречи (подсказки), фильтр по ответу, панель периода и вида, сетка дня / недели или месяц.
+ * Клик по встрече — карточка встречи; по пустому месту — форма встречи; «Добавить встречу» — форма мероприятия с типом «Встреча».
  */
 @Component({
   selector: 'app-cal',
@@ -30,6 +31,7 @@ const STATUSES: [string, string][] = [['yes', 'Принято'], ['maybe', 'По
 export class Cal {
   protected readonly s = inject(CalState);
   private readonly el: HTMLElement = inject(ElementRef).nativeElement;
+  private readonly nav = inject(NavService);
   protected readonly statuses = STATUSES;
   protected readonly q = signal('');
   protected readonly pop = signal<{ ev: CalEvent; d: Date; el: HTMLElement } | null>(null);
@@ -49,6 +51,10 @@ export class Cal {
   protected create(p?: { d: Date; s: number }): void {
     this.pop.set(null);
     this.s.form.set(p ? { d: p.d, s: p.s } : {});
+  }
+  /** «Добавить встречу» — форма мероприятия с типом «Встреча» (возврат — в календарь) */
+  protected addMeeting(): void {
+    this.nav.go('eventnew', { type: 'Встреча', from: 'cal' });
   }
   closeFloats(): void {
     this.pop.set(null);

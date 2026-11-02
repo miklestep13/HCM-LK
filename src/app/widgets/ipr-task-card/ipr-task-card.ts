@@ -15,7 +15,7 @@ export interface IprTaskAct {
 
 /**
  * Карточка задачи ИПР (страница «ИПР», ИПР по итогам аттестации): стрелка раскрытия, название и статус,
- * ожидаемый результат; в раскрытой — материалы и компетенции; мета-строка; действия справа по статусу плана.
+ * бейджи «Выполнено» / «Не выполнено» и «Просрочено» (только если срок прошел), ожидаемый результат; в раскрытой — материалы и компетенции; мета-строка; действия справа по статусу плана.
  */
 @Component({
   selector: '[ipr-task-card]',
@@ -27,7 +27,10 @@ export interface IprTaskAct {
       <div class="iprn">
         {{ t.t }}
         @if (showStatus()) {
-          <span class="bdg" [class]="st() === 'Выполнено' ? 'ok' : st() === 'В работе' ? 'warn' : 'dg'">{{ st() }}</span>
+          <span class="bdg" [class.ok]="t.done">{{ t.done ? 'Выполнено' : 'Не выполнено' }}</span>
+          @if (over()) {
+            <span class="bdg dg">Просрочено</span>
+          }
         }
       </div>
       <div class="iprd ipkres"><span class="l">Ожидаемый результат</span>{{ t.res }}</div>
@@ -61,15 +64,8 @@ export interface IprTaskAct {
         @if (run() && t.crs && !t.done) {
           <span>Обучение · закроется после прохождения курса</span>
         }
-        <span class="ipmc">
-          @if (mats().length) {
-            <app-icon name="clip" />{{ mats().length }} {{ pl(mats().length, 'материал', 'материала', 'материалов') }}
-          } @else {
-            Без материалов
-          }
-        </span>
-        @if (t.moved) {
-          <span class="ipmx"><app-icon name="refresh" />срок переносился</span>
+        @if (mats().length) {
+          <span class="ipmc"><app-icon name="clip" />{{ mats().length }} {{ pl(mats().length, 'материал', 'материала', 'материалов') }}</span>
         }
         @if (t.comps.length) {
           <span class="ipmc"><app-icon name="docLines" />{{ t.comps.length }} {{ pl(t.comps.length, 'компетенция', 'компетенции', 'компетенций') }}</span>
@@ -136,7 +132,7 @@ export class IprTaskCard {
   protected readonly st = computed(() => iprTaskSt(this.task()));
   protected readonly over = computed(() => !this.task().done && this.st() !== 'В работе');
   protected readonly showStatus = computed(() => !['Черновик', 'Предложено'].includes(this.status()));
-  protected readonly run = computed(() => this.status() === 'В работе');
+  protected readonly run = computed(() => this.status() === 'Утверждено');
   protected readonly rateInfo = computed(() => IPR_RATES.find((r) => r.k === this.rate()));
   protected readonly mats = computed(() => {
     const t = this.task();

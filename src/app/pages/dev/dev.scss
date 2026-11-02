@@ -1,16 +1,4 @@
-/* Обучение (стили из прототипа) */
-.pg-dev .vimg .bdgs {
-  position: absolute;
-  top: 30px;
-  right: 30px;
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-.pg-dev .vimg .bdgs .bdg {
-  margin: 0px;
-  position: static;
-}
+/* Обучение (стили из прототипа); карточка «Моего обучения» — widgets/learn-card */
 .pg-dev .vgrid,
 .pg-dev .cgrid {
   display: grid;
@@ -81,27 +69,6 @@
 .pg-dev .ftrow.hidden {
   display: none;
 }
-.pg-dev .vcard .cbody {
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 0%;
-}
-.pg-dev .vimg {
-  position: relative;
-  padding: 20px 20px 0px;
-}
-.pg-dev .vimg img {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  display: block;
-  border-radius: 10px;
-}
-.pg-dev .vmeta.row {
-  flex-flow: wrap;
-  gap: 14px;
-}
 .pg-dev .ccard.cw {
   display: flex;
   flex-direction: column;
@@ -138,52 +105,6 @@
 .pg-dev .cact .btn {
   width: 100%;
 }
-.pg-dev .vcard {
-  background: var(--q-content-background);
-  border-radius: 12px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid transparent;
-  transition: border-color 0.15s, transform 0.15s;
-}
-.pg-dev .vb {
-  padding: 16px 20px 0px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex: 1 1 0%;
-}
-.pg-dev .vt {
-  font: var(--q-font-ui-headline-4);
-  color: var(--black);
-}
-.pg-dev .vmeta {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.pg-dev .vmeta span {
-  font: var(--q-font-ui-description-1);
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  color: var(--grey);
-}
-.pg-dev .vmeta svg {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-}
-.pg-dev .vact {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 20px;
-}
-.pg-dev .vact .btn {
-  width: 100%;
-}
 .pg-dev .ctabs {
   display: flex;
   gap: 4px;
@@ -216,10 +137,6 @@
 .pg-dev .pf-top > .btn {
   margin-left: auto;
 }
-.pg-dev .vcard:hover :is(.nm, .it, .tt, .vt, .iprn, .npt, .cmtt, .mlt, .rpt b, .cc2 > b, .pn3, .glgn, .nt, .t) {
-  color: var(--blue);
-  transition: color 0.15s;
-}
 :is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar {
   padding: 16px 24px;
 }
@@ -230,7 +147,7 @@
   padding-bottom: 16px;
 }
 :is(.pg:not(.pg-home):not(.pg-company)) .c > .ctabs {
-  padding: 24px 24px 0px;
+  padding: 12px 24px 0px;
 }
 .pg-dev .lfnote {
   font: var(--q-font-ui-body-2);
@@ -244,9 +161,6 @@
   width: 16px;
   height: 16px;
   flex-shrink: 0;
-}
-.pg-dev .vmeta span.od {
-  color: var(--dg);
 }
 .pg-dev .ccard .cc2 > .cbdg2 {
   position: absolute;
@@ -274,23 +188,6 @@
   color: var(--ok);
   box-shadow: none;
 }
-.pg-dev .vcard .vt {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.pg-dev .vcard .vb {
-  min-height: 98px;
-}
-.pg-dev .vcard .vb .vmeta.row {
-  gap: 4px 14px;
-  align-content: flex-start;
-}
-.pg-dev .vcard .vb .vmeta.row + .vmeta.row {
-  margin-top: -6px;
-}
-.pg-dev .vimg .bdgs,
 .pg-dev .ccard .cc2 > .cbdg2 {
   position: absolute;
   top: 30px;
@@ -301,25 +198,6 @@
   justify-content: flex-end;
   max-width: calc(100% - 60px);
 }
-.pg-dev .vpr {
-  margin-top: 12px;
-}
-.pg-dev .vpr .pr .l {
-  font: var(--q-font-ui-body-2);
-  color: var(--t3);
-}
-.pg-dev .vpr .pr .v {
-  font: var(--q-font-ui-headline-4);
-}
-.pg-dev .vpr .bar {
-  margin-top: 6px;
-}
-.pg-dev .vpr .pr {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 8px;
-}
 .pg-dev .ccard .cc2 > .cbdg2 .bdg:not(.bdga) {
   box-shadow: none;
 }
@@ -327,25 +205,17 @@
   background: var(--dg-bg);
   color: var(--dg);
 }
-.pg-dev .ccard .cc2 > .cbdg2 .bdg:not(.bdga):not(.ok):not(.warn):not(.info):not(.dg),
-.pg-dev .vimg .bdgs .bdg:not(.bdga):not(.ok):not(.warn):not(.info):not(.dg) {
+.pg-dev .ccard .cc2 > .cbdg2 .bdg:not(.bdga):not(.ok):not(.warn):not(.info):not(.dg) {
   background: var(--bdg-n);
   color: var(--t2);
   box-shadow: none;
 }
-.pg-dev .vcard .vpr {
-  margin-top: auto;
-  padding-top: 12px;
-}
-.pg-dev .vimg .bdgs,
 .pg-dev .ccard .cc2 > .cbdg2 {
   flex-wrap: nowrap;
 }
-.pg-dev .bdgs > .bdg,
 .pg-dev .cbdg2 > .bdg {
   flex: 0 0 auto;
 }
-.pg-dev .vimg .bdgs:hover,
 .pg-dev .ccard .cc2 > .cbdg2:hover {
   flex-wrap: wrap;
 }
@@ -358,23 +228,6 @@
 .pg-dev .ccard .cmeta .cdt.od {
   color: var(--dg);
 }
-.pg-dev .vpr .pr {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 8px;
-}
-.pg-dev .vpr .pr .v {
-  font: var(--q-font-ui-headline-3);
-  color: var(--t1);
-}
-.pg-dev .vpr .bar {
-  margin-top: 8px;
-}
-.pg-dev .ccard.cw .cc2 .vpr {
-  margin-top: auto;
-  padding-top: 12px;
-}
 .pg-dev a.evlnk {
   color: var(--blue);
   text-decoration: none;
@@ -383,10 +236,12 @@
 .pg-dev a.evlnk:hover {
   text-decoration: underline;
 }
-.pg-dev :is(.ftbar, .tbar:not(.calbar), .assf) :is(.fchip, .lnk) {
+.pg-dev :is(.ftbar,
+.tbar:not(.calbar),
+.assf) :is(.fchip,
+.lnk) {
   font: var(--q-font-ui-button-m);
 }
-.pg-dev .vcard .vt,
 .pg-dev .ccard .cc2 > b {
   font: var(--q-font-ui-headline-3);
 }

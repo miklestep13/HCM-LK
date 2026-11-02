@@ -43,7 +43,7 @@ export const NAV_TABS: NavTab[] = [
       },
       {
         title: 'База знаний',
-        page: 'kbhub',
+        page: 'kb',
       },
       {
         title: 'Бронирование',
@@ -89,8 +89,21 @@ export const NAV_TABS: NavTab[] = [
         page: 'mytasks',
       },
       {
-        title: 'Встречи',
-        page: 'cal',
+        title: 'Календарь',
+        children: [
+          {
+            title: 'Мой календарь',
+            page: 'cal',
+          },
+          {
+            title: 'Мероприятия',
+            page: 'events',
+          },
+          {
+            title: 'График отсутствий',
+            page: 'absences',
+          },
+        ],
       },
       {
         title: 'Обучение',
@@ -112,8 +125,13 @@ export const NAV_TABS: NavTab[] = [
         ],
       },
       {
+        title: 'Оценка 360',
+        page: 'a360',
+      },
+      {
         title: 'Развитие',
         page: 'growth',
+        hidden: true,
       },
       {
         title: 'Аттестация',
@@ -129,11 +147,6 @@ export const NAV_TABS: NavTab[] = [
         ],
       },
       {
-        title: 'Отпуск',
-        page: 'vac',
-        hidden: true,
-      },
-      {
         title: 'Заявки',
         page: 'req',
         hidden: true,
@@ -146,7 +159,6 @@ export const NAV_TABS: NavTab[] = [
       {
         title: 'Доходы и льготы',
         page: 'benef',
-        hidden: true,
       },
     ],
   },
@@ -229,6 +241,10 @@ export const ME_MENU: NavItem[] = [
   {
     title: 'Профиль',
     page: 'prof',
+  },
+  {
+    title: 'Виджеты',
+    page: 'widgets',
   },
   {
     title: 'Русский',

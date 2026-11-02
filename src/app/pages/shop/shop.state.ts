@@ -25,6 +25,8 @@ export class ShopFilters {
   readonly od = signal('');
   readonly on = signal('');
   readonly os = signal('');
+  /** способ получения: «Самовывоз» / «Доставка» */
+  readonly om = signal('');
   readonly osort = signal({ k: 1, d: -1 });
   readonly ordOpen = signal(false);
   readonly hidden = signal<number[]>([]);

@@ -1,30 +1,18 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject, signal } from '@angular/core';
 import { CAL_MONTHS, CAL_MONTHS_GEN, CAL_WD, CAL_WDF } from '../../../data/cal.data';
 import { Float } from '../../../shared/ui/float/float';
+import { PeriodBar } from '../../../shared/ui/period-bar/period-bar';
 import { CalState, CalView } from '../cal.state';
 import { CAL_TODAY, cAdd, cKey, cMon, cWd } from '../cal.utils';
 
 const PREV = 'M10 3.6 5.6 8l4.4 4.4';
 
-/** Панель календаря: «Сегодня», назад / вперед, период (по клику — мини-календарь), вид: день, рабочая неделя, неделя, месяц. */
+/** Панель календаря (общая app-period-bar): «Сегодня», назад / вперед, период (по клику — мини-календарь), вид: день, рабочая неделя, неделя, месяц. */
 @Component({
   selector: '[cal-toolbar]',
-  imports: [Float],
+  imports: [Float, PeriodBar],
   template: `
-    <button class="btn raised" (click)="s.d.set(today())">Сегодня</button>
-    <div class="ctnav">
-      <button class="ib3 ibsq" title="Назад" (click)="s.shift(-1)"><svg viewBox="0 0 16 16" fill="none"><path [attr.d]="prev" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
-      <button class="ib3 ibsq nx" title="Вперед" (click)="s.shift(1)"><svg viewBox="0 0 16 16" fill="none"><path [attr.d]="prev" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
-    </div>
-    <button class="callbl" title="Выбрать период" (click)="togglePk($event)">
-      {{ label() }}<svg viewBox="0 0 16 16" fill="none"><path d="M4 6.4 8 10.4l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
-    </button>
-    <span class="bkgap"></span>
-    <div class="seg">
-      @for (v of views; track v[0]) {
-        <span [class.on]="s.view() === v[0]" (click)="s.view.set(v[0])">{{ v[1] }}</span>
-      }
-    </div>
+    <div app-period-bar picker [label]="label()" [views]="views" [value]="s.view()" (valueChange)="s.view.set($any($event))" (shift)="s.shift($event)" (today)="s.d.set(today())" (pick)="togglePk($event)"></div>
     @if (pk(); as a) {
       <div class="fpop calpk" [appFloat]="a" (click)="$event.stopPropagation()">
         <div class="calmh">
@@ -45,7 +33,7 @@ const PREV = 'M10 3.6 5.6 8l4.4 4.4';
     }
   `,
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'tbar calbar', '(document:click)': 'pk.set(null)' },
+  host: { '(document:click)': 'pk.set(null)' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalToolbar {
@@ -53,7 +41,12 @@ export class CalToolbar {
   protected readonly prev = PREV;
   protected readonly wd = CAL_WD;
   protected readonly months = CAL_MONTHS;
-  protected readonly views: [CalView, string][] = [['day', 'День'], ['wweek', 'Раб. неделя'], ['week', 'Неделя'], ['month', 'Месяц']];
+  protected readonly views: { value: CalView; label: string }[] = [
+    { value: 'day', label: 'День' },
+    { value: 'wweek', label: 'Раб. неделя' },
+    { value: 'week', label: 'Неделя' },
+    { value: 'month', label: 'Месяц' },
+  ];
   protected readonly pk = signal<HTMLElement | null>(null);
   protected readonly mm = signal(new Date(CAL_TODAY.getFullYear(), CAL_TODAY.getMonth(), 1));
   protected today = () => new Date(CAL_TODAY);
@@ -77,12 +70,11 @@ export class CalToolbar {
     });
   });
 
-  protected togglePk(e: MouseEvent): void {
-    e.stopPropagation();
+  protected togglePk(btn: HTMLElement): void {
     if (this.pk()) return this.pk.set(null);
     const d = this.s.d();
     this.mm.set(new Date(d.getFullYear(), d.getMonth(), 1));
-    this.pk.set(e.currentTarget as HTMLElement);
+    this.pk.set(btn);
   }
   protected moveMm(n: number): void {
     const m = this.mm();

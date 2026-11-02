@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, effect, inject, input, untracked } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageHead } from '../../shared/ui/page-head/page-head';
-import { DevCard } from './dev-card/dev-card';
 import { DevCatFilter } from './dev-cat-filter/dev-cat-filter';
 import { DevCcard } from './dev-ccard/dev-ccard';
 import { DevMyFilter } from './dev-my-filter/dev-my-filter';
+import { LearnCard } from '../../widgets/learn-card/learn-card';
 import { DevState } from './dev.state';
 
 /**
@@ -13,7 +13,7 @@ import { DevState } from './dev.state';
  */
 @Component({
   selector: 'app-dev',
-  imports: [PageHead, DevMyFilter, DevCatFilter, DevCard, DevCcard],
+  imports: [PageHead, DevMyFilter, DevCatFilter, LearnCard, DevCcard],
   template: `
     @if (s.lt() === 'cat') {
       <app-page-head title="Каталог обучения" backTo="dev" [backAttrs]="{ lt: 'my' }" backLabel="Назад: Обучение" />
@@ -28,7 +28,7 @@ import { DevState } from './dev.state';
       <div class="c mb" dev-my-filter></div>
       <div class="vgrid">
         @for (c of s.myCards(); track c.id) {
-          <div dev-card [card]="c" [kind]="s.kind()"></div>
+          <div learn-card [card]="c" [kind]="s.kind()" [lt]="s.lt()"></div>
         }
       </div>
     }

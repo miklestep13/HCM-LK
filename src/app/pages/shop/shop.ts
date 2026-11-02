@@ -1,3 +1,4 @@
+import { Select } from '../../shared/ui/select/select';
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { ShopStore } from '../../core/demo/shop-store.service';
 import { ORDER_STATUSES, PRODUCTS, PRODUCT_CATS, SHOP_SORTS } from '../../data/shop.data';
@@ -7,7 +8,6 @@ import { FilterBar } from '../../shared/ui/filter-bar/filter-bar';
 import { FilterInput } from '../../shared/ui/filter-input/filter-input';
 import { PageHead } from '../../shared/ui/page-head/page-head';
 import { SortButton } from '../../shared/ui/sort-button/sort-button';
-import { TableSettings } from '../../shared/ui/table-settings/table-settings';
 import { ShopGrid } from './shop-grid/shop-grid';
 import { ShopHead } from './shop-head/shop-head';
 import { ORDER_COLS, ShopOrders } from './shop-orders/shop-orders';
@@ -19,7 +19,7 @@ import { ShopFilters } from './shop.state';
  */
 @Component({
   selector: 'app-shop',
-  imports: [PageHead, ShopHead, FilterBar, SortButton, Chips, FilterInput, DateField, TableSettings, ShopGrid, ShopOrders],
+  imports: [PageHead, ShopHead, FilterBar, SortButton, Chips, FilterInput, DateField, Select, ShopGrid, ShopOrders],
   templateUrl: './shop.html',
   styleUrl: './shop.scss',
   encapsulation: ViewEncapsulation.None,
@@ -33,6 +33,7 @@ export class Shop {
   protected readonly cats = Object.values(PRODUCT_CATS);
   protected readonly sorts = SHOP_SORTS;
   protected readonly statuses = ORDER_STATUSES;
+  protected readonly methods = ['Самовывоз', 'Доставка'];
   protected readonly orderCols = ORDER_COLS.map((c) => c[0]);
   protected setOd(v: string): void {
     const t = v.trim();

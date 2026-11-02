@@ -19,6 +19,8 @@ import { Icon } from '../../shared/ui/icon/icon';
  * Используется в «Компания → Обзор» (лента) и в разделе «Новости».
  * compact — короткий вид («Похожие новости»): заголовок h4, без лида.
  * admin — у автора кнопка «⋮» с действиями «Редактировать» и «Удалить».
+ * by — автор-сотрудник вместо компании (лента сообщества): ФИО и портрет (класс .av или фото).
+ * Своя обложка (например, рисунок сообщества) — <div npCover class="npimg">…</div> внутри тега.
  */
 @Component({
   selector: 'app-news-post',
@@ -38,6 +40,7 @@ export class NewsPost {
   readonly post = input.required<NewsPostData>();
   readonly compact = input(false);
   readonly admin = input(false);
+  readonly by = input<{ name: string; av: string; photo?: string } | null>(null);
   /** клик по посту или по «Комментарии» — открыть новость */
   readonly open = output<string>();
   readonly edit = output<string>();

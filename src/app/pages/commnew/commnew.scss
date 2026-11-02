@@ -1,0 +1,40 @@
+/* Форма сообщества: наименование и описание во всю ширину, категория и дата создания — в одну строку, 50/50 */
+.pg-commnew .frm.cmnf {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0px, 1fr));
+  gap: 16px;
+}
+.pg-commnew .frm.cmnf > .fld.full {
+  grid-column: 1 / -1;
+}
+@media (max-width: 1024px) {
+  .pg-commnew .frm.cmnf {
+    grid-template-columns: 1fr;
+  }
+}
+/* поле даты — как поле с подписью */
+.pg-commnew .fld.flt > .dtin {
+  width: 100%;
+}
+.pg-commnew .fld.flt > .dtin > .fin {
+  font: var(--q-font-ui-body-1);
+  height: 52px;
+  min-height: 52px;
+}
+.pg-commnew .fld.flt.on > .dtin > .fin {
+  padding-top: 20px;
+}
+.pg-commnew .fld.flt > .dtin .dtb {
+  top: 11px;
+}
+/* кнопка действия — отдельный остров справа */
+.pg-commnew .c.ipisl {
+  padding: 16px 24px;
+}
+.pg-commnew .ipff {
+  display: flex;
+  justify-content: flex-end;
+}
+.pg-commnew .pqerr {
+  margin-bottom: 16px;
+}

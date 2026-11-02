@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { NavService } from '../../../core/navigation/nav.service';
 import { IPR_COMP_CATALOG, IPR_LEVELS } from '../../../data/ipr.data';
+import { roleWithGrade } from '../../../data/org.data';
 import { FilterBar } from '../../../shared/ui/filter-bar/filter-bar';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { Modal } from '../../../shared/ui/modal/modal';
@@ -20,13 +21,13 @@ const PS = 5;
     <app-modal title="Добавить компетенции" panel="mdl-lg" [open]="true" (openChange)="closed.emit()">
       <div class="c cmbar">
         <app-filter-bar placeholder="Поиск по названию или описанию" [query]="q()" (queryChange)="reset(); q.set($event)">
-          <select class="sel" (change)="reset(); role.set($any($event.target).value)">
+          <select class="sel" ftName="Должность" (change)="reset(); role.set($any($event.target).value)">
             <option value="">Все должности</option>
             @for (r of roles; track r) {
               <option>{{ r }}</option>
             }
           </select>
-          <select class="sel" (change)="reset(); grade.set($any($event.target).value)">
+          <select class="sel" ftName="Грейд" (change)="reset(); grade.set($any($event.target).value)">
             <option value="">Все грейды</option>
             @for (g of grades; track g) {
               <option>{{ g }}</option>
@@ -50,7 +51,7 @@ const PS = 5;
         <div class="tw">
           <table class="tbl iprc">
             <thead>
-              <tr><th style="width: 38px"></th><th>Компетенция</th><th style="width: 170px">Должность</th><th style="width: 160px">Текущий уровень</th></tr>
+              <tr><th class="chk" style="width: 38px"><label class="ckb" title="Выбрать все на странице"><input type="checkbox" [checked]="allOn()" [indeterminate]="someOn()" [disabled]="!free().length" (change)="all($any($event.target).checked)" /><i></i></label></th><th>Компетенция</th><th style="width: 170px">Должность</th><th style="width: 160px">Текущий уровень</th></tr>
             </thead>
             <tbody>
               @for (c of page(); track c.name) {
@@ -60,7 +61,7 @@ const PS = 5;
                     <label class="ckb"><input type="checkbox" [checked]="on || sel().has(c.name)" [disabled]="on" (change)="flip(c.name)" /><i></i></label>
                   </td>
                   <td><b class="tklnk" (click)="open(c.name)">{{ c.name }}</b><small>{{ c.desc }}</small></td>
-                  <td>{{ c.role }}<small>грейд «{{ c.grade }}»</small></td>
+                  <td>{{ roleGrade(c.role, c.grade) }}</td>
                   <td><span ipr-level [level]="c.cur"></span></td>
                 </tr>
               } @empty {
@@ -100,6 +101,8 @@ export class IprCompPick {
   protected readonly ps = PS;
   protected readonly roles = [...new Set(IPR_COMP_CATALOG.map((c) => c.role))];
   protected readonly grades = IPR_LEVELS;
+  /** должность с грейдом: «Ведущий кредитный аналитик» */
+  protected readonly roleGrade = roleWithGrade;
   protected readonly q = signal('');
   protected readonly role = signal('');
   protected readonly grade = signal('');
@@ -122,6 +125,18 @@ export class IprCompPick {
   protected readonly page = computed(() => this.found().slice(this.from(), this.from() + PS));
   protected readonly off = computed(() => [...this.sel()].filter((n) => !this.page().some((c) => c.name === n)).length);
 
+  /** выбор всех на странице (кроме уже добавленных в задачу) */
+  protected readonly free = computed(() => this.page().filter((c) => !this.has().includes(c.name)));
+  protected readonly allOn = computed(() => !!this.free().length && this.free().every((c) => this.sel().has(c.name)));
+  protected readonly someOn = computed(() => !this.allOn() && this.free().some((c) => this.sel().has(c.name)));
+  protected all(on: boolean): void {
+    this.sel.update((s) => {
+      const x = new Set(s);
+      this.free().forEach((c) => (on ? x.add(c.name) : x.delete(c.name)));
+      if (!x.size) this.only.set(false);
+      return x;
+    });
+  }
   protected reset(): void {
     this.pg.set(0);
     this.only.set(false);

@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "deploy": "ng build && vercel deploy dist/hcm-ui/browser --prod --yes --scope follout13-8490 --project q-hcm-prototype",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

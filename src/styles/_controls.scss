@@ -70,6 +70,10 @@
   margin: 0px 0px 16px;
   flex-wrap: wrap;
 }
+/* без подзаголовка кнопки справа выравниваются по центру заголовка */
+.pf-top:not(:has(> div > p)) {
+  align-items: center;
+}
 .pf-top h1 {
   font: var(--q-font-ui-headline-2);
   color: var(--black);
@@ -127,10 +131,11 @@
 .srow {
   font: var(--q-font-ui-body-2) !important;
 }
+/* переключатель вида — голубой фон, как у кнопок фильтра и сортировки (.ib3) */
 .vsw {
   display: inline-flex;
   gap: 2px;
-  background: var(--chip);
+  background: var(--raised);
   border-radius: 8px;
   padding: 3px;
   flex-shrink: 0;
@@ -609,12 +614,13 @@
   border-width:0 2px 2px 0;
   transform:rotate(43deg);
 }
+/* красная кнопка («Удалить»): бледный фон error-50, текст error-500; при наведении — error-100 */
 .btn.dng {
-  background: var(--dg-bg);
-  color: var(--red);
+  background: var(--q-error-50);
+  color: var(--q-error-500);
 }
 .btn.dng:hover {
-  background: var(--red-bg);
+  background: var(--q-error-100);
 }
 .fpop.chpop .foi {
   padding-left: 32px;
@@ -958,6 +964,21 @@
 .fld.flt.on > .fsel {
   padding-top: 20px;
 }
+/* поле даты в поле формы (<app-field><app-date-field></app-field>): на всю ширину, высота и подпись — как у .fin */
+.fld.flt > .dtin {
+  width: 100%;
+}
+.fld.flt > .dtin > .fin {
+  font: var(--q-font-ui-body-1);
+  height: 52px;
+  min-height: 52px;
+}
+.fld.flt.on > .dtin > .fin {
+  padding-top: 20px;
+}
+.fld.flt > .dtin .dtb {
+  top: 11px;
+}
 .fld.flt > .fsel {
   position: relative;
   padding-right: 34px;
@@ -1182,7 +1203,7 @@
   padding: 4px;
   gap: 4px;
   border-radius: 8px;
-  background: var(--q-content-background-disabled);
+  background: var(--raised);
   flex: 0 0 auto;
 }
 .ftbar .ftrow .vsw.mtvsw button {
@@ -1352,6 +1373,24 @@
 }
 .fld.flt.on > .fsel.cupick > svg {
   align-self: center;
+}
+/* выбор сотрудников: стрелка (обернута в app-icon) — справа по центру, как у селекта; список — на всю ширину поля */
+.fsel.cupick {
+  position: relative;
+  padding-right: 36px;
+}
+.fsel.cupick > app-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  margin-top: -8px;
+  display: flex;
+  width: 16px;
+  height: 16px;
+  color: var(--q-page-text-ui);
+}
+.fpop.selpop.cupop {
+  max-width: none;
 }
 .cuchip {
   display: inline-flex;
@@ -1895,3 +1934,419 @@
 .attren em { font: var(--q-font-ui-headline-4); font-style: normal; color: var(--t3); }
 .attspin { animation: attspin 0.9s linear infinite; }
 @keyframes attspin { to { transform: rotate(360deg); } }
+
+/* кнопка фильтров из двух частей: воронка — список фильтров с чек-боксами, стрелка — панель фильтров */
+.ftbw.ftsplit {
+  display: inline-flex;
+  gap: 1px;
+}
+.ftsplit > .ib3.ic.ftb.ftbl {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: 0 8px 0 10px;
+}
+.ftsplit > .ib3.ic.ftb.ftbr {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding: 0 8px;
+}
+.ftbw.ftsplit > .ib3.ic.ftb svg,
+.ftbw.ftsplit > .ib3.ic.ftb svg.ftchv {
+  width: 14px;
+  height: 14px;
+}
+.ftsplit > .ftb.on {
+  background: var(--blue-bg2);
+}
+.ftsplit .ftcnt {
+  font: var(--q-font-ui-description-1);
+  font-style: normal;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--blue);
+  color: var(--q-content-background);
+  display: inline-grid;
+  place-items: center;
+}
+.fpop.ftmenu {
+  min-width: 220px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ftmenu .ftmh {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  padding: 4px 8px 6px;
+}
+.ftmenu .ftmo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.ftmenu .ftmo i {
+  flex: none;
+}
+.ftmenu .ftmo:hover {
+  background: var(--q-primary-50);
+}
+/* фильтр, снятый в списке, — не показывается в панели */
+.ftbar .ftpanel > .ftoff {
+  display: none !important;
+}
+
+/* сортировка: только иконка ⇅, список вариантов — по левому краю */
+.ftrow > .ib3.ic svg.srti,
+.ib3.ic > svg.srti {
+  width: 14px;
+  height: 14px;
+}
+.fpop.srtpop {
+  text-align: left;
+}
+.fpop.srtpop .foi {
+  text-align: left;
+  justify-content: flex-start;
+}
+
+/* фильтры в панели — одной строкой «Подпись: значение» (как «Спринт: 16.04.2024–30.04.2024», «Тема: Все») */
+.ftrow .fsel.ft2fs {
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  height: 36px;
+  min-width: 0;
+  max-width: 280px;
+}
+.ftrow .fsel.ft2fs > .ft2lab,
+.ftrow .fsel.ft2fs.is-empty > .ft2lab {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-base-500);
+  flex: none;
+  max-width: none;
+}
+.ftrow .fsel.ft2fs > .ft2lab::after {
+  content: ':';
+}
+.ftrow .fsel.ft2fs > .fsv,
+.ftrow .fsel.ft2fs.is-empty > .fsv {
+  display: block;
+  width: auto;
+  flex: 1 1 auto;
+  min-width: 0;
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ftrow .fsel.ft2fs.is-empty {
+  border-color: var(--q-input-border);
+}
+/* период и числовые поля фильтров — тоже «Подпись: значение» в одну строку */
+.ftrow > .dtin.ftrng {
+  width: auto;
+  min-width: 200px;
+}
+.dtin.ftrng > .ft2lab {
+  display: none;
+}
+.dtin.ftrng .fin,
+.dtin.ftrng.is-empty .fin {
+  padding-top: 0;
+  padding-right: 36px;
+  color: var(--q-content-text);
+}
+.ft2w.ft2in {
+  align-items: center;
+  height: 36px;
+  border: 1px solid var(--q-input-border);
+  border-radius: 8px;
+  background: var(--q-content-background);
+  padding-left: 12px;
+}
+.ft2w.ft2in:focus-within {
+  border-color: var(--q-input-focus-border, var(--q-primary-500));
+}
+.ft2w.ft2in > .ft2lab,
+.ft2w.ft2in.is-empty > .ft2lab {
+  position: static;
+  transform: none;
+  font: var(--q-font-ui-body-2);
+  color: var(--q-base-500);
+}
+.ft2w.ft2in > .ft2lab::after {
+  content: ':';
+}
+.ft2w.ft2in > .fin,
+.ft2w.ft2in.is-empty > .fin {
+  border: none;
+  background: none;
+  height: 34px;
+  width: 96px;
+  padding: 0 10px 0 4px;
+  box-shadow: none;
+}
+
+/* все фильтры в панели — 12px: подписи, значения, поля, чипы */
+.ftbar .ftpanel :is(.fsel, .fsel .ft2lab, .fsel .fsv, .fin, .ft2lab, .fchip, .seg > span, .lnk, select.sel, em),
+.ftbar .ftpanel .fsel.ft2fs > :is(.ft2lab, .fsv),
+.ftbar .ftpanel .fsel.ft2fs.is-empty > :is(.ft2lab, .fsv),
+.ftbar .ftpanel .dtin.ftrng .fin,
+.ftbar .ftpanel .ft2w.ft2in > :is(.ft2lab, .fin),
+.ftbar .ftpanel .ft2w.ft2in.is-empty > :is(.ft2lab, .fin) {
+  font: var(--q-font-ui-description-1);
+}
+
+/* пункт списка с чек-боксом (выбор нескольких значений): чек-бокс и текст на одной линии, с отступом */
+.foi.mo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.foi.mo > .ckb {
+  flex: none;
+}
+
+/* Список выбора участника (виджеты «Участники» и «Занятость»): поиск, вкладки «Все / Сотрудники / Подразделения / Команды», строки с фото */
+/* список выбора сотрудника */
+.fpop.mbpick {
+  padding: 8px;
+  max-height: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.fpop.mbpick .cul {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mbpick .mbko {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  color: var(--q-content-text);
+}
+.mbpick .mbko:hover {
+  background: var(--q-primary-50);
+}
+.mbpick .mbko > .av {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+}
+.mbpick .mbko .cnm {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1 1 0%;
+}
+.mbpick .mbko .cnm b {
+  font: var(--q-font-ui-headline-4);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mbpick .mbko .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mbpick .mbko.on .cnm b,
+.mbpick .mbko > app-icon {
+  color: var(--q-primary-500);
+}
+
+/* подразделение или команда: вместо фото — значок группы на голубом фоне */
+.av.mbgrp {
+  background: var(--blue-bg);
+  position: relative;
+}
+.av.mbgrp::after {
+  content: '';
+  position: absolute;
+  inset: 22%;
+  background: var(--blue);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round'%3E%3Ccircle cx='6' cy='5.6' r='2.4'/%3E%3Cpath d='M1.8 13a4.2 4.2 0 0 1 8.4 0M10.6 3.4a2.4 2.4 0 0 1 0 4.4M11.6 9.4a4.2 4.2 0 0 1 2.6 3.6'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round'%3E%3Ccircle cx='6' cy='5.6' r='2.4'/%3E%3Cpath d='M1.8 13a4.2 4.2 0 0 1 8.4 0M10.6 3.4a2.4 2.4 0 0 1 0 4.4M11.6 9.4a4.2 4.2 0 0 1 2.6 3.6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+/* вкладки списка выбора: все / сотрудники / подразделения / команды */
+.mbpick .mbpk {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.mbpick .mbpk button {
+  font: var(--q-font-ui-body-2);
+  padding: 4px 10px;
+  border: 1px solid var(--stroke2);
+  border-radius: 9999px;
+  background: none;
+  color: var(--t2);
+  cursor: pointer;
+}
+.mbpick .mbpk button:hover {
+  color: var(--blue);
+}
+.mbpick .mbpk button.on {
+  border-color: var(--blue);
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+/* поиск в списке выбора участника — 14px */
+.fpop.mbpick .fsq,
+.fpop.mbpick .fsq::placeholder {
+  font: var(--q-font-ui-body-2);
+}
+
+/* панель периода app-period-bar (Мой календарь, График отсутствий): «Сегодня», ‹ ›, период, справа — вид;
+   стоит под панелью фильтров: сверху без отступа (зазор 16 дает панель фильтров), снизу 16 */
+.calbar {
+  gap: 8px;
+  padding: 0 24px 16px;
+}
+.calbar .ib3 {
+  height: 36px;
+}
+.calbar > .btn {
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0px 14px;
+}
+.calbar .ctnav {
+  display: flex;
+  gap: 4px;
+}
+.calbar .ctnav svg {
+  width: 15px;
+  height: 15px;
+}
+.calbar .ctnav .nx svg {
+  transform: rotate(180deg);
+}
+.calbar .callbl {
+  font: var(--q-font-ui-button-l);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0px 10px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--black);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.calbar .callbl:hover {
+  background: var(--s1);
+}
+.calbar .callbl.st {
+  cursor: default;
+  background: none;
+}
+.calbar .callbl svg {
+  width: 16px;
+  height: 16px;
+  color: var(--q-page-text-ui);
+}
+
+/* app-attach compact — компактные карточки файлов (как документы в оценке цели): плитка 32px, кнопки 28px */
+.attsm .attl {
+  gap: 8px;
+}
+.attsm .attc {
+  gap: 10px;
+  padding: 6px 8px 6px 6px;
+  border-radius: 10px;
+}
+.attsm .atti {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+.attsm .atti svg {
+  width: 18px;
+  height: 18px;
+}
+.attsm .attn {
+  gap: 0;
+}
+.attsm .atta {
+  gap: 4px;
+}
+.attsm .attb {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+.attsm .attb svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* переключатель (тумблер): <label class="swt"><input type="checkbox" /><i></i><span>Подпись</span></label>
+   :where — нулевая специфичность, страницы могут менять отступы и шрифт */
+:where(.swt) {
+  font: var(--q-font-ui-body-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--t1);
+}
+:where(.swt) input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+:where(.swt) i {
+  position: relative;
+  flex-shrink: 0;
+  width: 34px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--stroke3);
+  transition: background 0.16s;
+}
+:where(.swt) i::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--q-content-background);
+  transition: transform 0.16s;
+}
+:where(.swt) input:checked + i {
+  background: var(--blue);
+}
+:where(.swt) input:checked + i::after {
+  transform: translateX(14px);
+}

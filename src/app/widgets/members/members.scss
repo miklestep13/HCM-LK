@@ -1,0 +1,398 @@
+/* Виджет «Участники»: карточки (как «Коллеги» на главной), таблица, правка в строке и в сайдбаре */
+.w-members {
+  display: block;
+}
+.w-members .mbbar {
+  margin-bottom: 16px;
+}
+
+/* карточки: фото 64, ФИО, должность, бейдж роли */
+.w-members .mbgrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.w-members .mbgrid.mbed {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.w-members .mbgrid.mbed .mbc {
+  box-shadow: 0 0 0 1px var(--stroke);
+}
+@media (max-width: 1100px) {
+  .w-members .mbgrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 700px) {
+  .w-members .mbgrid,
+  .w-members .mbgrid.mbed {
+    grid-template-columns: 1fr;
+  }
+}
+.w-members .mbc {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 20px;
+  min-width: 0;
+}
+.w-members .mbc.act {
+  cursor: pointer;
+}
+.w-members .mbc.act:hover .nm {
+  color: var(--q-primary-500);
+}
+.w-members .mbc .mbav {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  flex: none;
+  background-size: cover;
+  background-position: center;
+}
+.w-members .mbc .i {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+.w-members .mbc .nm {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  transition: color 0.15s;
+}
+.w-members .mbc .rl {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.w-members .mbc .gltags {
+  margin-top: 8px;
+  align-items: center;
+}
+.w-members .mbc .mbw {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  margin-left: auto;
+}
+/* карточка с правкой: выбор сотрудника сверху, роль / вес / удаление снизу */
+.w-members .mbgrid.mbed .mbc {
+  flex-direction: column;
+  align-items: stretch;
+}
+.w-members .mbgrid.mbed .mbc.lock {
+  flex-direction: row;
+  align-items: flex-start;
+}
+.w-members .mbc > .mbsel {
+  max-width: none;
+}
+.w-members .mbcf {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.w-members .mbcf .mbrl {
+  flex: 1 1 0%;
+}
+.w-members .mbcf .mbwt {
+  width: 112px;
+  flex: none;
+}
+
+/* таблица */
+.w-members .mbt {
+  display: flex;
+  flex-direction: column;
+}
+.w-members .mbt.c {
+  padding: 8px 24px 12px;
+}
+.w-members .mbth,
+.w-members .mbtr {
+  display: grid;
+  grid-template-columns: var(--mbcols);
+  column-gap: 32px;
+  align-items: center;
+}
+.w-members .mbth {
+  padding: 0 0 10px;
+  border-bottom: 1px solid var(--q-content-border-secondary);
+}
+.w-members .mbt.c .mbth {
+  padding-top: 12px;
+}
+.w-members .mbth span {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-base-500);
+}
+.w-members .mbtr {
+  padding: 12px 0;
+  min-height: 36px;
+  border-bottom: 1px solid var(--q-content-border-secondary);
+}
+.w-members .mbtr:last-child {
+  border-bottom: none;
+}
+.w-members .mbtr.act {
+  cursor: pointer;
+}
+.w-members .mbtr.act:hover .mbwho b {
+  color: var(--q-primary-500);
+}
+.w-members .mbwho {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.w-members .mbwho > .av,
+.w-members .mbdh > .av {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+}
+:is(.w-members, .mbdf) :is(.mbwho, .mbv, .mbko) .cnm {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1 1 0%;
+}
+:is(.w-members, .mbdf) :is(.mbwho, .mbv, .mbko) .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+:is(.w-members, .mbdf) :is(.mbwho, .mbv, .mbko) .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.w-members .mbrl {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.w-members .mbrl .mbrs {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+.w-members .mbdot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background: var(--q-base-100);
+}
+.w-members .mbnw {
+  font: var(--q-font-ui-description-1);
+  padding-left: 12px;
+}
+.w-members .mbact {
+  display: flex;
+  justify-content: flex-end;
+}
+.w-members .mbe {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  padding: 16px 0;
+  grid-column: 1 / -1;
+}
+.w-members .mbe.c {
+  padding: 24px;
+}
+
+/* правка в строке: выбор сотрудника, роль, вес */
+.w-members :is(.mbtr, .mbc) .fsel {
+  height: 36px;
+  min-height: 36px;
+  padding: 0 10px 0 12px;
+  border: 1px solid var(--q-input-border);
+  border-radius: 8px;
+  background: var(--q-content-background);
+}
+.w-members :is(.mbtr, .mbc) .fsel .fsv {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+  flex: 1 1 0%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.w-members :is(.mbtr, .mbc) .fsel svg {
+  width: 14px;
+  height: 14px;
+  color: var(--q-base-500);
+  flex: 0 0 auto;
+}
+.w-members :is(.mbtr, .mbc) .fsel:hover {
+  border-color: var(--q-input-hover-border);
+}
+.w-members .mbsel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 480px;
+  height: 48px;
+  padding: 0 10px 0 8px;
+  border: 1px solid var(--q-input-border);
+  border-radius: 8px;
+  background: var(--q-content-background);
+  cursor: pointer;
+  text-align: left;
+  color: var(--q-content-text);
+}
+.w-members .mbsel:hover,
+.w-members .mbsel.act {
+  border-color: var(--q-input-hover-border);
+}
+.w-members .mbsel > app-icon {
+  color: var(--q-base-500);
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+.w-members .mbsel .fsv {
+  flex: 1 1 0%;
+  min-width: 0;
+  font: var(--q-font-ui-body-2);
+}
+.w-members .mbsel .fsv.ph {
+  color: var(--q-base-300);
+}
+.w-members .mbv {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.w-members .mbv > .av {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+}
+.w-members .mbwt {
+  position: relative;
+}
+.w-members .mbwt .fin {
+  width: 100%;
+  height: 36px;
+  box-sizing: border-box;
+  padding: 0 30px 0 12px;
+  font: var(--q-font-ui-body-2);
+  font-variant-numeric: tabular-nums;
+}
+.w-members .mbwt span {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font: var(--q-font-ui-body-2);
+  color: var(--q-base-500);
+  pointer-events: none;
+}
+
+/* сайдбар: кто выбран */
+.mbdf .mbdh {
+  padding-bottom: 16px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--q-content-border-secondary);
+}
+
+/* режим сайдбара: «Редактировать» и «Убрать» в карточке и в строке таблицы */
+.w-members .mbacts {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+  flex: none;
+}
+.w-members .mbact {
+  gap: 4px;
+}
+/* только просмотр: вес — обычным текстом, без отступа под поле ввода */
+.w-members.ro .mbnw {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+  padding-left: 0;
+}
+
+/* узкий экран: таблица участников прокручивается по горизонтали, не обрезая колонку «Роль» */
+@media (max-width: 700px) {
+  .w-members .mbt {
+    overflow-x: auto;
+  }
+  .w-members .mbth,
+  .w-members .mbtr {
+    width: max-content;
+    min-width: 100%;
+  }
+}
+
+/* постраничный вывод таблицы */
+.w-members .mbpg {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+}
+.w-members .mbpg small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.w-members .mbpgn {
+  display: flex;
+  gap: 4px;
+}
+.w-members .mbpgb {
+  font: var(--q-font-ui-body-2);
+  min-width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0 6px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--t2);
+  cursor: pointer;
+}
+.w-members .mbpgb:hover:not(:disabled) {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.w-members .mbpgb.on {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.w-members .mbpgb:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.w-members .mbpgb app-icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+}
+/* панель фильтров внутри карточки блока */
+.w-members .mbbar:not(.c) {
+  margin-bottom: 4px;
+}
+.w-members .mbbar:not(.c) > .ftbar {
+  padding: 0 0 12px;
+}

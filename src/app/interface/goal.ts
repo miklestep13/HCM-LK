@@ -1,15 +1,19 @@
 /** Этап карты целей (как в прототипе) */
 export type GoalStage = 'draft' | 'appr' | 'plan' | 'self' | 'wait' | 'cust' | 'fin';
 
-export const GOAL_STAGES: { value: GoalStage; label: string; tone: '' | 'ok' | 'warn' }[] = [
-  { value: 'draft', label: 'Черновик', tone: '' },
-  { value: 'appr', label: 'На согласовании', tone: 'warn' },
-  { value: 'plan', label: 'Утверждена', tone: 'ok' },
-  { value: 'self', label: 'Самооценка', tone: 'warn' },
-  { value: 'wait', label: 'Отправлено', tone: '' },
-  { value: 'cust', label: 'Оценка заказчиков', tone: 'warn' },
-  { value: 'fin', label: 'Итог', tone: 'ok' },
+/** Статус карты целей — то, что видит пользователь */
+export type GoalStatus = 'draft' | 'plan' | 'eval' | 'fin';
+export const GOAL_STAGES: { value: GoalStatus; label: string; tone: '' | 'ok' | 'warn' }[] = [
+  { value: 'draft', label: 'Заведение целей', tone: '' },
+  { value: 'plan', label: 'Утверждено', tone: 'ok' },
+  { value: 'eval', label: 'Период оценки', tone: 'warn' },
+  { value: 'fin', label: 'Завершена', tone: 'ok' },
 ];
+/**
+ * Этап → статус карты. «Период оценки» — один статус для всех, а что делает пользователь, зависит от роли:
+ * сотрудник ставит самооценку (этап self), руководитель и заказчики — оценки участников (этап cust).
+ */
+export const goalStatusOf = (s: GoalStage): GoalStatus => (s === 'self' || s === 'cust' || s === 'wait' ? 'eval' : s === 'appr' ? 'draft' : (s as GoalStatus));
 
 /** Оценка по шкале A–E */
 export type Grade = 'A' | 'B' | 'C' | 'D' | 'E';

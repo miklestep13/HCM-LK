@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { LEARN_CAT_FILTERS } from '../../../data/learn.data';
+import { LEARN_CATALOG, LEARN_CAT_FILTERS } from '../../../data/learn.data';
 import { FilterBar } from '../../../shared/ui/filter-bar/filter-bar';
 import { Select } from '../../../shared/ui/select/select';
 import { DEV_KINDS, DevState } from '../dev.state';
@@ -13,7 +13,7 @@ const PH = { crs: 'Поиск по каталогу', prog: 'Поиск по п�
   template: `
     <div class="ctabs">
       @for (k of kinds; track k[0]) {
-        <span [class.on]="s.ckind() === k[0]" (click)="s.ckind.set(k[0])">{{ k[1] }}</span>
+        <span [class.on]="s.ckind() === k[0]" (click)="s.ckind.set(k[0])">{{ k[1] }}<span class="pntc">{{ cat[k[0]].length }}</span></span>
       }
     </div>
     <app-filter-bar [placeholder]="ph[s.ckind()]" [(query)]="s.cq">
@@ -30,4 +30,5 @@ export class DevCatFilter {
   protected readonly kinds = DEV_KINDS;
   protected readonly ph = PH;
   protected readonly f = LEARN_CAT_FILTERS;
+  protected readonly cat = LEARN_CATALOG;
 }

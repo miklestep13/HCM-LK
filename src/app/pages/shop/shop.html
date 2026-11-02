@@ -9,17 +9,17 @@
     <app-filter-bar placeholder="Поиск по товарам" [(query)]="f.q" [(opened)]="f.catOpen">
       <button ftAction app-sort-button [options]="sorts" [(value)]="f.sort"></button>
       <app-chips label="Категория" [options]="cats" [(value)]="f.cat" />
-      <button class="fchip shtg" [class.on]="f.stock()" (click)="f.stock.set(!f.stock())">В наличии</button>
+      <button class="fchip shtg" ftName="Наличие" [class.on]="f.stock()" (click)="f.stock.set(!f.stock())">В наличии</button>
       <app-filter-input label="Цена от" digits [max]="7" inputClass="shpr" [(value)]="f.pmin" />
       <app-filter-input label="Цена до" digits [max]="7" inputClass="shpr" [(value)]="f.pmax" />
     </app-filter-bar>
   } @else {
     <app-filter-bar placeholder="Поиск по номеру заказа" [(query)]="f.oq" [(opened)]="f.ordOpen">
-      <button ftAction app-table-settings [columns]="orderCols" [(hidden)]="f.hidden"></button>
       <app-chips label="Статус заказа" [options]="statuses" [(value)]="f.ost" />
       <app-date-field placeholder="Дата создания" [value]="f.od()" (valueChange)="setOd($event)" />
       <app-filter-input label="Количество" digits [max]="3" [group]="false" inputClass="shpr" [(value)]="f.on" />
       <app-filter-input label="Сумма" digits [max]="7" inputClass="shpr" [(value)]="f.os" />
+      <app-select label="Способ получения" allLabel="Все" [options]="methods" [(value)]="f.om" />
     </app-filter-bar>
   }
 </div>

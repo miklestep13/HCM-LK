@@ -4,10 +4,10 @@
   <div class="glach">
     <div class="iprn glnw">
       <button class="glnl" title="Открыть карточку цели" (click)="open()">{{ g.t }}</button>
-      <span class="bdg gllvl" [class]="'gt-l' + lvlIdx()">{{ lvlName() }}</span><span class="bdg" [class]="'gt-t' + typeIdx()">{{ type() }}</span><span class="bdg" [class]="'gt-k' + F().kind">{{ kindName() }}</span>
+      <span class="bdg" [class]="state()[0]">{{ state()[1] }}</span>
     </div>
   </div>
-  <div class="iprd gldsc">{{ g.d || g.krs[0]?.t || '—' }}</div>
+  <div class="iprd gldsc" [class.ed]="ed">{{ g.d || g.krs[0]?.t || '—' }}</div>
   <div class="glacg glacw">
     <div class="iprd glwf">
       <span class="l">Вес</span>
@@ -22,65 +22,61 @@
           </span>
         </div>
       } @else {
-        <span class="glwv">{{ g.w ? g.w + '%' : '—' }}</span>
+        <span class="glwv">{{ (g.w || 0) + '%' }}</span>
       }
     </div>
-    @if (F().kind === 'txt') {
-      @if (showSelf()) {
-        <div class="iprd glsoon">
-          <span class="l">Самооценка</span>
-          @if (g.self; as S) {
-            <span class="glsv"><span class="clbg" [class]="'g' + S.o">{{ S.o }}</span>{{ selfFact() }}{{ S.n }}</span>
-          } @else {
-            <span class="glsno">—</span>
-          }
-        </div>
-      }
-      <div class="iprd glsoon" [class.hidden]="!showFin()">
-        <span class="l">Итоговая оценка</span>
-        @if (g.fin; as A) {
-          <span class="glsv"><span class="clbg" [class]="'g' + A.o">{{ A.o }}</span>{{ A.n }}</span>
-        } @else {
-          <span class="glsno">—</span>
-        }
+    @if (F().kind === 'num') {
+      <div class="iprd glpln">
+        <span class="l">План. результат</span>
+        <span class="glwv">{{ plan() || '—' }}</span>
       </div>
-    } @else {
-      <div class="iprd glsoon" [class.hidden]="!showSelf()">
-        <span class="l">Итоговая оценка</span>
-        @if (final(); as A) {
-          <span class="glsv"><span class="clbg" [class]="'g' + A.o">{{ A.o }}</span>{{ A.n }}</span>
-        } @else {
-          <span class="glsno">—</span>
-        }
-      </div>
-      @if (F().kind === 'num') {
-        <div class="iprd glsoon" [class.hidden]="!showSelf()">
-          <span class="l">Результат</span>
-          @if (result()) {
-            {{ result() }}
-          } @else {
-            <span class="glsno">—</span>
-          }
-        </div>
-      }
     }
+    <!-- факт появляется после утверждения карты: на «Заведении целей» его нет -->
+    @if (F().kind !== 'txt' && !draft()) {
+      <div class="iprd glpln">
+        <span class="l">Факт. результат</span>
+        <span class="glwv">{{ fact() || '—' }}</span>
+      </div>
+    }
+    <div class="iprd glsoon" [class.hidden]="F().kind === 'txt' ? !showFin() : !showSelf()">
+      <span class="l">Итоговая оценка</span>
+      @if (F().kind === 'txt' ? g.fin : final(); as A) {
+        <span class="glsv"><span class="clbg" [class]="'g' + A.o">{{ A.o }}</span></span>
+      } @else {
+        <span class="glsno">—</span>
+      }
+    </div>
   </div>
   <div class="glmeta">
-    <span>Срок сдачи: до {{ g.due || s.store.period.to }}</span>
-    <span class="glmppl"
-      >Участники:<span class="avs astavs afevav glmavs" (mouseenter)="showPeople($event)" (mouseleave)="hidePeople($event)"
-        >@for (p of people().slice(0, 3); track $index) {<span class="av" [class]="'av' + (p.av || 1)"></span>}@if (people().length > 3) {<span class="more">+{{ people().length - 3 }}</span>}</span
-      ></span
+    <span class="glmi" appTip="Тип"
+      ><svg viewBox="0 0 16 16" fill="none"><path d="M2.4 8.6V3.4a1 1 0 0 1 1-1h5.2l5 5a1.4 1.4 0 0 1 0 2L9.6 13.4a1.4 1.4 0 0 1-2 0l-5.2-4.8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" /><circle cx="5.6" cy="5.6" r="1.1" fill="currentColor" /></svg
+      ><b>{{ type() }}</b></span
     >
+    <span class="glmi" appTip="Уровень"
+      ><svg viewBox="0 0 16 16" fill="none"><path d="M8 2.2 14 5.4 8 8.6 2 5.4 8 2.2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" /><path d="m2 8.4 6 3.2 6-3.2M2 11.2l6 3.2 6-3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg
+      ><b>{{ lvlName() }}</b></span
+    >
+    @if (group()) {
+      <span class="glmi" appTip="Группа"
+        ><svg viewBox="0 0 16 16" fill="none"><path d="M2 4.4a1.2 1.2 0 0 1 1.2-1.2h3.2l1.6 1.8h4.8A1.2 1.2 0 0 1 14 6.2v6.2a1.2 1.2 0 0 1-1.2 1.2H3.2A1.2 1.2 0 0 1 2 12.4v-8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" /></svg
+        ><b>{{ group() }}</b></span
+      >
+    }
+    <span class="glmi" appTip="Тип измерения"
+      ><svg viewBox="0 0 16 16" fill="none"><path d="M2.6 11.4a5.6 5.6 0 1 1 10.8 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /><path d="M8 10.2 10.6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /><circle cx="8" cy="10.4" r="1.2" fill="currentColor" /></svg
+      ><b>{{ kindName() }}</b></span
+    >
+    <span class="glmi" appTip="Срок сдачи"><app-icon name="calSm" /><b>до {{ g.due || s.store.period.to }}</b></span>
+    <span class="glmi glmppl" (mouseenter)="showPeople($event)" (mouseleave)="hidePeople($event)"><app-icon name="user" /><b>{{ customers() }}</b></span>
   </div>
 </div>
 @if (ed) {
   <span class="glgr">
-    <button class="actb" title="Редактировать" (click)="edit()">
-      <svg viewBox="0 0 16 16" fill="none"><path d="M11.2 2.6a1.7 1.7 0 0 1 2.4 2.4l-7.5 7.5-3.2.8.8-3.2 7.5-7.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" /></svg>
-    </button>
     <button class="actb dg" title="Удалить" (click)="remove()">
       <svg viewBox="0 0 16 16" fill="none"><path d="M2.8 4.4h10.4M6.4 4.4V3.2a1 1 0 0 1 1-1h1.2a1 1 0 0 1 1 1v1.2M4.2 4.4l.6 8.2a1.2 1.2 0 0 0 1.2 1.1h4a1.2 1.2 0 0 0 1.2-1.1l.6-8.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </button>
+    <button class="actb" title="Редактировать" (click)="edit()">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M11.2 2.6a1.7 1.7 0 0 1 2.4 2.4l-7.5 7.5-3.2.8.8-3.2 7.5-7.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" /></svg>
     </button>
   </span>
 }

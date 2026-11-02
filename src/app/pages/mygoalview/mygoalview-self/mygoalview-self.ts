@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { goalLetterCap, goalScaleRows } from '../../../core/demo/goals-store.service';
 import { GOAL_SCALES } from '../../../data/goals.data';
 import { Attach } from '../../../shared/ui/attach/attach';
@@ -7,14 +7,14 @@ import { MygoalviewState } from '../mygoalview.state';
 
 /**
  * Блок «Оценка» на самооценке: количественная — оценка по фактическому результату (сразу итоговая), качественная — A–E;
- * у бинарной выбор — в «Измерении». Комментарий и документы.
+ * у бинарной выбор — в «Показателе и критериях», здесь — итоговая оценка по нему. Комментарий и документы.
  */
 @Component({
   selector: '[mygoalview-self]',
   imports: [Field, Attach],
   template: `
     @let S = s.self();
-    <div class="ch"><h3>Оценка</h3></div>
+    <div class="ch"><h3>{{ title() }}</h3></div>
     <div class="cb">
       @if (s.F().kind === 'num') {
         <div class="glsrg glrauto">
@@ -24,7 +24,18 @@ import { MygoalviewState } from '../mygoalview.state';
             <span class="gr">Оценка появится по фактическому результату</span>
           }
         </div>
-        <div class="fhelp glrah">Рассчитывается автоматически по фактическому результату и сразу становится итоговой.</div>
+      } @else if (s.F().kind === 'str') {
+        <!-- бинарная: результат выбирается в «Показателе и критериях», здесь — итоговая оценка по нему -->
+        <div class="glvkv glrfin">
+          <span class="l">Итоговая оценка</span>
+          <span class="glsrg glrauto">
+            @if (S.o) {
+              <span class="clbg" [class]="'g' + S.o">{{ S.o }}</span>{{ cap(S.o) }}
+            } @else {
+              <span class="gr">Оценка появится после выбора результата</span>
+            }
+          </span>
+        </div>
       } @else if (s.F().kind === 'txt') {
         <div class="glsrf glsrb">
           <div class="fld">
@@ -60,6 +71,8 @@ import { MygoalviewState } from '../mygoalview.state';
 })
 export class MygoalviewSelf {
   protected readonly s = inject(MygoalviewState);
+  /** заголовок: «Оценка»; у качественной цели под таблицей оценок — «Ваша оценка» */
+  readonly title = input('Оценка');
   protected readonly cap = goalLetterCap;
   protected readonly rows = computed(() => (goalScaleRows(this.s.F()).length ? goalScaleRows(this.s.F()) : GOAL_SCALES['Пятиуровневая (A–E)']));
   protected pick(o: string, n: string): void {

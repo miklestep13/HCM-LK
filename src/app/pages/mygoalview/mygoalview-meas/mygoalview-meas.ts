@@ -3,6 +3,7 @@ import { goalGrade, goalLetterCap, goalNum, goalUnit } from '../../../core/demo/
 import { GOAL_BIN, GOAL_KINDS } from '../../../data/goals.data';
 import { Field } from '../../../shared/ui/field/field';
 import { Icon } from '../../../shared/ui/icon/icon';
+import { goalStatusOf } from '../../../interface/goal';
 import { MygoalviewState } from '../mygoalview.state';
 import { MygoalviewScale } from '../mygoalview-scale/mygoalview-scale';
 
@@ -73,7 +74,8 @@ import { MygoalviewScale } from '../mygoalview-scale/mygoalview-scale';
                   </div>
                 </app-field>
               </div>
-            } @else {
+            } @else if (!draft()) {
+              <!-- на «Заведении целей» фактического результата еще нет -->
               <div class="glvkv"><span class="l">Фактический результат</span>{{ g().self?.fact != null ? num(g().self!.fact!) + us() : '—' }}</div>
             }
           </div>
@@ -108,6 +110,8 @@ import { MygoalviewScale } from '../mygoalview-scale/mygoalview-scale';
 })
 export class MygoalviewMeas {
   protected readonly s = inject(MygoalviewState);
+  /** «Заведение целей» — без фактического результата */
+  protected readonly draft = computed(() => goalStatusOf(this.s.stage()) === 'draft');
   /** самооценка: фактический результат / результат бинарной вводится */
   readonly edit = input(false, { transform: booleanAttribute });
   protected readonly cold = signal(false);

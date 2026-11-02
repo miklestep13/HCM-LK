@@ -1,0 +1,88 @@
+/* Витрина виджетов: оглавление, по каждому виджету — описание и живой пример */
+.pg-widgets .wgnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 20px 24px;
+}
+.pg-widgets .wgnav .chip {
+  cursor: pointer;
+}
+.pg-widgets .wgnav .chip:hover {
+  color: var(--blue);
+}
+.pg-widgets .wgs {
+  scroll-margin-top: 80px;
+  margin-bottom: 32px;
+}
+.pg-widgets .wgi {
+  padding: 20px 24px;
+}
+.pg-widgets .wgh {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pg-widgets .wgh h3 {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+  margin: 0;
+}
+.pg-widgets code {
+  font: var(--q-font-ui-description-1);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--blue);
+  background: var(--blue-bg);
+  border-radius: 6px;
+  padding: 2px 7px;
+}
+.pg-widgets .wgd {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin: 10px 0;
+}
+.pg-widgets .wgu {
+  display: inline-block;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.pg-widgets .wgp {
+  font: var(--q-font-ui-description-1);
+  color: var(--t2);
+  margin-top: 10px;
+}
+.pg-widgets .wgbox {
+  padding: 20px 24px;
+}
+.pg-widgets .wgw {
+  max-width: 560px;
+}
+.pg-widgets .wgrow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.pg-widgets .wgrow3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.pg-widgets .wgcov {
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.pg-widgets .wgacts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+.pg-widgets .wgacts > * {
+  width: 260px;
+}
+@media (max-width: 900px) {
+  .pg-widgets :is(.wgrow, .wgrow3) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

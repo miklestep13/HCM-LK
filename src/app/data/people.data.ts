@@ -109,12 +109,7 @@ export const EMPLOYEES: EmployeeCard[] = [
   {
     name: 'Гусева Нина Павловна',
     role: 'Менеджер продукта',
-    tags: [
-      {
-        text: 'На обеде',
-        tone: '',
-      },
-    ],
+    tags: [],
     rows: [
       {
         key: 'dept',

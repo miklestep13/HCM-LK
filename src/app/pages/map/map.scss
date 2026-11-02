@@ -805,3 +805,9 @@
   border-color: var(--blue);
   box-shadow: 0 0 0 3px var(--q-primary-transparent-300);
 }
+
+/* иконка рядом с серым текстом — 14px */
+.pg-map .bkcap svg {
+  width: 14px;
+  height: 14px;
+}

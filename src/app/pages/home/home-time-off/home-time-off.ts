@@ -8,7 +8,7 @@ import { TIME_OFF } from '../../../data/home.data';
 @Component({
   selector: 'app-home-time-off',
   imports: [Card, StatCell],
-  template: ` <app-card title="Отгулы" open="vac">
+  template: ` <app-card title="Отгулы" open="absences">
     <div class="cb">
       <div class="st2">
         <app-stat-cell label="Накоплено"

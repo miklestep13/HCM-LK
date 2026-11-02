@@ -8,6 +8,7 @@ import { ConfirmService } from '../../../shared/ui/confirm/confirm.service';
 import { FilterBar } from '../../../shared/ui/filter-bar/filter-bar';
 import { Float } from '../../../shared/ui/float/float';
 import { Icon } from '../../../shared/ui/icon/icon';
+import { NavService } from '../../../core/navigation/nav.service';
 import { ToastService } from '../../../shared/ui/toast/toast.service';
 import { Tooltip } from '../../../shared/ui/tooltip/tooltip';
 import { AttncardCol } from '../attncard-col/attncard-col';
@@ -33,7 +34,7 @@ const ST = {
       <h3>Мероприятия</h3>
       <span class="chip">{{ s.events().length }}</span>
       @if (s.canEditEvents()) {
-        <button class="btn pri afevadd" (click)="edit.set({ ev: null })">Добавить</button>
+        <button class="btn pri afevadd" (click)="nav.go('eventnew', { type: 'Аттестация', from: 'attncard' })">Добавить</button>
       }
     </div>
     <app-filter-bar placeholder="Поиск по названию мероприятия" [(query)]="q">
@@ -43,7 +44,7 @@ const ST = {
       <div class="tw">
         <table class="tbl asttbl afevtbl">
           <thead>
-            <tr><th>Наименование</th><th>Дата и время</th><th>Участники</th><th>Статус</th><th></th></tr>
+            <tr><th>Наименование</th><th>Дата и время</th><th>Участники</th><th>Статус</th><th class="tact"></th></tr>
           </thead>
           <tbody>
             @for (e of rows(); track e) {
@@ -73,7 +74,7 @@ const ST = {
                   </span>
                 </td>
                 <td><span [class]="'bdg ' + st[0]">{{ st[1] }}</span></td>
-                <td>
+                <td class="tact">
                   <span class="acts"
                     ><button class="actb dots" title="Действия" (click)="openMenu(e, $event)"><app-icon name="dots" /></button
                   ></span>
@@ -143,6 +144,7 @@ const ST = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttncardEvents {
+  protected readonly nav = inject(NavService);
   protected readonly s = inject(AttestStore);
   private readonly toast = inject(ToastService);
   private readonly confirm = inject(ConfirmService);

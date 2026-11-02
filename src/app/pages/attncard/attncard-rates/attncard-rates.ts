@@ -49,7 +49,7 @@ import { avFor, isLetter, rateMethod } from '../attncard.utils';
               @let d = a.st === 'done';
               @let docs = d ? okDocs(a) : [];
               @let x = d && (!!a.cr || !!docs.length);
-              <tr class="afrow" [class.afexp]="x" [class.open]="x && opened().has(a.k)" (click)="x && toggle(a.k)">
+              <tr class="afrow" [class.afexp]="x" [class.open]="x && opened().has(a.k)" (click)="x ? toggle(a.k) : null">
                 <td>
                   <span class="afcell"
                     ><span class="afchev">

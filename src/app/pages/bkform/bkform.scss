@@ -321,3 +321,15 @@
 .pg-bkform .bkppl .chip button:hover {
   color: var(--red);
 }
+
+/* иконка рядом с серым текстом — 14px */
+.pg-bkform .bkcap svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* иконка рядом с серым текстом — 14px */
+.pg-bkform .bkeq svg {
+  width: 14px;
+  height: 14px;
+}

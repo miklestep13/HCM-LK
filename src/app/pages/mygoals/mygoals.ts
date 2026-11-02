@@ -1,15 +1,16 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, ViewEncapsulation, effect, inject, untracked } from '@angular/core';
-import { DevPanelService, devValue } from '../../core/layout/dev-panel/dev-panel.service';
-import { GOAL_STAGES, GoalStage } from '../../interface/goal';
+import { DevPanelService } from '../../core/layout/dev-panel/dev-panel.service';
+import { GOAL_STAGES } from '../../interface/goal';
 import { PageHead } from '../../shared/ui/page-head/page-head';
 import { MygoalsFoot } from './mygoals-foot/mygoals-foot';
 import { MygoalsGoals } from './mygoals-goals/mygoals-goals';
 import { MygoalsHead } from './mygoals-head/mygoals-head';
-import { MapStage, MygoalsState } from './mygoals.state';
+import { MygoalsState } from './mygoals.state';
 
 /**
  * «Мой кабинет → Цели → Карта целей»: шапка карты (период, общий вес, итоговая оценка), раздел «Цели» и действия этапа.
- * Этап цикла и сценарий черновика — в dev-панели «Демо».
+ * Статус карты (заведение целей, утверждено, период оценки, завершена) и роль — в dev-панели «Демо».
+ * В периоде оценки сотрудник ставит самооценку, руководитель — оценку участника цели.
  * Форма цели — pages/mygoalnew, страница цели (просмотр, самооценка, оценка) — pages/mygoalview.
  */
 @Component({
@@ -19,7 +20,7 @@ import { MapStage, MygoalsState } from './mygoals.state';
     <app-page-head title="Карта целей" />
     <div class="c iphead glidle" mygoals-head></div>
     <div class="c mt ipsect" mygoals-goals></div>
-    @if (['draft', 'self', 'cust', 'appr'].includes(s.stage())) {
+    @if (['draft', 'self', 'cust'].includes(s.stage())) {
       <div class="c mt ipisl" mygoals-foot></div>
     }
   `,
@@ -34,24 +35,18 @@ export class Mygoals implements OnDestroy {
   private readonly unregister = inject(DevPanelService).register(
     {
       id: 'goalStage',
-      label: 'Этап карты целей',
-      options: [{ value: 'idle', label: 'Ожидание' }, ...GOAL_STAGES.map((x) => ({ value: x.value, label: x.value === 'plan' ? 'Утверждены' : x.label }))],
-      value: devValue<MapStage>(
-        () => this.s.stage(),
-        (v) => {
-          this.s.demo.goalIdle.set(v === 'idle');
-          if (v !== 'idle') this.s.demo.goalStage.set(v as GoalStage);
-        },
-      ),
+      label: 'Статус карты целей',
+      options: GOAL_STAGES.map((x) => ({ value: x.value, label: x.label })),
+      value: this.s.demo.goalStatus,
     },
     {
-      id: 'goalFill',
-      label: 'Сценарий черновика',
+      id: 'goalRole',
+      label: 'Роль',
       options: [
-        { value: 'empty', label: 'Пустое' },
-        { value: 'full', label: 'Заполненное' },
+        { value: 'emp', label: 'Сотрудник' },
+        { value: 'mgr', label: 'Руководитель' },
       ],
-      value: this.s.demo.goalFill,
+      value: this.s.demo.goalRole,
     },
   );
 
@@ -59,7 +54,7 @@ export class Mygoals implements OnDestroy {
     // демо-данные этапа: самооценки, оценки участников, итог
     effect(() => {
       const st = this.s.stage();
-      untracked(() => st !== 'idle' && this.s.store.prepare(st));
+      untracked(() => this.s.store.prepare(st));
     });
   }
   ngOnDestroy(): void {

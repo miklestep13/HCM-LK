@@ -11,7 +11,7 @@ import { VACATION } from '../../../data/home.data';
 @Component({
   selector: 'app-home-vacation',
   imports: [Card, Icon, StatCell, Tooltip],
-  template: ` <app-card title="Отпуск" open="vac">
+  template: ` <app-card title="Отпуск" open="absences">
     <div class="cb">
       <div class="vr">
         <span class="l">Использовано</span
@@ -34,8 +34,8 @@ import { VACATION } from '../../../data/home.data';
         </button>
       </app-stat-cell>
       <div class="st2">
-        <button class="btn raised" style="flex:1" (click)="nav.go('vac')">Подтвердить</button
-        ><button class="btn pri" style="flex:1" (click)="nav.go('vac')">Добавить</button>
+        <button class="btn raised" style="flex:1" (click)="nav.go('absences')">Подтвердить</button
+        ><button class="btn pri" style="flex:1" (click)="nav.go('absences')">Добавить</button>
       </div>
     </div>
   </app-card>`,

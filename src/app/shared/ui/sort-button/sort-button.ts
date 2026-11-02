@@ -9,13 +9,13 @@ import {
 } from '@angular/core';
 
 /**
- * Кнопка сортировки в шапке фильтров (⇅ со стрелкой) и список вариантов.
+ * Кнопка сортировки в шапке фильтров (⇅, без стрелки — стрелка у кнопки фильтров) и список вариантов, выровненный по левому краю.
  *   <button app-sort-button [options]="sorts" [(value)]="sort"></button>
  */
 @Component({
   selector: 'button[app-sort-button]',
   template: `
-    <svg viewBox="0 0 16 16" fill="none">
+    <svg class="srti" viewBox="0 0 16 16" fill="none">
       <path
         d="M5 12.4V3.6M2.8 5.8 5 3.6l2.2 2.2M11 3.6v8.8M8.8 10.2 11 12.4l2.2-2.2"
         stroke="currentColor"
@@ -24,23 +24,13 @@ import {
         stroke-linejoin="round"
       />
     </svg>
-    <svg viewBox="0 0 16 16" fill="none">
-      <path
-        d="M4 6.4 8 10.4l4-4"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg>
     @if (open()) {
       <div
-        class="fpop selpop chpop plcolp"
+        class="fpop selpop chpop plcolp srtpop"
         [style.left.px]="pos().left"
         [style.top.px]="pos().top"
         (click)="$event.stopPropagation()"
       >
-        <div class="plcolh">{{ title() }}</div>
         <div class="folist">
           @for (o of options(); track o) {
             <div class="foi" [class.on]="o === value()" (click)="pick(o)">{{ o }}</div>

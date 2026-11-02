@@ -1277,3 +1277,35 @@
 .pg-attncard .atfcol > .afipr > .c.mt:first-child {
   margin-top: 0;
 }
+
+/* шапка бланка: под заголовком — плитки; у руководителя между ними карточка сотрудника (как в карте целей) */
+.pg-attncard .iphead .iptit {
+  margin-bottom: 20px;
+}
+.pg-attncard .atemp {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.pg-attncard .atemp img {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex: none;
+}
+.pg-attncard .atemp .cnm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pg-attncard .atemp .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-attncard .atemp .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}

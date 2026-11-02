@@ -32,3 +32,89 @@
     grid-template-columns: repeat(2, minmax(0px, 1fr));
   }
 }
+
+/* таблица — как в виджете «Участники» */
+.pg-people .ptbl {
+  padding: 8px 24px 12px;
+  overflow-x: auto;
+}
+.pg-people :is(.ptth, .pttr) {
+  display: grid;
+  grid-template-columns: minmax(200px, 1.5fr) minmax(120px, 1fr) minmax(120px, 1fr) 104px 112px minmax(140px, 1fr) 128px;
+  column-gap: 20px;
+  align-items: center;
+  min-width: 1000px;
+}
+.pg-people .ptth {
+  padding: 12px 0 10px;
+  border-bottom: 1px solid var(--q-content-border-secondary);
+}
+.pg-people .ptth span {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-base-500);
+}
+.pg-people .pttr {
+  font: var(--q-font-ui-description-1);
+  color: var(--t1);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--q-content-border-secondary);
+  cursor: pointer;
+}
+.pg-people .pttr:last-child {
+  border-bottom: none;
+}
+.pg-people .pttr:hover .ptwho b {
+  color: var(--q-primary-500);
+}
+.pg-people .ptwho {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.pg-people .ptwho :is(img, .av) {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  object-fit: cover;
+  background-size: cover;
+  background-position: center;
+  flex: none;
+}
+.pg-people .ptwho .cnm {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.pg-people .ptwho .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+.pg-people .ptwho .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pg-people .pttr .ptnw {
+  white-space: nowrap;
+}
+.pg-people .pttr .ptml {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pg-people .pttr .gltags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.pg-people .pte {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  padding: 16px 0;
+}

@@ -19,7 +19,7 @@ export class MygoalviewState {
   readonly kind = signal('');
 
   readonly goal = computed<ProtoGoal | undefined>(() => this.store.goals().find((g) => g.id === this.id()));
-  readonly stage = computed(() => (this.demo.goalIdle() ? 'idle' : this.demo.goalStage()));
+  readonly stage = computed(() => this.demo.goalStage());
   /** вид страницы: просмотр (до самооценки), самооценка, оценка заказчиков, результаты (отправлено и итог) */
   readonly mode = computed<GoalViewMode>(() => {
     const st = this.stage();

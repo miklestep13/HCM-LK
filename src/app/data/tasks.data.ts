@@ -1,4 +1,4 @@
-import { MyTask } from '../interface/task';
+import { MyTask, QuickTask } from '../interface/task';
 
 /** «Мой кабинет → Задания» (MT_LIST прототипа) */
 export const MY_TASKS: MyTask[] = [
@@ -31,6 +31,39 @@ export const TASK_FINAL: string[] = ["Выполнено", "Отклонено"]
 /** фото инициаторов */
 export const TASK_AUTHOR_PHOTO: Record<string, string> = {"Смирнова Виктория Олеговна": "assets/img/company/e0ed98668c.webp", "Крылов Михаил Петрович": "assets/img/company/2b120b0da3.webp", "Федорова Юлия Сергеевна": "assets/img/company/9b7f1e8e56.webp", "Кравцова Елена Сергеевна": "assets/img/company/76903338d4.webp"};
 /** страницы, где задание выполняется сразу (остальные открывают внешнюю ссылку) */
+const f = (id: string, name: string, size: number) => ({ id, name, size, st: 'ok' as const, date: '15.09.2026' });
+/** небольшие задания — разделенный экран с панелью обработки (подписать, ознакомиться, согласовать, дополнить документы) */
+export const TASK_QUICK: Record<string, QuickTask> = {
+  t5: {
+    kind: 'Подписать документ',
+    files: [f('q5', 'Приказ об отпуске № 412-О.pdf', 184320)],
+    ok: { label: 'Подписать', status: 'Выполнено', toast: 'Приказ подписан электронной подписью.' },
+    alt: { label: 'Отклонить', status: 'Отклонено', toast: 'Приказ возвращен инициатору с комментарием.' },
+  },
+  t9: {
+    kind: 'Ознакомиться с документом',
+    files: [f('q9', 'Политика информационной безопасности, ред. 3.pdf', 1258291)],
+    ok: { label: 'Ознакомлен', status: 'Выполнено', toast: 'Отметка об ознакомлении сохранена.' },
+  },
+  t16: {
+    kind: 'Ознакомиться с документом',
+    files: [f('q16', 'Регламент розничного кредитования.pdf', 2411724)],
+    ok: { label: 'Ознакомлен', status: 'Выполнено', toast: 'Отметка об ознакомлении сохранена.' },
+  },
+  t17: {
+    kind: 'Согласовать документ',
+    files: [f('q17', 'График отпусков 2027.xlsx', 96256)],
+    ok: { label: 'Согласовать', status: 'Выполнено', toast: 'График отпусков согласован.' },
+    alt: { label: 'Предложить другие даты', status: 'Делегирование', toast: 'Предложение по датам отправлено инициатору.' },
+  },
+  t3: {
+    kind: 'Обработать документы',
+    files: [f('q3', 'Заявка КР-2481.pdf', 356352)],
+    upload: true,
+    ok: { label: 'Отправить', status: 'Выполнено', toast: 'Пакет документов по заявке КР-2481 отправлен на проверку.' },
+  },
+};
+
 export const TASK_DIRECT_PAGES = ['atself', 'nbpoll', 'team9'];
 /** сортировка карточек: [название, поле, направление] */
 export const TASK_SORTS: [string, 'due' | 'cr', number][] = [

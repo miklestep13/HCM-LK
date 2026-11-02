@@ -33,7 +33,8 @@ import { ChangeDetectionStrategy, Component, booleanAttribute, input, model, out
       </div>
     }
   `,
-  host: { '(document:keydown.escape)': 'open() && close()' },
+  // title — вход компонента: браузер не должен показывать его подсказкой над всем сайдбаром
+  host: { '(document:keydown.escape)': 'open() ? close() : null', '[attr.title]': 'null' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Drawer {

@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, input, model } from '@angular/core'
   selector: 'app-modal',
   template: `
     @if (open()) {
-      <div class="mdlo" (click)="$event.target === $event.currentTarget && open.set(false)">
+      <div class="mdlo" (click)="overlay($event)">
         <div class="mdl" [class]="panel()">
           <div class="mdlh">
             <b>{{ title() }}</b>
@@ -22,7 +22,8 @@ import { ChangeDetectionStrategy, Component, input, model } from '@angular/core'
       </div>
     }
   `,
-  host: { '(document:keydown.escape)': 'open() && open.set(false)' },
+  // title — вход компонента: без подсказки браузера над всем окном
+  host: { '(document:keydown.escape)': 'escape()', '[attr.title]': 'null' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Modal {
@@ -30,4 +31,16 @@ export class Modal {
   readonly open = model(false);
   /** доп. классы окна */
   readonly panel = input('');
+
+  /**
+   * Клик по затемнению закрывает окно. Обработчики — методы без возвращаемого значения:
+   * выражение вида «a && b» в шаблоне возвращает false, и Angular отменяет действие по умолчанию —
+   * чекбоксы и подписи внутри окна перестают переключаться.
+   */
+  protected overlay(e: Event): void {
+    if (e.target === e.currentTarget) this.open.set(false);
+  }
+  protected escape(): void {
+    if (this.open()) this.open.set(false);
+  }
 }

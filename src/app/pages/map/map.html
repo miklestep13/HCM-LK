@@ -15,7 +15,7 @@
       </span>
     </div>
     <button ftAction class="btn pri" (click)="book()">{{ D ? 'Забронировать место' : 'Забронировать переговорную' }}</button>
-    <div class="seg bkfl">
+    <div class="seg bkfl" ftName="Этаж">
       <em>Этаж</em>
       @for (f of floors; track f) {
         <span [class.on]="s.floor() === f" (click)="s.floor.set(f)">{{ f }}</span>
@@ -23,11 +23,11 @@
     </div>
     <app-select label="Город" [options]="cities" [value]="s.city()" (valueChange)="s.setCity($event)" />
     <app-select label="Офис" [options]="s.offices()" [(value)]="s.office" />
-    <div class="bkdt"><app-date-field [value]="s.date()" (valueChange)="setDate($event)" /></div>
+    <div class="bkdt" ftName="Дата"><app-date-field [value]="s.date()" (valueChange)="setDate($event)" /></div>
     @if (D) {
       <app-multi-select label="Оснащение места" [options]="feats" [(value)]="s.feat" />
     } @else {
-      <app-select [options]="caps" [value]="capLabel()" (valueChange)="setCap($event)" />
+      <app-select ftName="Вместимость" [options]="caps" [value]="capLabel()" (valueChange)="setCap($event)" />
       <app-multi-select label="Оборудование" [options]="eqs" [(value)]="s.eq" />
     }
     <button class="lnk" [class.hidden]="!s.filtered()" (click)="s.resetFilters()">Сбросить фильтры</button>

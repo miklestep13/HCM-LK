@@ -53,7 +53,7 @@ export class MygoalnewState {
   readonly cu = signal('%');
   readonly exe = signal<GoalPerson>(person(GOAL_ME));
   readonly ppl = signal<GoalPerson[]>([]);
-  /** демо: вид блока «Участники» — таблица или компактный */
+  /** демо: вид блока «Участники» — таблица или карточки (виджет widgets/members) */
   readonly pview = signal<'rows' | 'cmp'>('rows');
   /** демо: цель добавляют из карты целей — период наследуется и заблокирован */
   readonly fromMap = signal(true);

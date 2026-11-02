@@ -7,11 +7,11 @@ import { CompanyCommunities } from './company-communities/company-communities';
 import { CompanyBirthdays } from './company-birthdays/company-birthdays';
 import { CompanyHelp } from './company-help/company-help';
 import { CompanyFeed } from './company-feed/company-feed';
-import { CompanyEvents } from './company-events/company-events';
 import { CompanyPoll } from './company-poll/company-poll';
 import { CompanyCourses } from './company-courses/company-courses';
 import { CompanyArticles } from './company-articles/company-articles';
 import { CompanyShop } from './company-shop/company-shop';
+import { Events } from '../../widgets/events/events';
 
 /** Страница «Компания — обзор» (ключ прототипа: company). Собрана из блоков; порядок и раскладка — в company.html. */
 @Component({
@@ -23,7 +23,7 @@ import { CompanyShop } from './company-shop/company-shop';
     CompanyBirthdays,
     CompanyHelp,
     CompanyFeed,
-    CompanyEvents,
+    Events,
     CompanyPoll,
     CompanyCourses,
     CompanyArticles,

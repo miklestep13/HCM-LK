@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, effect, inject, signal, viewChild } from '@angular/core';
-import { IprDemoStatus, IprFill, IprStore } from '../../core/demo/ipr-store.service';
+import { IprDemoStatus, IprStore } from '../../core/demo/ipr-store.service';
 import { DevPanelService, devValue } from '../../core/layout/dev-panel/dev-panel.service';
 import { NavService } from '../../core/navigation/nav.service';
 import { shortFio } from '../../data/org.data';
@@ -12,7 +12,6 @@ import { IprAgree } from './ipr-agree/ipr-agree';
 import { IprChat } from './ipr-chat/ipr-chat';
 import { IprComment } from './ipr-comment/ipr-comment';
 import { IprEmpty } from './ipr-empty/ipr-empty';
-import { IprExperts } from './ipr-experts/ipr-experts';
 import { IprHead } from './ipr-head/ipr-head';
 import { IprIsland, IprIslandAct } from './ipr-island/ipr-island';
 import { IprNew } from './ipr-new/ipr-new';
@@ -29,27 +28,18 @@ interface CommentAsk {
 }
 
 const STATUSES: { value: IprDemoStatus; label: string }[] = [
-  { value: 'none', label: 'Нет ИПР' },
   { value: 'new', label: 'Создание' },
-  { value: 'Черновик', label: 'Создан' },
-  { value: 'Предложено', label: 'Предложен' },
+  { value: 'Черновик', label: 'Черновик' },
+  { value: 'Предложено', label: 'Предложено' },
   { value: 'Утверждено', label: 'Утверждено' },
-  { value: 'В работе', label: 'В работе' },
-  { value: 'Аттестация', label: 'Оценка эксперта' },
   { value: 'Выполнено', label: 'Выполнено' },
   { value: 'Выполнено частично', label: 'Выполнено частично' },
   { value: 'Не выполнено', label: 'Не выполнено' },
 ];
-const FILLS: { value: IprFill; label: string }[] = [
-  { value: 'full', label: 'Заполнен' },
-  { value: 'new', label: 'Только создан' },
-  { value: 'notasks', label: 'Нет задач' },
-  { value: 'nocomps', label: 'Нет компетенций' },
-];
 
 /**
  * «Мой кабинет → Аттестация → ИПР»: план развития сотрудника — шапка плана (или форма «Новый ИПР»), заключения экспертов,
- * задачи, компетенции и остров с переводом на следующий этап. Статус плана, сценарий наполнения и роль на аттестации — в dev-панели.
+ * задачи, компетенции и остров с переводом на следующий этап. Статус плана и роль — в dev-панели.
  */
 @Component({
   selector: 'app-ipr',
@@ -57,7 +47,6 @@ const FILLS: { value: IprFill; label: string }[] = [
     PageHead,
     IprHead,
     IprNew,
-    IprExperts,
     IprTasks,
     IprComps,
     IprIsland,
@@ -79,12 +68,9 @@ const FILLS: { value: IprFill; label: string }[] = [
       } @else {
         <div ipr-head (edit)="params.set(true)"></div>
       }
-      @if (s.st() === 'Аттестация') {
-        <div ipr-experts></div>
-      }
       <div ipr-tasks (add)="taskForm.set(-1)" (act)="onTask($event)"></div>
       <div ipr-comps [comps]="s.comps()" [tasks]="s.plan().tasks" [editable]="s.editable()" (tasksOf)="tasks()?.showComp($event)"></div>
-      @if (s.creating() || ['Черновик', 'Предложено', 'Утверждено', 'В работе'].includes(s.st()) || (s.st() === 'Аттестация' && s.isMgr())) {
+      @if (s.creating() || ['Черновик', 'Предложено', 'Утверждено'].includes(s.st())) {
         <div ipr-island (act)="onIsland($event)"></div>
       }
     }
@@ -130,18 +116,16 @@ export class Ipr {
   protected readonly expErr = signal(false);
   private readonly mgr = computed(() => shortFio(this.s.plan().mgr[0]));
 
-  /** переключатели dev-панели: статус — всегда; сценарий — когда план есть; роль — на аттестации */
+  /** переключатели dev-панели: статус — всегда; роль — когда план есть */
   private readonly showFill = computed(() => !this.s.none() && !this.s.creating());
-  private readonly showRole = computed(() => !this.s.none() && !this.s.creating() && this.s.status() === 'Аттестация');
 
   constructor() {
     effect((onCleanup) => {
       const c = [{ id: 'iprStatus', label: 'Статус ИПР', options: STATUSES, value: devValue<IprDemoStatus>(() => this.s.demoStatus(), (v) => this.s.setDemo(v)) }];
-      if (this.showFill()) c.push({ id: 'iprFill', label: 'Сценарий', options: FILLS as any, value: devValue<IprFill>(() => this.s.fill(), (v) => this.s.setFill(v)) as any });
-      if (this.showRole())
+      if (this.showFill())
         c.push({
           id: 'iprRole',
-          label: 'Роль на аттестации',
+          label: 'Роль',
           options: [
             { value: 'mgr', label: 'Руководитель' },
             { value: 'emp', label: 'Сотрудник' },
@@ -189,8 +173,6 @@ export class Ipr {
       this.toast.show(title, text);
     };
     switch (a) {
-      case 'newcancel':
-        return this.s.cancelNew();
       case 'newsave': {
         const err = this.s.saveNew();
         this.expErr.set(err === 'expert');
@@ -201,12 +183,8 @@ export class Ipr {
       }
       case 'send':
         return go('Предложено', 'Отправлено на согласование', 'Руководитель ' + this.mgr() + ' получил план.');
-      case 'save':
-        return this.toast.show('Сохранено', 'Отметки о выполнении задач сохранены.');
-      case 'recall':
-        return go('Черновик', 'Возвращено в черновик', 'План снова можно редактировать.');
       case 'approve':
-        return go('В работе', 'План согласован', 'Сотрудник получил уведомление и может выполнять задачи.');
+        return go('Утверждено', 'План согласован', 'Сотрудник получил уведомление и может выполнять задачи.');
       case 'back':
         return this.comment.set({
           title: 'Вернуть на доработку',
@@ -214,14 +192,8 @@ export class Ipr {
           ok: 'Вернуть',
           done: () => go('Черновик', 'План возвращен на доработку', 'Сотрудник получил комментарий.'),
         });
-      case 'towork':
-        return go('В работе', 'План возвращен в работу', 'Оценки задач сохранены.');
-      case 'wcancel':
-        return window.scrollTo({ top: 0, behavior: 'smooth' });
-      case 'wfinish':
-        return go('Аттестация', 'План завершен', 'Задачи переданы на оценку эксперту.');
-      case 'attok':
-        return this.agree.set(true);
+      case 'finish':
+        return go(this.s.finishResult(), 'План завершен', 'Закрыто ' + this.s.doneN() + ' из ' + this.s.plan().tasks.length + ' задач.');
     }
   }
 

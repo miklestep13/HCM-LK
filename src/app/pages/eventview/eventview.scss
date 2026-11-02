@@ -1,0 +1,195 @@
+/* Мероприятие: шапка — стили шапки курса (pages/course), ниже «Сведения» и «Участники» */
+.pg-eventview .cmeta2 {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 12px;
+}
+.pg-eventview .cmeta2 span {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  color: var(--grey);
+}
+.pg-eventview .cmeta2 svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.pg-eventview .npb.st {
+  cursor: default;
+  margin-left: auto;
+}
+.pg-eventview .npb.st:hover {
+  background: none;
+  color: var(--t3);
+}
+.pg-eventview .npf {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-top: 1px solid var(--stroke);
+  margin: 0px -24px;
+  padding: 6px 16px;
+}
+.pg-eventview .npb {
+  font: var(--q-font-ui-button-m);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--q-page-text-ui);
+}
+.pg-eventview .npb:hover {
+  background: var(--raised);
+  color: var(--blue);
+}
+.pg-eventview .npb.on {
+  color: var(--red);
+}
+.pg-eventview .npb svg {
+  width: 16px;
+  height: 16px;
+}
+.pg-eventview .lfact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pg-eventview .crsv .crshd {
+  display: grid;
+  grid-template-columns: 480px minmax(0px, 1fr);
+  gap: 28px;
+  align-items: start;
+  padding-bottom: 0px;
+}
+.pg-eventview .crsimg {
+  position: relative;
+}
+.pg-eventview .crsimg img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  background: var(--s1);
+}
+.pg-eventview .crsinfo {
+  display: flex;
+  flex-direction: column;
+  min-height: 270px;
+}
+.pg-eventview .crsf {
+  margin-top: auto;
+}
+.pg-eventview .crsimg .bdg {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--white);
+  color: var(--t1);
+  box-shadow: 0 1px 3px var(--q-base-transparent-100);
+}
+.pg-eventview .crsinfo {
+  min-width: 0px;
+}
+.pg-eventview .crsinfo h2 {
+  font: var(--q-font-ui-headline-2);
+  color: var(--black);
+  margin: 0px 0px 8px;
+}
+.pg-eventview .crsm.cmeta2 {
+  flex-flow: wrap;
+  gap: 6px 16px;
+  margin: 0px 0px 16px;
+}
+.pg-eventview .crsab p {
+  font: var(--q-font-ui-body-2);
+  margin-bottom: 8px;
+}
+.pg-eventview .crsbtn {
+  margin-top: 16px;
+  display: flex;
+}
+.pg-eventview .crsbtn .lfact {
+  flex-direction: row;
+}
+.pg-eventview .crsf {
+  margin: auto -10px 0px;
+  border-top-width: medium;
+  border-top-style: none;
+  border-top-color: currentcolor;
+  padding: 12px 0px 0px;
+}
+.pg-eventview .crsv > .cpane {
+  padding: 24px;
+}
+.pg-eventview .crsv .crscm {
+  padding: 0px;
+  max-width: 720px;
+}
+.pg-eventview .crsf .npb.st {
+  margin-left: 0px;
+  cursor: default;
+}
+.pg-eventview .crsf .npb.st:hover {
+  color: var(--q-page-text-ui);
+}
+.pg-eventview .crsinfo .crsbtn {
+  margin-top: auto;
+  padding-top: 16px;
+  align-items: center;
+  gap: 8px;
+}
+.pg-eventview .crsbtn .crsf {
+  margin: 0px -10px 0px auto;
+  padding: 0px;
+}
+.pg-eventview .crsinfo .crsab {
+  max-width: 700px;
+}
+.pg-eventview .cmeta2 span.od {
+  color: var(--dg);
+}
+.pg-eventview .crsv .crshd {
+  grid-template-columns: 560px minmax(0px, 1fr);
+}
+.pg-eventview .crsinfo {
+  min-height: 315px;
+}
+.pg-eventview .crsinfo .crstags {
+  margin: 0px 0px 10px;
+}
+.pg-eventview .crsinfo .crsbtn {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+.pg-eventview .crsbtn .crsf {
+  margin: 0px auto 0px -10px;
+}
+.pg-eventview .crsm .brk {
+  flex-basis: 100%;
+  height: 0px;
+}
+/* кнопки админа — справа в заголовке страницы: «Удалить» слева, «Редактировать» справа */
+.pg-eventview a.evlnk {
+  color: var(--blue);
+  text-decoration: none;
+  font: var(--q-font-ui-link-2);
+}
+.pg-eventview a.evlnk:hover {
+  text-decoration: underline;
+}
+.pg-eventview .evnone {
+  padding: 24px;
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}

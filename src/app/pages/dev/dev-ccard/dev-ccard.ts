@@ -38,7 +38,7 @@ import { DevState } from '../dev.state';
           }
           @case ('ev') {
             <div class="cmeta"><app-icon name="calendar" /><span>{{ c.line }}</span></div>
-            <div class="cmeta"><app-icon [name]="c.place ? 'pin' : 'video'" /><span>{{ c.place || 'Онлайн' }}</span></div>
+            <div class="cmeta"><app-icon name="pin" /><span>{{ c.place || 'Онлайн' }}</span></div>
           }
         }
         <span class="cbdg2">

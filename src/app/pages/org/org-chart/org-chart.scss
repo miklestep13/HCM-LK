@@ -35,7 +35,7 @@
   right: 14px;
   top: 14px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   overflow: hidden;
 }
@@ -62,12 +62,14 @@
 }
 .pg-org .bkzm span {
   font: var(--q-font-ui-description-1);
-  width: 100%;
-  text-align: center;
+  min-width: 48px;
+  align-self: stretch;
+  display: grid;
+  place-items: center;
   color: var(--grey);
-  padding: 3px 0px;
-  border-top: 1px solid var(--stroke);
-  border-bottom: 1px solid var(--stroke);
+  padding: 0 4px;
+  border-left: 1px solid var(--stroke);
+  border-right: 1px solid var(--stroke);
 }
 .pg-org .ogmap {
   position: relative;

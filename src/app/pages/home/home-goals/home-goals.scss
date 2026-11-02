@@ -36,17 +36,3 @@
   font: var(--q-font-ui-body-2);
   color: var(--q-base-500);
 }
-.hm-banner {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 10px 16px;
-  margin-bottom: 24px;
-  background: var(--warn-bg);
-}
-.hm-banner .t {
-  font: var(--q-font-ui-headline-4);
-  flex: 1;
-  min-width: 0;
-  color: var(--warn);
-}

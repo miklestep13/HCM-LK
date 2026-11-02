@@ -1,5 +1,5 @@
 @if (selfBanner()) {
-  <div class="c hm-banner">
+  <div class="c bnr">
     <span class="t">Открыт период самооценки за IV квартал 2026 — заполните карту целей до 19.12</span>
     <button class="btn pri sm" (click)="nav.go('mygoals')">Пройти самооценку</button>
   </div>
@@ -10,8 +10,9 @@
     <app-home-development />
     <app-home-awards />
     <app-home-wallet />
-    <app-home-income />
+    <!-- «Мои доходы» пока скрыт: <app-home-income /> -->
     <app-home-vacation />
+    <!-- «Мои отсутствия» пока скрыт: <app-home-absences /> -->
     <app-home-time-off />
   </div>
   <div class="cM">

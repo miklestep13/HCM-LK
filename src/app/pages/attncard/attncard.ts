@@ -47,7 +47,7 @@ import { pl } from './attncard.utils';
     AttncardPersonEdit,
   ],
   template: `
-    <app-page-head title="Аттестация" />
+    <app-page-head title="Бланк аттестации" />
     <div class="c mb iphead atclean atfin" attncard-head></div>
     @if (s.layout() === 'one') {
       <div class="atfone">

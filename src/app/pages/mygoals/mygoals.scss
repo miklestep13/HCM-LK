@@ -656,3 +656,91 @@
   padding-top: 22px !important;
   padding-bottom: 26px !important;
 }
+
+/* шапка карты: карточка сотрудника и три плитки */
+.pg-mygoals .glemp {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0 20px;
+}
+.pg-mygoals .glemp img {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex: none;
+}
+.pg-mygoals .glemp .cnm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pg-mygoals .glemp .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-mygoals .glemp .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-mygoals .kpis.k3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 700px) {
+  .pg-mygoals .kpis.k3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* карточка цели: тип, уровень, группа и срок — иконка и значение (подпись — в подсказке) */
+.pg-mygoals .glgoal .glmeta .glmi {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: default;
+}
+.pg-mygoals .glgoal .glmeta .glmi :is(svg, .app-icon) {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  color: var(--t3);
+}
+.pg-mygoals .glgoal .glmeta b {
+  font-weight: inherit;
+  color: var(--t1);
+}
+.pg-mygoals .glgoal .glmeta .glmppl {
+  cursor: pointer;
+}
+.pg-mygoals .glgoal .glmeta .glmppl:hover :is(b, .app-icon) {
+  color: var(--blue);
+}
+/* карточка цели: отступ под описанием; в черновике под ним поле веса — визуально отступ и так больше */
+.pg-mygoals .glgoal .gldsc:not(.ed) {
+  padding-bottom: 8px;
+}
+/* карточка цели в черновике: компактное поле веса */
+.pg-mygoals .glacw .glwf .numin.glcw {
+  width: 112px;
+  height: 28px;
+}
+.pg-mygoals .glacw .glcw .fin {
+  height: 26px;
+  font: var(--q-font-ui-body-2);
+}
+.pg-mygoals .glacw .glcw .nustep {
+  width: 24px;
+}
+.pg-mygoals .glacw .glcw .nub svg {
+  width: 10px;
+  height: 10px;
+}
+/* шапка карты: у сотрудника под заголовком сразу плитки, у руководителя — карточка сотрудника */
+.pg-mygoals .iphead .iptit {
+  margin-bottom: 20px;
+}
+.pg-mygoals .iphead .glemp {
+  margin-top: 0;
+}

@@ -5,6 +5,7 @@ import { NavService } from '../../../core/navigation/nav.service';
 import { COMM_CATS, COMM_MY_ADMIN } from '../../../data/comm.data';
 import { plural } from '../../../data/org.data';
 import { Community } from '../../../interface/comm';
+import { ConfirmService } from '../../../shared/ui/confirm/confirm.service';
 import { ToastService } from '../../../shared/ui/toast/toast.service';
 import { CommCover } from '../../../widgets/comm-cover/comm-cover';
 import { CommState } from '../comm.state';
@@ -24,6 +25,7 @@ export class CommGrid {
   private readonly nav = inject(NavService);
   private readonly store = inject(CommStore);
   private readonly toast = inject(ToastService);
+  private readonly confirm = inject(ConfirmService);
   protected readonly cats = COMM_CATS;
   protected readonly myAdmin = COMM_MY_ADMIN;
   protected readonly membersText = (n: number) => `${n} ${plural(n, 'участник', 'участника', 'участников')}`;
@@ -36,8 +38,20 @@ export class CommGrid {
     const [t, m] = this.store.join(c.id);
     this.toast.show(t, m);
   }
-  protected edit(e: Event): void {
+  protected async remove(c: Community, e: Event): Promise<void> {
     e.stopPropagation();
-    this.toast.show('Скоро', 'Редактирование сообщества появится на следующей итерации.');
+    const ok = await this.confirm.ask({
+      title: 'Удалить сообщество?',
+      text: 'Сообщество **' + c.name + '** будет удалено вместе с новостями и мероприятиями. Восстановить его не получится.',
+      ok: 'Удалить',
+      danger: true,
+    });
+    if (!ok) return;
+    this.store.remove(c.id);
+    this.toast.show('Сообщество удалено', '«' + c.name + '» больше не показывается в списке.');
+  }
+  protected edit(c: Community, e: Event): void {
+    e.stopPropagation();
+    this.nav.go('commnew', { cm: c.id, role: this.demo.commRole() });
   }
 }

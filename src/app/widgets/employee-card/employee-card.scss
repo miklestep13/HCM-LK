@@ -28,7 +28,7 @@
   color: var(--t1);
 }
 .ecard .pf .lg {
-  font: var(--q-font-ui-body-2);
+  font: var(--q-font-ui-description-1);
   color: var(--t3);
   margin-top: 4px;
 }
@@ -148,17 +148,17 @@
   pointer-events: none;
   z-index: 5;
 }
-.ecard[data-emp]:hover :is(.nm, .it, .tt, .vt, .iprn, .npt, .cmtt, .mlt, .rpt b, .cc2 > b, .pn3, .glgn, .nt, .t) {
-  color: var(--blue);
-  transition-behavior: normal;
-  transition-duration: 0.15s;
-  transition-timing-function: ease;
-  transition-delay: 0s;
-  transition-property: color;
-}
 .ecard[data-emp] {
   cursor: pointer;
 }
 .ecard .pfoot .btn {
   height: 36px;
+}
+/* значения — 12px, без синего: почта — обычным текстом, ФИО при наведении не подсвечивается */
+.ecard .kv .v {
+  font: var(--q-font-ui-description-1);
+  color: var(--t1);
+}
+.ecard .kv .v a {
+  color: inherit;
 }

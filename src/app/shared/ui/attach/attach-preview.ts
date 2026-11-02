@@ -25,7 +25,7 @@ import { attachSize } from './attach.utils';
             <button class="atpvx" title="Закрыть" aria-label="Закрыть" (click)="svc.close()"><app-icon name="closeSm" /></button>
           </div>
         </div>
-        <div class="atpvb" (click)="$event.target === $event.currentTarget && svc.close()">
+        <div class="atpvb" (click)="$event.target === $event.currentTarget ? svc.close() : null">
           @if (ok()) {
             @if (f.url) {
               @if (img()) {

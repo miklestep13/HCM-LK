@@ -5,6 +5,8 @@ import { Field } from '../../../shared/ui/field/field';
 import { Select } from '../../../shared/ui/select/select';
 import { ToastService } from '../../../shared/ui/toast/toast.service';
 import { MygoalnewState } from '../mygoalnew.state';
+import { DemoState } from '../../../core/demo/demo-state.service';
+import { goalStatusOf } from '../../../interface/goal';
 
 /**
  * «Показатель и критерии»: тип и единица измерения; у количественной — плановый и фактический (только просмотр) результат,
@@ -17,7 +19,7 @@ import { MygoalnewState } from '../mygoalnew.state';
     @let k = s.kind();
     <div class="ch"><h3>Показатель и критерии</h3></div>
     <div class="cb">
-      <div class="frm glf3">
+      <div class="frm glf3 glf2">
         <app-field label="Тип измерения" required filled>
           <app-select [options]="kindNames" [value]="kinds[k]" (valueChange)="setKind($event)" />
         </app-field>
@@ -29,7 +31,8 @@ import { MygoalnewState } from '../mygoalnew.state';
             <input class="fin" inputmode="decimal" [value]="s.plan()" (input)="s.plan.set($any($event.target).value.trim())" /><span class="nusf glunit">{{ s.u() }}</span>
           </div>
         </app-field>
-        <app-field class="dis glnum" [class.hidden]="k !== 'num'" label="Фактический результат" [filled]="!!s.fact()">
+        <!-- факт — только после утверждения карты (не на «Заведении целей») -->
+        <app-field class="dis glnum" [class.hidden]="k !== 'num' || draft()" label="Фактический результат" [filled]="!!s.fact()">
           <div class="numin glpfu cudis">
             <input class="fin" disabled [value]="s.fact()" /><span class="nusf glunit">{{ s.u() }}</span>
           </div>
@@ -135,6 +138,9 @@ import { MygoalnewState } from '../mygoalnew.state';
 })
 export class MygoalnewMeas {
   protected readonly s = inject(MygoalnewState);
+  private readonly demo = inject(DemoState);
+  /** «Заведение целей» — без фактического результата */
+  protected readonly draft = computed(() => goalStatusOf(this.demo.goalStage()) === 'draft');
   private readonly toast = inject(ToastService);
   protected readonly kinds = GOAL_KINDS;
   protected readonly kindNames = Object.values(GOAL_KINDS);

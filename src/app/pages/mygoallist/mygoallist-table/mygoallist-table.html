@@ -3,7 +3,13 @@
   <span [class.on]="tab() === 'emp'" (click)="tab.set('emp')">По сотруднику</span>
 </div>
 <div class="cb">
-  <app-filter-bar placeholder="Поиск по цели или сотруднику" [(query)]="q" />
+  <app-filter-bar placeholder="Поиск по цели или сотруднику" [(query)]="q">
+    <app-select label="Сотрудник" allLabel="Все" [search]="true" [options]="empOpts()" [(value)]="fEmp" />
+    <app-select label="Тип" allLabel="Все" [options]="typeOpts()" [(value)]="fType" />
+    <app-select label="Период" allLabel="Все" [options]="perOpts()" [(value)]="fPer" />
+    <app-select label="Итоговая оценка" allLabel="Все" [options]="gradeOpts()" [(value)]="fGrade" />
+    <app-select label="Статус карты" allLabel="Все" [options]="stOpts()" [(value)]="fSt" />
+  </app-filter-bar>
   <div class="tw gllsc">
     <table class="tbl glltbl">
       <thead>

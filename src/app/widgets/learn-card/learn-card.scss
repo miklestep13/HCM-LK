@@ -1,0 +1,182 @@
+/* Карточка обучения (курс, программа, мероприятие) — «Мое обучение» и «Мероприятия» (стили из прототипа) */
+.vcard .vimg .bdgs {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.vcard .vimg .bdgs .bdg {
+  margin: 0px;
+  position: static;
+}
+.vcard .cbody {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0%;
+}
+.vcard .vimg {
+  position: relative;
+  padding: 20px 20px 0px;
+}
+.vcard .vimg img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+}
+.vcard .vmeta.row {
+  flex-flow: wrap;
+  gap: 14px;
+}
+.vcard {
+  background: var(--q-content-background);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid transparent;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.vcard .vb {
+  padding: 16px 20px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1 1 0%;
+}
+.vcard .vt {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+.vcard .vmeta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.vcard .vmeta span {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--grey);
+}
+.vcard .vmeta svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.vcard .vact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+}
+.vcard .vact .btn {
+  width: 100%;
+}
+.vcard:hover .vt {
+  color: var(--blue);
+  transition: color 0.15s;
+}
+.vcard .vmeta span.od {
+  color: var(--dg);
+}
+.vcard .vt {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.vcard .vb {
+  min-height: 98px;
+}
+.vcard .vb .vmeta.row {
+  gap: 4px 14px;
+  align-content: flex-start;
+}
+.vcard .vb .vmeta.row + .vmeta.row {
+  margin-top: -6px;
+}
+.vcard .vimg .bdgs {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: calc(100% - 60px);
+}
+.vcard .vpr {
+  margin-top: 12px;
+}
+.vcard .vpr .pr .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+.vcard .vpr .pr .v {
+  font: var(--q-font-ui-headline-4);
+}
+.vcard .vpr .bar {
+  margin-top: 6px;
+}
+.vcard .vpr .pr {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.vcard .vimg .bdgs .bdg:not(.bdga):not(.ok):not(.warn):not(.info):not(.dg) {
+  background: var(--bdg-n);
+  color: var(--t2);
+  box-shadow: none;
+}
+.vcard .vpr {
+  margin-top: auto;
+  padding-top: 12px;
+}
+.vcard .vimg .bdgs {
+  flex-wrap: nowrap;
+}
+.vcard .bdgs > .bdg {
+  flex: 0 0 auto;
+}
+.vcard .vimg .bdgs:hover {
+  flex-wrap: wrap;
+}
+.vcard .vpr .pr {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8px;
+}
+.vcard .vpr .pr .v {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+.vcard .vpr .bar {
+  margin-top: 8px;
+}
+.vcard .ccard.cw .cc2 .vpr {
+  margin-top: auto;
+  padding-top: 12px;
+}
+.vcard .vt {
+  font: var(--q-font-ui-headline-3);
+}
+/* ссылка онлайн-встречи вместо «Онлайн» (страница «Мероприятия») */
+.vcard .vmeta a.evlnk {
+  color: var(--blue);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.vcard .vmeta a.evlnk:hover {
+  text-decoration: underline;
+}

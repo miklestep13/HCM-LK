@@ -42,13 +42,13 @@ const NONE = '—';
           <div class="ipsech">Способы развития</div>
           <div class="frm ipfrm">
             <app-field label="Курс из каталога" full [filled]="!!crs()" [class.dis]="ro">
-              <app-select [class.dis]="ro" [options]="courses" [value]="crs()" (valueChange)="crs.set($event === none ? '' : $event)" />
+              <app-select [class.dis]="ro" [search]="true" [options]="courses" [value]="crs()" (valueChange)="crs.set($event === none ? '' : $event)" />
             </app-field>
             <app-field label="Ссылка на внешний курс или ресурс" full [filled]="!!link()" [class.dis]="ro">
               <input class="fin" placeholder="https://" [value]="link()" [disabled]="ro" (input)="link.set($any($event.target).value)" />
             </app-field>
             <app-field label="Статья из базы знаний" full [filled]="!!art()" [class.dis]="ro">
-              <app-select [class.dis]="ro" [options]="arts" [value]="art()" (valueChange)="art.set($event === none ? '' : $event)" />
+              <app-select [class.dis]="ro" [search]="true" [options]="arts" [value]="art()" (valueChange)="art.set($event === none ? '' : $event)" />
             </app-field>
           </div>
         </div>

@@ -22,7 +22,6 @@ import { BkformRoom } from './bkform-room/bkform-room';
             <div bkform-room (saved)="done($event)"></div>
           }
           <div class="acts" style="gap: 8px">
-            <button class="btn raised" (click)="nav.go('map')">Отменить</button>
             <button class="btn pri" (click)="save()">Забронировать</button>
           </div>
         </div>

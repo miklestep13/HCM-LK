@@ -28,8 +28,7 @@ import { MygoalnewState } from './mygoalnew.state';
     <div class="pqerr" [class.hidden]="!s.err()" #err>{{ s.err() }}</div>
     <div class="c ipisl">
       <div class="ipff">
-        <button class="btn raised" (click)="nav.go('mygoals')">Отменить</button
-        ><span class="kbsplit"
+        <span class="kbsplit"
           ><button class="btn pri" (click)="save(false)">Сохранить</button
           ><button class="btn pri kbsplm" title="Другие действия" aria-label="Другие действия" (click)="toggle($event)"><app-icon name="chev16" /></button
         ></span>
@@ -67,7 +66,7 @@ export class Mygoalnew implements OnDestroy {
       id: 'goalPview',
       label: 'Вид участников',
       options: [
-        { value: 'cmp', label: 'Компактный' },
+        { value: 'cmp', label: 'Карточки' },
         { value: 'rows', label: 'Таблица' },
       ],
       value: this.s.pview,

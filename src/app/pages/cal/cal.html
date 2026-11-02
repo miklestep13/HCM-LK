@@ -1,9 +1,9 @@
-<app-page-head title="Мои встречи">
-  <div class="calhdr"><button class="btn pri" (click)="$event.stopPropagation(); create()">Добавить встречу</button></div>
+<app-page-head title="Мой календарь">
+  <div class="calhdr"><button class="btn pri" (click)="$event.stopPropagation(); addMeeting()">Добавить встречу</button></div>
 </app-page-head>
 <div class="c calmain">
   <app-filter-bar inputClass="calq" placeholder="Найти встречу по названию, месту или участнику" [query]="q()" (queryChange)="search($event)" [(opened)]="s.opened" (keydown)="key($event)" (click)="$event.stopPropagation()">
-    <div class="fchips">
+    <div class="fchips" ftName="Статус">
       @for (x of statuses; track x[0]) {
         <button class="fchip" [class.on]="s.st()[x[0]] !== false" (click)="toggleSt(x[0])">{{ x[1] }}</button>
       }

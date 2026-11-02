@@ -18,7 +18,7 @@ export interface GrowthStat {
   delta: string;
 }
 
-/** Компетенция оценки 360: оценки в % — самооценка, руководитель, коллеги, эксперты */
+/** Компетенция оценки 360: оценки в % — самооценка, руководитель, коллеги, подчиненные */
 export interface Growth360Row {
   name: string;
   v: [number, number, number, number];

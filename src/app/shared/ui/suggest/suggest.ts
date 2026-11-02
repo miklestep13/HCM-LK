@@ -7,7 +7,7 @@ import { DestroyRef, Directive, ElementRef, inject, input, output } from '@angul
  */
 @Directive({
   selector: 'input[appSuggest]',
-  host: { '(focus)': 'show(true)', '(input)': 'show(false)', '(keydown.escape)': 'close()', '(click)': '$event.stopPropagation()' },
+  host: { '(focus)': 'show(true)', '(input)': 'show(false)', '(keydown.escape)': 'close()', '(click)': 'reopen($event)' },
 })
 export class Suggest {
   readonly appSuggest = input.required<string[]>();
@@ -15,7 +15,11 @@ export class Suggest {
   readonly suggestPick = output<string>();
   private readonly el: HTMLInputElement = inject(ElementRef).nativeElement;
   private pop: HTMLDivElement | null = null;
-  private readonly off = () => this.close();
+  /** клик вне поля закрывает список; клик по рамке поля, подписи или стрелке (они ставят фокус в поле) — нет */
+  private readonly off = (e: Event) => {
+    const box = this.el.closest('app-field, .fld') ?? this.el;
+    if (!box.contains(e.target as Node)) this.close();
+  };
 
   constructor() {
     document.addEventListener('click', this.off);
@@ -63,6 +67,11 @@ export class Suggest {
       if (on) list.scrollTop = on.offsetTop - 40;
       this.el.select();
     }
+  }
+  /** повторный клик по полю в фокусе (список уже закрыт) — открыть снова */
+  protected reopen(e: Event): void {
+    e.stopPropagation();
+    if (!this.pop) this.show(true);
   }
   close(): void {
     this.pop?.remove();

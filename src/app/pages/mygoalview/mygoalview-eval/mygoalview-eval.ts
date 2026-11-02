@@ -27,9 +27,9 @@ interface Row {
   selector: '[mygoalview-eval]',
   imports: [Icon, Field, Attach],
   template: `
-    <div class="ch"><h3>Оценка</h3></div>
+    <div class="ch"><h3>{{ list() ? 'Оценка' : 'Ваша оценка' }}</h3></div>
     <div class="cb">
-      <div class="glacl">
+      <div class="glacl" [class.hidden]="!list()">
         @for (r of rows(); track r.k) {
           @let d = !!r.A?.o;
           @let docs = d ? okDocs(r.A!) : [];
@@ -89,7 +89,9 @@ interface Row {
       @if (form()) {
         <div class="glmyf">
           <div class="glvev">
-            <div class="glrmh"><span class="afrs">Ваша оценка</span></div>
+            @if (list()) {
+              <div class="glrmh"><span class="afrs">Ваша оценка</span></div>
+            }
             <p class="glrhint">Оценку ставит каждый участник, итоговая — средняя по всем участникам с учетом весов.</p>
             <div class="glsrf glsrb">
               <div class="fld">
@@ -131,6 +133,8 @@ export class MygoalviewEval {
   private readonly toast = inject(ToastService);
   /** своя оценка — форма под списком */
   readonly form = input(false);
+  /** список оценок участников (у качественной цели вместо него — таблица оценок, здесь только своя оценка) */
+  readonly list = input(true);
   protected readonly av = avCls;
   protected readonly kind = attachKind;
   protected readonly size = attachSize;

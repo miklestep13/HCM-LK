@@ -70,6 +70,24 @@ export function goalAvgLetter(arr: [string, number][]): string {
 }
 /** чья форма «Ваша оценка» на этапе оценки заказчиков */
 export const goalMyEvaluator = (L: GoalPerson[]): GoalPerson | undefined => L.find((p) => p.role === 'Руководитель') || L[0];
+/**
+ * Состояние цели для бейджа [тон, текст] — по статусу карты:
+ *   «Заведение целей» → «Черновик», «Утверждено» → «Исполнение», «Период оценки» → «Оценка» (пока не оценена) или «Оценена»,
+ *   «Завершена» → «Оценена»; цель, отложенная в утвержденной карте или на оценке, — «Отложено».
+ */
+export function goalState(g: ProtoGoal, stage: GoalStage): [string, string] {
+  if (stage === 'draft') return ['', 'Черновик'];
+  if (g.st === 'hold' && stage !== 'fin') return ['', 'Отложено'];
+  if (stage === 'plan') return ['info', 'Исполнение'];
+  let done = stage === 'fin';
+  if (stage === 'self') done = !!g.self;
+  if (stage === 'cust') {
+    // количественные и бинарные заказчики оценивают автоматически; качественные — когда сохранена моя оценка
+    const me = goalMyEvaluator(goalPeople(g).filter((p) => p.role !== 'Исполнитель'));
+    done = goalForm(g).kind !== 'txt' || !!(me && g.evs?.[me.n]?.saved);
+  }
+  return done ? ['ok', 'Оценена'] : ['warn', 'Оценка'];
+}
 /** порядок целей в карте: компании, подразделения, индивидуальные */
 export const goalOrder = (list: ProtoGoal[]): ProtoGoal[] =>
   GOAL_LEVEL_ORDER.map((lv) => list.filter((g) => goalLevel(g) === lv))
@@ -138,6 +156,9 @@ const MAP_TO = '30.09.2026';
  * Цели сотрудника (GOALS прототипа) — общие для «Карты целей», «Списка целей» и страниц цели.
  * Страницы старого прототипа, которые используют цели, получают их и этап карты при переходе и возвращают обратно (LegacyService.share).
  */
+/** убранные этапы прототипа → этап демо */
+const STAGE_OF: Record<string, GoalStage> = { appr: 'draft', wait: 'cust' };
+
 @Injectable({ providedIn: 'root' })
 export class GoalsStore {
   private readonly demo = inject(DemoState);
@@ -146,20 +167,16 @@ export class GoalsStore {
   /** шаблоны целей (окно «Шаблоны целей»; «Сохранить и добавить цель в шаблон» пополняет список) */
   readonly templates = signal<GoalTemplate[]>(clone(GOAL_TEMPLATES));
 
-  /** цели текущей карты (glDraftList): в пустом черновике — только добавленные сотрудником */
-  readonly current = computed(() => {
-    const all = this.goals().filter((g) => g.own === 'h1' && g.st !== 'arch' && g.st !== 'draft' && g.to === MAP_TO);
-    return this.demo.goalFill() === 'full' || this.demo.goalStage() !== 'draft' ? all : all.filter((g) => String(g.id).startsWith('gn'));
-  });
+  /** цели текущей карты (glDraftList) */
+  readonly current = computed(() => this.goals().filter((g) => g.own === 'h1' && g.st !== 'arch' && g.st !== 'draft' && g.to === MAP_TO));
 
   constructor() {
     inject(LegacyService).share('goals', {
-      get: () => ({ goals: this.goals(), stage: this.demo.goalStage(), idle: this.demo.goalIdle(), fill: this.demo.goalFill() }),
-      set: (v: { goals: ProtoGoal[]; stage: GoalStage; idle: boolean; fill: 'empty' | 'full' }) => {
+      get: () => ({ goals: this.goals(), stage: this.demo.goalStage(), idle: false, fill: 'full' }),
+      set: (v: { goals: ProtoGoal[]; stage: string }) => {
         if (v.goals) this.goals.set(v.goals);
-        if (v.stage) this.demo.goalStage.set(v.stage);
-        if (v.idle != null) this.demo.goalIdle.set(v.idle);
-        if (v.fill) this.demo.goalFill.set(v.fill);
+        // этапов «На согласовании» и «Отправлено» в демо больше нет — прототип переводим на ближайший оставшийся
+        if (v.stage) this.demo.goalStage.set((STAGE_OF[v.stage] || v.stage) as GoalStage);
       },
     });
   }

@@ -234,7 +234,7 @@
   padding-bottom: 24px;
 }
 :is(.pg:not(.pg-home):not(.pg-company)) .c > .ctabs {
-  padding: 24px 24px 0px;
+  padding: 12px 24px 0px;
 }
 :where(.pg-course) .lfact {
   display: flex;
@@ -475,4 +475,9 @@
 .pg-course.pg-course [course-toc] .cblk .cico svg {
   width: 16px;
   height: 16px;
+}
+
+/* «Программа»: заголовок вместо вкладок — список модулей сразу под ним */
+.pg-course.pg-course .crsp > .ch + .cpane {
+  padding-top: 0px;
 }

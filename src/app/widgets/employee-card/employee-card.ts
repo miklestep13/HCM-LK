@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@a
 import { EmployeeCard as EmployeeCardData } from '../../interface/org';
 
 /**
- * Карточка сотрудника (.c.ecard): фото 120, ФИО, должность, теги статуса, строки «метка — значение».
+ * Карточка сотрудника (.c.ecard): фото 112, ФИО, должность, статусы серыми бейджами (как в виджете «Участники»), строки «метка — значение» (12px).
  * Используется в разделе «Сотрудники» (сетка) и во всплывающей карточке на схеме «Структура компании».
  * Клик обрабатывает страница: (click)="…" на <app-employee-card>.
  */
@@ -25,7 +25,7 @@ import { avCls } from '../../data/people.data';
             @if (e.tags?.length) {
               <div class="gltags">
                 @for (t of e.tags; track t.text) {
-                  <span class="bdg sm" [class]="t.tone">{{ t.text }}</span>
+                  <span class="bdg">{{ t.text }}</span>
                 }
               </div>
             }

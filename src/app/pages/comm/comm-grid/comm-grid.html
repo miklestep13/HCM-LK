@@ -13,7 +13,10 @@
     </div>
     <div class="cact">
       @if (role === 'adm') {
-        <button class="btn raised blk" (click)="edit($event)">Редактировать</button>
+        <span class="cmadm">
+          <button class="btn raised" (click)="edit(c, $event)">Редактировать</button>
+          <button class="btn dng" (click)="remove(c, $event)">Удалить</button>
+        </span>
       } @else if (role === 'cadm' && myAdmin.includes(c.id)) {
         <button class="btn raised blk" (click)="$event.stopPropagation(); open(c)">Управлять</button>
       } @else if (c.joined) {

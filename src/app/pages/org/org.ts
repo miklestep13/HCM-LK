@@ -16,7 +16,7 @@ import { OrgState } from './org.state';
   imports: [PageHead, FilterBar, Select, OrgSearch, OrgChart],
   providers: [OrgState],
   template: `
-    <app-page-head title="Структура компании" [subtitle]="s.subtitle()" />
+    <app-page-head title="Структура компании" />
     <div class="c ogc0">
       <app-filter-bar
         placeholder="Найти сотрудника на схеме"

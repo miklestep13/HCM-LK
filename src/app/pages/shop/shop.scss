@@ -18,20 +18,6 @@
   background: var(--blue-bg2);
   color: var(--blue);
 }
-.pg-shop .pntc {
-  font: var(--q-font-ui-description-1);
-  display: inline-block;
-  border-radius: 6px;
-  padding: 2px 7px;
-  white-space: nowrap;
-  background: var(--s2);
-  color: var(--t2);
-  vertical-align: middle;
-}
-.pg-shop .pntc {
-  background: var(--blue-bg);
-  color: var(--blue);
-}
 .pg-shop .tbl {
   width: 100%;
   border-collapse: collapse;
@@ -162,9 +148,7 @@
 .pg-shop .ftrow.hidden {
   display: none;
 }
-.pg-shop .pf-top .btn.raised {
-  background: var(--white);
-}
+/* кнопка в шапке страницы — стандартная голубая (.btn.raised: голубой фон, синий текст), при наведении фон ярче */
 .pg-shop .pf-top .btn.raised:hover {
   background: var(--blue-bg2);
 }
@@ -310,23 +294,27 @@
   height: 18px;
   flex: 0 0 auto;
 }
+/* счетчик товаров — красный кружок в правом верхнем углу кнопки «Корзина» (кнопка — точка отсчета) */
+.pg-shop .btn.cartb {
+  position: relative;
+}
 .pg-shop .cartn {
   font: var(--q-font-ui-description-1);
   position: absolute;
-  top: -5px;
-  right: -5px;
-  min-width: 19px;
-  height: 19px;
-  padding: 0px 5px;
+  top: -6px;
+  right: -6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
   border-radius: 10px;
   background: var(--red);
   color: var(--q-content-background);
   display: grid;
   place-items: center;
-  border: 2px solid var(--q-content-background);
+  border: 2px solid var(--page);
 }
 .pg-shop .c.cmtabc > .ctabs.ctabs {
-  padding-top: 8px;
+  padding-top: 12px;
 }
 .pg-shop .c.cmtabc {
   overflow: hidden;
@@ -370,8 +358,10 @@
   right: 0px;
   z-index: 1;
   background: var(--q-content-background);
-  width: 84px;
-  text-align: right;
+  width: 140px;
+  white-space: nowrap;
+  /* статус заказа — по левому краю */
+  text-align: left;
 }
 .pg-shop .w-ord th:last-child {
   z-index: 2;
@@ -448,9 +438,6 @@
   height: 100%;
   margin: 0px;
   object-fit: contain;
-}
-.pg-shop .pntc {
-  margin-left: 6px;
 }
 .pg-shop .bkemp {
   font: var(--q-font-ui-body-2);

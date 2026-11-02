@@ -4,9 +4,10 @@ import { GoalsStore, goalFinal, goalForm, goalLevel, goalNum, goalResult, goalTy
 import { NavService } from '../../../core/navigation/nav.service';
 import { MY_GOAL_LIST } from '../../../data/goals.data';
 import { shortFio } from '../../../data/org.data';
-import { GOAL_STAGES, GoalListRow } from '../../../interface/goal';
+import { GOAL_STAGES, GoalListRow, goalStatusOf } from '../../../interface/goal';
 import { NgTemplateOutlet } from '@angular/common';
 import { FilterBar } from '../../../shared/ui/filter-bar/filter-bar';
+import { Select } from '../../../shared/ui/select/select';
 
 interface Row {
   g: GoalListRow;
@@ -24,7 +25,7 @@ interface Group {
   rows: Row[];
 }
 const LEVEL_ORDER: Record<string, number> = { Компания: 0, Подразделение: 1 };
-const STATUS_TONE: Record<string, string> = { Итог: 'ok', Утверждена: 'ok', 'На согласовании': 'warn', Самооценка: 'warn', 'Оценка заказчиков': 'warn' };
+const STATUS_TONE: Record<string, string> = Object.fromEntries(GOAL_STAGES.map((s) => [s.label, s.tone]));
 
 /**
  * Блок «Список целей»: вкладки, поиск и таблица с горизонтальным скроллом.
@@ -34,7 +35,7 @@ const STATUS_TONE: Record<string, string> = { Итог: 'ok', Утвержден
  */
 @Component({
   selector: '[mygoallist-table]',
-  imports: [FilterBar, NgTemplateOutlet],
+  imports: [FilterBar, Select, NgTemplateOutlet],
   templateUrl: './mygoallist-table.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,7 +55,7 @@ export class MygoallistTable {
       const F = goalForm(g), A = goalFinal(g), r = goalResult(g);
       return {
         id: g.id, title: g.t, parent: g.par || '', level: goalLevel(g), mine: true, current: true, owner: this.me, type: goalType(g),
-        period: 'IV квартал 2026', weight: g.w ? g.w + '%' : '—', due: 'до ' + (g.due || this.goals.period.to),
+        period: 'IV квартал 2026', weight: (g.w || 0) + '%', due: 'до ' + (g.due || this.goals.period.to),
         result: F.kind === 'num' && r != null ? goalNum(r) + (F.u === '%' ? '%' : ' ' + goalUnit(F.u)) : F.kind === 'str' && A ? A.n : '—',
         grade: A?.o || '', gradeName: A?.n || '', kind: F.kind, rated: !!g.self,
       };
@@ -65,8 +66,28 @@ export class MygoallistTable {
     return this.rows();
   }
 
+  // фильтры по колонкам таблицы
+  protected readonly fEmp = signal('');
+  protected readonly fType = signal('');
+  protected readonly fPer = signal('');
+  protected readonly fGrade = signal('');
+  protected readonly fSt = signal('');
+  private readonly opts = (k: (g: GoalListRow) => string) => computed(() => [...new Set(this.rows().map(k).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ru')));
+  protected readonly empOpts = this.opts((g) => g.owner.name);
+  protected readonly typeOpts = this.opts((g) => g.type);
+  protected readonly perOpts = this.opts((g) => g.period);
+  protected readonly gradeOpts = this.opts((g) => g.grade);
+  protected readonly stOpts = this.opts((g) => this.status(g));
+
   private hit(g: GoalListRow, q: string): boolean {
-    return !q || g.title.toLowerCase().includes(q) || g.owner.name.toLowerCase().includes(q);
+    return (
+      (!q || g.title.toLowerCase().includes(q) || g.owner.name.toLowerCase().includes(q)) &&
+      (!this.fEmp() || g.owner.name === this.fEmp()) &&
+      (!this.fType() || g.type === this.fType()) &&
+      (!this.fPer() || g.period === this.fPer()) &&
+      (!this.fGrade() || g.grade === this.fGrade()) &&
+      (!this.fSt() || this.status(g) === this.fSt())
+    );
   }
   /** дерево «По цели»: найденные цели и их родители */
   protected readonly tree = computed<Row[]>(() => {
@@ -100,15 +121,15 @@ export class MygoallistTable {
   /** статус карты: у моих текущих целей — этап карты, у прошлых — «Итог», у чужих — нет */
   protected status(g: GoalListRow): string {
     if (!g.mine) return '';
-    if (!g.current) return 'Итог';
-    return GOAL_STAGES.find((s) => s.value === this.demo.goalStage())!.label;
+    if (!g.current) return 'Завершена';
+    return GOAL_STAGES.find((s) => s.value === goalStatusOf(this.demo.goalStage()))!.label;
   }
   protected tone(st: string): string {
     return STATUS_TONE[st] || '';
   }
   protected canEdit(g: GoalListRow): boolean {
     const s = this.demo.goalStage();
-    return g.current && (s === 'draft' || s === 'appr');
+    return g.current && s === 'draft';
   }
   protected canRate(g: GoalListRow): boolean {
     const s = this.demo.goalStage();

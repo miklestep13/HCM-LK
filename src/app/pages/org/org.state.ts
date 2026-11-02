@@ -5,9 +5,7 @@ import {
   ORG_HOME,
   orgKids,
   orgPath,
-  orgTotal,
   orgUnit,
-  plural,
 } from '../../data/org.data';
 
 /** размеры карточки и отступы схемы (как в прототипе: OW, OH, GX, GY, GR) */
@@ -15,7 +13,8 @@ export const OW = 264,
   OH = 128,
   GX = 28,
   GY = 84,
-  GR = 52;
+  /** между рядами сетки — место под аватар (34) и шину ряда */
+  GR = 76;
 
 /** положение карточки на холсте */
 export interface OrgBox {
@@ -58,10 +57,6 @@ export class OrgState {
 
   readonly units = ORG.filter((n) => n.unit).map((n) => n.unit);
   readonly unit = computed(() => orgUnit(this.root()));
-  readonly subtitle = computed(() => {
-    const t = orgTotal(this.root()) + 1;
-    return `${this.unit()} · ${t} ${plural(t, 'сотрудник', 'сотрудника', 'сотрудников')}`;
-  });
   /** «Мой департамент» — когда ушли со своего подразделения или кого-то нашли */
   readonly away = computed(() => this.root() !== ORG_HOME || !!this.hit());
   readonly layout = computed(() => layout(this.root(), this.open()));
@@ -287,19 +282,37 @@ function layout(root: string, open: Set<string>): OrgLayout {
     M[id].vk.forEach(vis);
   };
   vis(root);
+  /**
+   * Линии — ортогональные «шины», как в оргсхемах: от руководителя вниз, горизонтальная шина над подчиненными, от нее — отводы к каждому.
+   * В сетке (много подчиненных без своих подчиненных) — ствол слева от первой колонки и своя шина над каждым рядом:
+   * так линии не сливаются в одну и не проходят под карточками.
+   */
   const lines: string[] = [];
   ids.forEach((id) => {
     const n = M[id];
-    n.vk.forEach((k, i) => {
-      const K = M[k],
-        x1 = n.x + OW / 2,
-        y1 = n.y + OH,
-        x2 = K.x + OW / 2,
-        y2 = K.y - 34;
-      if (n.grid && K.row > 0) {
-        const A = M[n.vk[i - n.cols]];
-        lines.push(`M${x2} ${A.y + OH}V${y2}`);
-      } else lines.push(`M${x1} ${y1}C${x1} ${y1 + 34} ${x2} ${y2 - 34} ${x2} ${y2}`);
+    if (!n.vk.length) return;
+    const top = (k: string) => M[k].y - 34,
+      mid = (k: string) => M[k].x + OW / 2,
+      x1 = n.x + OW / 2,
+      y1 = n.y + OH,
+      bus0 = y1 + (top(n.vk[0]) - y1) / 2;
+    if (!n.grid || n.vk.length <= n.cols) {
+      const xs = n.vk.map(mid);
+      lines.push(`M${x1} ${y1}V${bus0}`);
+      if (xs.length > 1 || xs[0] !== x1) lines.push(`M${Math.min(x1, ...xs)} ${bus0}H${Math.max(x1, ...xs)}`);
+      n.vk.forEach((k) => lines.push(`M${mid(k)} ${bus0}V${top(k)}`));
+      return;
+    }
+    const rows: string[][] = [];
+    n.vk.forEach((k) => (rows[M[k].row] ??= []).push(k));
+    const trunk = M[n.vk[0]].x - GX / 2;
+    const busY = rows.map((r, i) => (i ? top(r[0]) - (GR - 34) / 2 : bus0));
+    lines.push(`M${x1} ${y1}V${bus0}`);
+    lines.push(`M${trunk} ${bus0}V${busY[busY.length - 1]}`);
+    rows.forEach((r, i) => {
+      const xs = r.map(mid);
+      lines.push(`M${i ? trunk : Math.min(trunk, x1)} ${busY[i]}H${Math.max(x1 * (i ? 0 : 1), ...xs)}`);
+      r.forEach((k) => lines.push(`M${mid(k)} ${busY[i]}V${top(k)}`));
     });
   });
   return { boxes: M, ids, lines, w: R.w + 120, h: R.h + top + 60 };

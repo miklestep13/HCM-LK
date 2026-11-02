@@ -1,0 +1,265 @@
+/* Форма мероприятия: общая сетка на 6 колонок, чтобы поля разных строк были одной ширины:
+   тип встречи 2 | наименование 4; место 4 | статус 2; бизнес-объект 2.
+   Дата и время начала и окончания — своя строка из четырех равных колонок (подписи «Время начала / окончания» видны целиком) */
+.pg-eventnew .frm.enf {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0px, 1fr));
+  gap: 16px;
+}
+.pg-eventnew .frm.enf > .fld {
+  grid-column: span 2;
+}
+.pg-eventnew .frm.enf > .fld.full {
+  grid-column: 1 / -1;
+}
+.pg-eventnew .frm.enf > .en2 {
+  grid-column: span 4;
+}
+/* начало и окончание: дата и время — четыре равные колонки */
+.pg-eventnew .endt {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0px, 1fr));
+  gap: 16px;
+}
+.pg-eventnew .endtg {
+  display: contents;
+}
+/* место (с ссылкой под полем) — 4 колонки, статус — 2 */
+.pg-eventnew .frm.enf > .enplw {
+  grid-column: 1 / span 4;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.pg-eventnew .enplw > .fld {
+  width: 100%;
+}
+.pg-eventnew .enlink {
+  font: var(--q-font-ui-link-2);
+}
+@media (max-width: 1024px) {
+  .pg-eventnew .frm.enf {
+    grid-template-columns: 1fr;
+  }
+  .pg-eventnew .frm.enf > .fld,
+  .pg-eventnew .frm.enf > .en2,
+  .pg-eventnew .frm.enf > .enplw {
+    grid-column: auto;
+  }
+  .pg-eventnew .endt {
+    grid-column: auto;
+    grid-template-columns: 1fr;
+  }
+}
+/* поле даты — как поле с подписью */
+.pg-eventnew .fld.flt > .dtin {
+  width: 100%;
+}
+.pg-eventnew .fld.flt > .dtin > .fin {
+  font: var(--q-font-ui-body-1);
+  height: 52px;
+  min-height: 52px;
+}
+.pg-eventnew .fld.flt.on > .dtin > .fin {
+  padding-top: 20px;
+}
+.pg-eventnew .fld.flt > .dtin .dtb {
+  top: 11px;
+}
+/* переключатели */
+.pg-eventnew .swt {
+  font: var(--q-font-ui-body-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: var(--t1);
+}
+.pg-eventnew .swt input {
+  position: absolute;
+  opacity: 0;
+  width: 0px;
+  height: 0px;
+}
+.pg-eventnew .swt i {
+  width: 34px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--stroke3);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.16s;
+}
+.pg-eventnew .swt i::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--q-content-background);
+  transition: transform 0.16s;
+}
+.pg-eventnew .swt input:checked + i {
+  background: var(--blue);
+}
+.pg-eventnew .swt input:checked + i::after {
+  transform: translateX(14px);
+}
+/* кнопка действия — отдельный остров справа */
+.pg-eventnew .c.ipisl {
+  padding: 16px 24px;
+}
+.pg-eventnew .ipff {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.pg-eventnew .pqerr {
+  margin-bottom: 16px;
+}
+
+/* время: поле со списком — стрелка справа, как у селекта; можно вписать свое */
+.pg-eventnew .entm {
+  position: relative;
+  width: 100%;
+}
+.pg-eventnew .fld.flt > .entm > .fin {
+  width: 100%;
+  font: var(--q-font-ui-body-1);
+  height: 52px;
+  padding-right: 36px;
+}
+.pg-eventnew .fld.flt.on > .entm > .fin {
+  padding-top: 20px;
+}
+.pg-eventnew .entm > app-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  margin-top: -8px;
+  display: flex;
+  width: 16px;
+  height: 16px;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+}
+
+/* описание встречи — редактор (как в форме встречи календаря) */
+.pg-eventnew .rte {
+  border: 1px solid var(--stroke2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.pg-eventnew .rtb {
+  display: flex;
+  gap: 2px;
+  padding: 6px;
+  border-bottom: 1px solid var(--stroke);
+  background: var(--hv);
+}
+.pg-eventnew .rtbb {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+}
+.pg-eventnew .rtbb:hover {
+  background: var(--raised);
+  color: var(--blue);
+}
+.pg-eventnew .rtbb svg {
+  width: 16px;
+  height: 16px;
+}
+.pg-eventnew .rtc {
+  font: var(--q-font-ui-body-2);
+  min-height: 120px;
+  padding: 12px 14px;
+  color: var(--t1);
+  outline: none;
+}
+.pg-eventnew .rtc:empty::before {
+  content: attr(data-ph);
+  color: var(--t3);
+}
+
+/* «Повторение»: правило и интервал в строку, дни недели, окончание, итог */
+.pg-eventnew .frm.enrp {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: center;
+}
+.pg-eventnew .frm.enrp + .frm.enrp,
+.pg-eventnew .enwd + .frm.enrp,
+.pg-eventnew .frm.enrp + .enwd {
+  margin-top: 16px;
+}
+.pg-eventnew .enint {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--t2);
+}
+.pg-eventnew .enint .fin {
+  width: 72px;
+  text-align: center;
+}
+.pg-eventnew .enwd {
+  display: flex;
+  gap: 6px;
+}
+.pg-eventnew .enwd button {
+  font: var(--q-font-ui-button-m);
+  flex: 1 1 0;
+  max-width: 64px;
+  height: 36px;
+  border: 1px solid var(--stroke2);
+  border-radius: 8px;
+  background: var(--q-content-background);
+  color: var(--t2);
+  cursor: pointer;
+}
+.pg-eventnew .enwd button:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.pg-eventnew .enwd button.on {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--q-content-background);
+}
+.pg-eventnew .ensum {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--blue-bg);
+  color: var(--q-primary-700);
+}
+.pg-eventnew .ensum app-icon,
+.pg-eventnew .ensum svg {
+  display: flex;
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+@media (max-width: 700px) {
+  .pg-eventnew .frm.enrp {
+    grid-template-columns: 1fr;
+  }
+}

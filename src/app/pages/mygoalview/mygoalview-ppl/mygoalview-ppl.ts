@@ -1,14 +1,17 @@
 import { ChangeDetectionStrategy, Component, booleanAttribute, computed, effect, inject, input, signal } from '@angular/core';
 import { goalPeople } from '../../../core/demo/goals-store.service';
+import { iprPl } from '../../../core/demo/ipr-store.service';
 import { GOAL_COLORS } from '../../../data/goals.data';
-import { avCls } from '../../../data/people.data';
+import { GoalPerson } from '../../../interface/goal';
+import { Member, MemberField } from '../../../interface/member';
 import { Icon } from '../../../shared/ui/icon/icon';
+import { Members } from '../../../widgets/members/members';
 import { MygoalviewState } from '../mygoalview.state';
 
-/** «Участники» цели: исполнитель и оценивающие — роль и вес; сворачивается стрелкой */
+/** «Участники» цели — тот же виджет, что в форме цели (widgets/members), только просмотр: исполнитель и оценивающие, роль и вес; сворачивается стрелкой */
 @Component({
   selector: '[mygoalview-ppl]',
-  imports: [Icon],
+  imports: [Icon, Members],
   template: `
     <div class="ch">
       <button class="actb ipcol" [title]="cold() ? 'Развернуть' : 'Свернуть'" (click)="cold.set(!cold())"><app-icon name="chevSm" /></button>
@@ -18,26 +21,7 @@ import { MygoalviewState } from '../mygoalview.state';
       }
     </div>
     <div class="cb">
-      <div class="glpt glpt-tp glpro-v">
-        <div class="glpth"><span>Участник</span><span>Роль</span><span>Вес</span></div>
-        @for (p of list(); track p.n; let i = $index) {
-          <div class="glpr" [class.exe]="!i">
-            <span class="glpwho"
-              ><span class="av" [class]="av(p.n, p.av)"></span><span class="cnm"><b [title]="p.n">{{ p.n }}</b><small>{{ p.pos }}</small></span></span
-            >
-            <span class="glptp glprl"
-              ><i class="glpkdot" [class.glpkdot0]="!i" [style.background]="i ? colors[(i - 1) % colors.length] : null"></i>{{ i ? p.role || 'Заказчик' : 'Исполнитель' }}</span
-            >
-            <div class="glpvw">
-              @if (i) {
-                {{ p.w }}%
-              } @else {
-                <span class="gr">—</span>
-              }
-            </div>
-          </div>
-        }
-      </div>
+      <app-members view="table" [fields]="fields" [people]="list()" [sub]="sub" [dot]="dot" />
     </div>
   `,
   host: { class: 'c mb ipsect', '[class.ipcold]': 'cold()', '[class.glpw]': 'count()' },
@@ -50,9 +34,15 @@ export class MygoalviewPpl {
   /** число участников в шапке (самооценка, оценка заказчиков) */
   readonly count = input(false, { transform: booleanAttribute });
   protected readonly cold = signal(false);
-  protected readonly colors = GOAL_COLORS;
-  protected readonly av = avCls;
-  protected readonly list = computed(() => goalPeople(this.s.goal()!));
+  protected readonly fields: MemberField[] = ['av', 'name', 'pos', 'role', 'w'];
+  /** исполнитель — первой строкой, без веса */
+  protected readonly list = computed<Member[]>(() => goalPeople(this.s.goal()!).map((p, i) => (i ? { ...p, role: p.role || 'Заказчик' } : { ...p, role: 'Исполнитель', w: null, lock: true })));
+  /** точка роли — цвет доли заказчика в полосе весов, как в форме */
+  protected readonly dot = (_: Member, i: number) => GOAL_COLORS[(i - 1) % GOAL_COLORS.length];
+  protected readonly sub = (p: Member) => {
+    const t = (p as GoalPerson).team;
+    return t ? t.cnt + ' ' + iprPl(t.cnt, 'сотрудник', 'сотрудника', 'сотрудников') + ' · оценка — среднее по команде' : p.pos;
+  };
   constructor() {
     effect(() => this.cold.set(this.collapsed()));
   }

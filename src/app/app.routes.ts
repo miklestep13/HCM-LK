@@ -38,6 +38,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/comm/comm').then((m) => m.Comm),
   },
   {
+    path: 'commone',
+    title: 'Сообщество · Q.HCM',
+    loadComponent: () => import('./pages/commone/commone').then((m) => m.Commone),
+  },
+  {
     path: 'kbhub',
     title: 'База знаний · Q.HCM',
     loadComponent: () => import('./pages/kbhub/kbhub').then((m) => m.Kbhub),
@@ -99,13 +104,48 @@ export const routes: Routes = [
   },
   {
     path: 'cal',
-    title: 'Мои встречи · Q.HCM',
+    title: 'Мой календарь · Q.HCM',
     loadComponent: () => import('./pages/cal/cal').then((m) => m.Cal),
   },
   {
     path: 'dev',
     title: 'Обучение · Q.HCM',
     loadComponent: () => import('./pages/dev/dev').then((m) => m.Dev),
+  },
+  {
+    path: 'events',
+    title: 'Мероприятия · Q.HCM',
+    loadComponent: () => import('./pages/events/events').then((m) => m.Events),
+  },
+  {
+    path: 'commnew',
+    title: 'Сообщество · Q.HCM',
+    loadComponent: () => import('./pages/commnew/commnew').then((m) => m.Commnew),
+  },
+  {
+    path: 'absences',
+    title: 'График отсутствий · Q.HCM',
+    loadComponent: () => import('./pages/absences/absences').then((m) => m.Absences),
+  },
+  {
+    path: 'widgets',
+    title: 'Виджеты · Q.HCM',
+    loadComponent: () => import('./pages/widgets/widgets').then((m) => m.Widgets),
+  },
+  {
+    path: 'eventview',
+    title: 'Мероприятие · Q.HCM',
+    loadComponent: () => import('./pages/eventview/eventview').then((m) => m.Eventview),
+  },
+  {
+    path: 'eventnew',
+    title: 'Мероприятие · Q.HCM',
+    loadComponent: () => import('./pages/eventnew/eventnew').then((m) => m.Eventnew),
+  },
+  {
+    path: 'a360',
+    title: 'Оценка 360 · Q.HCM',
+    loadComponent: () => import('./pages/a360/a360').then((m) => m.A360),
   },
   {
     path: 'growth',

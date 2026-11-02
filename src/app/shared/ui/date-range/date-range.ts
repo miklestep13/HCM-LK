@@ -52,7 +52,8 @@ export const TODAY = new Date(2026, 8, 30);
   selector: 'app-date-range',
   template: `
     <span class="ft2lab">{{ label() }}</span>
-    <input class="fin" readonly [value]="text()" [title]="text()" />
+    <!-- одной строкой «Подпись: период», пустой — «Подпись: Все» -->
+    <input class="fin" readonly [value]="label() + ': ' + (text() || 'Все')" [title]="text()" />
     <button class="dtb" type="button" aria-label="Выбрать период">
       <svg viewBox="0 0 16 16" fill="none">
         <rect

@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input, output, signal } from '@angular/core';
 import { ME_PHOTO, avCls } from '../../data/people.data';
 import { Icon } from '../../shared/ui/icon/icon';
+import { ToastService } from '../../shared/ui/toast/toast.service';
 
 /** Комментарий в обсуждении */
 export interface CommentItem {
@@ -16,7 +17,8 @@ export interface CommentItem {
 }
 
 /**
- * Обсуждение: форма «Оставьте комментарий» и список комментариев (лайк, ответ; у своих — правка и удаление).
+ * Обсуждение: форма «Оставьте комментарий» и список комментариев (лайк, ответ — поле под комментарием, ответы с отступом;
+ * у своих — правка и удаление).
  * Используется на странице товара; так же устроены комментарии новости.
  */
 @Component({
@@ -46,7 +48,7 @@ export interface CommentItem {
             <p>{{ m.text }}</p>
             <div class="cmta">
               <button class="npb" [class.on]="m.liked" title="Нравится" (click)="like.emit(k)"><app-icon name="like" /><span>{{ m.likes }}</span></button>
-              <button class="npb" title="Ответить" (click)="todo.emit('Ответ на комментарий.')">
+              <button class="npb" title="Ответить" (click)="openReply(k)">
                 <svg viewBox="0 0 16 16" fill="none"><path d="M6.2 3.4 2.4 7l3.8 3.6M2.6 7h6.6a4.2 4.2 0 0 1 4.2 4.2v1.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
               </button>
               @if (m.mine) {
@@ -60,6 +62,28 @@ export interface CommentItem {
             </div>
           </div>
         </div>
+        <!-- ответы: под комментарием с отступом; поле ответа открывается по «Ответить» -->
+        @for (r of replies()[k] || []; track $index) {
+          <div class="cmt cmrp">
+            <span class="av avme" [style.background-image]="'url(' + mePhoto + ')'"></span>
+            <div>
+              <div class="cmth"><b>{{ meName() }}</b><time>{{ r.date }}</time></div>
+              <p><span class="cmto">{{ r.to }},</span> {{ r.text }}</p>
+            </div>
+          </div>
+        }
+        @if (replyTo() === k) {
+          <div class="cmrf">
+            <span class="av avme" [style.background-image]="'url(' + mePhoto + ')'"></span>
+            <div class="cfin">
+              <textarea class="fta" rows="2" placeholder="Ваш ответ" [value]="rtext()" (input)="rtext.set($any($event.target).value)"></textarea>
+              <div class="cfact cmrfa">
+                <button class="btn raised" (click)="replyTo.set(null)">Отменить</button>
+                <button class="btn pri" (click)="sendReply(k)">Ответить</button>
+              </div>
+            </div>
+          </div>
+        }
       } @empty {
         <p class="shnocm">{{ empty() }}</p>
       }
@@ -85,6 +109,24 @@ export class Comments {
   protected readonly mePhoto = ME_PHOTO;
   protected readonly avCls = avCls;
   protected readonly text = signal('');
+  private readonly toast = inject(ToastService);
+  /** ответы по номеру комментария (до перезагрузки) и открытое поле ответа */
+  protected readonly replies = signal<Record<number, { date: string; text: string; to: string }[]>>({});
+  protected readonly replyTo = signal<number | null>(null);
+  protected readonly rtext = signal('');
+  protected openReply(k: number): void {
+    this.rtext.set('');
+    this.replyTo.set(k);
+  }
+  protected sendReply(k: number): void {
+    const t = this.rtext().trim();
+    if (!t) return this.toast.show('Пустой ответ', 'Напишите текст ответа.');
+    const d = new Date(), z = (n: number) => String(n).padStart(2, '0'), m = this.items()[k];
+    const date = `${z(d.getDate())}.${z(d.getMonth() + 1)}.${d.getFullYear()} ${z(d.getHours())}:${z(d.getMinutes())}`;
+    this.replies.update((r) => ({ ...r, [k]: [...(r[k] || []), { date, text: t, to: m.mine ? this.meName() : m.author }] }));
+    this.replyTo.set(null);
+    this.toast.show('Ответ опубликован', 'Автор комментария получит уведомление.');
+  }
   protected submit(): void {
     this.send.emit(this.text().trim());
     if (this.text().trim()) this.text.set('');

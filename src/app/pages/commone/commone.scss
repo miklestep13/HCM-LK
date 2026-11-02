@@ -1,0 +1,346 @@
+/* Страница сообщества (стили из прототипа: #pg-comm, вид «one») */
+.pg-commone .pf-top .acts {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+/* шапка — как у курса: обложка слева, сведения справа */
+.pg-commone .cmhero {
+  margin-bottom: 16px;
+}
+.pg-commone .crsv .crshd {
+  display: grid;
+  grid-template-columns: 560px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  padding-bottom: 24px;
+}
+.pg-commone .crsimg {
+  position: relative;
+}
+.pg-commone .cmhero .crsimg svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+}
+.pg-commone .crsinfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 315px;
+}
+.pg-commone .crsinfo h2 {
+  font: var(--q-font-ui-headline-2);
+  color: var(--black);
+  margin: 0 0 2px;
+}
+.pg-commone .cmhct {
+  font: var(--q-font-ui-description-1);
+  display: block;
+  margin-bottom: 12px;
+  color: var(--t3);
+}
+.pg-commone .cmeta2 {
+  display: flex;
+  flex-flow: wrap;
+  gap: 6px 16px;
+  margin: 0 0 16px;
+}
+.pg-commone .cmeta2 span {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  color: var(--grey);
+}
+.pg-commone .cmeta2 :is(svg, app-icon) {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.pg-commone .crsinfo .crsab {
+  max-width: 700px;
+}
+/* длинное описание — по высоте обложки, под ним «Читать все» (директива appClamp) */
+.pg-commone .crsab.clamp {
+  overflow: hidden;
+  position: relative;
+}
+.pg-commone .crsab.clamp:not(.open)::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22px;
+  background: linear-gradient(transparent, var(--white));
+}
+.pg-commone .crsmore {
+  font: var(--q-font-ui-headline-4);
+  align-self: flex-start;
+  margin-top: 4px;
+}
+.pg-commone .crsab p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin-bottom: 8px;
+}
+.pg-commone .crsinfo .crsbtn {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 16px;
+}
+.pg-commone .crsbtn .crsf {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 auto 0 -10px;
+  padding: 0;
+}
+.pg-commone .crsf .npb {
+  font: var(--q-font-ui-button-m);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--q-page-text-ui);
+}
+.pg-commone .crsf .npb:hover,
+.pg-commone .crsf .npb.on {
+  background: var(--raised);
+  color: var(--blue);
+}
+.pg-commone .crsf .npb svg {
+  width: 16px;
+  height: 16px;
+}
+.pg-commone .cmj {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+}
+.pg-commone .cmj svg {
+  width: 15px;
+  height: 15px;
+}
+.pg-commone .cmj:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+@media (max-width: 1100px) {
+  .pg-commone .crsv .crshd {
+    grid-template-columns: 1fr;
+  }
+  .pg-commone .crsinfo {
+    min-height: 0;
+  }
+}
+
+/* вкладки и шапка ленты */
+.pg-commone .c.cmtabc {
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.pg-commone .ctabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px 24px 0;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-commone .ctabs > span {
+  font: var(--q-font-ui-headline-4);
+  padding: 8px 12px 12px;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.pg-commone .ctabs > span:hover {
+  color: var(--blue);
+}
+.pg-commone .ctabs > span.on {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+.pg-commone .c > .ctabs + .ftbar {
+  padding: 16px 24px;
+}
+/* «Участники»: вкладки и шапка виджета — одна карточка */
+.pg-commone .c.cmtabc.flat {
+  margin-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.pg-commone .c.cmtabc.flat + .w-members > .mbbar {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* новости: лента слева, мероприятия и дни рождения справа */
+.pg-commone .two73 {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 1100px) {
+  .pg-commone .two73 {
+    grid-template-columns: 1fr;
+  }
+}
+.pg-commone :is(.cmncol, .colR) {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.pg-commone .c.cofeed {
+  padding: 0;
+}
+.pg-commone .cofeed .nfeed {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+.pg-commone .cofeed .npost {
+  background: none;
+  border-radius: 0;
+  border-bottom: none;
+  padding: 0;
+}
+.pg-commone .cofeed .npost + .npost {
+  border-top: 1px solid var(--stroke);
+  margin-top: 12px;
+  padding-top: 20px;
+}
+.pg-commone .cofeed .npost .npau,
+.pg-commone .cofeed .npost .npimg {
+  margin-bottom: 12px;
+}
+.pg-commone .cofeed .npost :is(.npt, .nplead) {
+  margin-bottom: 8px;
+}
+.pg-commone .cofeed .npost .nphub {
+  margin-bottom: 4px;
+}
+.pg-commone .cofeed .npost .npf {
+  margin: 0 -10px;
+  padding: 6px 0 0;
+  border-top: none;
+}
+.pg-commone .cmpost .npimg {
+  height: 220px;
+}
+.pg-commone .cmpost .npau .actb {
+  margin-left: auto;
+  align-self: flex-start;
+}
+.pg-commone .cofeed .empty {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+
+/* дни рождения — строка как на обзоре компании */
+.pg-commone .cmbd .cb {
+  padding-top: 0;
+}
+.pg-commone .cmbd .mem {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--stroke);
+  cursor: pointer;
+}
+.pg-commone .cmbd .mem:first-child {
+  padding-top: 0;
+}
+.pg-commone .cmbd .mem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.pg-commone .cmbd .mem .av {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  flex: none;
+  background-size: cover;
+  background-position: center;
+}
+.pg-commone .cmbd .mem .i {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+.pg-commone .cmbd .mem .nm {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  transition: color 0.15s;
+}
+.pg-commone .cmbd .mem:hover .nm {
+  color: var(--blue);
+}
+.pg-commone .cmbd .mem .rl {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 4px;
+}
+.pg-commone .cmbd .mem .gltags {
+  margin-top: 8px;
+}
+
+/* участники */
+.pg-commone .cmmore {
+  font: var(--q-font-ui-body-2);
+  padding: 16px 0 0;
+  color: var(--grey);
+}
+
+/* табы: меньше отступ сверху (общее правило страниц дает 24px) */
+.pg-commone.pg-commone .c.cmtabc > .ctabs {
+  padding-top: 12px;
+}
+/* шапка с фильтрами на обеих вкладках — одинаковые отступы, чтобы поиск не прыгал при переключении
+   (!important — общее правило для карточки только с фильтрами тоже с !important и дает 24px) */
+.pg-commone.pg-commone .c.cmtabc > .ctabs + .ftbar,
+.pg-commone.pg-commone .c.cmtabc.flat + .w-members > .mbbar > .ftbar {
+  padding: 16px 24px !important;
+}
+
+/* сайдбар «Добавление мероприятия»: форма в одну колонку, поле даты — как обычное поле с подписью */
+.pg-commone .drwb .frm {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+.pg-commone .fld.flt > .dtin {
+  width: 100%;
+}
+.pg-commone .fld.flt > .dtin > .fin {
+  font: var(--q-font-ui-body-1);
+  height: 52px;
+  min-height: 52px;
+}
+.pg-commone .fld.flt.on > .dtin > .fin {
+  padding-top: 20px;
+}
+.pg-commone .fld.flt > .dtin .dtb {
+  top: 11px;
+}

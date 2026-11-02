@@ -23,11 +23,16 @@ export interface NewsPost {
 
 /** Мероприятие компании: «18 сентября, 19:00», название, описание, формат, действие, участники */
 export interface CompanyEvent {
+  /** мероприятие на странице «Мероприятия» (клик открывает его карточку); нет — встреча без страницы */
+  ev?: string;
+  /** идет сейчас — отметка и подсветка строки */
+  live?: boolean;
   when: string;
   title: string;
   desc: string;
-  format: string;
-  action: string;
+  /** «Онлайн», «Офис на Малопрудной 5»; нет — только время */
+  format?: string;
+  action?: string;
   people: number;
 }
 

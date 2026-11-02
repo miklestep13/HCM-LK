@@ -2,6 +2,7 @@
    Меняйте тексты и значения здесь: блоки берут данные отсюда. */
 import { Profile, Employee } from '../interface/employee';
 import { ListBlock } from '../interface/task';
+import { Absences } from '../interface/absence';
 import { LearningItem } from '../interface/learning';
 
 export const ME: { name: string; role: string; photo: string } = {
@@ -131,6 +132,19 @@ export const TIME_OFF = {
   accrued: '1',
   accruedUnit: 'день',
   nearest: '—',
+};
+
+/** «Мои отсутствия»: доступно дней по видам и ближайшие отпуска и отгулы (слайдер) */
+export const ABSENCES: Absences = {
+  available: [
+    { label: 'Доступный отпуск', value: '13', unit: 'дней' },
+    { label: 'Доступные отгулы', value: '1', unit: 'день' },
+  ],
+  items: [
+    { kind: 'vac', type: 'Ежегодный отпуск', dates: '12.10.2026 – 18.10.2026', days: '7 дней', status: 'Запланирован', tone: 'info' },
+    { kind: 'off', type: 'Отгул', dates: '16.09.2026', days: '1 день', status: 'На согласовании', tone: 'warn' },
+    { kind: 'vac', type: 'Ежегодный отпуск', dates: '28.12.2026 – 31.12.2026', days: '4 дня', status: 'Новый', tone: '' },
+  ],
 };
 
 export const TASKS: ListBlock = {

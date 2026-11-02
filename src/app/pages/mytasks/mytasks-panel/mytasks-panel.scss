@@ -1,0 +1,92 @@
+/* Панель небольшого задания — правая половина разделенного экрана */
+.mtpanel {
+  position: sticky;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 100px);
+}
+.mtpanel > .ch.mtph {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+}
+.mtpanel .mtpk {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.mtpanel .mtpb {
+  flex: 1 1 auto;
+  overflow: auto;
+}
+.mtpanel .mtpt {
+  font: var(--q-font-ui-headline-2);
+  color: var(--t1);
+  margin: 0 0 8px;
+}
+.mtpanel .mtpm {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.mtpanel .mtpa {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.mtpanel .mtpa .av {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.mtpanel :is(.mtpa .cnm, .mtpd) {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.mtpanel :is(.mtpa .cnm, .mtpd) small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.mtpanel :is(.mtpa .cnm, .mtpd) b {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mtpanel .mtpd.dgt b {
+  color: var(--dg);
+}
+.mtpanel .mtpx {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin: 16px 0 0;
+}
+.mtpanel .mtpl {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  margin: 20px 0 8px;
+}
+.mtpanel .mtpc {
+  margin-top: 20px;
+}
+.mtpanel .mtpf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--stroke);
+}
+.mtpanel .mtpfb {
+  display: flex;
+  gap: 8px;
+}

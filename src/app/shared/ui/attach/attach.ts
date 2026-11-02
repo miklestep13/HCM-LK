@@ -9,6 +9,7 @@ import { attachKind, attachSize, todayDmy } from './attach.utils';
  * Прикрепленные файлы (.attl): карточка — плитка типа, имя, «размер · кто загрузил», справа действия; клик — предпросмотр.
  *   <app-attach [files]="docs" />                    — просмотр: скопировать ссылку, скачать
  *   <app-attach edit [(files)]="docs" />             — редактирование: зона загрузки, переименовать, удалить, отмена загрузки
+ *   <app-attach compact [files]="docs" />            — компактные карточки (плитка 32px, кнопки 28px) — в сайдбарах и списках
  * Пока файл грузится — плитка со спиннером («Загружаем…»); занятость — attachBusy(files).
  */
 @Component({
@@ -64,11 +65,14 @@ import { attachKind, attachSize, todayDmy } from './attach.utils';
       }
     </div>
   `,
+  host: { '[class.attsm]': 'compact()' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Attach {
   readonly files = model<AttachFile[]>([]);
   readonly edit = input(false, { transform: booleanAttribute });
+  /** компактные карточки, ниже по высоте */
+  readonly compact = input(false, { transform: booleanAttribute });
   protected readonly pv = inject(AttachPreviewService);
   private readonly toast = inject(ToastService);
   private readonly el: HTMLElement = inject(ElementRef).nativeElement;

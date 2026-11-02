@@ -304,3 +304,63 @@
 .pg-mytasks .vcard .vt {
   font: var(--q-font-ui-headline-3);
 }
+
+/* таблица: прокрутка по горизонтали, «⋯» — последняя колонка (закреплена справа, см. _ui.scss) */
+.pg-mytasks [mytasks-table] > .tw {
+  overflow-x: auto;
+}
+
+/* разделенный экран: список слева, панель небольшого задания справа */
+.pg-mytasks .mtsplit.on {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(400px, 44%);
+  gap: 16px;
+  align-items: start;
+}
+.pg-mytasks .mtsplit.on .mtlist {
+  min-width: 0;
+}
+.pg-mytasks .mtsplit.on .mtvgrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.pg-mytasks .mttbl tr.mtcur td {
+  background: var(--blue-bg);
+}
+@media (max-width: 1100px) {
+  .pg-mytasks .mtsplit.on {
+    grid-template-columns: 1fr;
+  }
+}
+.pg-mytasks .vcard.mtvc.mtcur {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 1px var(--blue);
+}
+
+/* строки таблицы: курсор-рука и подсветка при наведении */
+.pg-mytasks .mttbl tbody tr {
+  cursor: pointer;
+}
+.pg-mytasks .mttbl tbody tr:hover td {
+  background: var(--q-primary-50);
+}
+/* «Открыть справа» — рядом с названием небольшого задания */
+.pg-mytasks .mttl {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-mytasks .mttbl .mttl b {
+  display: inline;
+}
+.pg-mytasks .mtqo {
+  flex: none;
+  color: var(--blue);
+}
+.pg-mytasks .mtqo.on {
+  background: var(--blue-bg);
+}
+.pg-mytasks .vt.mttl {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}

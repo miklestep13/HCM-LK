@@ -23,7 +23,8 @@ import {
     @if (label()) {
       <span class="ft2lab">{{ label() }}</span>
     }
-    <span class="fsv" [class.ph]="!value()">{{ value() ? valuePrefix() + value() : placeholder() }}</span>
+    <!-- с подписью (фильтр в панели) — одной строкой «Подпись: значение», пустой — «Подпись: Все» -->
+    <span class="fsv" [class.ph]="!value() && !label()">{{ value() ? valuePrefix() + value() : label() ? 'Все' : placeholder() }}</span>
     <svg viewBox="0 0 16 16" fill="none">
       <path
         d="M4 6.4 8 10.4l4-4"

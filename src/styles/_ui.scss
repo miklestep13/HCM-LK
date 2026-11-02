@@ -12,6 +12,10 @@
   gap: 8px;
   padding: 20px 24px 16px;
 }
+/* свернутый блок (в карточке только заголовок) — заголовок посередине: отступ сверху и снизу одинаковый */
+.c > .ch:last-child {
+  padding-bottom: 20px;
+}
 .ch h3 {
   font: var(--q-font-ui-headline-3);
   color: var(--black);
@@ -74,6 +78,9 @@
 .bar.ok i {
   background: var(--ok-ac);
 }
+.bar.warn i {
+  background: var(--warn-ac);
+}
 .bar.dg i {
   background: var(--dg-ac);
 }
@@ -130,9 +137,18 @@
   background: var(--dg-bg);
   color: var(--dg);
 }
+/* синий бейдж: голубой фон, синий текст (primary-700 — контраст 8.9; primary-500 на голубом сливается) */
 .bdg.info {
-  background: var(--blue-bg2);
-  color: var(--blue);
+  background: var(--blue-bg);
+  color: var(--q-primary-700);
+}
+.bdg.tq {
+  background: var(--q-badge-turquoise-bg);
+  color: var(--q-badge-turquoise-color);
+}
+.bdg.vt {
+  background: var(--q-badge-violet-bg);
+  color: var(--q-badge-violet-color);
 }
 .bdg.sm {
   font: var(--q-font-ui-badge);
@@ -518,11 +534,11 @@
 .pg-home .stc .v {
   font: var(--q-font-ui-headline-4);
 }
-/* буква оценки по шкале A–E (.clbg.gA … .gE) */
-.clbg { font: var(--q-font-ui-headline-4); width: 26px; height: 26px; border-radius: 6px; display: inline-grid; place-items: center; background: var(--s2); color: var(--t3); cursor: default; flex: none; }
-.clbg.gA { background: var(--blue-bg); color: var(--blue); }
+/* буква оценки по шкале A–E (.clbg.gA … .gE), значение трехуровневой шкалы (.g1000 / .g700 / .g400) */
+.clbg { font: var(--q-font-ui-headline-4); min-width: 26px; padding: 0 5px; box-sizing: border-box; height: 26px; border-radius: 6px; display: inline-grid; place-items: center; background: var(--s2); color: var(--t3); cursor: default; flex: none; }
+.clbg.gA, .clbg.g1000 { background: var(--blue-bg); color: var(--blue); }
 .clbg.gB { background: var(--ok-bg); color: var(--ok); }
-.clbg.gD, .clbg.gE { background: var(--dg-bg); color: var(--dg); }
+.clbg.gD, .clbg.gE, .clbg.g400 { background: var(--dg-bg); color: var(--dg); }
 
 /* уведомления (ToastService) */
 .toasts { position: fixed; right: 20px; bottom: 72px; z-index: 120; display: flex; flex-direction: column; gap: 9px; }
@@ -545,7 +561,7 @@
   padding-bottom: 0px;
   margin-bottom: 0px;
 }
-.c > .ch ~ .cb > :first-child > :is(.kv, .item, .mem, .goal, .thx, .prj, .vrow, .s2risk, .dtr, .al, .ml, .coli, .coshi, .sdkvr, .ctc, .evc, .crs, .stc):first-child {
+.c > .ch ~ .cb > :first-child > :is(.kv, .item, .mem, .goal, .thx, .prj, .vrow, .s2risk, .dtr, .al, .ml, .coli, .coshi, .sdkvr, .ctc, .evc, .crs):first-child {
   padding-top: 0px;
   margin-top: 0px;
 }
@@ -687,6 +703,10 @@
 :is(.pg:not(.pg-home):not(.pg-company)) .c > .ch {
   padding: 24px 24px 16px;
 }
+/* свернутый блок на страницах — заголовок посередине (снизу столько же, сколько сверху) */
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ch:last-child {
+  padding-bottom: 24px;
+}
 :is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:last-child {
   padding-bottom: 24px;
 }
@@ -706,7 +726,7 @@
 
 /* Общие правила прототипа, впервые понадобившиеся на странице «База знаний» */
 :is(.pg:not(.pg-home):not(.pg-company)) .c > .ctabs {
-  padding: 24px 24px 0px;
+  padding: 12px 24px 0px;
 }
 
 /* поле с ошибкой (.fld.err) — красная рамка */
@@ -718,4 +738,77 @@
 .drw.xl {
   width: 1200px;
   max-width: 96vw;
+}
+
+/* Таблицы: действия («⋯») — последняя колонка справа, закреплена при горизонтальной прокрутке (<th class="tact">, <td class="tact">).
+   Чек-бокс и стрелка аккордеона — первая колонка слева, не закрепляются; чек-бокс в заголовке выбирает все записи страницы. */
+table :is(th, td).tact {
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  width: 44px;
+  text-align: right;
+  background: var(--q-content-background);
+}
+
+/* Счетчик в табах (Каталог 11 · История заказов 6): <span class="pntc">N</span> сразу после названия вкладки.
+   Голубая плашка с синим числом — на всех вкладках, и активной, и неактивной. */
+.pntc {
+  font: var(--q-font-ui-description-1);
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 7px;
+  border-radius: 6px;
+  white-space: nowrap;
+  vertical-align: middle;
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+
+/* описание не выше картинки ([appClamp]: шапка курса и программы) и ссылка «Показать еще» / «Свернуть» */
+.crsab.clamp {
+  overflow: hidden;
+  position: relative;
+}
+.crsab.clamp:not(.open)::after {
+  content: '';
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  height: 22px;
+  background: linear-gradient(transparent, var(--white));
+}
+.crsinfo .lnk.crsmore {
+  font: var(--q-font-ui-headline-4);
+  align-self: flex-start;
+  margin-top: 4px;
+}
+.crsinfo .crsmore:has(+ .crspr:not(.hidden)) {
+  margin-bottom: 16px;
+}
+
+/* Кнопки объекта справа от заголовка (страница / карточка): «Удалить» (красная, .btn.dng) слева, «Редактировать» (голубая, .btn.raised) справа.
+   <span class="objacts"><button class="btn dng">Удалить</button><button class="btn raised">Редактировать</button></span> */
+.objacts {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* баннер-предупреждение над страницей (период оценки, планирование отпусков): <div class="c bnr"><span class="t">…</span><button class="btn pri sm"></div> */
+.bnr {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  margin-bottom: 24px;
+  background: var(--warn-bg);
+}
+.bnr .t {
+  font: var(--q-font-ui-headline-4);
+  flex: 1;
+  min-width: 0;
+  color: var(--warn);
 }

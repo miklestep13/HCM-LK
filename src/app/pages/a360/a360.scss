@@ -1,0 +1,633 @@
+/* Страница «Оценка 360» (блок 360 и радар перенесены из «Развития») */
+/* Развитие (стили из прототипа) */
+.pg-a360 .big {
+  font: var(--q-font-ui-headline-2);
+  color: var(--black);
+}
+.pg-a360 .gr360 {
+  display: grid;
+  grid-template-columns: minmax(0px, 1fr) minmax(0px, 1fr);
+  gap: 24px;
+  align-items: center;
+}
+.pg-a360 .gr360c {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.pg-a360 .grleg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.pg-a360 .grl {
+  font: var(--q-font-ui-button-s-xs);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--stroke2);
+  background: var(--white);
+  border-radius: 9999px;
+  padding: 5px 12px 5px 8px;
+  cursor: pointer;
+  color: var(--t3);
+  transition: 0.12s;
+}
+.pg-a360 .grl i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: block;
+  opacity: 0.35;
+}
+.pg-a360 .grl.on {
+  color: var(--t1);
+  border-color: var(--stroke3);
+}
+.pg-a360 .grl.on i {
+  opacity: 1;
+}
+.pg-a360 .grwrap {
+  position: relative;
+}
+.pg-a360 .grtip {
+  position: absolute;
+  z-index: 5;
+  width: 252px;
+  background: var(--white);
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 8px 26px var(--q-base-transparent-100);
+  pointer-events: none;
+}
+.pg-a360 .grtop,
+.pg-a360 .gr360 {
+  grid-template-columns: 1fr;
+}
+.pg-a360 .cnc {
+  background: var(--s1);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.pg-a360 .cnch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pg-a360 .cnch i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.pg-a360 .cnch b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-a360 .cnc p {
+  font: var(--q-font-ui-description-1);
+  color: var(--t2);
+  margin-top: 8px;
+}
+.pg-a360 .cnc .big {
+  font: var(--q-font-ui-headline-2);
+  margin-top: 2px;
+}
+.pg-a360 .gr360 {
+  grid-template-columns: 480px minmax(0px, 1fr);
+  align-items: start;
+}
+.pg-a360 .gr360c {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0px, 1fr));
+  gap: 12px;
+}
+.pg-a360 .gr360c .cnc .big {
+  font: var(--q-font-ui-headline-2);
+  color: var(--t1);
+}
+.pg-a360 .gr360 {
+  grid-template-columns: 600px minmax(0px, 1fr);
+  align-items: center;
+}
+.pg-a360 .gr360c {
+  grid-template-columns: repeat(3, minmax(0px, 1fr));
+  grid-auto-rows: 1fr;
+}
+.pg-a360 .gr360c .cnc:first-child {
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+}
+.pg-a360 .gr360c .cnc:first-child .big {
+  font: var(--q-font-ui-headline-1);
+  margin-top: 8px;
+}
+.pg-a360 .rst .v,
+.pg-a360 .grr > .cell .g,
+.pg-a360 .cnc .big,
+.pg-a360 .gr360c .cnc .big {
+  font: var(--q-font-ui-headline-3);
+}
+.pg-a360 .empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 48px 24px;
+  text-align: center;
+}
+.pg-a360 .wipi {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+}
+.pg-a360 .wipi svg {
+  width: 26px;
+  height: 26px;
+}
+.pg-a360 .empty b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+.pg-a360 .empty small {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t3);
+  max-width: 360px;
+}
+.pg-a360 .grpb {
+  width: 320px;
+  max-width: 100%;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--track);
+  overflow: hidden;
+  margin: 6px 0px 2px;
+}
+.pg-a360 .grpb i {
+  display: block;
+  height: 100%;
+  border-radius: 9999px;
+  background: var(--warn-ac);
+}
+.pg-a360 .grpb.ok i {
+  background: var(--ok-ac);
+}
+.pg-a360 .grpl {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-a360 .grtip > b {
+  font: var(--q-font-ui-headline-4);
+  display: block;
+  color: var(--t1);
+  margin-bottom: 8px;
+}
+.pg-a360 .gtr {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--t2);
+}
+.pg-a360 .gtr i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+.pg-a360 .gtr b {
+  margin-left: auto;
+  color: var(--t1);
+}
+.pg-a360 .gtr.off {
+  opacity: 0.4;
+}
+.pg-a360 .gtg {
+  font: var(--q-font-ui-description-1);
+  display: block;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--stroke);
+  color: var(--t3);
+}
+.pg-a360 .gtg b.dg {
+  color: var(--dg);
+}
+.pg-a360 .gtg b.ok {
+  color: var(--ok);
+}
+
+/* шапка (как у ИПР и карты целей): период и статус, карточка сотрудника, четыре плитки */
+.pg-a360 .iphead .iptit {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0px 0px 20px;
+}
+.pg-a360 .iphead .tkt {
+  font: var(--q-font-ui-headline-2);
+  color: var(--black);
+  margin: 0px;
+}
+.pg-a360 .iptit .iptbdg {
+  margin: 0px;
+}
+.pg-a360 .glemp {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0px 0px 20px;
+}
+.pg-a360 .glemp img {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex: none;
+}
+.pg-a360 .glemp .cnm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0px;
+}
+.pg-a360 .glemp .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-a360 .glemp .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-a360 .kpis {
+  display: grid;
+  gap: 12px;
+}
+.pg-a360 .kpis.k4 {
+  grid-template-columns: repeat(4, minmax(0px, 1fr));
+}
+.pg-a360 .rst {
+  background: var(--s1);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.pg-a360 .rst .l {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-a360 .rst .v {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin-top: 4px;
+}
+@media (max-width: 900px) {
+  .pg-a360 .kpis.k4 {
+    grid-template-columns: repeat(2, minmax(0px, 1fr));
+  }
+}
+
+/* таблица и разрыв: 7/3, на узком экране — друг под другом */
+.pg-a360 .a3row {
+  display: grid;
+  grid-template-columns: minmax(0px, 1fr) minmax(0px, 1fr);
+  gap: 16px;
+  align-items: stretch;
+  margin-bottom: 16px;
+}
+@media (max-width: 1000px) {
+  .pg-a360 .a3row {
+    grid-template-columns: 1fr;
+  }
+}
+/* «Выгрузить отчет» — справа от заголовка страницы */
+.pg-a360 .pf-top .a3rep {
+  margin-left: auto;
+}
+/* шапка: сотрудник слева, статус в правом верхнем углу */
+.pg-a360 .a3top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.pg-a360 .a3top .bdg {
+  flex: none;
+}
+.pg-a360 .kpis.k3 {
+  grid-template-columns: repeat(3, minmax(0px, 1fr));
+}
+/* «Итоги оценки»: четыре плитки в ряд */
+.pg-a360 .a3conc {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0px, 1fr));
+  gap: 12px;
+}
+@media (max-width: 1100px) {
+  .pg-a360 .a3conc {
+    grid-template-columns: repeat(2, minmax(0px, 1fr));
+  }
+}
+/* «Сравнение оценок»: только легенда и радар */
+.pg-a360 .pg-a360 .gr360,
+.pg-a360 .gr360.gr360 {
+  grid-template-columns: 1fr;
+}
+
+/* «Оценка по каждой компетенции» */
+.pg-a360 .scaleleg {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--t3);
+}
+.pg-a360 .scaleleg i {
+  flex: 1;
+  height: 8px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--q-error-100), var(--q-warning-300), var(--q-success-100), var(--q-success-100));
+}
+.pg-a360 .scaleleg + .ctbl {
+  margin-top: 16px;
+}
+.pg-a360 .ctbl {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-x: auto;
+}
+.pg-a360 .schead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0px 14px;
+}
+.pg-a360 .schead .txt {
+  flex: 1;
+}
+.pg-a360 .schead .scs span {
+  font: var(--q-font-ui-description-1);
+  width: 52px;
+  text-align: center;
+  color: var(--t3);
+  white-space: nowrap;
+}
+.pg-a360 .cgr {
+  border: 1px solid var(--stroke);
+  border-radius: 10px;
+  overflow: hidden;
+  min-width: 560px;
+}
+.pg-a360 .cgh {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+}
+.pg-a360 .cgh .cav {
+  width: 14px;
+  height: 14px;
+  color: var(--q-page-text-ui);
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.pg-a360 .cgr.open .cgh .cav {
+  transform: rotate(180deg);
+}
+.pg-a360 .cgn {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-a360 .cgh .scs {
+  margin-left: auto;
+}
+.pg-a360 .cgb {
+  display: none;
+  padding: 0px 14px 6px;
+}
+.pg-a360 .cgr.open .cgb {
+  display: block;
+}
+.pg-a360 .cgi {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0px;
+  border-top: 1px solid var(--stroke);
+}
+.pg-a360 .cgi .txt {
+  font: var(--q-font-ui-body-2);
+  flex: 1;
+  min-width: 0px;
+  color: var(--t2);
+}
+.pg-a360 .scs {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.pg-a360 .sc {
+  font: var(--q-font-ui-description-1);
+  width: 52px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--t1);
+  padding: 0px;
+}
+.pg-a360 .sc.lo {
+  background: var(--q-error-100);
+}
+.pg-a360 .sc.md {
+  background: var(--q-warning-100);
+}
+.pg-a360 .sc.ok {
+  background: var(--q-success-50);
+}
+.pg-a360 .sc.hi {
+  background: var(--q-success-100);
+}
+/* итог (средняя): та же плашка, обводка и жирное число; не .av — это класс аватарок со своим скруглением */
+.pg-a360 .sc.sctot {
+  font: var(--q-font-ui-button-s-xs);
+  box-shadow: inset 0 0 0 1px var(--q-content-shadow-color);
+}
+.pg-a360 .sc.hascm {
+  cursor: pointer;
+}
+.pg-a360 .sc.hascm:hover {
+  outline: 1px solid var(--blue);
+  outline-offset: 1px;
+}
+/* есть комментарии: голубой кружок с синим счетчиком в правом верхнем углу плашки (как .pntc).
+   Без белой обводки — на цветной плашке она выглядела вырезом */
+.pg-a360 .sc .sccm {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  z-index: 1;
+  min-width: 16px;
+  height: 16px;
+  padding: 0px 4px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font: var(--q-font-ui-description-1);
+  font-style: normal;
+  line-height: 16px;
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.pg-a360 .ctbl .empty {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+
+/* «Разрыв самооценки» */
+.pg-a360 .gap {
+  display: grid;
+  grid-template-columns: minmax(0px, 1fr) minmax(0px, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0px;
+}
+.pg-a360 .gap .gn {
+  font: var(--q-font-ui-description-1);
+  color: var(--t2);
+}
+.pg-a360 .gtr {
+  position: relative;
+  height: 24px;
+}
+.pg-a360 .gtr::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0px;
+  bottom: 0px;
+  width: 1px;
+  background: var(--q-base-100);
+}
+.pg-a360 .gv {
+  font: var(--q-font-ui-description-1);
+  position: absolute;
+  top: 3px;
+  height: 18px;
+  min-width: 30px;
+  padding: 0px 5px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  background: var(--q-base-100);
+  color: var(--q-content-text-secondary);
+}
+.pg-a360 .gv.warn {
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+.pg-a360 .gax {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  justify-content: space-between;
+  color: var(--t3);
+  margin-left: calc(50% + 5px);
+  margin-top: 6px;
+}
+.pg-a360 .gax span:last-child {
+  text-align: right;
+}
+
+/* сайдбар «Комментарии»: категория серым, комментарий — фото, ФИО, роль, дата, ниже текст */
+.pg-a360 .a3cmcat {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  margin: 0px 0px 8px;
+}
+.pg-a360 .a3cm {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 16px 0px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-a360 .a3cm:last-child {
+  border-bottom: none;
+}
+.pg-a360 .a3cm > .av {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+}
+.pg-a360 .a3cm > div {
+  flex: 1 1 0%;
+  min-width: 0px;
+}
+.pg-a360 .a3cmh {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+/* ФИО, под ним роль */
+.pg-a360 .a3cmw {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0px;
+}
+.pg-a360 .a3cmh time {
+  flex: none;
+  white-space: nowrap;
+}
+.pg-a360 .a3cmh b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+.pg-a360 .a3cmw span,
+.pg-a360 .a3cmh time {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-a360 .a3cm p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin: 0px;
+}
+
+/* шкала сразу под шапкой с фильтрами — без верхнего отступа блока */
+.pg-a360 .ftbar + .cb {
+  padding-top: 0px;
+}
+
+/* анонимный комментарий (роль «Сотрудник»): вместо фото — значок человека */
+.a3cm .av.a3anon {
+  display: grid;
+  place-items: center;
+  background: var(--s2);
+  color: var(--t3);
+}
+.a3cm .av.a3anon app-icon,
+.a3cm .av.a3anon svg {
+  display: flex;
+  width: 16px;
+  height: 16px;
+}
+/* шапка у сотрудника — две плитки */
+.pg-a360 .kpis.k2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}

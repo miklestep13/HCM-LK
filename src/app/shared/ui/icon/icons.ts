@@ -7,6 +7,8 @@ export const ICONS: Record<string, string> = {
   link: '<svg viewBox="0 0 18 18" fill="none"><path d="M7.5 10.5l3-3M8 5.5l1.2-1.2a3 3 0 0 1 4.3 4.3L12.3 9.8M10 12.5l-1.2 1.2a3 3 0 0 1-4.3-4.3L5.7 8.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg>',
   heart:
     '<svg viewBox="0 0 18 18" fill="none"><path d="M9 15.2 3.2 9.6A3.4 3.4 0 0 1 8 4.8l1 1 1-1a3.4 3.4 0 0 1 4.8 4.8L9 15.2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path></svg>',
+  splitView:
+    '<svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2.8" width="12" height="10.4" rx="1.6" stroke="currentColor" stroke-width="1.4"></rect><path d="M9.4 2.8v10.4" stroke="currentColor" stroke-width="1.4"></path><path d="M11 6h1.4M11 8h1.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg>',
   open: '<svg viewBox="0 0 16 16" fill="none"><path d="M9 2.6h4.4V7M13 3 8.2 7.8M12.4 9.6v2.8a1.4 1.4 0 0 1-1.4 1.4H4.2a1.4 1.4 0 0 1-1.4-1.4V5.6a1.4 1.4 0 0 1 1.4-1.4H7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>',
   wallet:
     '<svg viewBox="0 0 24 24" fill="none"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H17v3" stroke="var(--q-button-primary-text)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><rect x="4" y="7.5" width="16" height="11.5" rx="2.5" stroke="var(--q-button-primary-text)" stroke-width="1.8"></rect><path d="M15.5 13.2h2" stroke="var(--q-button-primary-text)" stroke-width="2.2" stroke-linecap="round"></path></svg>',

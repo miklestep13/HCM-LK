@@ -42,7 +42,8 @@ export class ShopOrders {
       .orders()
       .map((o, k) => ({ o, k }))
       .filter(({ o }) => (!q || o.no.toLowerCase().includes(q)) && (!this.f.od() || o.created.slice(0, 10) === this.f.od()) &&
-        (!this.f.on() || orderQty(o) === +this.f.on()) && (!this.f.os() || String(orderSum(o)).includes(this.f.os())) && (!this.f.ost() || o.status[1] === this.f.ost()))
+        (!this.f.on() || orderQty(o) === +this.f.on()) && (!this.f.os() || String(orderSum(o)).includes(this.f.os())) && (!this.f.ost() || o.status[1] === this.f.ost()) &&
+        (!this.f.om() || methodText(o.method) === this.f.om()))
       .sort((x, y) => { const g = ORDER_COLS[s.k][1], a = g(x.o), b = g(y.o); return (a < b ? -1 : a > b ? 1 : 0) * s.d; });
   });
   protected sortBy(k: number, e: Event): void {

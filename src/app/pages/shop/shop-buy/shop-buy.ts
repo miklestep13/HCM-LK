@@ -3,7 +3,7 @@ import { ShopStore } from '../../../core/demo/shop-store.service';
 import { stockLimit } from '../../../data/shop.data';
 import { Product } from '../../../interface/shop';
 
-/** Кнопка покупки: «В корзину» → «Добавлено · N шт.» с минусом и плюсом; «Нет в наличии» — неактивна. */
+/** Кнопка покупки: «В корзину» (второстепенная, голубая — основная на странице «Корзина») → «Добавлено · N шт.» с минусом и плюсом; «Нет в наличии» — неактивна. */
 @Component({
   selector: 'app-shop-buy',
   template: `
@@ -11,7 +11,7 @@ import { Product } from '../../../interface/shop';
     @if (p().stock === 0) {
       <button class="btn raised" [class.blk]="block()" disabled>Нет в наличии</button>
     } @else if (!n) {
-      <button class="btn pri" [class.blk]="block()" (click)="$event.stopPropagation(); shop.add(p().id, 1)">В корзину</button>
+      <button class="btn raised" [class.blk]="block()" (click)="$event.stopPropagation(); shop.add(p().id, 1)">В корзину</button>
     } @else {
       <div class="pqb" (click)="$event.stopPropagation()">
         <button [title]="n === 1 ? 'Убрать из корзины' : 'Убрать одну штуку'" (click)="shop.add(p().id, -1)">

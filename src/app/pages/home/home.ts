@@ -14,7 +14,6 @@ import { HomeProfile } from './home-profile/home-profile';
 import { HomeDevelopment } from './home-development/home-development';
 import { HomeAwards } from './home-awards/home-awards';
 import { HomeWallet } from './home-wallet/home-wallet';
-import { HomeIncome } from './home-income/home-income';
 import { HomeVacation } from './home-vacation/home-vacation';
 import { HomeTimeOff } from './home-time-off/home-time-off';
 import { HomeTasks } from './home-tasks/home-tasks';
@@ -36,7 +35,6 @@ import { HomeRequests } from './home-requests/home-requests';
     HomeDevelopment,
     HomeAwards,
     HomeWallet,
-    HomeIncome,
     HomeVacation,
     HomeTimeOff,
     HomeTasks,
@@ -60,9 +58,9 @@ export class Home implements OnDestroy {
 
   private readonly unregister = inject(DevPanelService).register({
     id: 'goalStage',
-    label: 'Этап карты целей',
+    label: 'Статус карты целей',
     options: GOAL_STAGES.map((s) => ({ value: s.value, label: s.label })),
-    value: this.demo.goalStage,
+    value: this.demo.goalStatus,
   });
 
   ngOnDestroy(): void {

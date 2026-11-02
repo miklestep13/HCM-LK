@@ -2,11 +2,12 @@ import { ChangeDetectionStrategy, Component, input, model } from '@angular/core'
 import { Tooltip } from '../tooltip/tooltip';
 
 /** Вид списка */
-export type ViewMode = 'cards' | 'table';
+export type ViewMode = 'cards' | 'table' | 'cal';
 
 /**
  * Переключатель вида списка «Карточки / Таблица» (.vsw) — в строке поиска шапки фильтров.
  *   <app-view-switch ftAction [(value)]="view" />
+ *   <app-view-switch ftAction [options]="['cal', 'table']" [(value)]="view" />  — «Календарь / Таблица»
  */
 @Component({
   selector: 'app-view-switch',
@@ -14,7 +15,9 @@ export type ViewMode = 'cards' | 'table';
   template: `
     @for (o of options(); track o) {
       <button type="button" [class.on]="value() === o" [attr.aria-pressed]="value() === o" [attr.aria-label]="names[o]" [appTip]="names[o]" (click)="value.set(o)">
-        @if (o === 'cards') {
+        @if (o === 'cal') {
+          <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="3.4" width="12" height="10.4" rx="2" stroke="currentColor" stroke-width="1.4" /><path d="M5.2 1.8v2.6M10.8 1.8v2.6M2 6.6h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg>
+        } @else if (o === 'cards') {
           <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.4" /><rect x="9" y="2" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.4" /><rect x="2" y="9" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.4" /><rect x="9" y="9" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.4" /></svg>
         } @else {
           <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2.4" width="12" height="11.2" rx="1.6" stroke="currentColor" stroke-width="1.4" /><path d="M2 6.2h12M2 9.8h12M6 6.2v7.4" stroke="currentColor" stroke-width="1.4" /></svg>
@@ -28,5 +31,5 @@ export type ViewMode = 'cards' | 'table';
 export class ViewSwitch {
   readonly options = input<ViewMode[]>(['cards', 'table']);
   readonly value = model<ViewMode>('table');
-  protected readonly names: Record<ViewMode, string> = { cards: 'Карточки', table: 'Таблица' };
+  protected readonly names: Record<ViewMode, string> = { cards: 'Карточки', table: 'Таблица', cal: 'Календарь' };
 }

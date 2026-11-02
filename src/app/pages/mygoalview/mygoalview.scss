@@ -112,9 +112,7 @@
   background-position: center center;
   flex-shrink: 0;
 }
-:where(.pg-mygoalview) .pf-top .btn.raised {
-  background: var(--white);
-}
+/* кнопка в шапке страницы — стандартная голубая (.btn.raised: голубой фон, синий текст), при наведении фон ярче */
 :where(.pg-mygoalview) .pf-top .btn.raised:hover {
   background: var(--blue-bg2);
 }
@@ -294,9 +292,6 @@
 }
 :where(.pg-mygoalview) .c > .ch ~ .cb > :is(.cyclist, .tw, .adlist, .cform, .iplist):first-child {
   padding-top: 0px;
-}
-:where(.pg-mygoalview) .gvedit {
-  margin-left: auto;
 }
 :where(.pg-mygoalview) .glvtit {
   display: flex;
@@ -1051,4 +1046,170 @@
 }
 .pg-mygoalview.pg-mygoalview.glgvro .glroev .glvcm ~ .glvsch {
   margin-top: 20px;
+}
+
+/* блок «Оценка» — таблица, как «Требуемые оценки» в бланке аттестации */
+.pg-mygoalview .gvrates .tw {
+  overflow-x: auto;
+}
+.pg-mygoalview .gvrtbl {
+  min-width: 820px;
+}
+.pg-mygoalview .gvrtbl thead th:first-child {
+  padding-left: 22px;
+}
+.pg-mygoalview .gvrtbl .afrow.afexp {
+  cursor: pointer;
+}
+.pg-mygoalview .gvrtbl .afcell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-mygoalview .gvrtbl .afcell b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-mygoalview .gvrtbl .afrow.afexp:hover .afchev {
+  color: var(--blue);
+}
+.pg-mygoalview .gvrtbl .afrow.open .afchev svg {
+  transform: rotate(180deg);
+}
+.pg-mygoalview .gvrtbl .afrow.open > td {
+  border-bottom-color: transparent;
+}
+.pg-mygoalview .gvrtbl .afacc > td {
+  padding-top: 0;
+}
+.pg-mygoalview .gvrtbl tbody tr:nth-last-child(2):has(+ tr.afacc.hidden) > td {
+  border-bottom: 0;
+}
+.pg-mygoalview .gvrtbl .afaccb {
+  background: var(--s1);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+.pg-mygoalview .gvrtbl .afaccb small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: block;
+}
+.pg-mygoalview .gvrtbl .afaccb .afaccd {
+  margin-top: 10px;
+}
+.pg-mygoalview .gvrtbl .afaccb p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin: 2px 0 0;
+}
+.pg-mygoalview .gvrtbl .afdcs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+.pg-mygoalview .gvrtbl .afdch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  padding: 6px 8px 6px 6px;
+  border: 1px solid var(--q-content-border-secondary);
+  border-radius: 10px;
+  background: var(--q-content-background);
+  cursor: pointer;
+  text-align: left;
+}
+.pg-mygoalview .gvrtbl .afdch:hover {
+  border-color: var(--q-input-hover-border);
+  background: var(--q-primary-50);
+}
+.pg-mygoalview .gvrtbl .afdcn {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.pg-mygoalview .gvrtbl .afdcn b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+.pg-mygoalview .gvrtbl .afdcn small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.pg-mygoalview .gvrtbl .afdcd {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  color: var(--q-primary-500);
+}
+.pg-mygoalview .gvrtbl .afdcd:hover {
+  background: var(--q-primary-100);
+}
+.pg-mygoalview :is(.gvrtbl, .gvrdf) .gvper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.pg-mygoalview :is(.gvrtbl, .gvrdf) .gvper .av {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  flex: none;
+  background-size: cover;
+  background-position: center;
+}
+.pg-mygoalview :is(.gvrtbl, .gvrdf) .gvper .cnm {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.pg-mygoalview :is(.gvrtbl, .gvrdf) .gvper .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  white-space: nowrap;
+}
+.pg-mygoalview :is(.gvrtbl, .gvrdf) .gvper .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-mygoalview .gvrtbl .gvval {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.pg-mygoalview .gvrtbl .gvval small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+/* сайдбар оценки */
+.pg-mygoalview .gvrdf .gvrdh {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--q-content-border-secondary);
+}
+.pg-mygoalview .gvrdf .gvrauto {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pg-mygoalview .gvrdf .gvrsh {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-mygoalview .gvrdf .fld > .seg.gvrseg {
+  margin-top: 22px;
+}
+/* «Ваша оценка» без списка оценок (качественная цель: список — в таблице выше) — без верхнего отступа */
+.pg-mygoalview .glacl.hidden + .glmyf {
+  margin-top: 0;
 }
