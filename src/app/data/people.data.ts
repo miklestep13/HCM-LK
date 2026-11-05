@@ -558,8 +558,9 @@ const PHOTO_KEY: Record<string, number> = {
   'Белова Мария Андреевна': 45, 'Лебедева Анна Игоревна': 46, 'Зотова Дарья Андреевна': 47, 'Ерохина Светлана Юрьевна': 48,
   'Морозова Ксения Павловна': 49, 'Кузнецова Полина Сергеевна': 50, 'Егорова Татьяна Юрьевна': 51, 'Павлова Елена Викторовна': 52,
 };
-/** классы портрета: «av3» или «av3 ph45», если для ФИО есть фото */
+/** классы портрета: «av3» или «av3 ph45», если для ФИО есть фото; текущий пользователь — «… phme» (его фото) */
 export function avCls(name: string, av: number | string): string {
   const base = typeof av === 'number' ? 'av' + av : av;
+  if (name === ME[0]) return base + ' phme';
   return PHOTO_KEY[name] ? base + ' ph' + PHOTO_KEY[name] : base;
 }

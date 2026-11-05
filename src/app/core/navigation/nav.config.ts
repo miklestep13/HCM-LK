@@ -154,7 +154,6 @@ export const NAV_TABS: NavTab[] = [
       {
         title: 'Документы',
         page: 'docs',
-        hidden: true,
       },
       {
         title: 'Доходы и льготы',

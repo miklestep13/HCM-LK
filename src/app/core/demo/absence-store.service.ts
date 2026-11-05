@@ -1,6 +1,6 @@
 import { Injectable, computed, signal } from '@angular/core';
-import { ABS_DAY_COUNT, ABS_ME, ABS_PLAN, ABS_POOL, ABS_TEAM } from '../../data/absence.data';
-import { AbsEntry, AbsKind, AbsPerson } from '../../interface/absence';
+import { ABS_DAY_COUNT, ABS_ME, ABS_PLAN, ABS_POOL, ABS_TEAMS } from '../../data/absence.data';
+import { AbsEntry, AbsKind, AbsPerson, AbsTeam } from '../../interface/absence';
 import { TODAY } from '../../shared/ui/date-range/date-range';
 
 /** «дд.мм.гггг» → дата (или null) */
@@ -27,13 +27,14 @@ export const absToday = (): string => String(TODAY.getDate()).padStart(2, '0') +
 const clone = <T>(x: T): T => structuredClone(x);
 
 /**
- * «График отсутствий» (демо, до перезагрузки): я, моя команда и добавленные в график коллеги; период планирования отпусков
+ * «График отсутствий» (демо, до перезагрузки): я, команды подразделений (у руководителя — несколько) и добавленные в график коллеги; период планирования отпусков
  * (переключатель в dev-панели), заявки на отсутствие и их отмена.
  */
 @Injectable({ providedIn: 'root' })
 export class AbsenceStore {
   readonly me = signal<AbsPerson>(clone(ABS_ME));
-  readonly team = signal<AbsPerson[]>(clone(ABS_TEAM));
+  /** все команды подразделений; видимые — по роли (teams) */
+  private readonly allTeams = signal<AbsTeam[]>(clone(ABS_TEAMS));
   /** коллеги, добавленные в график (по ФИО) */
   readonly added = signal<string[]>([]);
   readonly pool = ABS_POOL;
@@ -43,6 +44,10 @@ export class AbsenceStore {
   /** роль (dev-панель): сотрудник видит в таблице свои заявки, администратор — заявки сотрудников */
   readonly role = signal<'emp' | 'admin'>('emp');
   readonly plan = ABS_PLAN;
+  /** команды в графике: сотрудник — свое подразделение, руководитель — все свои подразделения */
+  readonly teams = computed(() => this.allTeams().filter((t) => !t.admin || this.role() === 'admin'));
+  /** все сотрудники видимых команд (таблица, выбор в «Добавить участника») */
+  readonly team = computed(() => this.teams().flatMap((t) => t.people));
 
   /** отпуск, запланированный на год планирования (без отклоненных), дней */
   readonly planned = computed(() =>

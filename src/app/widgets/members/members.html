@@ -5,6 +5,7 @@
         <app-view-switch ftAction [(value)]="mode" />
       }
       @if (adding()) {
+        <!-- «Добавить» — последней кнопкой в строке поиска; в правке строкой — новая строка с выбором сотрудника внизу текущей страницы -->
         <button ftAction class="btn pri" (click)="edit() === 'inline' ? addRow() : openAdd()">Добавить</button>
       }
       <app-select label="Должность" allLabel="Все должности" [search]="true" [options]="posOpts()" [(value)]="fPos" />
@@ -131,20 +132,28 @@
     } @empty {
       <ng-container *ngTemplateOutlet="none" />
     }
+    @if (edit() === 'inline' && adding() && !toolbar()) {
+      <button type="button" class="lnk lnkadd mbadd" (click)="addRow()"><app-icon name="plus" />Добавить участника</button>
+    }
+    <!-- внутри таблицы (и карточки таблицы): постраничный вывод: pageSize > 0; число строк 5 / 10 / 25 / 50 — если строк больше наименьшего размера -->
+    @if (pageSize() && filled().length > 5) {
+      <div class="mbpg">
+        <small>{{ pageFrom() + 1 }}–{{ pageFrom() + pageRows().length }} из {{ filled().length }}</small>
+        <app-select class="mbpgs" title="Строк на странице" [options]="sizes" [value]="String(ps())" (valueChange)="ps.set(+$event)" />
+        <span class="mbpgn" [class.hidden]="pages().length < 2">
+          <button class="mbpgb" title="Предыдущая страница" [disabled]="!page()" (click)="page.set(page() - 1)"><app-icon name="pgPrev" /></button>
+          @for (p of pages(); track p) {
+            <button class="mbpgb" [class.on]="p === page()" (click)="page.set(p)">{{ p + 1 }}</button>
+          }
+          <button class="mbpgb" title="Следующая страница" [disabled]="page() >= pages().length - 1" (click)="page.set(page() + 1)"><app-icon name="pgNext" /></button>
+        </span>
+      </div>
+    }
   </div>
-  <!-- постраничный вывод: pageSize > 0 -->
-  @if (pageSize() && tableRows().length > pageSize()) {
-    <div class="mbpg">
-      <small>{{ pageFrom() + 1 }}–{{ pageFrom() + paged().length }} из {{ tableRows().length }}</small>
-      <span class="mbpgn">
-        <button class="mbpgb" title="Предыдущая страница" [disabled]="!page()" (click)="page.set(page() - 1)"><app-icon name="pgPrev" /></button>
-        @for (p of pages(); track p) {
-          <button class="mbpgb" [class.on]="p === page()" (click)="page.set(p)">{{ p + 1 }}</button>
-        }
-        <button class="mbpgb" title="Следующая страница" [disabled]="page() >= pages().length - 1" (click)="page.set(page() + 1)"><app-icon name="pgNext" /></button>
-      </span>
-    </div>
-  }
+}
+<!-- правка в строке: «Добавить участника» — под списком (в таблице — внутри нее, над пагинацией), новая строка с выбором сотрудника внизу -->
+@if (edit() === 'inline' && adding() && mode() === 'cards' && !toolbar()) {
+  <button type="button" class="lnk lnkadd mbadd" (click)="addRow()"><app-icon name="plus" />Добавить участника</button>
 }
 
 <ng-template #none>

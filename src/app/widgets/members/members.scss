@@ -355,6 +355,18 @@
   font: var(--q-font-ui-description-1);
   color: var(--t3);
 }
+/* число строк на странице — компактный селект высотой с кнопки страниц */
+.w-members .fsel.mbpgs {
+  margin-left: auto;
+  width: 64px;
+  min-height: 0;
+  height: 32px;
+  padding: 0 8px 0 10px;
+  gap: 4px;
+}
+.w-members .mbpgn.hidden {
+  visibility: hidden;
+}
 .w-members .mbpgn {
   display: flex;
   gap: 4px;
@@ -395,4 +407,25 @@
 }
 .w-members .mbbar:not(.c) > .ftbar {
   padding: 0 0 12px;
+}
+
+/* просмотр (под таблицей ничего нет): у последней строки без нижнего отступа — до края карточки столько же, сколько у остальных блоков */
+.w-members.ro .mbt > .mbtr:last-child {
+  padding-bottom: 0px;
+}
+
+/* под таблицей есть «+ Добавить участника» — линия между последним участником и ссылкой */
+.w-members:has(> .mbadd) .mbt > .mbtr:last-child,
+.w-members .mbt > .mbtr:has(+ .mbadd) {
+  border-bottom: 1px solid var(--q-content-border-secondary);
+}
+
+/* пагинация — последний элемент таблицы, поэтому у последней строки остается линия и обычный отступ */
+/* таблица-карточка с пагинацией: снизу такой же отступ, как у карточки «Участники» мероприятия */
+.w-members .mbt.c:has(> .mbpg) {
+  padding-bottom: 24px;
+}
+/* «Добавить участника» внутри таблицы, перед пагинацией */
+.w-members .mbt > .mbadd + .mbpg {
+  margin-top: 4px;
 }

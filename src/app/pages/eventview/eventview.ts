@@ -5,15 +5,18 @@ import { NavService } from '../../core/navigation/nav.service';
 import { ConfirmService } from '../../shared/ui/confirm/confirm.service';
 import { PageHead } from '../../shared/ui/page-head/page-head';
 import { ToastService } from '../../shared/ui/toast/toast.service';
-import { EventviewHead } from './eventview-head/eventview-head';
+import { EventHead } from '../../widgets/event-head/event-head';
+import { PplCard } from '../../widgets/ppl-card/ppl-card';
+import { EVENT_GROUPS, EVENT_ROLES } from '../../data/events.data';
+import { COMM_POOL } from '../../data/comm.data';
 import { EventviewState } from './eventview.state';
 
 /**
- * «Календарь → Мероприятия → Мероприятие»: шапка как у курса (обложка, статус, дата, место, описание, реакции, кнопка участия). Админ: «Удалить» и «Редактировать» в заголовке. Параметр адреса ev.
+ * «Календарь → Мероприятия → Мероприятие»: шапка как у курса (обложка, статус, дата, место, описание, реакции, кнопка участия); внизу — «Участники» (виджет ppl-card с пагинацией). Админ: «Удалить» и «Редактировать» в заголовке. Параметр адреса ev.
  */
 @Component({
   selector: 'app-eventview',
-  imports: [PageHead, EventviewHead],
+  imports: [PageHead, EventHead, PplCard],
   template: `
     <app-page-head title="Мероприятие" backTo="events" backLabel="К мероприятиям">
       @if (s.adm() && s.card()) {
@@ -24,7 +27,11 @@ import { EventviewState } from './eventview.state';
       }
     </app-page-head>
     @if (s.card()) {
-      <div eventview-head></div>
+      @let c = s.card()!;
+      @let f = s.f()!;
+      <div event-head [title]="c.title" [img]="c.img" [status]="f.status" [when]="s.when()" [dur]="c.dur || ''" [place]="f.place" [desc]="f.desc"
+        [action]="s.action()" (act)="s.learn.run('ev', c.id, $event)"></div>
+      <div ppl-card ro [people]="s.people()" [roles]="roles" [pool]="pool" [pageSize]="10" empty="Участники не указаны."></div>
     } @else {
       <div class="c evnone">Мероприятие не найдено или удалено.</div>
     }
@@ -41,6 +48,8 @@ export class Eventview implements OnDestroy {
   private readonly demo = inject(DemoState);
   private readonly confirm = inject(ConfirmService);
   private readonly toast = inject(ToastService);
+  protected readonly roles = EVENT_ROLES;
+  protected readonly pool = [...COMM_POOL, ...EVENT_GROUPS];
   /** мероприятие (параметр адреса) */
   readonly ev = input('');
 

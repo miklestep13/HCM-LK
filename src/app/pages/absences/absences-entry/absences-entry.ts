@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { absCount, absDate } from '../../../core/demo/absence-store.service';
 import { TODAY } from '../../../shared/ui/date-range/date-range';
-import { ABS_DAY_COUNT, ABS_DAY_COUNT_LABEL, ABS_KIND_LABEL, ABS_STATUS_TONE } from '../../../data/absence.data';
+import { ABS_DAY_COUNT, ABS_DAY_COUNT_LABEL, ABS_KIND_LABEL, ABS_REQ_GROUP, ABS_STATUS_TONE } from '../../../data/absence.data';
 import { plural } from '../../../data/org.data';
 import { ME, ME_PHOTO, PEOPLE, avCls } from '../../../data/people.data';
 import { Attach } from '../../../shared/ui/attach/attach';
 import { ConfirmService } from '../../../shared/ui/confirm/confirm.service';
 import { Drawer } from '../../../shared/ui/drawer/drawer';
 import { ToastService } from '../../../shared/ui/toast/toast.service';
+import { NavService } from '../../../core/navigation/nav.service';
 import { AbsencesState } from '../absences.state';
 
 /**
@@ -15,8 +16,8 @@ import { AbsencesState } from '../absences.state';
  * и способ подсчета дней, статус; у отпуска — остаток, у отгула — баланс, у больничного — открыт ли листок, у командировки —
  * время, работа в выходные, место, организация, цель, транспорт, проживание; у дополнительного отпуска — причина
  * (и дата сдачи крови), у учебного — оплата; у отпусков — заместитель; основание (документ и файлы), комментарий.
- * У своей заявки в черновике или на согласовании — «Отменить заявку»; у своей незавершенной — «Редактировать» справа от «Закрыть»
- * (открывает ту же форму заявки с заполненными полями).
+ * У своей заявки в черновике или на согласовании — «Отменить заявку»; у своей незавершенной — «Редактировать» справа от «Закрыть»:
+ * изменения, как и новые отсутствия, — только заявкой (общая форма заявок, группа календарно-табельного учета).
  */
 @Component({
   selector: 'app-absences-entry',
@@ -28,7 +29,7 @@ import { AbsencesState } from '../absences.state';
           <button drwBtn class="btn dng" (click)="cancel()">Отменить заявку</button>
         }
         @if (canEdit()) {
-          <button drwBtn class="btn pri" (click)="s.edit(e.x)">Редактировать</button>
+          <button drwBtn class="btn pri" (click)="edit()">Редактировать</button>
         }
         <div class="abv">
           <div class="abwho">
@@ -112,6 +113,11 @@ export class AbsencesEntry {
   protected readonly s = inject(AbsencesState);
   private readonly confirm = inject(ConfirmService);
   private readonly toast = inject(ToastService);
+  private readonly nav = inject(NavService);
+  protected edit(): void {
+    this.s.entry.set(null);
+    this.nav.go('reqpick', { grp: ABS_REQ_GROUP, back: 'absences' });
+  }
   protected readonly kind = ABS_KIND_LABEL;
   protected readonly tone = ABS_STATUS_TONE;
   protected readonly av = avCls;

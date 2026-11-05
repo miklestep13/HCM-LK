@@ -1,0 +1,207 @@
+/* Шапка события (мероприятие, встреча) — как шапка курса (pages/course): обложка слева или без нее */
+.w-evhead .cmeta2 {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 12px;
+}
+.w-evhead .cmeta2 span {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  color: var(--grey);
+}
+.w-evhead .cmeta2 svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.w-evhead .npb.st {
+  cursor: default;
+  margin-left: auto;
+}
+.w-evhead .npb.st:hover {
+  background: none;
+  color: var(--t3);
+}
+.w-evhead .npf {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-top: 1px solid var(--stroke);
+  margin: 0px -24px;
+  padding: 6px 16px;
+}
+.w-evhead .npb {
+  font: var(--q-font-ui-button-m);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--q-page-text-ui);
+}
+.w-evhead .npb:hover {
+  background: var(--raised);
+  color: var(--blue);
+}
+.w-evhead .npb.on {
+  color: var(--red);
+}
+.w-evhead .npb svg {
+  width: 16px;
+  height: 16px;
+}
+.w-evhead .lfact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.w-evhead .crshd {
+  display: grid;
+  grid-template-columns: 480px minmax(0px, 1fr);
+  gap: 28px;
+  align-items: start;
+  padding-bottom: 0px;
+}
+.w-evhead .crsimg {
+  position: relative;
+}
+.w-evhead .crsimg img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  background: var(--s1);
+}
+.w-evhead .crsinfo {
+  display: flex;
+  flex-direction: column;
+  min-height: 270px;
+}
+.w-evhead .crsf {
+  margin-top: auto;
+}
+.w-evhead .crsimg .bdg {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--white);
+  color: var(--t1);
+  box-shadow: 0 1px 3px var(--q-base-transparent-100);
+}
+.w-evhead .crsinfo {
+  min-width: 0px;
+}
+.w-evhead .crsinfo h2 {
+  font: var(--q-font-ui-headline-2);
+  color: var(--black);
+  margin: 0px 0px 8px;
+}
+.w-evhead .crsm.cmeta2 {
+  flex-flow: wrap;
+  gap: 6px 16px;
+  margin: 0px 0px 16px;
+}
+.w-evhead .crsab p {
+  font: var(--q-font-ui-body-2);
+  margin-bottom: 8px;
+}
+.w-evhead .crsbtn {
+  margin-top: 16px;
+  display: flex;
+}
+.w-evhead .crsbtn .lfact {
+  flex-direction: row;
+}
+.w-evhead .crsf {
+  margin: auto -10px 0px;
+  border-top-width: medium;
+  border-top-style: none;
+  border-top-color: currentcolor;
+  padding: 12px 0px 0px;
+}
+.w-evhead > .cpane {
+  padding: 24px;
+}
+.w-evhead .crscm {
+  padding: 0px;
+  max-width: 720px;
+}
+.w-evhead .crsf .npb.st {
+  margin-left: 0px;
+  cursor: default;
+}
+.w-evhead .crsf .npb.st:hover {
+  color: var(--q-page-text-ui);
+}
+.w-evhead .crsinfo .crsbtn {
+  margin-top: auto;
+  padding-top: 16px;
+  align-items: center;
+  gap: 8px;
+}
+.w-evhead .crsbtn .crsf {
+  margin: 0px -10px 0px auto;
+  padding: 0px;
+}
+.w-evhead .crsinfo .crsab {
+  max-width: 700px;
+}
+.w-evhead .cmeta2 span.od {
+  color: var(--dg);
+}
+.w-evhead .crshd {
+  grid-template-columns: 560px minmax(0px, 1fr);
+}
+.w-evhead .crsinfo {
+  min-height: 315px;
+}
+.w-evhead .crsinfo .crstags {
+  margin: 0px 0px 10px;
+}
+.w-evhead .crsinfo .crsbtn {
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+.w-evhead .crsbtn .crsf {
+  margin: 0px auto 0px -10px;
+}
+.w-evhead .crsm .brk {
+  flex-basis: 100%;
+  height: 0px;
+}
+.w-evhead a.evlnk {
+  color: var(--blue);
+  text-decoration: none;
+  font: var(--q-font-ui-link-2);
+}
+.w-evhead a.evlnk:hover {
+  text-decoration: underline;
+}
+
+/* без обложки (встреча): одна колонка, кнопка и счетчик — внизу */
+.w-evhead .crshd.nocov {
+  grid-template-columns: minmax(0px, 1fr);
+}
+.w-evhead .crshd.nocov .crsinfo {
+  min-height: 0px;
+}
+.w-evhead .crshd.nocov .crsbtn {
+  margin-top: 0px;
+}
+/* внизу нет ни кнопки, ни ответа, ни счетчика — блок не занимает места */
+.w-evhead .crsbtn:empty {
+  display: none;
+}
+.w-evhead .crsab p:last-child {
+  margin-bottom: 0px;
+}

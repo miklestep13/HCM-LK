@@ -23,6 +23,7 @@ const WD_ACC = ['понедельник', 'вторник', 'среду', 'че�
  * «Повторение» (как в форме встречи календаря): правило; «Каждые N дней / недель / месяцев / лет»;
  * для еженедельного — дни недели; для ежемесячного — то же число или тот же день недели месяца;
  * окончание — никогда, в дату или после N повторений; итог одной строкой. Начало повторений — дата мероприятия.
+ * Просмотр (s.ro): только итог (s.repText).
  */
 @Component({
   selector: '[eventnew-repeat]',
@@ -30,6 +31,9 @@ const WD_ACC = ['понедельник', 'вторник', 'среду', 'че�
   template: `
     @let f = s.f();
     <div class="ch"><h3>Повторение</h3></div>
+    @if (s.ro()) {
+      <div class="cb"><div class="ensum env"><app-icon name="refresh" />{{ s.repText() }}</div></div>
+    } @else {
     <div class="cb">
       <div class="frm enrp">
         <app-field label="Повторять" filled>
@@ -77,6 +81,7 @@ const WD_ACC = ['понедельник', 'вторник', 'среду', 'че�
         <div class="ensum"><app-icon name="refresh" />{{ summary() }}</div>
       }
     </div>
+    }
   `,
   host: { class: 'c mb' },
   changeDetection: ChangeDetectionStrategy.OnPush,

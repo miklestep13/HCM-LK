@@ -279,3 +279,67 @@
 .nav.closed > .menu, .nav.closed .submenu {
   display: none !important;
 }
+
+/* меню не помещается: вкладки скрыты, слева от логотипа — гамбургер с панелью разделов */
+.tabs.hid {
+  display: none;
+}
+.ib.burger {
+  margin: 0px 8px 0px -8px;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  color: var(--black);
+  cursor: pointer;
+}
+.ib.burger:hover,
+.ib.burger.on {
+  background: var(--hv);
+}
+.hdm {
+  position: fixed;
+  top: 52px;
+  left: 12px;
+  width: 320px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 64px);
+  overflow: auto;
+  background: var(--q-content-background);
+  border-radius: 12px;
+  box-shadow: 0 10px 34px var(--q-base-transparent-100);
+  padding: 8px;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.hdms {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.hdms + .hdms {
+  border-top: 1px solid var(--stroke);
+  padding-top: 8px;
+}
+.hdmt {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.hdmt:hover {
+  background: var(--hv);
+}
+.hdmt.on {
+  color: var(--blue);
+}
+.hdmg {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  padding: 8px 12px 2px;
+}
+.hdm .mi.sub {
+  padding-left: 24px;
+}

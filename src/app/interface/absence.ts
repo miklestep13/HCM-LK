@@ -73,6 +73,13 @@ export interface AbsTrip {
 }
 
 /** Сотрудник в графике: остатки отпуска и отгулов, отсутствия */
+/** команда подразделения в графике отсутствий; admin — видна только руководителю (вторая и следующие команды) */
+export interface AbsTeam {
+  dep: string;
+  people: AbsPerson[];
+  admin?: boolean;
+}
+
 export interface AbsPerson {
   n: string;
   pos: string;

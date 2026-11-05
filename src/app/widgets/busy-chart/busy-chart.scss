@@ -122,14 +122,6 @@
 }
 
 /* «Добавить» — справа в шапке */
-.w-busy > .ch .bcadd {
-  margin-left: auto;
-}
-.w-busy .bcadd app-icon {
-  display: flex;
-  width: 16px;
-  height: 16px;
-}
 .w-busy .bcr.bcem {
   color: var(--t3);
 }
@@ -177,6 +169,8 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
+  background-size: cover;
+  background-position: center;
 }
 .w-busy :is(.bcsel, .bcwho) .cnm {
   display: flex;
@@ -272,4 +266,8 @@
 .w-busy .bcday .bcback {
   font: var(--q-font-ui-link-2);
   margin-left: 8px;
+}
+/* просмотр: перенос встречи кликом по часу отключен */
+.w-busy .bchit.ro {
+  cursor: default;
 }

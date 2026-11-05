@@ -1,13 +1,12 @@
-import { AbsDayCount, AbsEntry, AbsKind, AbsPerson, AbsStatus, AbsTrip } from '../interface/absence';
+import { AbsDayCount, AbsEntry, AbsKind, AbsPerson, AbsStatus, AbsTrip, AbsTeam } from '../interface/absence';
 import { AttachFile } from '../interface/attach';
 import { ME, PEOPLE } from './people.data';
 
-/** виды отсутствий: подпись и цвет полосы на диаграмме (класс .ab-<kind>) — легенда, фильтр, карточка */
+/** виды отсутствий в легенде и фильтре «Вид отсутствия»; цвет полосы — класс .ab-<kind>.
+ * Отпуск за свой счет и учебный — виды дополнительного отпуска: в легенде и фильтре их нет, на графике — цвет дополнительного (ABS_KIND_GROUP) */
 export const ABS_KINDS: { k: AbsKind; label: string }[] = [
   { k: 'vac', label: 'Основной отпуск' },
   { k: 'add', label: 'Дополнительный отпуск' },
-  { k: 'unp', label: 'Отпуск за свой счет' },
-  { k: 'study', label: 'Учебный отпуск' },
   { k: 'mat', label: 'Отпуск по уходу за ребенком' },
   { k: 'off', label: 'Отгул' },
   { k: 'sick', label: 'Больничный' },
@@ -33,7 +32,18 @@ export const ABS_APPLY: { k: AbsKind; label: string; plan?: boolean }[] = [
 /** способ подсчета дней по виду: отгул — в рабочих днях, остальное — в календарных */
 export const ABS_DAY_COUNT: Record<AbsKind, AbsDayCount> = { vac: 'cal', add: 'cal', unp: 'cal', off: 'work', sick: 'cal', trip: 'cal', study: 'cal', mat: 'cal' };
 export const ABS_DAY_COUNT_LABEL: Record<AbsDayCount, string> = { cal: 'Календарные дни', work: 'Рабочие дни' };
-export const ABS_KIND_LABEL: Record<AbsKind, string> = Object.fromEntries(ABS_KINDS.map((x) => [x.k, x.label])) as Record<AbsKind, string>;
+/** виды, скрытые на графике по умолчанию (фильтр «Вид отсутствия»): отпуск по уходу за ребенком — длинный, закрывает остальные */
+export const ABS_HIDDEN_DEFAULT: AbsKind[] = ['mat'];
+/** группа заявок календарно-табельного учета: «Оформить заявку» открывает общую форму заявок на ней */
+export const ABS_REQ_GROUP = 'Календарно-табельный учет';
+/** точное название вида (подпись полосы, подсказка, таблица, карточка) — и для видов дополнительного отпуска */
+export const ABS_KIND_LABEL: Record<AbsKind, string> = {
+  ...(Object.fromEntries(ABS_KINDS.map((x) => [x.k, x.label])) as Record<AbsKind, string>),
+  unp: 'Отпуск за свой счет',
+  study: 'Учебный отпуск',
+};
+/** вид в легенде и фильтре: отпуск за свой счет и учебный — это дополнительный отпуск */
+export const ABS_KIND_GROUP = (k: AbsKind): AbsKind => (k === 'unp' || k === 'study' ? 'add' : k);
 export const ABS_STATUSES: AbsStatus[] = ['Черновик', 'Согласование', 'Согласовано', 'Отклонено', 'Использовано'];
 export const ABS_STATUS_TONE: Record<AbsStatus, string> = { Черновик: '', Согласование: 'warn', Согласовано: 'ok', Отклонено: 'dg', Использовано: '' };
 /** причина дополнительного отпуска; при донорстве — дата сдачи и обязательный документ */
@@ -140,6 +150,28 @@ export const ABS_TEAM: AbsPerson[] = [
   { ...p('Волков Андрей Ильич'), vacLeft: 7, vacTotal: 28, offLeft: 0, items: [
     e('vac', '18.05.2026', '31.05.2026', 'Использовано'), e('study', '21.09.2026', '02.10.2026', 'Согласовано', 'Сессия, магистратура', { deputy: 'Гусева Нина Павловна', unpaid: true }), e('vac', '16.11.2026', '22.11.2026', 'Черновик'),
   ] },
+];
+
+/** вторая команда руководителя (видна в роли «Руководитель»): подразделение «Управление методологии» */
+const ABS_TEAM_METH: AbsPerson[] = [
+  { ...p('Мельник Артур Русланович', true), vacLeft: 12, vacTotal: 28, offLeft: 1, items: [
+    e('vac', '06.07.2026', '19.07.2026', 'Использовано'), e('trip', '12.10.2026', '14.10.2026', 'Согласовано', '', trip('Нижний Новгород', 'Приволжский филиал', 'Аудит кредитных процессов филиала', 'Поезд')), e('vac', '14.12.2026', '20.12.2026', 'Согласование'),
+  ] },
+  { ...p('Белова Мария Андреевна'), vacLeft: 16, vacTotal: 28, offLeft: 0, items: [
+    e('vac', '29.09.2026', '09.10.2026', 'Согласовано'), e('vac', '22.02.2027', '28.02.2027', 'Черновик'),
+  ] },
+  { ...p('Лебедева Анна Игоревна'), vacLeft: 8, vacTotal: 28, offLeft: 2, items: [
+    e('off', '02.10.2026', '02.10.2026', 'Согласовано'), e('sick', '15.09.2026', '19.09.2026', 'Согласовано', '', { basis: 'ЭЛН 910234561402' }),
+  ] },
+  { ...p('Никитин Олег Васильевич'), vacLeft: 21, vacTotal: 28, offLeft: 0, items: [
+    e('vac', '19.10.2026', '01.11.2026', 'Согласование'),
+  ] },
+];
+
+/** команды подразделений: у сотрудника — его подразделение, у руководителя может быть несколько */
+export const ABS_TEAMS: AbsTeam[] = [
+  { dep: 'Управление кредитования', people: ABS_TEAM },
+  { dep: 'Управление методологии', people: ABS_TEAM_METH, admin: true },
 ];
 
 /** кого можно добавить в график (коллеги из других подразделений) */

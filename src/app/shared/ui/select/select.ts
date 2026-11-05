@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  computed,
-  inject,
-  input,
-  model,
-  signal,
-} from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, computed, ElementRef, inject, Injector, input, model, signal } from '@angular/core';
 
 /**
  * Селект прототипа (.fsel): кнопка со значением и всплывающий список (.fpop.selpop).
@@ -69,7 +60,9 @@ import {
   host: {
     class: 'fsel',
     role: 'button',
-    tabindex: '0',
+    '[attr.tabindex]': 'disabled() ? -1 : 0',
+    '[attr.aria-disabled]': 'disabled()',
+    '[class.dis]': 'disabled()',
     '[class.act]': 'open()',
     '[class.ft2fs]': '!!label()',
     '[class.is-empty]': '!!label() && !value()',
@@ -89,6 +82,8 @@ export class Select {
   readonly allLabel = input('');
   /** приставка к выбранному значению: «Тип: » → «Тип: МВО» */
   readonly valuePrefix = input('');
+  /** заблокирован: значение видно, список не открывается */
+  readonly disabled = input(false);
 
   protected readonly open = signal(false);
   protected readonly query = signal('');
@@ -99,13 +94,20 @@ export class Select {
     return q ? all.filter((o) => o.toLowerCase().includes(q)) : all;
   });
   private readonly el = inject(ElementRef<HTMLElement>);
+  private readonly injector = inject(Injector);
 
   protected toggle(): void {
     if (this.open()) return this.open.set(false);
+    if (this.disabled()) return;
     const r = this.el.nativeElement.getBoundingClientRect();
     this.query.set('');
     this.pos.set({ left: r.left, top: r.bottom + 6, width: r.width });
     this.open.set(true);
+    // внизу экрана не помещается — список открывается вверх
+    afterNextRender(() => {
+      const h = this.el.nativeElement.querySelector('.fpop')?.offsetHeight ?? 0;
+      if (h && r.bottom + 6 + h > innerHeight - 8 && r.top - 6 - h > 8) this.pos.update((x) => ({ ...x, top: r.top - 6 - h }));
+    }, { injector: this.injector });
   }
   protected pick(o: string): void {
     this.value.set(o === this.allLabel() ? '' : o);

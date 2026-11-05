@@ -1,5 +1,6 @@
 import { CAL_MONTHS_GEN, CAL_WD, CAL_WDF } from '../../data/cal.data';
-import { plural } from '../../data/org.data';
+import type { EventForm } from '../../core/demo/events-store.service';
+import { ORG, plural } from '../../data/org.data';
 import { CalEvent, CalRepeat } from '../../interface/cal';
 import { TODAY } from '../../shared/ui/date-range/date-range';
 
@@ -86,5 +87,27 @@ export function calRepText(r: CalRepeat | null | undefined, d: Date): string {
 export const calIsUrl = (v?: string): boolean => /^(https?:\/\/|www\.)/i.test(String(v || '').trim());
 export const calPlace = (e: CalEvent): string =>
   e.link && (!e.loc || /^Онлайн/.test(e.loc)) ? e.link : e.loc && !/^Онлайн/.test(e.loc) ? e.loc : e.link || '';
+/** встреча календаря → поля полной формы встречи (eventnew) */
+export const calToForm = (e: CalEvent): Partial<EventForm> => {
+  const d = cFD(cParse(e.d));
+  return {
+    type: 'Встреча', title: e.t, date: d, time: cHM(e.all ? 0 : e.s), endDate: d, endTime: e.all ? '23:59' : cHM(e.e), place: calPlace(e),
+    desc: e.desc || '', aiProto: !!e.aip, remind: e.remind || 'За 15 минут', busy: e.show || 'Занят',
+    people: [...new Set([e.org, ...e.ppl])].map((n) => {
+      const o = ORG.find((x) => x.name === n);
+      return { n, pos: o?.role || '', av: o?.av || 1, role: n === e.org ? 'Организатор' : 'Участник' };
+    }),
+  };
+};
+/** поля полной формы → встреча календаря (base — исходная встреча при правке: организатор, ответ, повтор) */
+export const calFromForm = (f: EventForm, base: CalEvent | null, me: string): CalEvent => {
+  const [dd, mm, yy] = f.date.split('.'), min = (t: string) => +t.split(':')[0] * 60 + +t.split(':')[1], url = calIsUrl(f.place);
+  return {
+    ...(base || { id: 'e' + Date.now(), org: me, my: 'yes', col: 'blue', rep: null }),
+    t: f.title.trim(), d: yy + '-' + mm + '-' + dd, s: min(f.time), e: f.date === f.endDate ? min(f.endTime) : 24 * 60 - 1, all: 0,
+    loc: url ? '' : f.place.trim(), link: url ? f.place.trim() : '', aip: f.aiProto ? 1 : 0, remind: f.remind, show: f.busy, desc: f.desc,
+    ppl: [...new Set([...(base ? [base.org] : [me]), ...f.people.filter((p) => !p.kind).map((p) => p.n)])],
+  };
+};
 /** хеш строки 0..1 (bkHash прототипа) */
 export { hash01 as cHash } from '../../data/org.data';

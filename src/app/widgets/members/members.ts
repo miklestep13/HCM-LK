@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input, linkedSignal, model, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewEncapsulation, computed, inject, input, linkedSignal, model, output, signal } from '@angular/core';
 import { avCls } from '../../data/people.data';
 import { Member, MemberEdit, MemberField, MemberView } from '../../interface/member';
 import { Drawer } from '../../shared/ui/drawer/drawer';
@@ -19,6 +19,7 @@ import { ViewMode, ViewSwitch } from '../../shared/ui/view-switch/view-switch';
  *   <app-members edit="drawer" view="both" start="cards" [fields]="['av', 'name', 'pos', 'role']" [roles]="roles" [pool]="people" [(people)]="list" />
  * Карточки — как в виджете «Коллеги» на главной: фото 64, ФИО, должность, роль серым бейджем.
  * toolbar — шапка с поиском и фильтрами (должность, подразделение, роль) над списком; без нее виджет — просто список (форма цели).
+ * Правка в строке (inline): под списком — «+ Добавить участника», новая строка с выбором сотрудника появляется внизу (newRow — ее поля по умолчанию).
  * plainRole — роль по умолчанию («Участник»); роль у всех — бейджем, цвет — roleTone (иначе серый).
  * В пуле могут быть подразделения и команды (kind: 'dep' | 'team'): в списке выбора появляются вкладки
  * «Все / Сотрудники / Подразделения / Команды», у группы вместо фото — значок группы.
@@ -55,6 +56,8 @@ export class Members {
   /** кнопка «Добавить» в шапке (по умолчанию — когда список можно менять) */
   readonly canAdd = input<boolean | null>(null);
   readonly addTitle = input('Добавление участников');
+  /** поля новой строки (правка в строке), например роль и вес по умолчанию */
+  readonly newRow = input<(() => Partial<Member>) | null>(null);
   readonly empty = input('Участник не найден. Проверьте написание фамилии или сбросьте фильтры.');
   /** подпись под ФИО (по умолчанию — должность) */
   readonly sub = input<(m: Member) => string>((m) => m.pos);
@@ -98,14 +101,28 @@ export class Members {
   });
   /** строки таблицы: новая незаполненная — первой, закрепленные (исполнитель цели), затем роли из lead, остальные — в исходном порядке */
   protected readonly tableRows = computed(() => {
-    const L = this.lead(), rank = (m: Member) => (!m.n ? -2 : m.lock ? -1 : L.includes(m.role || '') ? L.indexOf(m.role || '') : L.length);
+    // новая (пустая) строка: со строкой поиска («Добавить» справа в ней) — наверху, иначе — внизу, рядом с «Добавить участника»
+    const L = this.lead(), top = this.toolbar(),
+      rank = (m: Member) => (!m.n ? (top ? -2 : L.length + 1) : m.lock ? -1 : L.includes(m.role || '') ? L.indexOf(m.role || '') : L.length);
     return [...this.rows()].sort((x, y) => rank(x.m) - rank(y.m) || x.i - y.i);
   });
   /** страница таблицы: при смене фильтров — первая */
-  protected readonly page = linkedSignal({ source: () => this.tableRows().length + '|' + this.q(), computation: () => 0 });
-  protected readonly pages = computed(() => Array.from({ length: Math.ceil(this.tableRows().length / (this.pageSize() || 1)) }, (_, i) => i));
-  protected readonly pageFrom = computed(() => (this.pageSize() ? Math.min(this.page(), Math.max(0, this.pages().length - 1)) * this.pageSize() : 0));
-  protected readonly paged = computed(() => (this.pageSize() ? this.tableRows().slice(this.pageFrom(), this.pageFrom() + this.pageSize()) : this.tableRows()));
+  /** строк на странице: выбор под таблицей (5, 10, 25, 50), по умолчанию — pageSize */
+  protected readonly ps = linkedSignal(() => this.pageSize());
+  protected readonly sizes = ['5', '10', '25', '50'];
+  protected readonly String = String;
+  /**
+   * Постранично — только заполненные строки. Новая (пустая) строка в страницы не входит:
+   * она на текущей странице — наверху (кнопка «Добавить» в строке поиска) или внизу, над ссылкой «Добавить участника»; после выбора сотрудника таблица переходит на страницу с ним.
+   */
+  protected readonly filled = computed(() => this.tableRows().filter((r) => r.m.n));
+  private readonly drafts = computed(() => this.tableRows().filter((r) => !r.m.n));
+  protected readonly page = linkedSignal({ source: () => this.q() + '|' + this.ps(), computation: () => 0 });
+  protected readonly pages = computed(() => Array.from({ length: Math.ceil(this.filled().length / (this.ps() || 1)) }, (_, i) => i));
+  protected readonly pageFrom = computed(() => (this.ps() ? Math.min(this.page(), Math.max(0, this.pages().length - 1)) * this.ps() : 0));
+  /** заполненные строки текущей страницы (для «1–10 из N») */
+  protected readonly pageRows = computed(() => (this.ps() ? this.filled().slice(this.pageFrom(), this.pageFrom() + this.ps()) : this.filled()));
+  protected readonly paged = computed(() => (!this.ps() ? this.tableRows() : this.toolbar() ? [...this.drafts(), ...this.pageRows()] : [...this.pageRows(), ...this.drafts()]));
   protected readonly cols = computed(() =>
     ['minmax(260px,480px)', this.has('role') ? '200px' : '', this.has('w') ? '112px' : '', this.edit() !== 'none' ? '1fr' : ''].filter(Boolean).join(' '),
   );
@@ -169,6 +186,9 @@ export class Members {
       { n, pos, dep, av, team, kind, cnt, ...row } = this.people()[k.i] as Member & { team?: unknown };
     this.people.update((l) => l.map((m, j) => (j === k.i ? { ...row, ...x } : m)));
     this.pick.set(null);
+    // с пагинацией — страница, где оказался выбранный сотрудник
+    const at = this.filled().findIndex((r) => r.i === k.i);
+    if (this.ps() && at >= 0) this.page.set(Math.floor(at / this.ps()));
   }
 
   // drawer: добавление и правка
@@ -188,11 +208,17 @@ export class Members {
       .filter((x) => !in_.has(x.n))
       .map((x) => ({ name: x.n, post: x.pos, av: typeof x.av === 'number' ? x.av : 1 }));
   });
-  /** правка в строке: «Добавить» в шапке — пустая строка первой, сотрудник выбирается в ней */
+  /** правка в строке: «Добавить участника» под списком — пустая строка внизу, сотрудник выбирается в ней */
   protected addRow(): void {
     this.q.set('');
-    this.people.set([{ n: '', pos: '', av: 0, role: this.plainRole() || this.roles()[0] || '' }, ...this.people()]);
+    this.people.set([...this.people(), { n: '', pos: '', av: 0, role: this.plainRole() || this.roles()[0] || '', ...(this.newRow()?.() ?? {}) }]);
+    // список выбора сотрудника в новой строке открыт сразу (как в участниках встречи)
+    setTimeout(() => {
+      const all = [...this.hostEl.querySelectorAll<HTMLElement>('.mbsel')];
+      (this.toolbar() ? all[0] : all.pop())?.click();
+    });
   }
+  private readonly hostEl: HTMLElement = inject(ElementRef).nativeElement;
   protected openAdd(): void {
     if (this.edit() === 'inline') return;
     this.dNames.set([]);

@@ -6,7 +6,7 @@ import { EVENT_GROUPS } from '../../data/events.data';
 import { NEWS } from '../../data/news.data';
 import { EMPLOYEES } from '../../data/people.data';
 import { PRODUCT_CHAT } from '../../data/shop.data';
-import { WIDGETS, WIDGET_ACTIONS, WIDGET_BUSY, WIDGET_PEOPLE, WIDGET_PLAN, WIDGET_ROLES } from '../../data/widgets.data';
+import { WIDGETS, WIDGET_ACTIONS, WIDGET_BUSY, WIDGET_PEOPLE, WIDGET_PLAN, WIDGET_ROLES, WIDGET_EVENT } from '../../data/widgets.data';
 import { Member } from '../../interface/member';
 import { PageHead } from '../../shared/ui/page-head/page-head';
 import { ToastService } from '../../shared/ui/toast/toast.service';
@@ -25,6 +25,7 @@ import { NewsPost } from '../../widgets/news-post/news-post';
 import { PlanSummary } from '../../widgets/plan-summary/plan-summary';
 import { Poll } from '../../widgets/poll/poll';
 import { PplCard } from '../../widgets/ppl-card/ppl-card';
+import { EventHead } from '../../widgets/event-head/event-head';
 import { WalletSendService } from '../../widgets/wallet-send/wallet-send.service';
 
 /**
@@ -46,6 +47,7 @@ import { WalletSendService } from '../../widgets/wallet-send/wallet-send.service
     Comments,
     Members,
     PplCard,
+    EventHead,
     CoverUpload,
     IprTaskCard,
     IprComps,
@@ -131,8 +133,12 @@ import { WalletSendService } from '../../widgets/wallet-send/wallet-send.service
                 <app-members [(people)]="people" view="both" [roles]="roles" />
               </div>
             }
+            @case ('event-head') {
+              <div event-head [title]="evh.title" [status]="evh.status" [when]="evh.when" [dur]="evh.dur" [place]="evh.place" [desc]="evh.desc" [invited]="evh.invited"></div>
+            }
             @case ('ppl-card') {
               <div ppl-card [(people)]="ppl" [roles]="roles" [pool]="pool"></div>
+              <div ppl-card ro title="Участники · просмотр" [people]="ppl()" [roles]="roles" [pool]="pool"></div>
             }
             @case ('cover-upload') {
               <div class="c wgbox wgw"><div cover-upload [(value)]="cover"></div></div>
@@ -174,6 +180,7 @@ export class Widgets {
   protected readonly actions = WIDGET_ACTIONS;
   protected readonly roles = WIDGET_ROLES;
   protected readonly pool = WIDGET_PEOPLE;
+  protected readonly evh = WIDGET_EVENT;
   protected readonly emps = EMPLOYEES.slice(0, 3);
   protected readonly news = NEWS[0];
   protected readonly comms = COMMUNITIES.slice(0, 3);

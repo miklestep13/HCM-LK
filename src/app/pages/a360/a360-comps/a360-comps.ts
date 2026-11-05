@@ -5,6 +5,7 @@ import { A360Comment } from '../../../interface/a360';
 import { Drawer } from '../../../shared/ui/drawer/drawer';
 import { FilterBar } from '../../../shared/ui/filter-bar/filter-bar';
 import { Select } from '../../../shared/ui/select/select';
+import { Tooltip } from '../../../shared/ui/tooltip/tooltip';
 import { Icon } from '../../../shared/ui/icon/icon';
 
 /** цвет оценки: до 35 — красный, до 60 — оранжевый, до 75 — светло-зеленый, выше — зеленый */
@@ -15,18 +16,21 @@ const LEVELS: Record<string, (v: number) => boolean> = { 'Ниже 60': (v) => v
 const plural = (n: number) => (n % 10 === 1 && n % 100 !== 11 ? 'комментарий' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'комментария' : 'комментариев');
 
 /**
- * «Оценка по каждой компетенции»: шапка с фильтрами (поиск по компетенции или индикатору, «Свернуть все»; доп. фильтры — вывод
+ * «Оценка по каждой компетенции»: шапка с фильтрами (поиск по компетенции или индикатору, иконка «Свернуть все / Развернуть все»; доп. фильтры — вывод
  * и средняя оценка), шкала «Зона роста → Сильные стороны»,
  * аккордеоны компетенций (оценки по источникам и средняя), внутри — индикаторы. Оценка с комментариями — голубой кружок
  * со счетчиком в правом верхнем углу плашки; по клику — сайдбар «Комментарии» (категория, фото, ФИО, роль, дата, текст).
  */
 @Component({
   selector: '[a360-comps]',
-  imports: [Icon, Drawer, FilterBar, Select],
+  imports: [Icon, Drawer, FilterBar, Select, Tooltip],
   template: `
     <div class="ch"><h3>Оценка по каждой компетенции</h3></div>
     <app-filter-bar placeholder="Поиск по компетенции или индикатору" [(query)]="q">
-      <button ftAction class="btn raised" (click)="foldAll()">{{ anyOpen() ? 'Свернуть все' : 'Развернуть все' }}</button>
+      <!-- иконка: все раскрыто — «Свернуть все», иначе — «Развернуть все» -->
+      <button ftAction class="ib3 sq" [appTip]="anyOpen() ? 'Свернуть все' : 'Развернуть все'" [attr.aria-label]="anyOpen() ? 'Свернуть все' : 'Развернуть все'" (click)="foldAll()">
+        <app-icon [name]="anyOpen() ? 'collapseAll' : 'expandAll'" />
+      </button>
       <app-select label="Вывод" allLabel="Все выводы" [options]="tags" [(value)]="tag" />
       <app-select label="Средняя оценка" allLabel="Любая" [options]="levels" [(value)]="level" />
     </app-filter-bar>

@@ -37,4 +37,5 @@ export const ANGULAR_PAGES: Record<string, string> = {
   course: '/course',
   program: '/program',
   player: '/player',
+  docs: '/docs',
 };

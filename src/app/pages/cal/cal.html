@@ -12,9 +12,9 @@
   <div cal-toolbar></div>
   <div>
     @if (s.view() === 'month') {
-      <div cal-month (pick)="openEvent($event)" (create)="create($event)"></div>
+      <div cal-month (pick)="openEvent($event)"></div>
     } @else {
-      <div cal-grid (pick)="openEvent($event)" (create)="create($event)"></div>
+      <div cal-grid (pick)="openEvent($event)"></div>
     }
   </div>
 </div>
@@ -32,4 +32,3 @@
     }
   </div>
 }
-<app-cal-form />

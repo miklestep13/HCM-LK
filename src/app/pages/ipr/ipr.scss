@@ -590,7 +590,7 @@
 }
 :where(.pg-ipr) .fld.flt > .msel,
 :where(.pg-ipr) .fld.flt > .dtin > .fin {
-  font: var(--q-font-ui-body-1);
+  font: var(--q-font-ui-body-2);
   height: 52px;
   min-height: 52px;
 }
@@ -715,7 +715,7 @@
   order: 2;
 }
 :where(.pg-ipr) .fld.flt > .dtin > .fin {
-  font: var(--q-font-ui-body-1);
+  font: var(--q-font-ui-body-2);
   height: 52px;
   min-height: 52px;
 }

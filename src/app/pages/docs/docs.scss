@@ -1,0 +1,50 @@
+/* Мои документы: таблица (стили таблиц прототипа) */
+.pg-docs .dctbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--q-font-family);
+}
+.pg-docs .dctbl th {
+  font: var(--q-font-ui-headline-4);
+  text-align: left;
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-docs .dctbl td {
+  font: var(--q-font-ui-body-2);
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--stroke);
+  vertical-align: middle;
+}
+.pg-docs .dctbl :is(th, td):first-child {
+  padding-left: 0;
+}
+.pg-docs .dctbl :is(th, td):last-child {
+  padding-right: 0;
+}
+.pg-docs .dctbl tr:last-child td {
+  border-bottom: none;
+}
+.pg-docs .dctbl td b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-docs .dctbl .gr {
+  color: var(--t3);
+}
+/* строки: курсор-рука и подсветка при наведении */
+.pg-docs .dctbl tbody tr {
+  cursor: pointer;
+}
+.pg-docs .dctbl tbody tr:hover td {
+  background: var(--q-primary-50);
+}
+/* две кнопки в последней колонке: «Скачать» и «⋯» */
+.pg-docs .dctbl :is(th, td).tact {
+  width: 80px;
+}
+.pg-docs .dctbl .acts {
+  display: inline-flex;
+  gap: 4px;
+}
