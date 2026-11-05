@@ -56,6 +56,7 @@ import { CommoneState } from './commone.state';
           [roleTone]="roleTone"
           [pool]="pool"
           [toolbar]="true"
+          [pageSize]="10"
           [canAdd]="!!c.joined || s.adm()"
           addTitle="Пригласить в сообщество"
           [people]="members()"

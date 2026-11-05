@@ -38,9 +38,6 @@ const RH = 60;
     <div class="ch">
       <h3>{{ title() }}</h3>
       <span class="chip" title="Всего приглашенных с учетом подразделений и команд">{{ total() }}</span>
-      @if (pool().length) {
-        <button class="btn raised bcadd" (click)="add()"><app-icon name="plusThin" />Добавить</button>
-      }
     </div>
     <div class="cb">
       <!-- день на шкале: переключение по дням; рамка встречи — только в ее день -->
@@ -57,10 +54,10 @@ const RH = 60;
           <div class="bch"><span class="bchn">Участник</span>@if (roles().length) {<span class="bchr">Роль</span>}</div>
           @for (r of L.rows; track r.i) {
             <div class="bcr" [class.cf]="r.conf">
-              @if (r.n === me) {
-                <!-- организатор (вы) — без смены и удаления -->
+              @if (r.n === me || ro()) {
+                <!-- организатор (вы) и просмотр — без смены и удаления -->
                 <span class="bcwho"
-                  ><span class="av" [class]="r.av"></span><span class="cnm"><b [title]="r.n">{{ r.n }} (вы)</b><small>{{ r.sub }}</small></span></span
+                  ><span class="av" [class]="r.av"></span><span class="cnm"><b [title]="r.n">{{ r.n }}{{ r.n === me ? ' (вы)' : '' }}</b><small>{{ r.sub }}</small></span></span
                 >
                 @if (roles().length) {
                   <span class="bcrl bcrlt">{{ r.role }}</span>
@@ -102,10 +99,14 @@ const RH = 60;
                 }
               </div>
             }
-            <div class="bchit" [style.height.px]="34 + Math.max(1, L.rows.length) * RH" title="Нажмите на час, чтобы перенести встречу" (click)="pickHour($event)"></div>
+            <div class="bchit" [class.ro]="ro()" [style.height.px]="34 + Math.max(1, L.rows.length) * RH" [title]="ro() ? '' : 'Нажмите на час, чтобы перенести встречу'" (click)="pickHour($event)"></div>
           </div>
         </div>
       </div>
+      <!-- «Добавить участника» — под списком: новая строка, выбор сотрудника сразу открыт -->
+      @if (pool().length && !ro()) {
+        <button type="button" class="lnk lnkadd" (click)="add()"><app-icon name="plus" />Добавить участника</button>
+      }
       @if (L.conf.length) {
         <div class="bcwarn">{{ confText() }}</div>
       } @else if (L.persons > 1 && L.band) {
@@ -157,6 +158,10 @@ export class BusyChart {
   readonly t1 = input('');
   readonly t2 = input('');
   readonly allDay = input(false, { transform: booleanAttribute });
+  /** только просмотр: без выбора, смены роли, удаления, добавления и переноса встречи */
+  readonly ro = input(false, { transform: booleanAttribute });
+  /** встреча календаря, которую показываем или правим, — не считается занятостью */
+  readonly skip = input('');
   /** выбранный день и час: новая дата и время начала и окончания (длительность сохраняется) */
   readonly move = output<{ date: string; t1: string; t2: string }>();
   /** день на шкале (дд.мм.гггг): по умолчанию — день встречи, переключается стрелками */
@@ -187,7 +192,7 @@ export class BusyChart {
     if (name === ME[0]) return this.cal.day(d).filter((o) => !o.ev.all && o.ev.my !== 'no').map((o) => [o.ev.s, o.ev.e, o.ev.my === 'maybe']);
     const own: [number, number, boolean][] = this.cal
       .events()
-      .filter((e) => !e.all && (e.org === name || e.ppl.includes(name)) && calHits(e, d))
+      .filter((e) => e.id !== this.skip() && !e.all && (e.org === name || e.ppl.includes(name)) && calHits(e, d))
       .map((e) => [e.s, e.e, false]);
     const h = cHash(name + cKey(d)), n = d.getDay() % 6 === 0 ? 0 : 1 + Math.floor(h * 3);
     for (let i = 0; i < n; i++) {
@@ -228,11 +233,13 @@ export class BusyChart {
   });
   protected readonly confText = computed(() => {
     const c = this.lanes().conf;
-    return 'В это время ' + (c.length === 1 ? 'занят ' : 'заняты ') + c.map((n) => (n === ME[0] ? 'вы' : shortFio(n))).join(', ') + '. Нажмите на свободный час в шкале, чтобы перенести встречу.';
+    const who = c.length === 1 && c[0] === ME[0] ? 'вы заняты' : (c.length === 1 ? 'занят ' : 'заняты ') + c.map((n) => (n === ME[0] ? 'вы' : shortFio(n))).join(', ');
+    return ('В это время ' + who).replace(/\.?$/, '.') + (this.ro() ? '' : ' Нажмите на свободный час в шкале, чтобы перенести встречу.');
   });
 
   /** клик по шкале — встреча переносится на этот час */
   protected pickHour(e: MouseEvent): void {
+    if (this.ro()) return;
     const r = (e.currentTarget as HTMLElement).getBoundingClientRect(), h = H0 + Math.min(H1 - H0 - 1, Math.floor(((e.clientX - r.left) / r.width) * (H1 - H0)));
     const du = this.t1() && this.t2() ? Math.max(15, cMin(this.t2()) - cMin(this.t1())) : 60;
     this.move.emit({ date: this.view(), t1: cHM(h * 60), t2: cHM(Math.min(23 * 60 + 45, h * 60 + du)) });
@@ -267,7 +274,7 @@ export class BusyChart {
     this.people.set(this.people().map((m, j) => (j === i ? { ...x, role } : m)));
     this.pick.set(null);
   }
-  /** «Добавить» — новая пустая строка, выбор сразу открыт */
+  /** «Добавить участника» — новая пустая строка внизу, выбор сразу открыт */
   protected add(): void {
     this.people.set([...this.people(), { n: '', pos: '', av: 0, role: this.addRole() }]);
     setTimeout(() => {

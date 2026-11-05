@@ -170,16 +170,13 @@
   box-shadow: inset 0 0 0 1.5px var(--ab);
   color: var(--abt);
 }
-.ab-gantt .abb.used {
-  opacity: 0.45;
-}
 .ab-gantt .abb.rej {
   background: var(--q-content-background);
   box-shadow: inset 0 0 0 1.5px var(--dg);
   color: var(--dg);
   text-decoration: line-through;
 }
-/* группы строк: «Моя команда» (сворачивается, шеврон слева), «Добавленные» */
+/* группы строк: подразделения (сворачиваются, шеврон слева; у руководителя — несколько), «Добавленные» */
 .ab-gantt .abgr {
   font: var(--q-font-ui-headline-4);
   position: sticky;
@@ -213,7 +210,7 @@
   color: var(--t3);
   padding: 12px 0;
 }
-/* «Добавить сотрудника» — под последней строкой */
+/* «Добавить участника» — под последней строкой */
 .ab-gantt .abadd {
   display: inline-flex;
   align-items: center;
@@ -304,4 +301,14 @@
 /* график сразу под панелью фильтров: зазор 16 дает сама панель */
 .ab-gantt > .cb {
   padding-top: 0;
+}
+/* руководитель: сотрудник в диаграмме кликабелен — его статистика наверху; выбранный подсвечен */
+.ab-gantt .abl.abpick {
+  cursor: pointer;
+}
+.ab-gantt .abl.abpick:hover .cnm b {
+  color: var(--blue);
+}
+.ab-gantt .abr.abcur .abl {
+  background: var(--q-primary-50);
 }

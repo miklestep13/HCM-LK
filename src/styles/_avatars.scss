@@ -1,4 +1,6 @@
-/* Портреты сотрудников: .av1–.av8, .av.ph41–.av.ph52 */
+/* Портреты сотрудников: .av1–.av8, .av.ph41–.av.ph52, .av.phme — текущий пользователь (Иванов П. С.) */
+/* портрет заполняет плашку целиком и стоит по центру — в любом виджете, где у .av не задан свой фон */
+.av{background-size:cover;background-position:center;background-repeat:no-repeat}
 .av1{background-image:url('./avatars/av1.webp')}
 .av2{background-image:url('./avatars/av2.webp')}
 .av3{background-image:url('./avatars/av3.webp')}
@@ -19,3 +21,4 @@
 .av.ph50{background-image:url('./avatars/ph50.webp')}
 .av.ph51{background-image:url('./avatars/ph51.webp')}
 .av.ph52{background-image:url('./avatars/ph52.webp')}
+.av.phme{background-image:url('./avatars/me.webp')}

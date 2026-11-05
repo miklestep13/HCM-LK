@@ -69,6 +69,52 @@
   gap: 12px;
   padding: 20px;
 }
+/* шапка статистики: чья — «Моя статистика» или сотрудник, которого смотрит руководитель */
+.pg-absences .ab-stats .abstw {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pg-absences .ab-stats .abst:not(.abown) {
+  padding-top: 0;
+}
+.pg-absences .ab-stats .abwho {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.pg-absences .ab-stats .abwho .av {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-size: cover;
+}
+.pg-absences .ab-stats .abwho .cnm {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.pg-absences .ab-stats .abwho .cnm b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+.pg-absences .ab-stats .abwho .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-absences .ab-stats .abstme {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-absences .ab-stats .abstme app-icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+}
 /* плитки одной высоты, содержимое — по верхнему краю */
 .pg-absences .abst .stc {
   padding: 12px 16px;
@@ -344,7 +390,7 @@
 }
 .pg-absences .fld.flt > .abtm > .fin {
   width: 100%;
-  font: var(--q-font-ui-body-1);
+  font: var(--q-font-ui-body-2);
   height: 52px;
   padding-right: 36px;
 }
@@ -418,4 +464,9 @@
 }
 .pg-absences .aberr .dropz {
   border-color: var(--dg);
+}
+
+/* «Оформить заявку» — справа в заголовке страницы */
+.pg-absences .pf-top .abreq {
+  margin-left: auto;
 }

@@ -30,7 +30,7 @@ const MONTH = ['январь', 'февраль', 'март', 'апрель', 'м
       [backAttrs]="s.id() ? { cm: s.id() } : undefined" [backLabel]="s.id() ? 'К сообществу' : 'К списку сообществ'" />
     <div commnew-main></div>
     <div cover-upload [value]="s.f().cover" (valueChange)="s.set('cover', $event)"></div>
-    <div ppl-card [people]="s.f().people" (peopleChange)="s.set('people', $event)" [roles]="roles" [pool]="pool" [addRole]="member"
+    <div ppl-card [people]="s.f().people" (peopleChange)="s.set('people', $event)" [roles]="roles" [pool]="pool" [addRole]="member" [pageSize]="10"
       empty="Добавьте участников: коллеги получат приглашение, остальные смогут присоединиться сами."></div>
     @if (s.err()) {
       <div class="pqerr">{{ s.err() }}</div>

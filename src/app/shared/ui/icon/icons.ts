@@ -44,6 +44,10 @@ export const ICONS: Record<string, string> = {
   plus: '<svg viewBox="0 0 16 16" fill="none"><path d="M8 3.2v9.6M3.2 8h9.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
   minus:
     '<svg viewBox="0 0 16 16" fill="none"><path d="M3.2 8h9.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  /** свернуть все: стрелки к центру */
+  collapseAll: '<svg viewBox="0 0 16 16" fill="none"><path d="M4.8 2.8 8 6l3.2-3.2M4.8 13.2 8 10l3.2 3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  /** развернуть все: стрелки от центра */
+  expandAll: '<svg viewBox="0 0 16 16" fill="none"><path d="M4.8 6 8 2.8 11.2 6M4.8 10 8 13.2 11.2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   fit: '<svg viewBox="0 0 16 16" fill="none"><path d="M2.4 5.6V2.4h3.2M10.4 2.4h3.2v3.2M13.6 10.4v3.2h-3.2M5.6 13.6H2.4v-3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   arrowUp:
     '<svg viewBox="0 0 16 16" fill="none"><path d="M8 13V3.4M4 7.2 8 3.2l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -67,6 +71,8 @@ export const ICONS: Record<string, string> = {
     '<svg viewBox="0 0 16 16" fill="none"><path d="M2.8 4.4h10.4M6.4 4.4V3.2a1 1 0 0 1 1-1h1.2a1 1 0 0 1 1 1v1.2M4.2 4.4l.6 8.2a1.2 1.2 0 0 0 1.2 1.1h4a1.2 1.2 0 0 0 1.2-1.1l.6-8.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   download:
     '<svg viewBox="0 0 16 16" fill="none"><path d="M8 2.6v7.6M5 7.4l3 3 3-3M3 13.2h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  /** меню-гамбургер (шапка, когда пункты меню не помещаются) */
+  burger: '<svg viewBox="0 0 16 16" fill="none"><path d="M2.5 4h11M2.5 8h11M2.5 12h11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
   close: '<svg viewBox="0 0 16 16" fill="none"><path d="M4.4 4.4l7.2 7.2M11.6 4.4l-7.2 7.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
   closeSm: '<svg viewBox="0 0 16 16" fill="none"><path d="M4.6 4.6 11.4 11.4M11.4 4.6 4.6 11.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
   spin: '<svg class="attspin" viewBox="0 0 24 24" fill="none"><path d="M12 4a8 8 0 1 0 8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',

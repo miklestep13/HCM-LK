@@ -110,30 +110,6 @@
   width: 16px;
   height: 16px;
 }
-.pg-map .bkms {
-  font: var(--q-font-ui-button-m);
-  height: 36px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 180px;
-  border: 1px solid var(--stroke2);
-  border-radius: 8px;
-  padding: 0px 10px 0px 12px;
-  background: var(--q-content-background);
-  cursor: pointer;
-  color: var(--t1);
-  text-align: left;
-}
-.pg-map .bkms:hover {
-  border-color: var(--blue-br);
-}
-.pg-map .bkms svg {
-  width: 16px;
-  height: 16px;
-  color: var(--q-page-text-ui);
-  flex-shrink: 0;
-}
 .pg-map img.av {
   object-fit: cover;
   display: block;

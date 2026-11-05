@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "shots": "node scripts/shots.mjs",
+    "build:single": "ng build && python3 scripts/pack-single.py dist/hcm-ui/browser export/q-hcm-prototype.html",
     "deploy": "ng build && vercel deploy dist/hcm-ui/browser --prod --yes --scope follout13-8490 --project q-hcm-prototype",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

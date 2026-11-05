@@ -5,14 +5,15 @@ import { LearnStore } from '../../core/demo/learn-store.service';
 import { CompanyEvent } from '../../interface/news';
 import { Icon } from '../../shared/ui/icon/icon';
 import { ToastService } from '../../shared/ui/toast/toast.service';
+import { CalState } from '../../pages/cal/cal.state';
 
 /**
  * Виджет «Мероприятия» — одна карточка для всех страниц («Компания → Обзор», «Новости», сообщество):
- * заголовок со счетчиком и переходом в календарь; список — плитка с датой, название, описание (или место), дата и время «21.06 10:00», участники.
+ * заголовок со счетчиком и переходом в «Мой календарь»; список — плитка с датой, название, описание (или место), дата и время «21.06 10:00», участники.
  *   <div app-events></div>                                — мероприятия компании
  *   <div app-events [events]="list" empty="…"></div>      — свои мероприятия (например, встречи сообщества)
  *   <div app-events canAdd (add)="…"></div>               — внизу голубая кнопка «Добавить» (форма добавления мероприятия)
- * Клик по мероприятию — регистрация и напоминание в календаре. Формат («Онлайн» / «Офлайн») не показываем.
+ * Клик по мероприятию — его встреча в календаре (копия без обложки, CalState.openCopy); встреча сообщества — регистрация и напоминание. Формат («Онлайн» / «Офлайн») не показываем.
  */
 @Component({
   selector: '[app-events]',
@@ -21,7 +22,7 @@ import { ToastService } from '../../shared/ui/toast/toast.service';
     <div class="ch">
       <h3>{{ title() }}</h3>
       <span class="chip">{{ list().length }}</span>
-      <button class="ib2 hubopen" title="Все мероприятия" aria-label="Все мероприятия" (click)="nav.go('events')"><app-icon name="open" /></button>
+      <button class="ib2 hubopen" title="Мой календарь" aria-label="Мой календарь" (click)="nav.go('cal')"><app-icon name="open" /></button>
     </div>
     <div class="cb"><div class="evl">
       @for (e of list(); track e.title) {
@@ -80,6 +81,7 @@ export class Events {
   readonly add = output<void>();
   protected readonly nav = inject(NavService);
   private readonly toast = inject(ToastService);
+  private readonly cal = inject(CalState);
 
   /** плитка даты: «18 сентября, 19:00» → 18 / сен */
   protected day = (e: CompanyEvent) => e.when.split(' ')[0];
@@ -97,9 +99,9 @@ export class Events {
     this.toast.show(act === 'reg' ? 'Вы записаны' : 'Участие отменено', e.title);
   }
 
-  /** клик по строке — карточка мероприятия; встреча без страницы (сообщество) — напоминание в календаре */
+  /** клик по строке — встреча-копия мероприятия в календаре (без обложки); копии нет — карточка мероприятия; встреча без страницы (сообщество) — напоминание в календаре */
   protected open(e: CompanyEvent): void {
-    if (e.ev) return this.nav.go('eventview', { ev: e.ev });
+    if (e.ev) return void (this.cal.openCopy(e.ev) || this.nav.go('eventview', { ev: e.ev }));
     this.toast.show('Готово', `${e.title}: регистрация и напоминание в календаре.`);
   }
 }

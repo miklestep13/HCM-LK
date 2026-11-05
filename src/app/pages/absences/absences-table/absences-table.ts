@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, booleanAttribute, computed, inject, input, output, signal } from '@angular/core';
 import { absCount } from '../../../core/demo/absence-store.service';
-import { ABS_KIND_LABEL, ABS_STATUS_TONE } from '../../../data/absence.data';
+import { ABS_KIND_GROUP, ABS_KIND_LABEL, ABS_STATUS_TONE } from '../../../data/absence.data';
 import { plural } from '../../../data/org.data';
 import { ME, ME_PHOTO, PEOPLE, avCls } from '../../../data/people.data';
 import { AbsEntry, AbsPerson } from '../../../interface/absence';
@@ -20,7 +20,7 @@ interface Group {
  * Таблица заявок «Графика отсутствий» (вид «Таблица»): фильтр «Период» (по умолчанию текущий год) и остальные фильтры страницы.
  * Сотрудник — только свои заявки. Администратор — строки сотрудников (фото, ФИО, должность, число заявок и всего дней;
  * отдельной колонки «Сотрудник» нет — вид отсутствия заявки вровень с фото),
- * строка раскрывается (шеврон слева) — ниже заявки сотрудника; внизу «Добавить сотрудника» новой строкой, как в календаре.
+ * строка раскрывается (шеврон слева) — ниже заявки сотрудника; внизу «Добавить участника» новой строкой, как в календаре.
  * Клик по заявке — карточка отсутствия (там же — отмена своей заявки); отдельных действий в строках нет.
  */
 @Component({
@@ -50,7 +50,7 @@ interface Group {
               @if (admin()) {
                 <td class="abtch"></td>
               }
-              <td><span class="abtk" [class]="'ab-' + x.kind"><i></i>{{ kindName(x) }}</span></td>
+              <td><span class="abtk" [class]="'ab-' + group(x.kind)"><i></i>{{ kindName(x) }}</span></td>
               <td class="nw">{{ period(x) }}</td>
               <td class="nw">{{ count(x) }}</td>
               <td><span class="bdg" [class]="toneOf(x)">{{ x.status }}</span></td>
@@ -129,8 +129,10 @@ interface Group {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AbsencesTable {
+  /** цвет вида: за свой счет и учебный — цветом дополнительного отпуска */
+  protected readonly group = ABS_KIND_GROUP;
   protected readonly s = inject(AbsencesState);
-  /** новая строка «Добавить сотрудника» (администратор) */
+  /** новая строка «Добавить участника» (администратор) */
   readonly draft = input(false, { transform: booleanAttribute });
   readonly pick = output<Event>();
   readonly dropDraft = output<void>();

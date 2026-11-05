@@ -13391,10 +13391,13 @@ const RQ_STC = {'Зарегистрирована':'info', 'В работе':'wa
 const RQ = {q:'', cat:'', from:'', chips:new Set()};
 /* каталог заявок: группа → типы. acc — поле «доступ» в форме, tpl — подпись типа */
 const RQ_CAT = [
-  ['Кадры', 'Отпуска, отсутствия и кадровые документы', [
-    ['Заявление на отпуск', 'Ежегодный оплачиваемый, за свой счет, учебный'],
-    ['Отгул или отсутствие', 'Несколько часов или день с отработкой'],
+  ['Календарно-табельный учет', 'Отпуска, отгулы, больничные и командировки', [
+    ['Заявление на отпуск', 'Основной, дополнительный, за свой счет, учебный, по уходу за ребенком'],
+    ['Отгул', 'Один или несколько дней в счет отработанного времени'],
+    ['Больничный', 'Электронный листок нетрудоспособности'],
     ['Командировка', 'Оформление приказа и авансовых документов'],
+    ['Перенос отпуска', 'Новые даты согласованного отпуска']]],
+  ['Кадры', 'Кадровые документы и справки', [
     ['Справка 2-НДФЛ', 'За выбранный период, с подписью бухгалтерии'],
     ['Справка с места работы', 'Для визы, банка или посольства'],
     ['Копия трудовой книжки', 'Заверенная копия или сведения СТД-Р']]],
@@ -13417,9 +13420,14 @@ const RQ_ACC = ['АБС «Меридиан» · операционный ден�
   'Портал базы знаний · закрытые разделы'];
 const RQ_ME = {n:'Иванов Павел Сергеевич', u:'Департамент розничного бизнеса · Управление кредитования', m:'Смирнова Виктория Олеговна'};
 let RQF = null;
+/* открытие из Angular («Оформить заявку» в «Графике отсутствий»): раскрытая группа и куда ведет «Назад» */
+let RQ_PKG = '', RQ_PKB = '';
 function rqPick(){
   const box = document.getElementById('rqPick'); if(!box) return;
-  box.innerHTML = RQ_CAT.map((g, i)=>'<div class="rqg' + (i === 0 ? ' open' : '') + '">' +
+  const gi = Math.max(0, RQ_CAT.findIndex(g=>g[0] === RQ_PKG)), bk = document.querySelector('#pg-reqpick .bkb');
+  if(bk){ bk.dataset.go = RQ_PKB || 'req'; bk.title = RQ_PKB ? 'Назад' : 'К заявкам'; }
+  RQ_PKG = ''; RQ_PKB = '';
+  box.innerHTML = RQ_CAT.map((g, i)=>'<div class="rqg' + (i === gi ? ' open' : '') + '">' +
     '<button class="rqgh"><span class="ax">' + MT_CHEV + '</span><b>' + g[0] + '</b>' +
     '<span class="bmeta">' + g[2].length + '</span></button>' +
     '<div class="rqgb">' + g[2].map((t, k)=>'<button class="rqi" data-rqf="' + i + '.' + k + '">' + t[0] +
@@ -31509,6 +31517,10 @@ mtBind = function(){ mtcEnsure(); return mtcBind0.apply(this, arguments); };
         /* цель: просмотр / оценка (mode: view | edit) и форма редактирования; ev — этап карты целей из dev-панели */
         /* задание, которое выполняется по внешней ссылке */
         mtext: function(a){ if(!a.task) return; MT_OPEN = a.task; go0call('mtext'); return true; },
+        /* новая заявка: каталог с раскрытой группой (grp); back — страница Angular, куда ведет «Назад» */
+        reqpick: function(a){ if(typeof rqPick !== 'function') return; RQ_PKG = a.grp || ''; RQ_PKB = a.back || ''; go0call('reqpick'); if(a.back) NAVH.length = 0; return true; },
+        /* просмотр документа из «Моих документов» (список — уже в Angular; docs — предыдущая: «Назад» вернет в Angular) */
+        doccard: function(a){ if(!a.doc || typeof docCard !== 'function') return; DOC_CUR = {n:a.doc, src:a.src || '', d:a.date || '', st:a.st || '', c:a.st === 'Ждет подписи' ? 'warn' : 'ok'}; go0call('docs'); go0call('doccard'); return true; },
         /* обучение: страница курса / мероприятия, плеер, программа — как из «Моего обучения» или каталога (lt) */
         course: function(a){ if(!a.crs || typeof openCourse !== 'function') return; learnAt(a.lt);
           var im = document.querySelector('#pg-dev [data-' + (a.kind === 'trn' ? 'trn' : 'course') + '="' + a.crs + '"] img'); openCourse(a.crs, im ? im.src : null, false, a.kind || undefined); return true; },

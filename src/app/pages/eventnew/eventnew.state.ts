@@ -13,6 +13,10 @@ export class EventnewState {
   readonly err = signal('');
   /** поле с ошибкой */
   readonly bad = signal('');
+  /** просмотр (встреча календаря на просмотр): поля — текстом, без правки */
+  readonly ro = signal(false);
+  /** повтор встречи одной строкой (просмотр) */
+  readonly repText = signal('');
 
   /** поле формы; окончание подставляется само: тот же день, на час позже начала */
   set<K extends keyof EventForm>(k: K, v: EventForm[K]): void {

@@ -4,12 +4,12 @@ import { Seg } from '../../../shared/ui/seg/seg';
 
 /**
  * Dev-панель (кнопка «Демо» внизу справа): переключатели демо-состояний текущей страницы —
- * этапы процесса, роли, сценарии. Не часть продукта, только для показа прототипа.
+ * этапы процесса, роли, сценарии. Не часть продукта, только для показа прототипа. Параметр адреса noDemo скрывает кнопку (для скриншотов).
  */
 @Component({
   selector: 'app-dev-panel',
   imports: [Seg],
-  template: ` @if (svc.controls().length) {
+  template: ` @if (svc.controls().length && !hide) {
     <div class="devp" [class.open]="open()">
       @if (open()) {
         <div class="devp-body">
@@ -39,4 +39,6 @@ import { Seg } from '../../../shared/ui/seg/seg';
 export class DevPanel {
   protected readonly svc = inject(DevPanelService);
   protected readonly open = signal(false);
+  /** для скриншотов: в адресе есть noDemo (например, #/absences?noDemo=1) — кнопку «Демо» не показываем */
+  protected readonly hide = /[?&]noDemo\b/.test(location.href);
 }

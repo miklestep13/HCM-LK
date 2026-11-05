@@ -58,7 +58,7 @@
   width: 100%;
 }
 .pg-eventnew .fld.flt > .dtin > .fin {
-  font: var(--q-font-ui-body-1);
+  font: var(--q-font-ui-body-2);
   height: 52px;
   min-height: 52px;
 }
@@ -130,7 +130,7 @@
 }
 .pg-eventnew .fld.flt > .entm > .fin {
   width: 100%;
-  font: var(--q-font-ui-body-1);
+  font: var(--q-font-ui-body-2);
   height: 52px;
   padding-right: 36px;
 }
@@ -262,4 +262,119 @@
   .pg-eventnew .frm.enrp {
     grid-template-columns: 1fr;
   }
+}
+
+/* просмотр встречи (view=1): поля «подпись — значение» в той же сетке, что и форма */
+.pg-eventnew .frm.enf.env {
+  row-gap: 20px;
+}
+.pg-eventnew .env .envf {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.pg-eventnew .env .envf.en2 {
+  grid-column: span 4;
+}
+.pg-eventnew .env .envf.full {
+  grid-column: 1 / -1;
+}
+.pg-eventnew .env .envf > .l {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.pg-eventnew .env .envf > .lnk {
+  font: var(--q-font-ui-link-2);
+  align-self: flex-start;
+}
+.pg-eventnew .env .envd :is(p, ul, ol) {
+  margin: 0 0 8px;
+}
+.pg-eventnew .ensum.env {
+  margin-top: 0;
+}
+/* ответ приглашенного: сегмент высотой 36 */
+.pg-eventnew .seg.enans span {
+  font: var(--q-font-ui-button-m);
+  padding: 4px 12px;
+  line-height: 20px;
+}
+@media (max-width: 1024px) {
+  .pg-eventnew .env .envf,
+  .pg-eventnew .env .envf.en2 {
+    grid-column: auto;
+  }
+}
+
+/* просмотр встречи — шапка как у ИПР: название и статус, описание, плитки «Дата и время» и «Место проведения» */
+.pg-eventnew .envh .iptit {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0px 0px 20px;
+}
+.pg-eventnew .envh .tkt {
+  font: var(--q-font-ui-headline-2);
+  color: var(--black);
+  margin: 0px;
+  flex: 0 1 auto;
+  min-width: 0px;
+}
+.pg-eventnew .envh .iptbdg {
+  margin: 0px;
+}
+.pg-eventnew .envh .mtdsc {
+  font: var(--q-font-ui-body-1);
+  color: var(--t1);
+  max-width: 700px;
+}
+.pg-eventnew .envh .mtdsc :is(p, ul, ol) {
+  margin: 0px 0px 8px;
+}
+.pg-eventnew .envh .kpis {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+.pg-eventnew .envh .kpis.k2 {
+  grid-template-columns: repeat(2, minmax(0px, 1fr));
+}
+.pg-eventnew .envh .kpis.k3 {
+  grid-template-columns: repeat(3, minmax(0px, 1fr));
+}
+.pg-eventnew .envh .rst {
+  background: var(--s1);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.pg-eventnew .envh .rst .l {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-eventnew .envh .rst .v {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 900px) {
+  .pg-eventnew .envh .kpis.k2,
+  .pg-eventnew .envh .kpis.k3 {
+    grid-template-columns: 1fr;
+  }
+}
+/* ответ приглашенного — внизу шапки встречи */
+.pg-eventnew .w-evhead .seg.enans {
+  align-self: flex-start;
+  margin-left: 0px;
+  margin-right: auto;
+}
+/* кнопки ответа — по левому краю */
+.pg-eventnew .w-evhead .crsbtn:has(> .enans) {
+  justify-content: flex-start;
 }

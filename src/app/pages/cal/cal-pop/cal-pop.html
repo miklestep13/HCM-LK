@@ -2,13 +2,11 @@
 <div class="fpop bkfp clpop" [appFloat]="anchor()" (click)="$event.stopPropagation()">
   <div class="clph">
     <span class="caldot" style="background: var(--q-primary-500)"></span><b>{{ e.t }}</b>
-    @if (e.priv) {
-      <span class="clpriv"><svg viewBox="0 0 16 16" fill="none"><rect x="3.4" y="7" width="9.2" height="6.6" rx="1.4" stroke="currentColor" stroke-width="1.4" /><path d="M5.4 7V5.2a2.6 2.6 0 0 1 5.2 0V7" stroke="currentColor" stroke-width="1.4" /></svg>Личное</span>
-    }
+    <button class="actb" title="Открыть полную форму" aria-label="Открыть полную форму" (click)="open()"><app-icon name="fit" /></button>
   </div>
   <div class="clpr">
     <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.4" /><path d="M8 4.6V8l2.4 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /></svg>
-    <span>{{ when() }} @if (dur()) {<em>({{ dur() }})</em>}</span>
+    <span>{{ date() }} · <span cal-time [ev]="e"></span></span>
   </div>
   @if (e.rep) {
     <div class="clpr">
@@ -35,25 +33,13 @@
       <span>ИИ-протокол придет участникам после окончания встречи</span>
     </div>
   }
+  @let o = av(e.org);
   <div class="clpr clporg">
-    <span class="clpl">Организатор</span>
-    <span class="clpo"><ng-container *ngTemplateOutlet="avt; context: { $implicit: e.org }" /><span>{{ e.org }}{{ isOrg() ? ' (вы)' : '' }}</span></span>
+    @if (o.photo) {<img class="av" [src]="o.photo" alt="" />} @else {<span class="av" [class]="o.cls"></span>}
+    <b>{{ e.org }}{{ isOrg() ? ' (вы)' : '' }}</b>
   </div>
-  @if (others().length) {
-    <div class="clpr clporg">
-      <span class="clpl">Участники</span>
-      <span class="clpo"
-        ><span class="plav"
-          >@for (n of others().slice(0, 7); track n) {<ng-container *ngTemplateOutlet="avt; context: { $implicit: n }" />}@if (others().length > 7) {<span class="more">+{{ others().length - 7 }}</span>}</span
-        ></span
-      >
-    </div>
-  }
-  @if (e.desc) {
-    <p class="clpd" [innerHTML]="e.desc"></p>
-  }
   @if (isOrg()) {
-    <div class="bkpa"><button class="btn raised" (click)="edit()">Изменить</button><button class="btn raised bkdg" (click)="remove()">Удалить</button></div>
+    <div class="bkpa"><button class="btn dng" (click)="remove()">Удалить</button><button class="btn raised" (click)="edit()">Редактировать</button></div>
   } @else {
     <div class="clpa">
       <div class="seg">
@@ -62,12 +48,3 @@
     </div>
   }
 </div>
-
-<ng-template #avt let-n>
-  @let a = av(n);
-  @if (a.photo) {
-    <img class="av" [src]="a.photo" alt="" />
-  } @else {
-    <span class="av" [class]="a.cls"></span>
-  }
-</ng-template>

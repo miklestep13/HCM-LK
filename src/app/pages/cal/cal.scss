@@ -15,8 +15,7 @@
   --nd: 5;
   padding: 0px 0px 12px;
 }
-.pg-cal .calgh,
-.pg-cal .calad {
+.pg-cal .calgh {
   display: grid;
   grid-template-columns: 56px repeat(var(--nd),minmax(0,1fr));
   border-bottom: 1px solid var(--stroke);
@@ -40,12 +39,14 @@
   color: var(--grey);
 }
 .pg-cal .calhd b {
-  font: var(--q-font-ui-headline-3);
-  width: 32px;
-  height: 32px;
+  font: var(--q-font-ui-headline-4);
+  /* «30.09» — плашка-пилюля по ширине даты */
+  min-width: 28px;
+  height: 26px;
+  padding: 0 8px;
   display: grid;
   place-items: center;
-  border-radius: 50%;
+  border-radius: 13px;
   color: var(--t1);
 }
 .pg-cal .calhd:hover b {
@@ -57,22 +58,6 @@
 .pg-cal .calhd.tdy b {
   background: var(--blue);
   color: var(--q-content-background);
-}
-.pg-cal .calad {
-  background: var(--hv);
-}
-.pg-cal .calad > span {
-  font: var(--q-font-ui-description-1);
-  padding: 6px 6px 6px 0px;
-  color: var(--grey);
-  text-align: right;
-}
-.pg-cal .calad > div {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: 4px 3px;
-  border-left: 1px solid var(--stroke);
 }
 .pg-cal .calsc {
   height: calc(-300px + 100vh);
@@ -116,19 +101,10 @@
   padding: 4px 7px;
   overflow: hidden;
   text-align: left;
-  border-top-width: medium;
-  border-right-width: medium;
-  border-bottom-width: medium;
-  border-top-style: none;
-  border-right-style: none;
-  border-bottom-style: none;
-  border-top-color: currentcolor;
-  border-right-color: currentcolor;
-  border-bottom-color: currentcolor;
-  border-image: none;
-  border-left: 3px solid var(--cc);
-  border-radius: 6px;
-  background: var(--ct);
+  /* без скруглений и цветной полосы слева; цвета — Q.PALETTE: принятая — мягкая заливка бренда без рамки, под вопросом — белая с пунктирной рамкой */
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: var(--q-primary-50);
   font-family: var(--q-font-family);
   color: var(--q-content-text);
   cursor: pointer;
@@ -136,8 +112,11 @@
   transition: box-shadow 0.12s;
 }
 .pg-cal .cle:hover {
-  box-shadow: 0 4px 14px var(--q-base-transparent-100);
   z-index: 4;
+}
+/* ховер кликабельного элемента — только цвет заголовка */
+.pg-cal .cle:hover b {
+  color: var(--q-primary-500);
 }
 .pg-cal .cle b {
   font: var(--q-font-ui-headline-4);
@@ -149,7 +128,7 @@
 }
 .pg-cal .cle .clt {
   font: var(--q-font-ui-description-1);
-  color: var(--q-content-text-secondary);
+  color: var(--q-base-500);
   white-space: nowrap;
 }
 .pg-cal .cle .cll {
@@ -160,29 +139,33 @@
   text-overflow: ellipsis;
   max-width: 100%;
 }
+/* строки, которые не помещаются по высоте целиком, переносятся во вторую колонку и скрыты (flex-wrap + overflow) */
+.pg-cal .cle:not(.sh) {
+  flex-wrap: wrap;
+  align-content: flex-start;
+  /* перенесенная колонка уходит далеко вправо — в узкой карточке не выглядывает у правого края */
+  column-gap: 1000px;
+}
+.pg-cal .cle:not(.sh) > :is(b, .cll) {
+  flex: none;
+  width: 100%;
+}
+.pg-cal .cle.sh .cll {
+  display: none;
+}
 .pg-cal .cle .cli {
   position: absolute;
   right: 5px;
   top: 4px;
   display: flex;
   gap: 3px;
-  color: var(--cc);
+  color: var(--q-page-text-ui);
 }
 .pg-cal .cle .cli svg {
   width: 12px;
   height: 12px;
 }
-.pg-cal .cle .cli em {
-  font: var(--q-font-ui-description-1);
-  width: 14px;
-  height: 14px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--cc);
-  color: var(--q-content-background);
-}
-.pg-cal .cle:has(.cli svg, .cli em) b {
+.pg-cal .cle:has(.cli svg) b {
   padding-right: 30px;
 }
 .pg-cal .cle.md b {
@@ -209,36 +192,69 @@
   flex-shrink: 1;
   min-width: 0px;
 }
-.pg-cal .cle.sh .clt {
-  flex-shrink: 0;
-  margin-right: 16px;
+.pg-cal .cle.sh:has(.cli svg) b {
+  padding-right: 16px;
 }
 .pg-cal .cle.maybe {
-  background: repeating-linear-gradient(135deg,var(--ct) 0 7px,var(--q-content-background) 7px 14px);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb,var(--cc) 55%,transparent);
-}
-.pg-cal .cle.none {
   background: var(--q-content-background);
-  box-shadow: inset 0 0 0 1px var(--cc);
+  border: 1px dashed var(--q-primary-300);
+}
+/* выделенная встреча (клик) */
+.pg-cal .cle.on {
+  border: 1px solid var(--q-primary-500);
+  box-shadow: inset 0 0 0 1px var(--q-primary-500);
+  z-index: 4;
+}
+/* быстрое создание: выделенный интервал */
+.pg-cal .calsel {
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  background: var(--q-primary-50);
+  border: 1px solid var(--q-primary-500);
+  z-index: 3;
+  pointer-events: none;
+}
+.pg-cal .calmc.sel {
+  box-shadow: inset 0 0 0 1px var(--q-primary-500);
+}
+/* текущее время: пунктир по прошедшим дням недели, в сегодняшнем дне — сплошная линия с точкой; время — в шкале часов */
+.pg-cal .calnow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 2px dotted var(--q-primary-500);
+  z-index: 2;
+  pointer-events: none;
+}
+.pg-cal .calnow.tdy {
+  border-top-style: solid;
+}
+.pg-cal .calnow.tdy::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: -6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--q-primary-500);
+}
+.pg-cal .calhr .calnowt {
+  font: var(--q-font-ui-description-1);
+  position: absolute;
+  right: 4px;
+  transform: translateY(-50%);
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: var(--q-primary-500);
+  color: var(--q-content-background);
+  z-index: 3;
 }
 .pg-cal .cle.hit {
   animation: 1.2s ease-in-out 0s 2 normal none running clhit;
   z-index: 5;
-}
-.pg-cal .cle.ad {
-  position: relative;
-  width: 100%;
-  flex-direction: row;
-  align-items: center;
-  gap: 6px;
-  padding: 2px 7px;
-}
-.pg-cal .cle.ad b {
-  -webkit-line-clamp: 1;
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  min-width: 0px;
 }
 :is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar {
   padding: 16px 24px;
@@ -272,7 +288,7 @@
 .pg-cal .cle.mc span {
   font: var(--q-font-ui-description-1);
   flex-shrink: 0;
-  color: var(--cc);
+  color: var(--q-content-text-secondary);
 }
 .pg-cal .calm {
   padding: 0px 0px 12px;
@@ -433,6 +449,11 @@
   height: 12px;
   border-radius: 9999px;
 }
+.pg-cal .clph app-icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+}
 .pg-cal .clph b {
   font: var(--q-font-ui-headline-3);
   flex: 1 1 0%;
@@ -464,19 +485,30 @@
   width: 22px;
   height: 22px;
 }
-.pg-cal .clpd {
+.pg-cal .clporg {
+  align-items: center;
+}
+.pg-cal .clporg .av {
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: -4px;
+}
+/* ФИО организатора — обычным шрифтом, как остальные строки карточки */
+.pg-cal .clporg b {
   font: var(--q-font-ui-body-2);
-  padding: 8px 10px;
-  border-radius: 8px;
-  background: var(--s1);
-  color: var(--t2);
+  color: var(--t1);
 }
 .pg-cal .clpa {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding-top: 10px;
-  border-top: 1px solid var(--stroke);
+}
+/* краткая карточка: кнопки (организатор) и ответ (приглашенный) — одинаковый отступ от информации, без разделителя */
+.pg-cal .clpop :is(.bkpa, .clpa) {
+  margin-top: 8px;
 }
 .pg-cal .clpa .seg {
   display: flex;
@@ -500,9 +532,6 @@
   min-height: 36px;
   padding: 8px 10px;
   white-space: nowrap;
-}
-.pg-cal .btn.bkdg {
-  color: var(--red);
 }
 .pg-cal .clpop .bkpa .btn {
   display: inline-flex;
@@ -636,4 +665,49 @@
 .pg-cal .clsi .cnm b {
   font: var(--q-font-ui-headline-4);
   color: var(--t1);
+}
+
+/* быстрое создание встречи (как в Outlook): дата и «развернуть», название, место, время, «Весь день», «Сохранить» и «Дополнительные сведения» */
+.clqk {
+  width: 400px;
+  padding: 0;
+  overflow: visible;
+}
+.clqk .clqh {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 12px 12px 20px;
+  background: var(--q-primary-50);
+}
+.clqk .clqh b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.clqk .clqh app-icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+}
+.clqk .clqb {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 20px;
+}
+.clqk .clqr {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.clqk .clqr app-select {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.clqk .clqf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px 16px;
+  border-top: 1px solid var(--stroke);
 }

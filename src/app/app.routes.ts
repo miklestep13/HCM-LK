@@ -23,6 +23,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/org/org').then((m) => m.Org),
   },
   {
+    path: 'docs',
+    title: 'Мои документы · Q.HCM',
+    loadComponent: () => import('./pages/docs/docs').then((m) => m.Docs),
+  },
+  {
     path: 'people',
     title: 'Сотрудники · Q.HCM',
     loadComponent: () => import('./pages/people/people').then((m) => m.People),

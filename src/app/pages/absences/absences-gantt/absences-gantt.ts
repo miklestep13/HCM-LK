@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewEncapsulation, afterRenderEffect, computed, inject, signal, viewChild } from '@angular/core';
-import { absCount, absDate, absDays } from '../../../core/demo/absence-store.service';
-import { ABS_APPLY, ABS_KINDS, ABS_KIND_LABEL, ABS_STATUSES, ABS_VAC_TYPES } from '../../../data/absence.data';
+import { absCount, absDate } from '../../../core/demo/absence-store.service';
+import { ABS_KINDS, ABS_KIND_GROUP, ABS_KIND_LABEL, ABS_STATUSES } from '../../../data/absence.data';
 import { CAL_WD } from '../../../data/cal.data';
 import { plural } from '../../../data/org.data';
 import { ME_PHOTO, avCls } from '../../../data/people.data';
@@ -14,6 +14,7 @@ import { PeriodBar } from '../../../shared/ui/period-bar/period-bar';
 import { Tooltip } from '../../../shared/ui/tooltip/tooltip';
 import { ViewSwitch, ViewMode } from '../../../shared/ui/view-switch/view-switch';
 import { AbsencesTable } from '../absences-table/absences-table';
+import { MultiSelect } from '../../../shared/ui/multi-select/multi-select';
 import { Select } from '../../../shared/ui/select/select';
 import { AbsencesState } from '../absences.state';
 
@@ -30,17 +31,17 @@ interface Row {
 
 /**
  * Диаграмма Ганта «График отсутствий»: панель периода как в «Моем календаре» — «Сегодня», ‹ ›, период (2026 / Сентябрь 2026,
- * по стрелке — выбор года / месяца), вид «Месяц / Год»; под ней панель фильтров — поиск по сотруднику, вид отсутствия, статус. Строки: я, «Моя команда» (сворачивается),
- * «Добавленные» (можно убрать), внизу — «Добавить сотрудника»: новая строка с выбором сотрудника из списка с поиском
+ * по стрелке — выбор года / месяца), вид «Месяц / Год»; под ней панель фильтров — поиск по сотруднику, вид отсутствия, статус. Строки: я, команды подразделений (название подразделения; у руководителя — несколько, каждая сворачивается),
+ * «Добавленные» (можно убрать), внизу — «Добавить участника»: новая строка с выбором сотрудника из списка с поиском
  * (как в участниках встречи). У сотрудника — должность. Полоса — вид отсутствия цветом
- * (главные — ярко, остальные — светлее), статус — штриховкой (план) или бледнее (использовано); клик — карточка отсутствия.
+ * (главные — ярко, остальные — светлее), неподтвержденные (черновик, согласование) — штриховкой и статусом в подписи; клик — карточка отсутствия.
  * Видно полгода или две недели; лента — три периода подряд, при прокрутке в соседний год / месяц он становится текущим, а лента
  * незаметно сдвигается (бесконечная прокрутка без упора).
  * Красная линия — сегодня; в месяце выходные — серым.
  */
 @Component({
   selector: '[absences-gantt]',
-  imports: [NgTemplateOutlet, FilterBar, PeriodBar, Select, Icon, Float, Tooltip, ViewSwitch, AbsencesTable, DateRangeField],
+  imports: [NgTemplateOutlet, FilterBar, PeriodBar, Select, MultiSelect, Icon, Float, Tooltip, ViewSwitch, AbsencesTable, DateRangeField],
   template: `
     <div class="ch"><h3>Отсутствия</h3></div>
     <app-filter-bar placeholder="Поиск по сотруднику" [(query)]="s.q" [(opened)]="s.ftOpen">
@@ -48,8 +49,8 @@ interface Row {
       @if (s.mode() === 'table') {
         <app-date-range label="Период" [(value)]="s.tper" />
       }
-      <app-select label="Вид отсутствия" allLabel="Все" [options]="kindLabels" [(value)]="s.kind" />
-      <app-select label="Тип отпуска" allLabel="Все" [options]="typeLabels" [(value)]="s.vtype" />
+      <!-- показываемые виды — галочками; отпуск по уходу за ребенком по умолчанию снят -->
+      <app-multi-select label="Вид отсутствия" [options]="kindLabels" [(value)]="s.kinds" />
       <app-select label="Статус" allLabel="Все" [options]="statuses" [(value)]="s.status" />
     </app-filter-bar>
     <div app-period-bar picker [class.hidden]="s.mode() === 'table'" [label]="period()" [views]="views" [value]="s.view()" (valueChange)="s.view.set($any($event))" (shift)="s.shift($event)" (today)="s.toToday()" (pick)="togglePer($event)"></div>
@@ -92,15 +93,15 @@ interface Row {
             </div>
           </div>
           <ng-template #rowTpl let-r>
-            <div class="abr">
-              <div class="abl">
+            <div class="abr" [class.abcur]="admin() && (s.who()?.n ?? me()) === r.p.n">
+              <div class="abl" [class.abpick]="admin()" [attr.title]="admin() ? (r.mine ? 'Моя статистика' : 'Статистика сотрудника') : null" (click)="admin() && s.who.set(r.mine ? null : r.p)">
                 <span class="av" [class]="av(r.p)" [style.background-image]="r.mine ? 'url(' + mePhoto + ')' : null"></span>
                 <span class="cnm">
                   <b>{{ r.p.n }}{{ r.mine ? ' (вы)' : '' }}</b>
                   <small>{{ r.p.pos }}</small>
                 </span>
                 @if (r.added) {
-                  <button class="actb dg" title="Убрать из графика" aria-label="Убрать из графика" (click)="s.store.removeAdded(r.p.n)"><app-icon name="trashSm" /></button>
+                  <button class="actb dg" title="Убрать из графика" aria-label="Убрать из графика" (click)="$event.stopPropagation(); s.store.removeAdded(r.p.n)"><app-icon name="trashSm" /></button>
                 }
               </div>
               <div class="abt">
@@ -113,9 +114,8 @@ interface Row {
                 @for (b of r.bars; track b.x.id) {
                   <button
                     class="abb"
-                    [class]="'ab-' + b.x.kind"
+                    [class]="'ab-' + group(b.x.kind)"
                     [class.plan]="b.x.status === 'Черновик' || b.x.status === 'Согласование'"
-                    [class.used]="b.x.status === 'Использовано'"
                     [class.rej]="b.x.status === 'Отклонено'"
                     [class.open]="b.x.open"
                     [style.left.%]="b.left"
@@ -123,7 +123,9 @@ interface Row {
                     [appTip]="b.tip"
                     (click)="s.entry.set({ p: r.p, x: b.x, mine: r.mine })"
                   >
-                    <span>{{ b.label }}</span>
+                    @if (b.label) {
+                      <span>{{ b.label }}</span>
+                    }
                   </button>
                 }
               </div>
@@ -132,14 +134,17 @@ interface Row {
           @if (meRow(); as r) {
             <ng-container *ngTemplateOutlet="rowTpl; context: { $implicit: r }" />
           }
-          <button class="abgr" [class.on]="s.teamOpen()" (click)="s.teamOpen.set(!s.teamOpen())">
-            <app-icon name="chevDown" />Моя команда<span class="pntc">{{ teamRows().length }}</span>
-          </button>
-          @if (s.teamOpen()) {
-            @for (r of teamRows(); track r.p.n) {
-              <ng-container *ngTemplateOutlet="rowTpl; context: { $implicit: r }" />
-            } @empty {
-              <div class="abe">Никого не нашли</div>
+          <!-- группы — подразделения (у руководителя может быть несколько), каждая сворачивается -->
+          @for (t of teamRows(); track t.dep) {
+            <button class="abgr" [class.on]="!s.teamClosed().has(t.dep)" (click)="s.toggleTeam(t.dep)">
+              <app-icon name="chevDown" />{{ t.dep }}<span class="pntc">{{ t.rows.length }}</span>
+            </button>
+            @if (!s.teamClosed().has(t.dep)) {
+              @for (r of t.rows; track r.p.n) {
+                <ng-container *ngTemplateOutlet="rowTpl; context: { $implicit: r }" />
+              } @empty {
+                <div class="abe">Никого не нашли</div>
+              }
             }
           }
           @if (addedRows().length || draft()) {
@@ -168,13 +173,13 @@ interface Row {
       </div>
       <!-- вне прокрутки: полоса прокрутки шкалы не перекрывает кнопку -->
       @if (s.mode() === 'cal' || admin()) {
-        <button class="lnk abadd" (click)="add($event)"><app-icon name="plus" />Добавить сотрудника</button>
+        <button class="lnk lnkadd abadd" (click)="add($event)"><app-icon name="plus" />Добавить участника</button>
       }
       <div class="ablg" [class.hidden]="s.mode() === 'table'">
-        @for (k of kinds; track k.k) {
+        @for (k of legend(); track k.k) {
           <span><i [class]="'ab-' + k.k"></i>{{ k.label }}</span>
         }
-        <span class="ablgs"><i class="abplanb"></i>План (черновик, согласование)</span>
+        <span class="ablgs"><i class="abplanb"></i>Неподтвержденный</span>
       </div>
     </div>
     @if (pick(); as el) {
@@ -200,8 +205,14 @@ interface Row {
 export class AbsencesGantt {
   protected readonly s = inject(AbsencesState);
   protected readonly kinds = ABS_KINDS;
-  protected readonly kindLabels = ABS_APPLY.map((k) => k.label);
-  protected readonly typeLabels = ABS_VAC_TYPES.map((t) => t.label);
+  /** цвет полосы: виды дополнительного отпуска — цветом дополнительного */
+  protected readonly group = ABS_KIND_GROUP;
+  /** легенда — только виды, выбранные в фильтре «Вид отсутствия» (ничего не выбрано — все) */
+  protected readonly legend = computed(() => {
+    const on = this.s.kinds();
+    return on.length ? ABS_KINDS.filter((k) => on.includes(k.label)) : ABS_KINDS;
+  });
+  protected readonly kindLabels = ABS_KINDS.map((k) => k.label);
   protected readonly statuses = ABS_STATUSES;
   protected readonly views = [
     { value: 'month' as const, label: 'Месяц' },
@@ -214,7 +225,9 @@ export class AbsencesGantt {
   protected readonly Math = Math;
   /** «Календарь / Таблица»; в таблице сотрудник видит свои заявки, администратор — заявки сотрудников */
   protected readonly modes: ViewMode[] = ['cal', 'table'];
+  /** руководитель: клик по сотруднику — его статистика наверху */
   protected readonly admin = computed(() => this.s.store.role() === 'admin');
+  protected readonly me = computed(() => this.s.store.me().n);
 
   // ——— выбор периода по стрелке у подписи ———
   protected readonly per = signal<HTMLElement | null>(null);
@@ -228,7 +241,7 @@ export class AbsencesGantt {
     this.per.set(el);
   }
 
-  // ——— «Добавить сотрудника»: новая строка с выбором (как в участниках встречи), список с поиском открыт сразу ———
+  // ——— «Добавить участника»: новая строка с выбором (как в участниках встречи), список с поиском открыт сразу ———
   protected readonly draft = signal(false);
   protected readonly pick = signal<HTMLElement | null>(null);
   protected readonly pq = signal('');
@@ -322,9 +335,13 @@ export class AbsencesGantt {
     const { a, b } = this.s.range(), mon = this.s.view() === 'month';
     const bars = this.s.visible(p).map((x) => {
       const f = absDate(x.from)!, t = absDate(x.to)!, s0 = f < a ? a : f, e0 = t > b ? b : t;
-      const left = this.at(s0), width = this.at(new Date(+e0 + DAY)) - left, n = absDays(x.from, x.to);
-      // в месяце — вид и число дней; в годе — число дней, у длинных (больше двух месяцев) — вид
-      const label = mon && width > 8 ? ABS_KIND_LABEL[x.kind] + ' · ' + n + ' ' + plural(n, 'день', 'дня', 'дней') : n > 60 && width > 8 ? ABS_KIND_LABEL[x.kind] : String(n);
+      const left = this.at(s0), width = this.at(new Date(+e0 + DAY)) - left;
+      // подпись — вид и число дней, если умещается (день не уже 56px, в годе — месяц не уже 80px):
+      // «Отгул · 3 дн.» → «Отгул» → «3 дн.»; не умещается ничего — только подсказка
+      const px = (Math.min(+t, +b) - Math.max(+f, +a) + DAY) / DAY * (mon ? 56 : 80 / 30.4), kind = ABS_KIND_LABEL[x.kind];
+      // неподтвержденное (черновик, согласование) и отклоненное — со статусом: «Отпуск · 14 дн. · Согласование»
+      const days = absCount(x) + ' дн.', st = x.status === 'Согласовано' || x.status === 'Использовано' ? '' : ' · ' + x.status;
+      const label = [kind + ' · ' + days + st, kind + st, kind + ' · ' + days, kind, days].find((l) => l.length * 6.6 + 20 <= px) ?? '';
       // подсказка: вид (жирным), период и дни, статус; у командировки — город, у больничного — открыт ли листок
       const per = x.open ? 'с ' + x.from + ' · листок открыт' : x.from === x.to ? x.from : x.from + ' – ' + x.to;
       const tip = [ABS_KIND_LABEL[x.kind] + (x.trip ? ' — ' + x.trip.city : ''), per + ' · ' + absCount(x) + ' ' + plural(absCount(x), 'день', 'дня', 'дней'), x.status].join('|');
@@ -333,6 +350,6 @@ export class AbsencesGantt {
     return { p, mine, added, bars };
   }
   protected readonly meRow = computed(() => (this.s.match(this.s.store.me()) ? this.row(this.s.store.me(), true) : null));
-  protected readonly teamRows = computed(() => this.s.store.team().filter((p) => this.s.match(p)).map((p) => this.row(p)));
+  protected readonly teamRows = computed(() => this.s.store.teams().map((t) => ({ dep: t.dep, rows: t.people.filter((p) => this.s.match(p)).map((p) => this.row(p)) })));
   protected readonly addedRows = computed(() => this.s.store.addedPeople().filter((p) => this.s.match(p)).map((p) => this.row(p, false, true)));
 }

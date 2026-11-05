@@ -3,7 +3,6 @@ import { iprPl } from '../../../core/demo/ipr-store.service';
 import { GOAL_COLORS, GOAL_PEOPLE, GOAL_PROLES, MAP_PERIOD } from '../../../data/goals.data';
 import { GoalPerson } from '../../../interface/goal';
 import { Member, MemberField } from '../../../interface/member';
-import { Icon } from '../../../shared/ui/icon/icon';
 import { ToastService } from '../../../shared/ui/toast/toast.service';
 import { Members } from '../../../widgets/members/members';
 import { MygoalnewState } from '../mygoalnew.state';
@@ -14,7 +13,7 @@ import { MygoalnewState } from '../mygoalnew.state';
  */
 @Component({
   selector: '[mygoalnew-ppl]',
-  imports: [Icon, Members],
+  imports: [Members],
   template: `
     <div class="ch">
       <h3>Участники</h3>
@@ -23,12 +22,13 @@ import { MygoalnewState } from '../mygoalnew.state';
         @if (s.ppl().length) {
           <button class="btn raised glpeq" (click)="spread()">Распределить поровну</button>
         }
-        <button class="btn raised glpadd" (click)="add()"><app-icon name="plusThin" />Добавить</button></span
+</span
       >
     </div>
     <div class="cb">
       <app-members
         edit="inline"
+        [newRow]="newRow"
         [view]="s.pview() === 'cmp' ? 'cards' : 'table'"
         [fields]="fields"
         [roles]="roles"
@@ -86,10 +86,13 @@ export class MygoalnewPpl {
     this.s.ppl.set(list.filter((m) => !m.lock) as GoalPerson[]);
     this.s.err.set('');
   }
-  protected add(): void {
+  /** новая строка («Добавить участника» под списком): заказчик, остаток веса, период исполнителя */
+  protected readonly newRow = (): Partial<Member> => {
     const ex = this.s.exe();
-    this.s.ppl.update((l) => [...l, { n: '', pos: '', av: 0, role: 'Заказчик', w: Math.max(0, 100 - this.sum()) || '', from: ex.from || MAP_PERIOD.from, to: ex.to || MAP_PERIOD.to }]);
-  }
+    // у участника цели есть период участия (from / to) — сверх полей Member
+    const row = { role: 'Заказчик', w: Math.max(0, 100 - this.sum()) || '', from: ex.from || MAP_PERIOD.from, to: ex.to || MAP_PERIOD.to };
+    return row;
+  };
   protected removed(p: Member): void {
     if (p.n) this.toast.show('Оценивающий убран', p.n + (p.w ? '. Освободилось ' + p.w + '% веса.' : '.'));
   }

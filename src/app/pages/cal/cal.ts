@@ -1,34 +1,35 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewEncapsulation, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, ViewEncapsulation, effect, inject, signal, untracked } from '@angular/core';
 import { CAL_MONTHS_GEN, CAL_WD } from '../../data/cal.data';
 import { NavService } from '../../core/navigation/nav.service';
 import { CalEvent } from '../../interface/cal';
 import { FilterBar } from '../../shared/ui/filter-bar/filter-bar';
 import { Float } from '../../shared/ui/float/float';
 import { PageHead } from '../../shared/ui/page-head/page-head';
-import { CalForm } from './cal-form/cal-form';
 import { CalGrid } from './cal-grid/cal-grid';
 import { CalMonth } from './cal-month/cal-month';
 import { CalPop } from './cal-pop/cal-pop';
 import { CalToolbar } from './cal-toolbar/cal-toolbar';
+import { calTime } from './cal-time/cal-time';
 import { CalState } from './cal.state';
 import { CAL_TODAY, cAdd, cHM, cWd } from './cal.utils';
 
-const STATUSES: [string, string][] = [['yes', 'Принято'], ['maybe', 'Под вопросом'], ['none', 'Нет ответа'], ['no', 'Отклонено']];
+/** ответы на встречу: новые — под вопросом, отклоненные по умолчанию скрыты */
+const STATUSES: [string, string][] = [['yes', 'Принято'], ['maybe', 'Под вопросом']];
 
 /**
  * «Мой кабинет → Календарь → Мой календарь»: поиск встречи (подсказки), фильтр по ответу, панель периода и вида, сетка дня / недели или месяц.
- * Клик по встрече — карточка встречи; по пустому месту — форма встречи; «Добавить встречу» — форма мероприятия с типом «Встреча».
+ * Клик по встрече — краткая информация (cal-pop), двойной — полная форма встречи на просмотр (eventnew); по пустому месту — быстрое создание (cal-quick); «Добавить встречу» — форма мероприятия с типом «Встреча».
  */
 @Component({
   selector: 'app-cal',
-  imports: [PageHead, FilterBar, Float, CalToolbar, CalGrid, CalMonth, CalPop, CalForm],
+  imports: [PageHead, FilterBar, Float, CalToolbar, CalGrid, CalMonth, CalPop],
   templateUrl: './cal.html',
   styleUrl: './cal.scss',
   encapsulation: ViewEncapsulation.None,
   host: { class: 'pg pg-cal', '(document:click)': 'closeFloats()' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Cal {
+export class Cal implements OnDestroy {
   protected readonly s = inject(CalState);
   private readonly el: HTMLElement = inject(ElementRef).nativeElement;
   private readonly nav = inject(NavService);
@@ -41,24 +42,33 @@ export class Cal {
   protected searchEl: HTMLElement | null = null;
   protected readonly hm = cHM;
 
+  constructor() {
+    // клик по свободному месту (быстрое добавление) — краткая карточка встречи закрывается
+    effect(() => {
+      if (this.s.quick()) untracked(() => this.pop.set(null));
+    });
+  }
+
   toggleSt(k: string): void {
     this.s.st.update((x) => ({ ...x, [k]: x[k] === false }));
   }
   protected openEvent(p: { ev: CalEvent; d: Date; el: HTMLElement }): void {
     this.hits.set(null);
-    this.pop.set(this.pop()?.el === p.el ? null : p);
-  }
-  protected create(p?: { d: Date; s: number }): void {
-    this.pop.set(null);
-    this.s.form.set(p ? { d: p.d, s: p.s } : {});
+    this.pop.set(p);
   }
   /** «Добавить встречу» — форма мероприятия с типом «Встреча» (возврат — в календарь) */
   protected addMeeting(): void {
     this.nav.go('eventnew', { type: 'Встреча', from: 'cal' });
   }
+  /** состояние календаря живет между переходами — всплывающие окна при уходе закрываем */
+  ngOnDestroy(): void {
+    this.closeFloats();
+  }
   closeFloats(): void {
     this.pop.set(null);
     this.hits.set(null);
+    this.s.quick.set(null);
+    this.s.sel.set(null);
   }
 
   // ——— поиск: ближайшие встречи за 3 недели назад и 6,5 вперед ———
@@ -79,7 +89,7 @@ export class Cal {
   }
   protected hitText(o: { ev: CalEvent; d: Date }): string {
     const e = o.ev, d = o.d;
-    return CAL_WD[cWd(d)] + ', ' + d.getDate() + ' ' + CAL_MONTHS_GEN[d.getMonth()] + (e.all ? ' · весь день' : ' · ' + cHM(e.s) + '–' + cHM(e.e)) + (e.loc ? ' · ' + e.loc : '');
+    return CAL_WD[cWd(d)] + ', ' + d.getDate() + ' ' + CAL_MONTHS_GEN[d.getMonth()] + ' · ' + calTime(e) + (e.loc ? ' · ' + e.loc : '');
   }
   protected key(e: KeyboardEvent): void {
     const H = this.hits();
