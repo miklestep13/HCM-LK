@@ -280,7 +280,7 @@
   cursor: pointer;
 }
 .bkb:hover {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
 }
 .bkb svg {
   width: 20px;
@@ -403,7 +403,7 @@
   flex-shrink: 0;
 }
 .ib3:hover {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
 }
 .ib3 svg {
   width: 16px;
@@ -556,7 +556,7 @@
   background: var(--white);
 }
 .pf-top .bkb:hover {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
 }
 .mdlf.glmf {
   gap: 8px;
@@ -753,8 +753,8 @@
   color: var(--blue);
 }
 .ftrow > .fchip.shtg.on:hover {
-  border-color: var(--blue-bg2);
-  background: var(--blue-bg2);
+  border-color: var(--blue-bg);
+  background: var(--blue-bg);
 }
 .drwh .ctclr {
   margin-left: auto;
@@ -977,6 +977,8 @@
 .fld.flt.on > .fin,
 .fld.flt.on > .fsel {
   padding-top: 20px;
+  /* значение — чуть выше центра под подписью (одинаково у поля, селекта и даты) */
+  padding-bottom: 6px;
 }
 /* поле даты в поле формы (<app-field><app-date-field></app-field>): на всю ширину, высота и подпись — как у .fin */
 .fld.flt > .dtin {
@@ -989,6 +991,7 @@
 }
 .fld.flt.on > .dtin > .fin {
   padding-top: 20px;
+  padding-bottom: 6px;
 }
 .fld.flt > .dtin .dtb {
   top: 11px;
@@ -1254,6 +1257,32 @@
 }
 
 
+/* чип с крестиком: справа отступ меньше — у крестика свои поля внутри кнопки */
+.chp:has(> .chx) {
+  padding-right: 4px;
+}
+
+/* ввод своих значений чипами (app-tag-input): поле ввода — после чипов, без своей рамки */
+.msel.tgsel {
+  cursor: text;
+}
+.msel.tgsel:focus-within {
+  border-color: var(--blue);
+}
+.msel.tgsel .tgin {
+  font: var(--q-font-ui-body-2);
+  flex: 1 1 120px;
+  min-width: 120px;
+  border: 0;
+  outline: 0;
+  background: none;
+  padding: 4px 0;
+  color: var(--t1);
+}
+.msel.tgsel .tgin::placeholder {
+  color: var(--t3);
+}
+
 /* Вложения (app-attach, предпросмотр), выбор сотрудников (app-emp-pick), выбор чипами (app-chip-select), поле-число со стрелками — из прототипа */
 .attl {
   display: flex;
@@ -1297,6 +1326,16 @@
 }
 .dropz .btn {
   margin-top: 6px;
+}
+/* у числовых полей стрелки браузера не показываем — свои у поля-числа (app-num-input) */
+input[type='number'] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 .numin {
   display: flex;
@@ -1884,6 +1923,23 @@
   background: var(--blue-bg);
   color: var(--blue);
 }
+/* плашка типа файла: картинка, таблица, презентация, архив */
+.atti.k-img {
+  background: var(--q-badge-violet-bg);
+  color: var(--q-badge-violet-color);
+}
+.atti.k-xls {
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+.atti.k-ppt {
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+.atti.k-zip {
+  background: var(--s2);
+  color: var(--t2);
+}
 .attn {
   flex: 1 1 0%;
   min-width: 0px;
@@ -1925,7 +1981,7 @@
   cursor: pointer;
 }
 .attb:hover {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
 }
 .attb svg {
   width: 18px;
@@ -1970,7 +2026,7 @@
   height: 14px;
 }
 .ftsplit > .ftb.on {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
 }
 .ftsplit .ftcnt {
   font: var(--q-font-ui-description-1);
@@ -2070,8 +2126,10 @@
   width: auto;
   min-width: 200px;
 }
-.dtin.ftrng > .ft2lab {
-  display: none;
+/* период — та же кнопка, что у селекта с подписью (.fsel.ft2fs): серая подпись, значение, иконка календаря справа */
+.dtin.ftrng.fsel {
+  position: relative;
+  padding-right: 38px;
 }
 .dtin.ftrng .fin,
 .dtin.ftrng.is-empty .fin {
@@ -2389,4 +2447,619 @@
   height: 16px;
   color: var(--q-page-text-ui);
   flex-shrink: 0;
+}
+/* вариант с фото и подписью (meta): портрет 32, ФИО и должность серым */
+.chpop .foi.foper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.chpop .foper .av {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+.chpop .foper .cnm {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.chpop .foper .cnm b {
+  font: var(--q-font-ui-body-2);
+  color: inherit;
+}
+.chpop .foper .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+
+/* ===== Поля ответа анкеты (shared/ui: choice, scale, rating, rank, matrix, slider) ===== */
+/* радиокнопка — как .ckb, но круглая */
+.rdb {
+  display: inline-flex;
+  cursor: pointer;
+}
+.rdb input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.rdb i {
+  width: 18px;
+  height: 18px;
+  border: 1.6px solid var(--stroke3);
+  border-radius: 50%;
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  background: var(--q-content-background);
+}
+.rdb input:checked + i {
+  border-color: var(--blue);
+}
+.rdb input:checked + i::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+.rdb input:focus-visible + i,
+.ckb input:focus-visible + i {
+  outline: 2px solid var(--blue-br);
+  outline-offset: 2px;
+}
+
+/* варианты: строки-плашки с радиокнопкой / чек-боксом */
+.choice {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 560px;
+}
+.choice .cho {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  border: 1px solid var(--stroke2);
+  border-radius: 8px;
+  color: var(--t1);
+  cursor: pointer;
+}
+.choice .cho:hover {
+  border-color: var(--blue-br);
+}
+.choice .cho.on {
+  border-color: var(--blue);
+  background: var(--blue-bg);
+}
+.choice .cho.dis {
+  color: var(--t4);
+  cursor: default;
+}
+.choice .cho.dis:hover {
+  border-color: var(--stroke2);
+}
+.choice .cho .ckb,
+.choice .cho .rdb {
+  flex-shrink: 0;
+}
+.choice .choin {
+  width: 100%;
+  margin: -2px 0 2px;
+}
+.choice .chomax {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+
+/* шкала-кнопки: числа во всю ширину, подписи краев снизу */
+.scale {
+  display: inline-block;
+}
+.scale .scl {
+  display: flex;
+  gap: 6px;
+}
+.scale .sclb {
+  font: var(--q-font-ui-body-2);
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid var(--stroke2);
+  background: var(--q-content-background);
+  color: var(--t1);
+  cursor: pointer;
+}
+.scale .sclb:hover {
+  border-color: var(--blue-br);
+  background: var(--blue-bg);
+}
+.scale .sclb.on {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--q-content-background);
+}
+.scale.nps .sclb.on.dg {
+  background: var(--dg-ac);
+  border-color: var(--dg-ac);
+}
+.scale.nps .sclb.on.warn {
+  background: var(--warn-ac);
+  border-color: var(--warn-ac);
+}
+.scale.nps .sclb.on.ok {
+  background: var(--ok-ac);
+  border-color: var(--ok-ac);
+}
+.scale.txt .sclb {
+  width: auto;
+  min-width: 72px;
+  padding: 0 16px;
+}
+.sclh {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 8px;
+  color: var(--t3);
+}
+
+/* звезды */
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.rating .rtst {
+  display: inline-flex;
+  gap: 4px;
+}
+.rating .rtsb {
+  width: 28px;
+  height: 28px;
+  padding: 2px;
+  border: 0;
+  background: none;
+  color: var(--stroke3);
+  cursor: pointer;
+}
+.rating .rtsb svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.rating .rtsb.on {
+  color: var(--warn-ac);
+}
+.rating .rtsv {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+
+/* ранжирование: строки с ручкой, местом и стрелками */
+.rank {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 560px;
+}
+.rank .rki {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 6px 4px 10px;
+  border: 1px solid var(--stroke2);
+  border-radius: 8px;
+  background: var(--q-content-background);
+  color: var(--t1);
+  cursor: grab;
+}
+.rank .rki.drag {
+  border-color: var(--blue);
+  background: var(--blue-bg);
+}
+.rank .rkg {
+  width: 16px;
+  height: 16px;
+  color: var(--t4);
+}
+.rank .rkn {
+  font: var(--q-font-ui-description-1);
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--s2);
+  color: var(--t2);
+  flex-shrink: 0;
+}
+.rank .rki.set .rkn {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+/* состояние ответа под списком: не задан — серым с «Оставить этот порядок», задан — зеленым «✓ Порядок задан» и «Сбросить» */
+.rank .rkst {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 4px;
+}
+.rank .rkst .lnk {
+  font: var(--q-font-ui-description-1);
+}
+.rank .rkok {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ok);
+}
+.rank .rkok app-icon,
+.rank .rkok svg {
+  display: flex;
+  width: 14px;
+  height: 14px;
+}
+/* пока порядок не задан — номера серым контуром */
+.rank:not(.set) .rkn {
+  background: none;
+  box-shadow: inset 0 0 0 1px var(--stroke2);
+  color: var(--t3);
+}
+.rank .rkt {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.rank .rkb {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 6px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  cursor: pointer;
+}
+.rank .rkb:hover {
+  background: var(--blue-bg);
+}
+.rank .rkb svg {
+  width: 14px;
+  height: 14px;
+}
+.rank .rkb:disabled {
+  background: none;
+  color: var(--t4);
+  cursor: default;
+}
+
+/* матрица: утверждения × шкала */
+.matrix .mtx {
+  width: 100%;
+  border-collapse: collapse;
+}
+/* подписи столбцов-ответов — в одну строку: столбец по ширине подписи, утверждения — остальное место */
+.matrix .mtx th {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  text-align: center;
+  padding: 0 12px 10px;
+  vertical-align: bottom;
+  width: 1%;
+  white-space: nowrap;
+}
+.matrix .mtx th:first-child {
+  width: auto;
+}
+.matrix .mtx td {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  padding: 12px 6px;
+  border-top: 1px solid var(--stroke);
+  text-align: center;
+}
+.matrix .mtx td:first-child {
+  text-align: left;
+  padding-left: 0;
+  min-width: 220px;
+}
+.matrix .mtx tr:hover td {
+  background: var(--s1);
+}
+
+/* ползунок: значение над бегунком, заливка до бегунка */
+.slider {
+  display: block;
+  max-width: 560px;
+}
+.slider .sldw {
+  position: relative;
+  padding-top: 30px;
+}
+.slider .sldv {
+  font: var(--q-font-ui-headline-4);
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  color: var(--blue);
+  white-space: nowrap;
+}
+.slider.empty .sldv {
+  color: var(--t4);
+}
+.slider .sld {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--blue) var(--p, 0%), var(--track) var(--p, 0%));
+  outline: none;
+  margin: 0;
+}
+.slider .sld::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--q-content-background);
+  border: 2px solid var(--blue);
+  cursor: pointer;
+}
+.slider.empty .sld::-webkit-slider-thumb {
+  border-color: var(--stroke3);
+}
+.slider .sld::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--q-content-background);
+  border: 2px solid var(--blue);
+  cursor: pointer;
+}
+
+/* редактор текста (shared/ui/rich-text): рамка, панель кнопок, поле */
+.rte {
+  /* хост app-rich-text — блочный, иначе рамка строчного элемента рисуется полосками */
+  display: block;
+  border: 1px solid var(--stroke2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.rte .rtb {
+  display: flex;
+  gap: 2px;
+  padding: 6px;
+  border-bottom: 1px solid var(--stroke);
+  background: var(--hv);
+}
+.rte .rtbb {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+}
+.rte .rtbb:hover {
+  background: var(--raised);
+  color: var(--blue);
+}
+.rte .rtbb.on {
+  background: var(--raised);
+  color: var(--blue);
+}
+.rte .rtbsep {
+  width: 1px;
+  margin: 6px 4px;
+  background: var(--stroke);
+}
+.rte .rtbb svg {
+  width: 16px;
+  height: 16px;
+}
+.rte .rtc {
+  font: var(--q-font-ui-body-2);
+  min-height: 120px;
+  padding: 12px 14px;
+  color: var(--t1);
+  outline: none;
+}
+.rte .rtc :is(ul, ol) {
+  /* маркеры списка — внутри поля */
+  margin: 0 0 8px;
+  padding-left: 22px;
+}
+.rte .rtc li + li {
+  margin-top: 4px;
+}
+.rte .rtc:empty::before {
+  content: attr(data-ph);
+  color: var(--t3);
+}
+
+
+/* степпер формы (shared/ui/stepper): номер в круге, название, линия между шагами */
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: var(--q-content-background);
+  border-radius: 16px;
+  margin-bottom: 24px;
+}
+.stepper .stpi {
+  font: var(--q-font-ui-headline-4);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--t3);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.stepper .stpi:disabled {
+  cursor: default;
+}
+.stepper .stpn {
+  font: var(--q-font-ui-headline-4);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border: 1.5px solid var(--stroke3);
+  color: var(--t3);
+  box-sizing: border-box;
+}
+.stepper .stpn i {
+  font-style: normal;
+}
+.stepper .stpn app-icon,
+.stepper .stpn svg {
+  width: 14px;
+  height: 14px;
+  display: flex;
+}
+.stepper .stpi.done {
+  color: var(--t1);
+}
+.stepper .stpi.done .stpn {
+  border-color: var(--blue-bg);
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.stepper .stpi.on {
+  color: var(--blue);
+}
+.stepper .stpi.on .stpn {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: var(--q-content-background);
+}
+.stepper .stpi:not(:disabled):not(.on):hover .stpt {
+  color: var(--blue);
+}
+.stepper .stpl {
+  flex: 1 1 24px;
+  min-width: 24px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--stroke3);
+}
+.stepper .stpl.done {
+  background: var(--blue-br);
+}
+.stepper .stpi.open {
+  color: var(--t1);
+}
+
+/* иконка варианта в селекте (app-select icons) — в списке и в выбранном значении */
+.fsic {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  vertical-align: -3px;
+  margin-right: 8px;
+  color: var(--blue);
+}
+.fsic svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* переключатель (свитчер): <label class="swt"><input type="checkbox" /><i></i><span>Подпись</span></label> */
+.swt {
+  font: var(--q-font-ui-body-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: var(--t1);
+  position: relative;
+}
+.swt input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.swt i {
+  width: 34px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--stroke3);
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.16s;
+}
+.swt i::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--q-content-background);
+  box-shadow: 0 1px 2px var(--q-base-transparent-100);
+  transition: transform 0.16s;
+}
+.swt input:checked + i {
+  background: var(--blue);
+}
+.swt input:checked + i::after {
+  transform: translateX(14px);
+}
+.swt input:focus-visible + i {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* селект размера xs (32): компактное поле — например, число записей на странице в пагинации */
+.fsel.xs {
+  height: 32px;
+  min-width: 0;
+  width: auto;
+  gap: 6px;
+  padding: 0 8px 0 12px;
+}
+.fsel.xs svg {
+  width: 14px;
+  height: 14px;
+}
+/* в узкой карточке матрица прокручивается внутри своего блока, страница не уезжает вбок */
+.matrix {
+  display: block;
+  max-width: 100%;
+  min-width: 0;
+}
+.matrix > .tw {
+  max-width: 100%;
+  overflow-x: auto;
 }

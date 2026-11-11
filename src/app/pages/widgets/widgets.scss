@@ -86,3 +86,9 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+/* конструктор: переключатель вида материала над примером */
+.pg-widgets .wgbox.wgbld {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

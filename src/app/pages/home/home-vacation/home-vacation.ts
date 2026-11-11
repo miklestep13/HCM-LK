@@ -34,8 +34,8 @@ import { VACATION } from '../../../data/home.data';
         </button>
       </app-stat-cell>
       <div class="st2">
-        <button class="btn raised" style="flex:1" (click)="nav.go('absences')">Подтвердить</button
-        ><button class="btn pri" style="flex:1" (click)="nav.go('absences')">Добавить</button>
+        <!-- одна кнопка, как «Оформить отгул» в соседнем виджете: форма «Новая заявка» с типом «Заявление на отпуск» -->
+        <button class="btn raised" style="flex:1" (click)="nav.go('reqnew', { type: 'Заявление на отпуск' })">Оформить отпуск</button>
       </div>
     </div>
   </app-card>`,

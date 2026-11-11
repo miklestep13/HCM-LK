@@ -1,0 +1,140 @@
+/* «Новая заявка»: как карточка бизнес-объекта — 4 колонки (тип, код, наименование, подразделение, состояние — на две; описание — на всю ширину); «Создать» — отдельным блоком справа */
+.pg-reqnew .rqnf {
+  padding: 24px;
+}
+.pg-reqnew .rqngrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.pg-reqnew .rqngrid .rqn2 {
+  grid-column: span 2;
+}
+.pg-reqnew .rqngrid .rqnfull {
+  grid-column: 1 / -1;
+}
+.pg-reqnew .rqngrid .fld {
+  margin: 0;
+}
+/* поле даты — на всю ширину (селект — сам .fsel, его display не трогаем: значение центрируется флексом) */
+.pg-reqnew .rqngrid app-date-field {
+  display: block;
+  width: 100%;
+}
+.pg-reqnew .rqnerr {
+  font: var(--q-font-ui-body-2);
+  color: var(--dg);
+  margin-top: 12px;
+}
+.pg-reqnew .rqnact {
+  margin-top: 16px;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* просмотр — как шапка цели (mygoalview-head): заголовок 20 и статус, описание, строки «подпись / значение» в 4 колонки */
+/* отступы — как у шапки ИПР: поля карточки 24, от заголовка до участников 20, от участников до данных 20 */
+.pg-reqnew .rqnf.rqnview {
+  padding: 24px;
+}
+.pg-reqnew .rqnvt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 0 0 20px;
+}
+.pg-reqnew .rqnvt h2 {
+  font: var(--q-font-ui-headline-2);
+  color: var(--t1);
+  margin: 0;
+}
+.pg-reqnew .rqnvw {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+/* три колонки на всю ширину карточки */
+.pg-reqnew .rqnrow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 24px;
+}
+.pg-reqnew .rqnkv {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  white-space: pre-line;
+  min-width: 0;
+}
+.pg-reqnew .rqnkv .l {
+  font: var(--q-font-ui-description-1);
+  display: block;
+  margin-bottom: 6px;
+  color: var(--t3);
+}
+.pg-reqnew .rqnkv .gr {
+  color: var(--t3);
+}
+/* комментарии — отдельный блок над действиями */
+.pg-reqnew .rqncm {
+  margin-top: 16px;
+}
+.pg-reqnew .rqnact {
+  gap: 8px;
+}
+.pg-reqnew .rqnrow.rqnr4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* участники под заголовком — как сотрудник в шапке ИПР: фото 48 (скругление 12), ФИО 14, роль 12 серым через 2; до данных — 20 */
+.pg-reqnew .rqnppl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+/* блок участника — без обертки: подпись 12 серым, ниже фото, ФИО и должность */
+.pg-reqnew .rqntile {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.pg-reqnew .rqntile > .l {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-reqnew .rqntile > .gr {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+.pg-reqnew .rqnwho {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pg-reqnew .rqnwho .av {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+.pg-reqnew .rqnwho > span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pg-reqnew .rqnwho b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-reqnew .rqnwho small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-reqnew .rqnrow.rqnr2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 12px;
+}

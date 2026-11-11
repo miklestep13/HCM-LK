@@ -1,10 +1,10 @@
+import { Pager, paginate } from '../../../shared/ui/pager/pager';
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { WalletStore } from '../../../core/demo/wallet.service';
 import { avCls } from '../../../data/people.data';
 import { COIN_SVG, fmt } from '../../../data/shop.data';
 import { WALLET_ORG_ICONS, WALLET_STATUSES, WALLET_STATUS_TONE, WALLET_TYPES, walletParty } from '../../../data/wallet.data';
-import { Chips } from '../../../shared/ui/chips/chips';
 import { DateRangeField, inRange } from '../../../shared/ui/date-range/date-range';
 import { FilterBar } from '../../../shared/ui/filter-bar/filter-bar';
 import { Select } from '../../../shared/ui/select/select';
@@ -13,7 +13,7 @@ import { CurFilters } from '../cur.state';
 /** Блок «История операций»: поиск, фильтры (статус, тип, период) и таблица операций кошелька. */
 @Component({
   selector: '[cur-history]',
-  imports: [FilterBar, Chips, Select, DateRangeField],
+  imports: [Pager, FilterBar, Select, DateRangeField],
   templateUrl: './cur-history.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,4 +41,6 @@ export class CurHistory {
       .map((h) => ({ h, p: walletParty(h) }))
       .filter(({ h, p }) => (!t || h.type === t) && (!st || h.st === st) && inRange(per, h.d) && (!q || (h.t + ' ' + h.who + ' ' + p.name + ' ' + h.n).toLowerCase().includes(q)));
   });
+  /** постранично: <app-pager [p]="pg" /> под таблицей */
+  protected readonly pg = paginate(() => this.rows());
 }

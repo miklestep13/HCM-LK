@@ -12,7 +12,7 @@ const DEC_LABEL: Record<string, string> = {
 };
 const DEC_TONE: Record<string, string> = { Пройдена: 'ok', 'Пройдена с условиями': 'warn', 'Не пройдена': 'dg', 'Превосходит ожидания': 'info' };
 
-/** Шапка бланка: номер, этап (после решения — «Завершен» и итог); у руководителя — карточка сотрудника (фото, ФИО, должность, подразделение, как в карте целей); период и кампания */
+/** Шапка бланка: номер, этап (после решения — два бейджа: «Завершен» и статус аттестации в цвете решения); у руководителя — карточка сотрудника (фото, ФИО, должность, подразделение, как в карте целей); период и кампания */
 @Component({
   selector: '[attncard-head]',
   template: `
@@ -22,9 +22,6 @@ const DEC_TONE: Record<string, string> = { Пройдена: 'ok', 'Пройде
         <span class="gltags iptbdg">
           @if (done()) {
             <span class="bdg ok">Завершен</span><span [class]="'bdg ' + tone()">{{ label() }}</span>
-            @if (cand()) {
-              <span class="bdg info">Кандидат на повышение</span>
-            }
           } @else {
             <span class="bdg warn">{{ stageName() }}</span>
           }
@@ -56,5 +53,4 @@ export class AttncardHead {
   private readonly dec = computed(() => (this.s.stage() === 'iprok' ? 'Пройдена' : this.s.res().dec));
   protected readonly label = computed(() => DEC_LABEL[this.dec()] || this.dec());
   protected readonly tone = computed(() => DEC_TONE[this.dec()] || 'ok');
-  protected readonly cand = computed(() => !!this.s.res().cand && this.s.stage() !== 'iprok');
 }

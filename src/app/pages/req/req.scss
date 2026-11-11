@@ -1,0 +1,446 @@
+/* «Мой кабинет → Заявки»: быстрые заявки, вкладки, таблица (основа — «Задания» и «Опросы») */
+.pg-req .sub2 {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 8px;
+}
+.pg-req .tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--q-font-family);
+}
+.pg-req .tbl th {
+  font: var(--q-font-ui-headline-4);
+  text-align: left;
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-req .tbl td {
+  font: var(--q-font-ui-body-2);
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--stroke);
+  vertical-align: middle;
+}
+.pg-req table.tbl :is(th, td):first-child {
+  padding-left: 0px;
+}
+.pg-req table.tbl :is(th, td):last-child {
+  padding-right: 0px;
+}
+.pg-req .tbl tr:last-child td {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+}
+.pg-req .tbl td b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  display: block;
+}
+.pg-req .tbl .gr {
+  color: var(--t3);
+}
+.pg-req .mttbl tr[data-mtid] {
+  cursor: pointer;
+}
+.pg-req .mttbl tr[data-mtid]:hover td {
+  background: var(--hv);
+}
+.pg-req .mttbl td .bdg {
+  display: block;
+  text-align: center;
+}
+.pg-req .mttbl .dgt {
+  font: var(--q-font-ui-headline-4);
+  color: var(--dg);
+}
+.pg-req .mttbl tbody tr[data-mtid] {
+  cursor: pointer;
+}
+.pg-req .pf-top h1 .chip {
+  margin-left: 10px;
+  vertical-align: middle;
+}
+.pg-req .vgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0px, 1fr));
+  gap: 16px;
+}
+@media (max-width: 1200px) {
+.pg-req .vgrid {
+  grid-template-columns: repeat(3, minmax(0px, 1fr));
+}
+}
+@media (max-width: 900px) {
+.pg-req .vgrid {
+  grid-template-columns: repeat(2, minmax(0px, 1fr));
+}
+}
+@media (max-width: 600px) {
+.pg-req .vgrid {
+  grid-template-columns: 1fr;
+}
+}
+.pg-req .thh {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.pg-req .sortb {
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  padding: 0px;
+  cursor: pointer;
+  color: var(--t4);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.pg-req .sortb svg {
+  width: 12px;
+  height: 12px;
+  display: block;
+}
+.pg-req .sortb:hover {
+  color: var(--q-page-text-ui);
+}
+.pg-req .sortb.on {
+  color: var(--blue);
+}
+.pg-req .rtbl th {
+  padding: 8px 12px;
+}
+.pg-req .rtbl td {
+  padding: 12px;
+}
+.pg-req .ftrow.hidden {
+  display: none;
+}
+.pg-req .c.full {
+  min-height: calc(-172px + 100vh);
+}
+.pg-req .c.full {
+  display: flex;
+  flex-direction: column;
+}
+.pg-req .rtbl {
+  min-width: 100%;
+}
+.pg-req .rtbl th {
+  white-space: nowrap;
+  background: var(--q-content-background);
+  position: sticky;
+  top: 0px;
+}
+.pg-req .rtbl td {
+  vertical-align: middle;
+}
+.pg-req .rtbl td.gr {
+  color: var(--t2);
+  white-space: nowrap;
+}
+.pg-req .thh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.pg-req .mttbl th .thh {
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:last-child {
+  padding-bottom: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar {
+  padding: 16px 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar:first-child {
+  padding-top: 24px;
+}
+.pg-req .mtccnt {
+  margin-top: 16px;
+}
+.pg-req .c .tbl tbody > tr:not(.hidden):not(:has(~ tr:not(.hidden):not([hidden]))) > td {
+  padding-bottom: 0px;
+  border-bottom: 0px;
+}
+.pg-req .av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+  flex-shrink: 0;
+}
+/* строки таблицы: курсор-рука и подсветка при наведении */
+.pg-req .mttbl tbody tr {
+  cursor: pointer;
+}
+.pg-req .mttbl tbody tr:hover td {
+  background: var(--q-primary-50);
+}
+/* название в таблице */
+.pg-req .mttl {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-req .mttbl .mttl b {
+  display: inline;
+}
+.pg-req .vt.mttl {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+/* ——— опросы ——— */
+/* вкладки «Активные / Пройденные» над поиском, в той же карточке */
+.pg-req .svtabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px 24px 0;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-req .svtabs > span {
+  font: var(--q-font-ui-headline-4);
+  padding: 8px 12px 12px;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-req .svtabs > span:hover,
+.pg-req .svtabs > span.on {
+  color: var(--blue);
+}
+.pg-req .svtabs > span.on {
+  border-bottom-color: var(--blue);
+}
+
+/* быстрые заявки (как .qbar прототипа) */
+.pg-req .qbar {
+  background: var(--q-content-background);
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.pg-req .qa {
+  flex: 1;
+  min-width: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 12px;
+  border-radius: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--q-font-family);
+}
+.pg-req .qa:hover {
+  background: var(--q-content-background-alt);
+}
+.pg-req .qa .ic {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--raised);
+  color: var(--blue);
+}
+.pg-req .qa .ic svg {
+  width: 18px;
+  height: 18px;
+}
+.pg-req .qa .cnt {
+  min-width: 0;
+}
+.pg-req .qa .cnt b {
+  font: var(--q-font-ui-headline-4);
+  display: block;
+  color: var(--black);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pg-req .qa .cnt small {
+  font: var(--q-font-ui-description-1);
+  display: block;
+  color: var(--grey);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 900px) {
+  .pg-req .qbar {
+    flex-wrap: wrap;
+  }
+  .pg-req .qa {
+    flex: 1 1 40%;
+  }
+}
+
+/* сегмент «Открытые / Завершенные / Все» в строке поиска */
+.pg-req .rqseg {
+  align-self: center;
+  flex-shrink: 0;
+}
+.pg-req .rqseg span {
+  font: var(--q-font-ui-headline-4);
+  padding: 6px 10px;
+  white-space: nowrap;
+}
+.pg-req .rqseg em {
+  font-style: normal;
+  color: var(--t3);
+  margin-left: 2px;
+}
+.pg-req .rqseg span.on em {
+  color: var(--blue);
+}
+
+/* массовые действия */
+.pg-req .mtbulk {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 8px 8px 16px;
+  background: var(--blue-bg);
+  border-radius: 10px;
+  margin: 0 0 8px;
+}
+.pg-req .mtbulk b {
+  font: var(--q-font-ui-headline-4);
+  flex: none;
+  color: var(--t1);
+}
+.pg-req .mtsp {
+  flex: 1;
+}
+.pg-req .mtbulk .btn.raised {
+  background: var(--q-content-background);
+}
+
+/* таблица */
+.pg-req .rqtbl th.chk,
+.pg-req .rqtbl td.chk {
+  width: 44px;
+}
+.pg-req .rqtbl tbody tr.on td {
+  background: var(--q-primary-50);
+}
+.pg-req .rqtbl td.rqid {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+  white-space: nowrap;
+}
+.pg-req .rqtbl .rqn {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  display: block;
+}
+.pg-req .rqtbl .rqsub {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: block;
+  margin-top: 2px;
+}
+.pg-req .rqtbl td .bdg {
+  display: inline-block;
+  text-align: left;
+  white-space: nowrap;
+}
+.pg-req .rqtbl .rqstage {
+  margin-top: 6px;
+}
+.pg-req .rqtbl td.dgt,
+.pg-req .rqtbl td.gr {
+  white-space: nowrap;
+}
+.pg-req .rqwho {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.pg-req .rqwho .av {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+.pg-req .rqwho b {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  display: block;
+}
+.pg-req .rqwho small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: block;
+}
+.pg-req .rqrate {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  white-space: nowrap;
+}
+.pg-req .rqrate svg {
+  width: 16px;
+  height: 16px;
+  color: var(--q-warning-500);
+}
+.pg-req .rqratep {
+  padding: 12px 14px;
+}
+.pg-req .rqratep .rqrph {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  margin-bottom: 8px;
+}
+
+/* реестр заявок: 8 колонок — в узком окне таблица не сжимается, а прокручивается по горизонтали (действия закреплены справа) */
+.pg-req .rqtbl {
+  min-width: 1920px;
+  table-layout: fixed;
+}
+.pg-req .rqtbl .rqwho > span {
+  min-width: 0;
+}
+/* действия строки: «Редактировать» и «⋯» — колонка 88, закреплена справа */
+.pg-req .rqtbl th.tact.rqact {
+  width: 88px;
+}
+.pg-req .rqtbl td.tact .acts {
+  display: inline-flex;
+  gap: 4px;
+}
+/* таблица шире карточки — прокручивается внутри своей обертки, карточка (вкладки, поиск) не сдвигается */
+.pg-req .c.full .tw {
+  overflow-x: auto;
+}
+.pg-req .rqtbl td.tact .acts {
+  align-items: center;
+}

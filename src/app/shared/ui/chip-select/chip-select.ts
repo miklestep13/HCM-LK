@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, ElementRef, computed, inject, input, model, signal } from '@angular/core';
+import { Float } from '../float/float';
 import { Icon } from '../icon/icon';
 
 /**
  * Множественный выбор чипами (.msel прототипа): выбранные значения — чипы с крестиком и «+ добавить»,
- * по клику — список с поиском и отметками.
+ * по клику — список с поиском и отметками (под полем, а если внизу не помещается — над ним).
  *   <app-chip-select [options]="roles" [(value)]="sel" placeholder="Выберите роли" />
  */
 @Component({
   selector: 'app-chip-select',
-  imports: [Icon],
+  imports: [Icon, Float],
   template: `
     @for (v of value(); track v) {
       <span class="chp">{{ v }}<button class="chx" (click)="remove(v, $event)"><app-icon name="closeSm" /></button></span>
@@ -19,7 +20,8 @@ import { Icon } from '../icon/icon';
       <span class="mad">+ добавить</span>
     }
     @if (open()) {
-      <div class="fpop selpop" [style.left.px]="pos().left" [style.top.px]="pos().top" [style.min-width.px]="pos().width" (click)="$event.stopPropagation()">
+      <!-- под полем, а если внизу не помещается — над ним (appFloat) -->
+      <div class="fpop selpop" [appFloat]="el" [style.min-width.px]="pos().width" (click)="$event.stopPropagation()">
         <input class="fin fsq" placeholder="Поиск" [value]="q()" (input)="q.set($any($event.target).value)" />
         <div class="folist">
           @for (o of shown(); track o) {
@@ -38,7 +40,7 @@ export class ChipSelect {
   readonly options = input.required<string[]>();
   readonly value = model<string[]>([]);
   readonly placeholder = input('Не выбрано');
-  private readonly el: HTMLElement = inject(ElementRef).nativeElement;
+  protected readonly el: HTMLElement = inject(ElementRef).nativeElement;
   protected readonly open = signal(false);
   protected readonly q = signal('');
   protected readonly pos = signal({ left: 0, top: 0, width: 0 });

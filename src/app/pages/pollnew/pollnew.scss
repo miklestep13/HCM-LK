@@ -1,0 +1,1345 @@
+/* Форма опроса (стили из старого прототипа: вкладки, конструктор, участники, публикация, превью вопроса) */
+.pg-pollnew .crole,
+.pg-pollnew .ncat,
+.pg-pollnew .secn,
+.pg-pollnew .coevd,
+.pg-pollnew .pntc,
+.pg-pollnew .ogun,
+.pg-pollnew .chip2,
+.pg-pollnew .adreq,
+.pg-pollnew .cmreq,
+.pg-pollnew .adtag,
+.pg-pollnew .cotag {
+  font:var(--q-font-ui-description-1);
+  display:inline-block;
+  border-radius:6px;
+  padding:2px 7px;
+  white-space:nowrap;
+  background:var(--s2);
+  color:var(--t2);
+  vertical-align:middle;
+}
+.pg-pollnew .radd {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:2px;
+}
+.pg-pollnew .radd svg {
+  width:14px;
+  height:14px;
+}
+.pg-pollnew .facts {
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  padding:20px 24px;
+}
+.pg-pollnew .facts .btn {
+  min-width:132px;
+  height:38px;
+}
+.pg-pollnew .ptabs {
+  display:inline-flex;
+  gap:4px;
+  background:var(--q-content-background);
+  border-radius:10px;
+  padding:5px;
+  margin-bottom:16px;
+}
+.pg-pollnew .stab {
+  font:var(--q-font-ui-headline-4);
+  padding:8px 14px;
+  border-radius:8px;
+  color:var(--q-page-text-ui);
+  cursor:pointer;
+  white-space:nowrap;
+  user-select:none;
+}
+.pg-pollnew .stab:hover {
+  color:var(--blue);
+}
+.pg-pollnew .stab.on {
+  background:var(--blue-bg);
+  color:var(--blue);
+}
+.pg-pollnew .blist {
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-bottom:16px;
+}
+.pg-pollnew .rblk {
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px 20px;
+  border:1px solid var(--stroke);
+  border-radius:12px;
+  padding:18px 56px 18px 18px;
+}
+.pg-pollnew .rblk .fld.full {
+  grid-column:1/-1;
+}
+.pg-pollnew .bdel {
+  position:absolute;
+  top:14px;
+  right:14px;
+  width:32px;
+  height:32px;
+  display:grid;
+  place-items:center;
+  border:none;
+  border-radius:8px;
+  background:none;
+  color:var(--q-page-text-ui);
+  cursor:pointer;
+}
+.pg-pollnew .bdel:hover {
+  background:var(--dg-bg);
+  color:var(--dg-ac);
+}
+.pg-pollnew .bdel svg {
+  width:16px;
+  height:16px;
+}
+.pg-pollnew .csplit {
+  display:grid;
+  grid-template-columns:minmax(280px,1fr) 4fr;
+  gap:16px;
+  align-items:start;
+}
+.pg-pollnew .cspane {
+  border:1px solid var(--stroke);
+  border-radius:12px;
+  overflow:hidden;
+}
+.pg-pollnew .cspt {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 10px 12px 14px;
+  background:var(--s1);
+  border-bottom:1px solid var(--stroke);
+}
+.pg-pollnew .cspt b {
+  font:var(--q-font-ui-headline-4);
+  color:var(--black);
+  flex:1;
+}
+.pg-pollnew .cslist {
+  padding:10px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.pg-pollnew .csec {
+  border:1px solid var(--stroke);
+  border-radius:10px;
+  overflow:hidden;
+}
+.pg-pollnew .csn {
+  font:var(--q-font-ui-body-1);
+  flex:1;
+  min-width:0;
+  border:1px solid transparent;
+  border-radius:6px;
+  background:none;
+  height:28px;
+  padding:0 6px;
+  color:var(--black);
+}
+.pg-pollnew .csn:hover {
+  border-color:var(--stroke2);
+  background:var(--q-content-background);
+}
+.pg-pollnew .csn:focus {
+  border-color:var(--blue);
+  background:var(--q-content-background);
+  outline:none;
+}
+.pg-pollnew .cdrag {
+  width:16px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  color:var(--stroke3);
+  cursor:grab;
+}
+.pg-pollnew .cdrag svg {
+  width:12px;
+  height:14px;
+}
+.pg-pollnew .csecb {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 8px;
+  border-top:1px solid var(--stroke);
+}
+.pg-pollnew .csitems {
+  display:flex;
+  flex-direction:column;
+}
+.pg-pollnew .citem {
+  font:var(--q-font-ui-body-2);
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 8px;
+  border-top:1px solid var(--stroke);
+  cursor:pointer;
+  color:var(--t2);
+}
+.pg-pollnew .citem.on {
+  background:var(--blue-bg);
+  color:var(--blue);
+}
+.pg-pollnew .citem .cico {
+  width:20px;
+  height:20px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  color:var(--blue);
+}
+.pg-pollnew .citem .cico svg {
+  width:15px;
+  height:15px;
+}
+.pg-pollnew .citem .cnum {
+  color:var(--t3);
+  flex-shrink:0;
+}
+.pg-pollnew .citem.on .cnum {
+  color:var(--blue);
+}
+.pg-pollnew .citem .ctt {
+  flex:1;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.pg-pollnew .citem .actb {
+  width:24px;
+  height:24px;
+  opacity:0;
+}
+.pg-pollnew .citem:hover .actb {
+  opacity:1;
+}
+.pg-pollnew .citem .actb svg {
+  width:13px;
+  height:13px;
+}
+.pg-pollnew .csmat {
+  border:1px solid var(--stroke);
+  border-radius:12px;
+  min-height:420px;
+}
+.pg-pollnew .csmh {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:14px 18px;
+  border-bottom:1px solid var(--stroke);
+  background:var(--s1);
+}
+.pg-pollnew .csmh b {
+  font:var(--q-font-ui-headline-4);
+  color:var(--black);
+  flex:1;
+}
+.pg-pollnew .csmb {
+  padding:20px;
+}
+.pg-pollnew .csmb.frm {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px 20px;
+}
+.pg-pollnew .c.cspane {
+  border:none;
+  overflow:hidden;
+}
+.pg-pollnew .c.csmat {
+  border:none;
+}
+.pg-pollnew .cspane .cspt {
+  background:none;
+  padding:16px 12px 12px 18px;
+}
+.pg-pollnew .cslist {
+  padding:0 12px 14px;
+}
+.pg-pollnew .csec {
+  border:1px solid var(--stroke);
+}
+.pg-pollnew .c.csmat .csmh {
+  background:none;
+  padding:18px 20px 14px;
+}
+.pg-pollnew .cspane .cslist>.csec {
+  flex:0 0 auto;
+}
+.pg-pollnew .csaddw {
+  padding:0 12px 14px;
+}
+.pg-pollnew .csaddw .radd {
+  width:100%;
+  justify-content:center;
+}
+.pg-pollnew .c.csmat {
+  margin:0;
+}
+.pg-pollnew .svchint {
+  font:var(--q-font-ui-body-2);
+  color:var(--t3);
+  margin-bottom:16px;
+}
+.pg-pollnew .pvsec {
+  margin-top:20px;
+}
+.pg-pollnew .rsec {
+  font:var(--q-font-ui-headline-4);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--black);
+  padding-top:8px;
+  border-top:1px solid var(--stroke);
+}
+.pg-pollnew .rsec:first-child {
+  border-top:none;
+  padding-top:0;
+}
+.pg-pollnew .rsec span {
+  font:var(--q-font-ui-description-1);
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:var(--blue-bg);
+  color:var(--blue);
+  display:grid;
+  place-items:center;
+}
+.pg-pollnew .pqans {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.pg-pollnew .pqa {
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.pg-pollnew .pqa .fin {
+  flex:1;
+}
+.pg-pollnew .pqa .pqx:disabled {
+  opacity:.35;
+  cursor:default;
+  background:none;
+  color:var(--q-page-text-ui);
+}
+.pg-pollnew .pqadd {
+  align-self:flex-start;
+  margin-top:10px;
+}
+.pg-pollnew .swt.pqsw {
+  display:flex;
+  flex-direction:row-reverse;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  white-space:normal;
+  margin:0;
+}
+.pg-pollnew .pqsw span {
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.pg-pollnew .pqsw b {
+  font:var(--q-font-ui-headline-4);
+  color:var(--t1);
+}
+.pg-pollnew .pqsw small {
+  font:var(--q-font-ui-description-1);
+  color:var(--t3);
+}
+.pg-pollnew .pqsw i {
+  margin-top:2px;
+}
+.pg-pollnew .mdl.mdl-lg {
+  width:760px;
+}
+.pg-pollnew .pnside {
+  position:sticky;
+  top:84px;
+}
+.pg-pollnew .pnside .csmat {
+  max-height:calc(100vh - 110px);
+  overflow-y:auto;
+}
+.pg-pollnew .citem .ctt.ph {
+  font-style:italic;
+  color:var(--t3);
+}
+.pg-pollnew .pnreq {
+  font-style:normal;
+  color:var(--dg-ac);
+}
+.pg-pollnew .csec.drag,
+.pg-pollnew .citem.drag {
+  opacity:.45;
+}
+.pg-pollnew .pnhico {
+  width:28px;
+  height:28px;
+  border-radius:8px;
+  background:var(--blue-bg);
+  color:var(--blue);
+  display:grid;
+  place-items:center;
+}
+.pg-pollnew .pnhico svg {
+  width:16px;
+  height:16px;
+}
+.pg-pollnew .pntype {
+  width:220px;
+  flex-shrink:0;
+}
+.pg-pollnew .pnf {
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.pg-pollnew .pnchk {
+  display:flex;
+  gap:24px;
+  flex-wrap:wrap;
+}
+.pg-pollnew .pngrid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.pg-pollnew .pnseg {
+  align-self:flex-start;
+}
+.pg-pollnew .pnopts .pnoi {
+  font:var(--q-font-ui-description-1);
+  width:20px;
+  text-align:center;
+  color:var(--t3);
+  flex-shrink:0;
+}
+.pg-pollnew .pninfo {
+  font:var(--q-font-ui-body-2);
+  background:var(--s1);
+  border-radius:10px;
+  padding:12px 14px;
+  color:var(--t2);
+}
+.pg-pollnew .pnprev {
+  background:var(--s1);
+  border-radius:12px;
+  padding:16px;
+}
+.pg-pollnew .pnsum {
+  font:var(--q-font-ui-body-2);
+  display:grid;
+  grid-template-columns:auto 1fr;
+  column-gap:12px;
+  align-items:center;
+  margin-top:20px;
+  padding:14px 16px;
+  background:var(--s1);
+  border-radius:12px;
+  color:var(--t1);
+}
+.pg-pollnew .pnsum small {
+  font:var(--q-font-ui-description-1);
+  grid-column:2;
+  color:var(--t3);
+}
+.pg-pollnew .pnsum .pncnt {
+  font:var(--q-font-ui-body-2);
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+.pg-pollnew .pnsi {
+  grid-row:span 2;
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  background:var(--blue-bg);
+  color:var(--blue);
+  display:grid;
+  place-items:center;
+}
+.pg-pollnew .pnsi svg {
+  width:18px;
+  height:18px;
+}
+.pg-pollnew .pnman {
+  margin-top:18px;
+}
+.pg-pollnew .pnradd {
+  width:auto!important;
+}
+.pg-pollnew .pnanon b {
+  font:var(--q-font-ui-headline-4);
+}
+.pg-pollnew .pvq {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  background:var(--q-content-background);
+  border:1px solid var(--stroke);
+  border-radius:10px;
+  padding:14px 16px;
+}
+.pg-pollnew .pvq>b {
+  font:var(--q-font-ui-headline-4);
+  color:var(--black);
+}
+.pg-pollnew .pvq>b em {
+  font-style:normal;
+  color:var(--dg-ac);
+  margin-left:3px;
+}
+.pg-pollnew .pvq>small {
+  font:var(--q-font-ui-body-2);
+  color:var(--t3);
+  margin-top:-4px;
+}
+.pg-pollnew .pvr {
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+.pg-pollnew .pvr span {
+  font:var(--q-font-ui-headline-4);
+  min-width:34px;
+  height:34px;
+  padding:0 6px;
+  border:1px solid var(--stroke2);
+  border-radius:8px;
+  display:grid;
+  place-items:center;
+  color:var(--t2);
+}
+.pg-pollnew .pvr.star span {
+  border:none;
+  min-width:28px;
+  padding:0;
+  color:var(--q-base-100);
+}
+.pg-pollnew .pvr.star span svg {
+  width:26px;
+  height:26px;
+}
+.pg-pollnew .pvr.star span:nth-child(-n+3) {
+  color:var(--q-warning-500);
+}
+.pg-pollnew .pvr.enps {
+  flex-wrap:nowrap;
+  gap:4px;
+}
+.pg-pollnew .pvr.enps span {
+  min-width:0;
+  flex:1;
+}
+.pg-pollnew .pvr.enps .e1 {
+  background:var(--q-error-50);
+}
+.pg-pollnew .pvr.enps .e2 {
+  background:var(--q-warning-50);
+}
+.pg-pollnew .pvr.enps .e3 {
+  background:var(--ok-bg);
+}
+.pg-pollnew .pvlh {
+  display:flex;
+  justify-content:space-between;
+}
+.pg-pollnew .pvlh small,
+.pg-pollnew .pvh {
+  font:var(--q-font-ui-description-1);
+  color:var(--t3);
+}
+.pg-pollnew .pvh.r {
+  text-align:right;
+}
+.pg-pollnew .pvo {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.pg-pollnew .pvo span {
+  font:var(--q-font-ui-body-2);
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:var(--t1);
+}
+.pg-pollnew .pvo i {
+  width:16px;
+  height:16px;
+  border:1.5px solid var(--stroke3);
+  border-radius:50%;
+  flex-shrink:0;
+}
+.pg-pollnew .pvo u {
+  flex:1;
+  border-bottom:1px solid var(--stroke2);
+  height:14px;
+  text-decoration:none;
+}
+.pg-pollnew .pvs,
+.pg-pollnew .pvt {
+  font:var(--q-font-ui-body-2);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:38px;
+  border:1px solid var(--stroke2);
+  border-radius:8px;
+  padding:0 12px;
+  color:var(--q-base-300);
+  background:var(--q-content-background);
+}
+.pg-pollnew .pvs svg {
+  width:16px;
+  height:16px;
+}
+.pg-pollnew .pvt.big {
+  height:84px;
+  align-items:flex-start;
+  padding-top:10px;
+}
+.pg-pollnew .pvt.pvc {
+  height:60px;
+  align-items:flex-start;
+  padding-top:8px;
+}
+.pg-pollnew .pvw {
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.pg-pollnew .pvhd h2 {
+  font:var(--q-font-ui-headline-2);
+  color:var(--black);
+  margin-bottom:6px;
+}
+.pg-pollnew .pvhd p {
+  font:var(--q-font-ui-body-2);
+  color:var(--t2);
+  margin-top:8px;
+}
+.pg-pollnew .pvsec {
+  display:grid;
+  grid-template-columns:28px 1fr;
+  gap:10px 8px;
+  align-items:start;
+}
+.pg-pollnew .pvst {
+  font:var(--q-font-ui-headline-4);
+  grid-column:1/-1;
+  color:var(--blue);
+  text-transform:uppercase;
+  padding-top:6px;
+}
+.pg-pollnew .pvn {
+  font:var(--q-font-ui-description-1);
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:var(--blue-bg);
+  color:var(--blue);
+  display:grid;
+  place-items:center;
+  margin-top:12px;
+}
+.pg-pollnew .pvw>.btn {
+  align-self:flex-end;
+}
+.pg-pollnew .csplit {
+  grid-template-columns:minmax(340px,2fr) 3fr;
+}
+.pg-pollnew .pnsave {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+.pg-pollnew .pnsave svg {
+  width:16px;
+  height:16px;
+}
+.pg-pollnew .ipfrm .ipsec .frm {
+  margin-top:0;
+}
+.pg-pollnew .mdl.mdl-lg:has(#cpBody) {
+  width:960px;
+}
+.pg-pollnew .ckb.afck {
+  align-items:center;
+  gap:9px;
+  font:var(--q-font-ui-body-1);
+  color:var(--t1);
+}
+.pg-pollnew #cp-toc .cblk .cico {
+  width:20px;
+  height:20px;
+  min-width:20px;
+  display:grid;
+  place-items:center;
+  color:var(--blue);
+}
+.pg-pollnew #cp-toc .cblk .cico svg {
+  width:16px;
+  height:16px;
+}
+.pg-pollnew .prgmod .prow .cico {
+  width:20px;
+  height:20px;
+  display:grid;
+  place-items:center;
+  color:var(--blue);
+}
+.pg-pollnew .prgmod .prow .cico svg {
+  width:16px;
+  height:16px;
+}
+.pg-pollnew #atDoc .atdtabs .ptabs {
+  margin:0;
+  vertical-align:top;
+}
+.pg-pollnew #atDoc .atdtabs .stab {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.pg-pollnew #atDoc .atdtabs .stab .chip {
+  ;
+}
+.pg-pollnew .facts .btn,
+.pg-pollnew .pfoot .btn,
+.pg-pollnew .cmj,
+.pg-pollnew .btn.cartb,
+.pg-pollnew .cartb,
+.pg-pollnew .ib3.ibsq,
+.pg-pollnew .tmpop .btn,
+.pg-pollnew .pqb,
+.pg-pollnew .pqb>button,
+.pg-pollnew .tmin,
+.pg-pollnew .calhdr .calq,
+.pg-pollnew .balance,
+.pg-pollnew .pvs,
+.pg-pollnew .pvt,
+.pg-pollnew .sendb,
+.pg-pollnew .rdel {
+  height:36px;
+}
+.pg-pollnew #gvBody.glgvro .frm.glf3 {
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px 16px;
+}
+.pg-pollnew #gvBody.glgvro .frm.glf3>.fld {
+  grid-column:auto;
+}
+.pg-pollnew #gvBody.glgvro .frm.glf3>.fld.full {
+  grid-column:1/-1;
+}
+.pg-pollnew #gvBody.glgvro .frm.glf3>.fld.newrow {
+  grid-column-start:1;
+}
+.pg-pollnew #gvBody.glgvro .frm.glf3>.fld.hidden {
+  display:none;
+}
+.pg-pollnew #gvBody.glgvro #gfMeasF.frm.glf3 {
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.pg-pollnew #gvBody.glgvro .frm.glf3>.glmsh {
+  grid-column:1/-1;
+  font:var(--q-font-ui-headline-4);
+  color:var(--q-content-text);
+  margin:8px 0 -4px;
+}
+.pg-pollnew .frm.glf3>.glf4r {
+  grid-column:1/-1;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+}
+.pg-pollnew .frm.glf3>.glf4r {
+  grid-template-columns:1fr 1fr;
+}
+.pg-pollnew .frm.glf3>.glf4r {
+  grid-template-columns:1fr;
+}
+.pg-pollnew .frm.glvfact {
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  margin-bottom:16px;
+  max-width:none;
+}
+.pg-pollnew .frm.glvfact>.fld {
+  width:320px;
+  max-width:100%;
+}
+
+/* форма: сетка на 2 колонки, поля на всю ширину */
+.pg-pollnew .frm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 20px;
+}
+.pg-pollnew .frm > .full,
+.pg-pollnew .frm > .pndt {
+  grid-column: 1 / -1;
+}
+/* дата и время публикации и снятия — 4 поля в строку */
+.pg-pollnew .pndt {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.pg-pollnew .entm {
+  position: relative;
+  width: 100%;
+}
+.pg-pollnew .fld.flt > .entm > .fin {
+  width: 100%;
+  height: 52px;
+  padding-right: 36px;
+}
+.pg-pollnew .fld.flt.on > .entm > .fin {
+  padding-top: 20px;
+}
+.pg-pollnew .entm > app-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  margin-top: -8px;
+  width: 16px;
+  height: 16px;
+  color: var(--t3);
+  cursor: pointer;
+}
+/* условие отбора: два поля и корзина */
+.pg-pollnew .rblk {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) 1fr;
+}
+/* шапка раздела в структуре */
+.pg-pollnew .csech {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--blue-bg);
+}
+.pg-pollnew .cdrag app-icon,
+.pg-pollnew .cdrag svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+.pg-pollnew .citem .cnum {
+  font: var(--q-font-ui-body-2);
+  padding: 0;
+  min-width: 26px;
+}
+.pg-pollnew .citem .actb app-icon {
+  display: flex;
+}
+.pg-pollnew .pnqh app-select {
+  width: 220px;
+}
+.pg-pollnew .rblk .bdel app-icon {
+  display: flex;
+}
+.pg-pollnew .pvr .pvk {
+  font-style: normal;
+}
+.pg-pollnew .pvs app-icon {
+  width: 16px;
+  height: 16px;
+}
+.pg-pollnew .csmat > .empty {
+  min-height: 420px;
+  box-sizing: border-box;
+  justify-content: center;
+  padding: 40px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.pg-pollnew .csmat > .empty b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+.pg-pollnew .csmat > .empty small {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+.pg-pollnew .wipi {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+  margin-bottom: 6px;
+}
+/* кнопки внизу — остров, как в формах сообщества и мероприятия */
+.pg-pollnew .c.ipisl {
+  padding: 16px 24px;
+  margin-top: 24px;
+}
+.pg-pollnew .ipff {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.pg-pollnew .pnsave app-icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+}
+/* число вопросов в разделе — белая плашка на голубой шапке раздела */
+.pg-pollnew .pnsc {
+  font: var(--q-font-ui-description-1);
+  border-radius: 6px;
+  padding: 2px 8px;
+  background: var(--white);
+  color: var(--t2);
+}
+/* превью «Множественный выбор» — квадратные чек-боксы */
+.pg-pollnew .pvo .m i {
+  border-radius: 4px;
+}
+
+/* ——— шаг «Вопросы»: карточки в общем виде (.ch h3 + .cb), без разделителя под заголовком ——— */
+.pg-pollnew .csplit > * {
+  min-width: 0;
+}
+.pg-pollnew .c.cspane > .ch,
+.pg-pollnew .c.csmat > .ch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 0;
+}
+.pg-pollnew .c.cspane > .ch h3,
+.pg-pollnew .c.csmat > .ch h3 {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin: 0;
+}
+.pg-pollnew .c.csmat > .ch h3 {
+  flex: 1;
+}
+.pg-pollnew .c.cspane > .cb.cslist {
+  padding-top: 0;
+  padding-bottom: 12px;
+}
+.pg-pollnew .c.cspane > .cb.csaddw {
+  padding-top: 0;
+}
+.pg-pollnew .c.csmat > .cb.pnf {
+  padding-top: 0;
+}
+/* шрифты структуры: раздел — headline-4, вопрос — body-2, номер — серый */
+.pg-pollnew .csn {
+  font: var(--q-font-ui-headline-4);
+  height: 28px;
+}
+.pg-pollnew .citem,
+.pg-pollnew .citem .cnum,
+.pg-pollnew .citem .ctt {
+  font: var(--q-font-ui-body-2);
+}
+.pg-pollnew .rsec {
+  font: var(--q-font-ui-headline-4);
+}
+
+/* ——— шаг «Общая информация»: наименование во всю ширину, тип и даты — в строку ——— */
+.pg-pollnew .frm.pnfrm {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.pg-pollnew .c > .ch h3 {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin: 0;
+}
+
+/* ——— шаг «Участники»: условия строками без рамки (условие, значение, корзина), таблица участников ——— */
+.pg-pollnew .pnrules {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.pg-pollnew .pnrule {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 36px;
+  gap: 16px;
+  align-items: center;
+  max-width: 900px;
+}
+.pg-pollnew .pnrdel {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+}
+.pg-pollnew .pnrdel:hover {
+  background: var(--dg-bg);
+  color: var(--dg-ac);
+}
+.pg-pollnew .pnrdel app-icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+}
+.pg-pollnew .c + .c.w-pplcard {
+  margin-top: 24px;
+}
+
+/* пустые состояния: иконка в голубом квадрате и текст по центру */
+.pg-pollnew .wipi app-icon,
+.pg-pollnew .wipi svg {
+  width: 22px;
+  height: 22px;
+  display: flex;
+}
+
+/* чек-боксы настроек вопроса («Обязательный вопрос», «Включить комментарий», «Другое», «Поиск по списку») — обычным шрифтом */
+.pg-pollnew .ckb.anon {
+  font: var(--q-font-ui-body-2);
+}
+
+/* ——— превью новых типов: «Да / Нет», дата, матрица, ранжирование, ползунок, файл ——— */
+.pg-pollnew .pvyn {
+  display: flex;
+  gap: 8px;
+}
+.pg-pollnew .pvyn span {
+  font: var(--q-font-ui-body-2);
+  min-width: 72px;
+  height: 36px;
+  padding: 0 16px;
+  border: 1px solid var(--stroke2);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  color: var(--t1);
+}
+.pg-pollnew .pvdt {
+  max-width: 240px;
+}
+.pg-pollnew .pvdt app-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  color: var(--t3);
+}
+.pg-pollnew .pvmx {
+  display: grid;
+  align-items: center;
+  gap: 10px 6px;
+}
+.pg-pollnew .pvmx small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  text-align: center;
+}
+.pg-pollnew .pvmr {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.pg-pollnew .pvmx i {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--stroke3);
+  border-radius: 50%;
+  justify-self: center;
+}
+.pg-pollnew .pvrk {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pg-pollnew .pvrk span {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border: 1px solid var(--stroke2);
+  border-radius: 8px;
+  color: var(--t1);
+}
+.pg-pollnew .pvrk app-icon {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  color: var(--t4);
+}
+.pg-pollnew .pvrk b {
+  font: var(--q-font-ui-description-1);
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  background: var(--s2);
+  color: var(--t2);
+}
+.pg-pollnew .pvsl {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--track);
+  margin: 12px 0 4px;
+}
+.pg-pollnew .pvsl i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border-radius: 50%;
+  border: 2px solid var(--stroke3);
+  background: var(--q-content-background);
+  box-sizing: border-box;
+}
+.pg-pollnew .pvfile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 18px;
+  border: 1px dashed var(--blue-br);
+  border-radius: 10px;
+  text-align: center;
+}
+.pg-pollnew .pvfile app-icon {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  color: var(--blue);
+}
+.pg-pollnew .pvfile b {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.pg-pollnew .pvfile small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-pollnew .pngrid.pngrid3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* описание раздела: строка под шапкой раздела в структуре; подзаголовок раздела в предпросмотре */
+.pg-pollnew .csd {
+  font: var(--q-font-ui-description-1);
+  width: 100%;
+  box-sizing: border-box;
+  height: 30px;
+  padding: 0 10px 0 36px;
+  border: 0;
+  border-top: 1px solid var(--stroke);
+  background: var(--blue-bg);
+  color: var(--t2);
+  outline: none;
+}
+.pg-pollnew .csd::placeholder {
+  color: var(--t4);
+}
+.pg-pollnew .csd:focus {
+  background: var(--q-content-background);
+}
+.pg-pollnew .pvsd {
+  font: var(--q-font-ui-body-2);
+  grid-column: 1 / -1;
+  color: var(--t3);
+  margin-top: -6px;
+}
+
+/* ——— «Как увидит сотрудник» и предпросмотр: вопрос как на странице прохождения (pages/survey, .sq) ——— */
+.pg-pollnew .sq {
+  display: block;
+}
+.pg-pollnew .pnprev {
+  padding: 0;
+  background: none;
+}
+.pg-pollnew .pnprev > .sqv {
+  padding: 20px 24px 24px;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+}
+.pg-pollnew .sqn {
+  font: var(--q-font-ui-description-1);
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--s2);
+  color: var(--t2);
+}
+.pg-pollnew .sqt {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin-top: 10px;
+}
+.pg-pollnew .sqreq {
+  color: var(--dg-ac);
+  margin-left: 4px;
+}
+.pg-pollnew .sqd {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  margin-top: 4px;
+}
+.pg-pollnew .sqa {
+  margin-top: 16px;
+}
+.pg-pollnew .sqin,
+.pg-pollnew .sqsel,
+.pg-pollnew .sqdt {
+  width: 100%;
+  max-width: 420px;
+}
+.pg-pollnew .sqin,
+.pg-pollnew .sqdt {
+  display: block;
+}
+.pg-pollnew .sqta {
+  min-height: 108px;
+}
+.pg-pollnew .sqcnt {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: block;
+  text-align: right;
+  margin-top: 4px;
+}
+.pg-pollnew .sqcnt.pvfh {
+  text-align: left;
+  margin-top: 8px;
+}
+.pg-pollnew .pvstl {
+  max-width: 260px;
+}
+/* предпросмотр: разделы как на странице прохождения — название, описание, вопросы через разделитель */
+.pg-pollnew .pvw .pvsec {
+  display: block;
+  margin-top: 8px;
+}
+.pg-pollnew .pvw .pvsec > .sq {
+  padding: 20px 0;
+}
+.pg-pollnew .pvw .pvsec > .sq + .sq {
+  border-top: 1px solid var(--stroke);
+}
+.pg-pollnew .pvw .pvst {
+  font: var(--q-font-ui-headline-2);
+  text-transform: none;
+  color: var(--black);
+  padding-top: 0;
+}
+.pg-pollnew .pvw .pvsd {
+  display: block;
+  margin-top: 4px;
+}
+/* шаг «Общая информация»: блок «Настройки опроса» под основной карточкой */
+.pg-pollnew .c[pollnew-info] + .c[pollnew-settings] {
+  margin-top: 24px;
+}
+
+/* шаг «Процедуры опроса»: пояснение, карточки процедур (скрываемые), «Добавить процедуру» внизу */
+.pg-pollnew .c.pnwhint .cb {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.pg-pollnew .c.pnwhint .svchint {
+  margin: 0;
+}
+.pg-pollnew .c.pnwhint + .c.pnwave,
+.pg-pollnew .c.pnwave + .c.pnwave {
+  margin-top: 16px;
+}
+.pg-pollnew .pnwave > .ch {
+  gap: 8px;
+}
+.pg-pollnew .pnwave > .ch h3 {
+  flex: 0 1 auto;
+}
+.pg-pollnew .pnwmeta {
+  display: inline-flex;
+  gap: 16px;
+  margin: 0 auto 0 8px;
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+.pg-pollnew .pnwmeta > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-pollnew .pnwmeta app-icon {
+  width: 16px;
+  height: 16px;
+}
+.pg-pollnew .pnwave .pnwdel {
+  margin-left: auto;
+}
+.pg-pollnew .frm.pnwfrm {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.pg-pollnew .pnwsub {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  margin: 32px 0 16px;
+}
+.pg-pollnew .pnwsub + .svchint {
+  margin-top: -8px;
+}
+/* счетчик участников — голубая плашка, как в табах */
+.pg-pollnew .pnwsub .pntc {
+  background: var(--blue-bg);
+  color: var(--blue);
+  margin-left: 8px;
+}
+/* таблица участников процедуры: у первой и последней колонки отступ 12px (правило таблиц) */
+.pg-pollnew .pnwave .w-members :is(.mbth, .mbtr) {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.pg-pollnew .pnwadd {
+  width: 100%;
+  margin-top: 16px;
+}
