@@ -3,7 +3,9 @@ import { AttestStore } from '../../../core/demo/attest-store.service';
 import { ATT_EVENT_FORMATS } from '../../../data/attest.data';
 import { ME_PHOTO } from '../../../data/people.data';
 import { AttEvent } from '../../../interface/attest';
-import { Chips } from '../../../shared/ui/chips/chips';
+import { DateRange, DateRangeField, EMPTY_RANGE, inRange } from '../../../shared/ui/date-range/date-range';
+import { MultiSelect } from '../../../shared/ui/multi-select/multi-select';
+import { Select } from '../../../shared/ui/select/select';
 import { ConfirmService } from '../../../shared/ui/confirm/confirm.service';
 import { FilterBar } from '../../../shared/ui/filter-bar/filter-bar';
 import { Float } from '../../../shared/ui/float/float';
@@ -12,7 +14,6 @@ import { NavService } from '../../../core/navigation/nav.service';
 import { ToastService } from '../../../shared/ui/toast/toast.service';
 import { Tooltip } from '../../../shared/ui/tooltip/tooltip';
 import { AttncardCol } from '../attncard-col/attncard-col';
-import { AttncardEventEdit } from '../attncard-event-edit/attncard-event-edit';
 import { avFor, cDur, evAvCls, evFormat, evPerson, evWhen } from '../attncard.utils';
 
 const ST = {
@@ -23,22 +24,26 @@ const ST = {
 
 /**
  * Мероприятия аттестации таблицей: поиск и формат; строка раскрывается — описание и ссылка на встречу;
- * участники — три аватарки и «+N» со списком; «…» — статус, ссылка, редактирование и удаление (руководитель и HR — до заседания комиссии).
+ * участники — три аватарки и «+N» со списком; справа иконки «Редактировать» и «Удалить» (руководитель и HR — до заседания комиссии).
  */
 @Component({
   selector: '[attncard-events]',
-  imports: [AttncardCol, FilterBar, Chips, Icon, Float, Tooltip, AttncardEventEdit],
+  imports: [AttncardCol, FilterBar, DateRangeField, MultiSelect, Select, Icon, Float, Tooltip],
   template: `
     <div class="ch">
       <button attncard-col="Мероприятия"></button>
       <h3>Мероприятия</h3>
       <span class="chip">{{ s.events().length }}</span>
-      @if (s.canEditEvents()) {
-        <button class="btn pri afevadd" (click)="nav.go('eventnew', { type: 'Аттестация', from: 'attncard' })">Добавить</button>
-      }
     </div>
     <app-filter-bar placeholder="Поиск по названию мероприятия" [(query)]="q">
-      <app-chips label="Формат" [options]="formats" [(value)]="f" />
+      @if (s.canEditEvents()) {
+        <!-- «Добавить» — последней в строке поиска, справа от фильтра -->
+        <button ftAction class="btn pri" (click)="nav.go('eventnew', { type: 'Аттестация', from: 'attncard' })">Добавить</button>
+      }
+      <app-date-range label="Дата" [(value)]="dr" />
+      <app-multi-select label="Участники" [options]="peopleOpts()" [meta]="peopleMeta()" [(value)]="ppl" />
+      <app-select label="Статус" [options]="stOpts" allLabel="Все статусы" placeholder="Все статусы" [(value)]="st" />
+      <app-select label="Формат" [options]="formats" allLabel="Все форматы" placeholder="Все форматы" [(value)]="f" />
     </app-filter-bar>
     <div class="cb">
       <div class="tw">
@@ -75,9 +80,13 @@ const ST = {
                 </td>
                 <td><span [class]="'bdg ' + st[0]">{{ st[1] }}</span></td>
                 <td class="tact">
-                  <span class="acts"
-                    ><button class="actb dots" title="Действия" (click)="openMenu(e, $event)"><app-icon name="dots" /></button
-                  ></span>
+                  <span class="acts">
+                    @if (s.canEditEvents()) {
+                      <!-- действия строки иконками: «Редактировать» слева, «Удалить» справа -->
+                      <button class="actb" title="Редактировать" aria-label="Редактировать мероприятие" (click)="$event.stopPropagation(); editEv(e)"><app-icon name="edit" /></button>
+                      <button class="actb dg" title="Удалить" aria-label="Удалить мероприятие" (click)="$event.stopPropagation(); del(e)"><app-icon name="trashSm" /></button>
+                    }
+                  </span>
                 </td>
               </tr>
               <tr class="afacc" [class.hidden]="!opened().has(e)">
@@ -114,32 +123,11 @@ const ST = {
         </div>
       </div>
     }
-    @if (menu(); as m) {
-      <div class="fpop amenu" [appFloat]="m.a" (click)="$event.stopPropagation()">
-        @if (s.canEditEvents()) {
-          @if (s.eventStatus(m.e) !== 'done') {
-            <button class="ami" (click)="setSt(m.e, 'done')"><app-icon name="check" />Отметить проведенным</button>
-          }
-          @if (s.eventStatus(m.e) !== 'plan') {
-            <button class="ami" (click)="setSt(m.e, 'plan')"><app-icon name="calendar" />Вернуть в запланированные</button>
-          }
-          <div class="kbmsep"></div>
-        }
-        <button class="ami" (click)="copy(m.e)"><app-icon name="copy" />Скопировать ссылку</button>
-        @if (s.canEditEvents()) {
-          <button class="ami" (click)="menu.set(null); edit.set({ ev: m.e })"><app-icon name="edit" />Редактировать</button>
-          <button class="ami dg" (click)="del(m.e)"><app-icon name="trashSm" />Удалить</button>
-        }
-      </div>
-    }
-    @if (edit(); as ed) {
-      <app-attncard-event-edit [event]="ed.ev" (closed)="edit.set(null)" />
-    }
   `,
   host: {
     class: 'afsect',
     '[class.afcold]': 's.isCold("Мероприятия")',
-    '(document:click)': 'menu.set(null); more.set(null)',
+    '(document:click)': 'more.set(null)',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -159,15 +147,45 @@ export class AttncardEvents {
   protected readonly avName = (x: string | number) => avFor(evPerson(x).name, evPerson(x).av);
   protected readonly q = signal('');
   protected readonly f = signal('');
+  /** фильтры: период (дата мероприятия), участники (любой из выбранных), статус */
+  protected readonly dr = signal<DateRange>(EMPTY_RANGE);
+  protected readonly ppl = signal<string[]>([]);
+  protected readonly st = signal('');
+  protected readonly stOpts = Object.values(ST).map((x) => x[1]);
+  protected readonly peopleOpts = computed(() => [...new Set(this.s.events().flatMap((e) => e.p.map((x) => evPerson(x).name)))]);
+  /** в списке фильтра — фото и должность, в поле — только ФИО */
+  protected readonly peopleMeta = computed(() =>
+    Object.fromEntries(
+      this.s.events().flatMap((e) =>
+        e.p.map((x) => {
+          const p = evPerson(x);
+          return [p.name, x === 'me' ? { img: this.me, sub: p.post } : { av: avFor(p.name, p.av), sub: p.post }];
+        }),
+      ),
+    ),
+  );
   protected readonly opened = signal(new Set<AttEvent>());
-  protected readonly menu = signal<{ e: AttEvent; a: HTMLElement } | null>(null);
   protected readonly more = signal<{ e: AttEvent; a: HTMLElement } | null>(null);
-  protected readonly edit = signal<{ ev: AttEvent | null } | null>(null);
+  /** «Редактировать» — страница мероприятия с данными строки; сохранение вернет на бланк */
+  protected editEv(e: AttEvent): void {
+    this.nav.go('eventnew', { type: 'Аттестация', from: 'attncard', aev: String(this.s.events().indexOf(e)) });
+  }
 
   protected readonly rows = computed(() => {
     const q = this.q().trim().toLowerCase(),
       f = this.f();
-    return this.s.events().filter((e) => (!q || (e.t + ' ' + e.ty).toLowerCase().includes(q)) && (!f || e.f === f));
+    const ppl = this.ppl(),
+      st = this.st();
+    return this.s
+      .events()
+      .filter(
+        (e) =>
+          (!q || (e.t + ' ' + e.ty).toLowerCase().includes(q)) &&
+          (!f || e.f === f) &&
+          inRange(this.dr(), e.d.split(' ')[0]) &&
+          (!ppl.length || e.p.some((x) => ppl.includes(evPerson(x).name))) &&
+          (!st || ST[this.s.eventStatus(e)][1] === st),
+      );
   });
   protected tip(x: string | number): string {
     const p = evPerson(x);
@@ -178,16 +196,10 @@ export class AttncardEvents {
     s.has(e) ? s.delete(e) : s.add(e);
     this.opened.set(s);
   }
-  protected openMenu(e: AttEvent, ev: Event): void {
-    ev.stopPropagation();
-    const a = ev.currentTarget as HTMLElement;
-    this.more.set(null);
-    this.menu.set(this.menu()?.a === a ? null : { e, a });
-  }
+
   protected openMore(e: AttEvent, ev: Event): void {
     ev.stopPropagation();
     const a = ev.currentTarget as HTMLElement;
-    this.menu.set(null);
     this.more.set(this.more()?.a === a ? null : { e, a });
   }
   protected link(e: AttEvent, ev: Event): void {
@@ -195,22 +207,9 @@ export class AttncardEvents {
     ev.stopPropagation();
     this.toast.show('Ссылка', 'Откроется ' + e.u);
   }
-  protected setSt(e: AttEvent, st: 'done' | 'plan'): void {
-    this.menu.set(null);
-    this.s.updateEvent(e, { stO: st });
-    this.toast.show('Статус мероприятия изменен', `${e.t} — ${{ done: 'проведено', plan: 'запланировано' }[st]}.`);
-  }
-  protected copy(e: AttEvent): void {
-    this.menu.set(null);
-    try {
-      navigator.clipboard?.writeText('https://' + e.u).catch(() => {});
-    } catch {
-      /* буфер обмена недоступен */
-    }
-    this.toast.show('Ссылка скопирована', e.u);
-  }
+
+
   protected async del(e: AttEvent): Promise<void> {
-    this.menu.set(null);
     const ok = await this.confirm.ask({
       title: 'Удалить мероприятие?',
       text: `Мероприятие **${e.t}** (${e.d.split(' ')[0]}) будет удалено из бланка, участники получат уведомление об отмене. Восстановить его не получится.`,

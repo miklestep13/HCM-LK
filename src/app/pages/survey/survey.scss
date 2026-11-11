@@ -1,0 +1,192 @@
+/* Прохождение опроса — одна колонка: шапка объекта (shared/ui/object-head), под ней вопросы друг под другом */
+.pg-survey .svanon {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pg-survey .svanon app-icon,
+.pg-survey .svanon svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* вопросы: только просмотр у пройденного */
+.pg-survey .svbody {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  /* у fieldset по умолчанию min-width: min-content — без этого широкая матрица растягивает карточку */
+  min-width: 0;
+}
+.pg-survey .svbody.ro .sqa {
+  pointer-events: none;
+}
+
+/* вопрос: «Вопрос N», заголовок, описание, ответ */
+.pg-survey .sq {
+  display: block;
+  padding: 24px 0;
+  scroll-margin-top: 90px;
+}
+.pg-survey .sq + .sq {
+  border-top: 1px solid var(--stroke);
+}
+.pg-survey .sqn {
+  font: var(--q-font-ui-description-1);
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--s2);
+  color: var(--t2);
+}
+.pg-survey .sq.done .sqn {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.pg-survey .sqt {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin-top: 10px;
+}
+.pg-survey .sqreq {
+  color: var(--dg-ac);
+  margin-left: 4px;
+}
+.pg-survey .sqd {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  margin-top: 4px;
+}
+.pg-survey .sqa {
+  margin-top: 16px;
+}
+.pg-survey .sqin,
+.pg-survey .sqsel,
+.pg-survey .sqdt {
+  width: 100%;
+  max-width: 420px;
+}
+.pg-survey .sqin,
+.pg-survey .sqdt {
+  display: block;
+}
+.pg-survey .sqta {
+  min-height: 108px;
+}
+.pg-survey .sqcnt {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: block;
+  text-align: right;
+  margin-top: 4px;
+}
+.pg-survey .sqerr {
+  font: var(--q-font-ui-body-2);
+  color: var(--dg-ac);
+  margin-top: 10px;
+}
+.pg-survey .sq.err .sqt {
+  color: var(--dg);
+}
+.pg-survey .sq.err .scale .sclb,
+.pg-survey .sq.err .fin,
+.pg-survey .sq.err .fsel {
+  border-color: var(--dg-ac);
+}
+/* шапка: срок скоро — оранжевым, просрочен — красным */
+.pg-survey .svsub .warn {
+  color: var(--warn);
+}
+.pg-survey .svsub .dg {
+  color: var(--dg);
+}
+/* вопросы — одной карточкой под шапкой */
+.pg-survey .svmain {
+  margin-top: 16px;
+  padding: 8px 24px 24px;
+}
+/* «Завершить» — отдельная карточка под вопросами, кнопка справа */
+.pg-survey .svnav {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+  padding: 16px 24px;
+}
+
+/* легенда над вопросами */
+.pg-survey .svleg {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  padding-top: 16px;
+}
+.pg-survey .svleg .sqreq {
+  margin-left: 0;
+}
+/* ответы на половину ширины карточки: варианты, список, ранжирование, ползунок, дата, текст, развернутый ответ */
+.pg-survey .sqa :is(.choice, .rank, .slider, .sqin, .sqsel, .sqdt, .sqta) {
+  max-width: none;
+  width: 50%;
+  min-width: 280px;
+}
+
+/* узкий вид (dev-панель «Вид прохождения»): шапка опроса, вопросы и «Завершить» — колонкой 760 px по центру, как опрос руководителя 9-box */
+.pg-survey.svnarrow > [survey-head],
+.pg-survey.svnarrow > [survey-main] {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* ответы — на всю ширину колонки, кроме «Да / Нет» */
+.pg-survey.svnarrow .sqa :is(.choice, .rank, .slider, .sqin, .sqsel, .sqdt, .sqta) {
+  width: 100%;
+  min-width: 0;
+}
+.pg-survey.svnarrow .sqa .scale:not(.sqyn),
+.pg-survey.svnarrow .sqa app-rating,
+.pg-survey.svnarrow .sqa app-attach {
+  display: block;
+  width: 100%;
+}
+.pg-survey.svnarrow .sqa .scale:not(.sqyn) .sclb {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+}
+
+/* комментарий к оценке — под ответом, на всю ширину ответа */
+.pg-survey .sqcm {
+  display: block;
+  width: 100%;
+  max-width: 760px;
+  min-height: 64px;
+  margin-top: 12px;
+}
+
+/* 9-box: карточка сотрудника — фото, ФИО и должность, ниже вопросы как в обычном опросе («Вопрос N», разделитель между вопросами) */
+.pg-survey .svemp {
+  margin-top: 16px;
+  padding: 24px;
+}
+.pg-survey .svemph {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* до линии — как поле карточки сверху (24) */
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-survey .svemph .av {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  flex: none;
+}
+.pg-survey .svemph b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  display: block;
+}
+.pg-survey .svemph small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}

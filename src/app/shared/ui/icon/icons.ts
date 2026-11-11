@@ -44,6 +44,10 @@ export const ICONS: Record<string, string> = {
   plus: '<svg viewBox="0 0 16 16" fill="none"><path d="M8 3.2v9.6M3.2 8h9.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
   minus:
     '<svg viewBox="0 0 16 16" fill="none"><path d="M3.2 8h9.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  /** опрос: облачко с строками */
+  poll: '<svg viewBox="0 0 16 16" fill="none"><path d="M3 2.8h10a1.2 1.2 0 0 1 1.2 1.2v6.4a1.2 1.2 0 0 1-1.2 1.2H7.2L4.2 14v-2.4H3a1.2 1.2 0 0 1-1.2-1.2V4A1.2 1.2 0 0 1 3 2.8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M5 6h6M5 8.4h3.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>',
+  /** тест: список с кружками-ответами */
+  test: '<svg viewBox="0 0 16 16" fill="none"><circle cx="4" cy="4.6" r="1.7" stroke="currentColor" stroke-width="1.3"/><circle cx="4" cy="11.4" r="1.7" stroke="currentColor" stroke-width="1.3"/><path d="M8 3.8h6M8 5.8h3.6M8 10.6h6M8 12.6h3.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>',
   /** свернуть все: стрелки к центру */
   collapseAll: '<svg viewBox="0 0 16 16" fill="none"><path d="M4.8 2.8 8 6l3.2-3.2M4.8 13.2 8 10l3.2 3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   /** развернуть все: стрелки от центра */
@@ -69,6 +73,9 @@ export const ICONS: Record<string, string> = {
     '<svg viewBox="0 0 16 16" fill="none"><path d="M2.8 4.4h10.4M6.4 4.4V3.2a1 1 0 0 1 1-1h1.2a1 1 0 0 1 1 1v1.2M4.2 4.4l.6 8.2a1.2 1.2 0 0 0 1.2 1.1h4a1.2 1.2 0 0 0 1.2-1.1l.6-8.2M6.6 7v4M9.4 7v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   trashSm:
     '<svg viewBox="0 0 16 16" fill="none"><path d="M2.8 4.4h10.4M6.4 4.4V3.2a1 1 0 0 1 1-1h1.2a1 1 0 0 1 1 1v1.2M4.2 4.4l.6 8.2a1.2 1.2 0 0 0 1.2 1.1h4a1.2 1.2 0 0 0 1.2-1.1l.6-8.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  /** выгрузка в Excel: лист с буквой X */
+  excel:
+    '<svg viewBox="0 0 16 16" fill="none"><path d="M9.6 1.8H4.2a1.4 1.4 0 0 0-1.4 1.4v9.6a1.4 1.4 0 0 0 1.4 1.4h7.6a1.4 1.4 0 0 0 1.4-1.4V5.4L9.6 1.8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M9.4 2v3.6h3.6" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="m5.8 8 2.6 3.6M8.4 8l-2.6 3.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>',
   download:
     '<svg viewBox="0 0 16 16" fill="none"><path d="M8 2.6v7.6M5 7.4l3 3 3-3M3 13.2h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   /** меню-гамбургер (шапка, когда пункты меню не помещаются) */
@@ -90,6 +97,23 @@ export const ICONS: Record<string, string> = {
     '<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.8" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="2.6" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r=".6" fill="currentColor"/></svg>',
   chevSm:
     '<svg viewBox="0 0 12 12" fill="none"><path d="M3 4.6 6 7.6l3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  archive: '<svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2.8" width="12" height="3.2" rx="1" stroke="currentColor" stroke-width="1.4"/><path d="M3.2 6v6a1.4 1.4 0 0 0 1.4 1.4h6.8A1.4 1.4 0 0 0 12.8 12V6" stroke="currentColor" stroke-width="1.4"/><path d="M6.4 8.8h3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>',
+  /* типы вопросов конструктора опроса */
+  qRating: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2.2l1.8 3.7 4 .6-2.9 2.8.7 4L8 11.4l-3.6 1.9.7-4L2.2 6.5l4-.6L8 2.2Z"/></svg>',
+  qSingle: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5.6"/><circle cx="8" cy="8" r="2.2" fill="currentColor" stroke="none"/></svg>',
+  qMulti: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2.6" y="2.6" width="10.8" height="10.8" rx="2.4"/><path d="M5.4 8.2 7.2 10l3.4-3.8"/></svg>',
+  qLong: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h10M3 7h10M3 10h10M3 13h6"/></svg>',
+  qEnps: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1.8" y="4.8" width="12.4" height="6.4" rx="1.6"/><path d="M5.9 4.8v6.4M10.1 4.8v6.4"/></svg>',
+  qShort: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1.8" y="4.6" width="12.4" height="6.8" rx="1.8"/><path d="M5 6.8v2.4"/></svg>',
+  qDrop: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1.8" y="3.4" width="12.4" height="9.2" rx="2"/><path d="M6 7.2l2 2 2-2"/></svg>',
+  qYesNo: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1.6" y="4.4" width="5.6" height="7.2" rx="1.6"/><rect x="8.8" y="4.4" width="5.6" height="7.2" rx="1.6"/><path d="M3.3 8.1l1 1 1.6-1.9M10.6 6.6l2.2 2.8M12.8 6.6l-2.2 2.8"/></svg>',
+  qDate: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2.2" y="3.2" width="11.6" height="10.6" rx="2"/><path d="M2.2 6.6h11.6M5.4 1.8v2.6M10.6 1.8v2.6"/></svg>',
+  qMatrix: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1.8" y="2.6" width="12.4" height="10.8" rx="1.8"/><path d="M1.8 6.2h12.4M1.8 9.8h12.4M6.2 2.6v10.8"/></svg>',
+  qRank: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6.4 4h7.2M6.4 8h7.2M6.4 12h7.2"/><path d="M2.4 3.2l1-.6v3M2.2 9.2c.2-.6 1.8-.6 1.8.3 0 .7-1.8 1.4-1.8 1.9h1.9"/></svg>',
+  qSlider: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h12"/><circle cx="9.6" cy="8" r="2" fill="currentColor" stroke="none"/></svg>',
+  qFile: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.2 1.8H4.4a1.4 1.4 0 0 0-1.4 1.4v9.6a1.4 1.4 0 0 0 1.4 1.4h7.2a1.4 1.4 0 0 0 1.4-1.4V5.6L9.2 1.8Z"/><path d="M9.2 1.8v3.8H13M8 11.4V7.6M6.4 9.2 8 7.6l1.6 1.6"/></svg>',
+  star: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.8l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.6l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8z"/></svg>',
+  grip: '<svg viewBox="0 0 16 16" fill="currentColor"><circle cx="6" cy="4" r="1.2"/><circle cx="10" cy="4" r="1.2"/><circle cx="6" cy="8" r="1.2"/><circle cx="10" cy="8" r="1.2"/><circle cx="6" cy="12" r="1.2"/><circle cx="10" cy="12" r="1.2"/></svg>',
   stepUp:
     '<svg viewBox="0 0 12 12" fill="none"><path d="M3.2 7.4 6 4.6l2.8 2.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   stepDown:
@@ -148,6 +172,9 @@ export const ICONS: Record<string, string> = {
     '<svg viewBox="0 0 16 16" fill="none"><path d="M9 1.8H4.6A1.6 1.6 0 0 0 3 3.4v9.2a1.6 1.6 0 0 0 1.6 1.6h6.8a1.6 1.6 0 0 0 1.6-1.6V5.8L9 1.8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M9 1.8v4h4" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>',
   mMedia:
     '<svg viewBox="0 0 16 16" fill="none"><rect x="1.8" y="3.4" width="12.4" height="9.2" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M6.8 6.6 10 8l-3.2 1.4V6.6Z" fill="currentColor"/></svg>',
+  /** врезка: блок с полосой слева и строками текста */
+  callout:
+    '<svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2.6" width="12" height="10.8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M4.6 5v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M7.2 6h4.2M7.2 8h4.2M7.2 10h2.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
   mText:
     '<svg viewBox="0 0 16 16" fill="none"><path d="M3 3.4h10M3 6.8h10M3 10.2h7M3 13.6h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>',
   mTask:

@@ -10,15 +10,12 @@ import { ConfirmService } from '../../shared/ui/confirm/confirm.service';
 import { PageHead } from '../../shared/ui/page-head/page-head';
 import { ToastService } from '../../shared/ui/toast/toast.service';
 import { AttncardActs } from './attncard-acts/attncard-acts';
-import { AttncardDocs } from './attncard-docs/attncard-docs';
 import { AttncardEvents } from './attncard-events/attncard-events';
 import { AttncardFinal } from './attncard-final/attncard-final';
 import { AttncardHead } from './attncard-head/attncard-head';
 import { AttncardIpr } from './attncard-ipr/attncard-ipr';
 import { AttncardIprBlocks } from './attncard-ipr-blocks/attncard-ipr-blocks';
-import { AttncardPeople } from './attncard-people/attncard-people';
 import { AttncardPeopleTable } from './attncard-people-table/attncard-people-table';
-import { AttncardPersonEdit } from './attncard-person-edit/attncard-person-edit';
 import { AttncardRates } from './attncard-rates/attncard-rates';
 import { AttncardResult } from './attncard-result/attncard-result';
 import { pl } from './attncard.utils';
@@ -26,7 +23,7 @@ import { pl } from './attncard.utils';
 /**
  * «Мой кабинет → Аттестация → Бланк аттестации»: шапка бланка; мероприятия, пройденные и требуемые оценки,
  * после решения комиссии — итог (и ИПР); справа — участники и документы.
- * Демо (dev-панель): этап бланка, роль, раскладка (две колонки / одна), способ ввода значения оценки.
+ * Демо (dev-панель): этап бланка, роль, способ ввода значения оценки.
  */
 @Component({
   selector: 'app-attncard',
@@ -41,33 +38,16 @@ import { pl } from './attncard.utils';
     AttncardIpr,
     AttncardIprBlocks,
     AttncardFinal,
-    AttncardPeople,
     AttncardPeopleTable,
-    AttncardDocs,
-    AttncardPersonEdit,
   ],
   template: `
     <app-page-head title="Бланк аттестации" />
     <div class="c mb iphead atclean atfin" attncard-head></div>
-    @if (s.layout() === 'one') {
-      <div class="atfone">
-        <div class="c astw atfppl afpplt" attncard-people-table (edit)="person.set({ x: $event })" (remove)="remove($event)"></div>
-        <ng-container *ngTemplateOutlet="main" />
-        @if (s.post()) {
-          <div class="c mt astw afres afresb afdocb" attncard-docs></div>
-        }
-      </div>
-    } @else {
-      <div class="two73 atfgrid">
-        <div class="atfcol"><ng-container *ngTemplateOutlet="main" /></div>
-        <div class="atfcol stickR">
-          <div class="c astw atfppl" attncard-people (edit)="person.set({ x: $event })" (remove)="remove($event)"></div>
-          @if (s.post()) {
-            <div class="c mt astw afres afresb afdocb" attncard-docs></div>
-          }
-        </div>
-      </div>
-    }
+    <!-- участники — таблицей на всю ширину (раскладка с участниками в правой колонке убрана) -->
+    <div class="atfone">
+      <div class="c astw atfppl afpplt" attncard-people-table (remove)="remove($event)"></div>
+      <ng-container *ngTemplateOutlet="main" />
+    </div>
     @if (s.stage() === 'mgr' && s.role() === 'mgr') {
       <div class="c atfact"><div class="facts"><button class="btn pri" (click)="toComm()">На оценку комиссии</button></div></div>
     }
@@ -91,9 +71,6 @@ import { pl } from './attncard.utils';
         }
       }
     </ng-template>
-    @if (person(); as p) {
-      <app-attncard-person-edit [person]="p.x" (closed)="person.set(null)" />
-    }
   `,
   styleUrl: './attncard.scss',
   encapsulation: ViewEncapsulation.None,
@@ -105,22 +82,12 @@ export class Attncard implements OnDestroy {
   private readonly dev = inject(DevPanelService);
   private readonly toast = inject(ToastService);
   private readonly confirm = inject(ConfirmService);
-  protected readonly person = signal<{ x: AttPerson | null } | null>(null);
   private off: (() => void)[] = [];
 
   constructor() {
     this.off.push(
       this.dev.register(
         { id: 'attStage', label: 'Состояние бланка', options: ATT_STAGES.map(([value, label]) => ({ value, label })), value: devValue<AttStage>(() => this.s.stage(), (v) => this.s.setStage(v)) },
-        {
-          id: 'attLayout',
-          label: 'Раскладка',
-          options: [
-            { value: 'two', label: 'Две колонки' },
-            { value: 'one', label: 'Одна колонка' },
-          ],
-          value: this.s.layout,
-        },
         {
           id: 'attInput',
           label: 'Ввод значения',
@@ -178,18 +145,18 @@ export class Attncard implements OnDestroy {
     );
   }
 
-  /** исключить участника: уходит в недействующие с отметкой «Участвовал до» */
+  /** исключить участника: отметка «Участвовал до», в списке участников больше не показывается */
   protected async remove(x: AttPerson): Promise<void> {
     if (x.name === this.s.responsible()) return this.toast.show('Нельзя исключить ответственного', 'Сначала назначьте ответственным за бланк другого участника.');
     const ok = await this.confirm.ask({
       title: 'Исключить участника?',
-      text: `${x.name}${x.role ? ' (' + x.role.toLowerCase() + ')' : ''} больше не сможет смотреть и править бланк. Его оценки и комментарии сохранятся, в списке он появится среди недействующих.`,
+      text: `${x.name}${x.role ? ' (' + x.role.toLowerCase() + ')' : ''} больше не сможет смотреть и править бланк. Его оценки и комментарии сохранятся, из списка участников он пропадет.`,
       ok: 'Исключить',
       danger: true,
     });
     if (!ok) return;
     this.s.people.update((l) => l.map((z) => (z === x ? { ...z, till: todayDmy() } : z)));
-    this.toast.show('Участник исключен', x.name + ' — в списке недействующих.');
+    this.toast.show('Участник исключен', x.name + ' больше не участвует в аттестации.');
   }
 }
 

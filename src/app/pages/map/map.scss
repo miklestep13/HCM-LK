@@ -183,7 +183,7 @@
   background: var(--track);
 }
 .pg-map .bks.mine {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
   border-color: var(--blue);
   box-shadow: 0 0 0 3px var(--q-primary-transparent-300);
 }
@@ -374,7 +374,7 @@
   border-color: var(--stroke3);
 }
 .pg-map .bkleg .lm {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
   border-color: var(--blue);
 }
 .pg-map :is(.ftbar, .tbar:not(.calbar), .assf) :is(.fchip, .lnk) {
@@ -412,7 +412,7 @@
   border-color: var(--stroke3);
 }
 .pg-map .bkleg .lrm {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
   border-color: var(--blue);
 }
 .pg-map .tbl {

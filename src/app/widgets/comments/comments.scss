@@ -156,3 +156,8 @@
 .w-comments :is(.cform, .cmrf) .fta::placeholder {
   font: var(--q-font-ui-body-2);
 }
+/* без списка комментариев (empty="" и пусто) — у формы нет линии и отступа снизу */
+.w-comments .cform:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}

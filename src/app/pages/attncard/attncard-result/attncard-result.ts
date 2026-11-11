@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AttestStore } from '../../../core/demo/attest-store.service';
 import { NgTemplateOutlet } from '@angular/common';
 import { Icon } from '../../../shared/ui/icon/icon';
+import { AttncardDocs } from '../attncard-docs/attncard-docs';
 
 /** решение → цвет плашки и значок */
 const DEC: Record<string, [string, string]> = {
@@ -22,10 +23,11 @@ interface Dec {
 /**
  * Итог аттестации: решение крупно (плашка в цвете решения, дата решения) и комментарий.
  * «Пройден с ИПР» — сверху решение по итогам ИПР, решение комиссии — под «Показать предыдущие решения».
+ * Ниже — подраздел «Документы» (attncard-docs).
  */
 @Component({
   selector: '[attncard-result]',
-  imports: [Icon, NgTemplateOutlet],
+  imports: [Icon, NgTemplateOutlet, AttncardDocs],
   template: `
     <div class="ch"><h3>Итог</h3></div>
     <div class="cb">
@@ -38,6 +40,7 @@ interface Dec {
       } @else {
         <ng-container *ngTemplateOutlet="dec; context: { $implicit: comm() }" />
       }
+      <div attncard-docs></div>
     </div>
     <ng-template #dec let-x>
       <div [class]="'afhero ' + tone(x.d)">

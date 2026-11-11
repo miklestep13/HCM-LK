@@ -1,0 +1,1083 @@
+/* Конструктор учебных материалов (widgets/builder). Раскладка прохождения и предпросмотра — общая (.pg-pass, styles/_pass.scss) */
+.bld {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* полоса над конструктором: вид материала и итоги слева, «Редактор / Предпросмотр» справа */
+.bld .bldbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px 12px 24px;
+}
+.bld .bldbi {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.bld .bldsm {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+
+/* две колонки: структура и модуль (настройки — внутри модуля, под выбранным блоком); ширина структуры — как в предпросмотре (.plgrid) */
+.bld .bldgrid {
+  display: grid;
+  grid-template-columns: 380px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+.bld .bldtree {
+  /* прилипают под шапкой сайта (как колонка «Новостей») */
+  position: sticky;
+  top: 72px;
+  z-index: 5;
+  max-height: calc(100vh - 88px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+/* карточка структуры не сжимается под высоту колонки — иначе ее низ обрезается и прокручивать нечего */
+.bld .bldtree > .c {
+  flex-shrink: 0;
+}
+@media (max-width: 1100px) {
+  .bld .bldgrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bld .bldtree {
+    position: static;
+    max-height: none;
+  }
+}
+
+/* ——— структура ——— */
+.bld .bldth {
+  gap: 8px;
+}
+.bld .bldth h3 {
+  flex: 1;
+}
+.bld .bldth .actb.on {
+  color: var(--blue);
+  background: var(--blue-bg);
+}
+.bld .bldtoc .sect.flat {
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+.bld .bldtoc .sect.flat .plrow {
+  border-top: 0;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.bld .bldtoc .secth {
+  cursor: pointer;
+  padding: 10px 12px;
+}
+.bld .bldtoc .secth.on {
+  background: var(--blue-bg);
+}
+.bld .bldtoc .secth.on b {
+  color: var(--blue);
+}
+.bld .bldtoc .accar {
+  border: 0;
+  background: none;
+  padding: 2px;
+  cursor: pointer;
+  display: inline-flex;
+}
+.bld .bldtoc .plrow {
+  padding: 8px 12px;
+  align-items: center;
+}
+.bld .bldtoc .plrow b {
+  font: var(--q-font-ui-body-2);
+}
+.bld .bldtoc .plrow b {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.bld .bldtoc .plrow.on b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--blue);
+}
+.bld .bldtoc b.ph {
+  color: var(--t3);
+}
+.bld .bldtoc .cdrag {
+  color: var(--t4);
+  cursor: grab;
+  display: inline-flex;
+  opacity: 0;
+  margin-left: -6px;
+  transition: opacity 0.15s;
+}
+.bld .bldtoc :is(.secth, .plrow):hover .cdrag {
+  opacity: 1;
+}
+.bld .bldtoc .cdrag svg {
+  width: 14px;
+  height: 14px;
+}
+.bld .bldtoc .drag {
+  opacity: 0.5;
+}
+.bld .bldtoc .cico {
+  display: inline-flex;
+  color: var(--blue);
+  flex: none;
+}
+.bld .bldtoc .cico svg {
+  width: 16px;
+  height: 16px;
+}
+.bld .bldaddm {
+  margin: 8px 12px 10px;
+}
+.bld .sect.flat .bldaddm {
+  margin-left: 4px;
+}
+.bld .bldadds {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ——— модуль ——— */
+.bld .c.full.bldcv {
+  min-height: 560px;
+  gap: 0;
+}
+.bld .bldcrumb {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: flex;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.bld .bldmt,
+.bld .bldmd {
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: none;
+  resize: none;
+  field-sizing: content;
+  padding: 4px 8px;
+  margin-left: -9px;
+  color: var(--black);
+  font-family: var(--q-font-family);
+}
+.bld .bldmt {
+  font: var(--q-font-ui-headline-2);
+}
+.bld .bldmd {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+  margin-top: 2px;
+}
+.bld :is(.bldmt, .bldmd):hover {
+  border-color: var(--stroke);
+}
+.bld :is(.bldmt, .bldmd):focus {
+  outline: none;
+  border-color: var(--blue);
+  background: var(--q-content-background);
+}
+.bld .bldblocks {
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+}
+/* без модулей — блоки сразу сверху */
+.bld .bldblocks:first-child {
+  margin-top: -16px;
+}
+
+/* вставка блока между блоками: «+» по наведению */
+.bld .bldblocks > .bldgap {
+  position: relative;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bld .bldblocks > .bldgap::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 1px dashed var(--blue);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.bld .bldgapb {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--blue);
+  color: var(--q-button-primary-text);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.bld .bldgapb svg {
+  width: 14px;
+  height: 14px;
+}
+.bld .bldblocks > .bldgap:hover::before,
+.bld .bldblocks > .bldgap:hover .bldgapb {
+  opacity: 1;
+}
+
+/* блок: рамка по наведению, синяя — выбранный; панель блока над рамкой справа */
+.bld .bldb {
+  position: relative;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 0 -17px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.bld .bldb:hover {
+  border-color: var(--stroke2);
+}
+.bld .bldb.on {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-bg);
+}
+.bld .bldb.drag {
+  opacity: 0.5;
+}
+/* без модулей: один блок = одна страница прохождения — каждый в своей рамке с подписью «Страница N из M», между страницами отступ */
+.bld .bldblocks.bldpages {
+  margin-top: 0;
+}
+.bld .bldpages > .bldgap {
+  height: 24px;
+}
+.bld .bldpages > .bldb {
+  margin: 0;
+  border-color: var(--stroke);
+}
+.bld .bldpages > .bldb:hover {
+  border-color: var(--stroke2);
+}
+.bld .bldpages > .bldb.on {
+  border-color: var(--blue);
+}
+.bld .bldpgn {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-bottom: 8px;
+}
+.bld .bldbt {
+  position: absolute;
+  top: -15px;
+  right: 12px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 4px;
+  border-radius: 8px;
+  background: var(--q-content-background);
+  border: 1px solid var(--stroke2);
+  box-shadow: 0 2px 8px var(--q-overlay);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+.bld .bldb:hover .bldbt,
+.bld .bldb.on .bldbt {
+  opacity: 1;
+  pointer-events: auto;
+}
+.bld .bldbt .actb {
+  width: 26px;
+  height: 26px;
+}
+.bld .bldbt .actb:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.bld .bldbt .cdrag {
+  display: inline-flex;
+  color: var(--t3);
+  cursor: grab;
+  padding: 0 2px;
+}
+.bld .bldbt .cdrag svg,
+.bld .bldbn svg {
+  width: 14px;
+  height: 14px;
+}
+.bld .bldbn {
+  font: var(--q-font-ui-description-1);
+  color: var(--blue);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px 0 4px;
+  margin-right: 2px;
+  border-right: 1px solid var(--stroke);
+}
+.bld .bldaddb {
+  align-self: flex-start;
+  margin-top: 16px;
+}
+
+/* пустой модуль: палитра плитками */
+.bld .bldempty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 40px 0 8px;
+}
+.bld .bldempty > b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+}
+.bld .bldempty > small {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  max-width: 420px;
+}
+.bld .bldtiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+  width: 100%;
+  margin-top: 8px;
+}
+.bld .bldtg {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t2);
+  align-self: flex-start;
+  margin-top: 20px;
+}
+.bld .bldtile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 8px;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  background: var(--q-content-background);
+  cursor: pointer;
+  font-family: var(--q-font-family);
+}
+.bld .bldtile:hover {
+  border-color: var(--blue);
+  background: var(--blue-bg);
+}
+.bld .bldtile b {
+  font: var(--q-font-ui-description-1);
+  color: var(--t1);
+}
+.bld .bldtile .cico,
+.bld .bldico {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.bld .bldtile .cico svg,
+.bld .bldico svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* палитра «Добавить блок» */
+.fpop.bldpal {
+  width: 300px;
+  max-height: 440px;
+  overflow-y: auto;
+  padding: 6px 0;
+}
+/* подзаголовок группы — в палитре «Добавить блок» и в списке «Сменить вид блока» */
+.fpop:is(.bldpal, .bldtypes) .bldpg {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  padding: 10px 14px 4px;
+}
+.fpop.bldpal .ami {
+  align-items: flex-start;
+}
+.fpop.bldpal .ami > span {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+.fpop.bldpal .ami small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+
+/* ——— блоки «как увидит сотрудник» ——— */
+.bld .blk {
+  display: block;
+}
+/* в редакторе поля ответа без ввода; поля и кнопки правки вопроса (текст, варианты, «+ Добавить», удалить, верный ответ) — работают */
+.bld .blk.ro :is(input, textarea, button, select, app-select, .ch, label, .pldrop, app-attach):not(.bldin, .sqph, .sqeadd, .sqex, .sqemk, .sqeplus, .sqeg) {
+  pointer-events: none;
+}
+.bld .bltext {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.bld .bltext :is(p, ul, ol) {
+  margin: 0 0 10px;
+}
+.bld :is(.bltext, .bltxed .rtc) :is(ul, ol) {
+  padding-left: 22px;
+}
+.bld :is(.bltext, .bltxed .rtc) li + li {
+  margin-top: 4px;
+}
+.bld .bltext > :last-child {
+  margin-bottom: 0;
+}
+.bld .bltext.note,
+.bld .bltxed.note .rtc {
+  background: var(--blue-bg);
+  border-left: 3px solid var(--blue);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.bld .bltxed .rtc {
+  min-height: 80px;
+  /* как в готовом блоке (14px) — текст не «прыгает» при переключении */
+  font: var(--q-font-ui-body-2);
+}
+.bld .bltxed .rtc :is(p, ul, ol) {
+  margin: 0 0 10px;
+}
+.bld .blph {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 16px;
+  border: 1.5px dashed var(--stroke2);
+  border-radius: 12px;
+  background: var(--s1);
+}
+.bld .blph svg {
+  width: 18px;
+  height: 18px;
+  color: var(--blue);
+  flex: none;
+}
+.bld .blttl {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+  margin-bottom: 10px;
+}
+.bld .blimg {
+  margin: 0;
+}
+.bld .blimg img {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.bld .blimg figcaption {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 8px;
+  text-align: center;
+}
+.bld .bltask {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+}
+.bld .bltask p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin: 0;
+}
+.bld .bltask p.gr {
+  color: var(--t3);
+}
+.bld .bltaskh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bld .bltaskh b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+.bld .bltaskh .cico {
+  color: var(--blue);
+  display: inline-flex;
+}
+.bld .bltaskh .cico svg {
+  width: 18px;
+  height: 18px;
+}
+.bld .blcrs {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+}
+.bld .blcrsi {
+  width: 120px;
+  height: 72px;
+  border-radius: 8px;
+  background: center / cover no-repeat;
+  flex: none;
+}
+.bld .blcrs > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+}
+.bld .blcrs small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.bld .blcrs b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+.bld .plvid {
+  /* видео — во всю ширину блока, 16:9 */
+  width: 100%;
+  max-height: none;
+}
+/* статья из базы знаний — карточка: обложка, тип, название, начало текста, «Читать статью» */
+.bld .blkb {
+  display: flex;
+  gap: 16px;
+  padding: 12px;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+}
+.bld .blkbi {
+  width: 160px;
+  min-height: 100px;
+  border-radius: 8px;
+  background: center / cover no-repeat;
+  flex: none;
+}
+.bld .blkb > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+}
+.bld .blkb small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.bld .blkb small svg {
+  width: 12px;
+  height: 12px;
+}
+.bld .blkb b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+.bld .blkb p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.bld .blkb .lnk {
+  margin-top: 4px;
+}
+
+/* ——— настройки ——— */
+.bld .bldih {
+  gap: 10px;
+}
+.bld .bldih h3 {
+  flex: 1;
+}
+.bld .bldih .secn {
+  font: var(--q-font-ui-headline-4);
+}
+.bld .pnf {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.bld .bldsum {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+}
+.bld .bldacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.bld .bldacts .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.bld .bldacts .btn svg {
+  width: 14px;
+  height: 14px;
+}
+.bld .rsec {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+  padding-top: 12px;
+  border-top: 1px solid var(--stroke);
+}
+.bld .pninfo {
+  font: var(--q-font-ui-body-2);
+  background: var(--s1);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--t2);
+}
+.bld .pngrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.bld .pnseg {
+  align-self: flex-start;
+  flex-wrap: wrap;
+}
+.bld .ckb.anon {
+  font: var(--q-font-ui-body-2);
+}
+.bld .fhelp {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: block;
+  margin-top: 6px;
+}
+.bld .pqans {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bld .pqa {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bld .pqa .fin {
+  flex: 1;
+  min-width: 0;
+}
+.bld .pqa .pqx:disabled {
+  opacity: 0.35;
+  cursor: default;
+  background: none;
+}
+.bld .pqadd {
+  align-self: flex-start;
+  margin-top: 10px;
+}
+.bld .pnoi {
+  font: var(--q-font-ui-description-1);
+  width: 22px;
+  text-align: center;
+  color: var(--t3);
+  flex-shrink: 0;
+}
+/* верный ответ: кружок (один вариант) или квадрат (несколько), отмеченный — зеленый с галочкой */
+.bld .bldok {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--stroke2);
+  background: var(--q-content-background);
+  color: transparent;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex: none;
+  padding: 0;
+}
+.bld .bldok.multi {
+  border-radius: 6px;
+}
+.bld .bldok svg {
+  width: 12px;
+  height: 12px;
+}
+.bld .bldok:hover {
+  border-color: var(--ok);
+}
+.bld .bldok.on {
+  background: var(--ok);
+  border-color: var(--ok);
+  color: var(--q-button-primary-text);
+}
+.bld .bldokh {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: block;
+  margin: -2px 0 8px;
+}
+
+/* ——— предпросмотр ——— */
+.bld .bldpv .c.full.plmain {
+  min-height: 480px;
+}
+.bld .bldpv .plrow.lock {
+  cursor: default;
+  opacity: 0.6;
+}
+.bld .bldpv .bldpvb {
+  gap: 24px;
+  margin-top: 16px;
+}
+/* с описанием отступ дает само описание */
+.bld .bldpv .pld + .bldpvb {
+  margin-top: 0;
+}
+.bld .bldpv .sect.flat {
+  border: 0;
+  overflow: visible;
+}
+.bld .bldpv .sect.flat .plrow {
+  border-top: 0;
+  border-radius: 8px;
+}
+
+/* настройки блока — в нем же, под ответами: отделены линией, поля в ряд (переносятся) */
+.bld .bldbs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+  align-items: start;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--stroke2);
+  cursor: default;
+}
+.bld .bldbs .bldqs {
+  display: contents;
+}
+.bld .bldbs > :is(.pninfo, .ckb, .swt, .bldfull, app-field:has(textarea)),
+.bld .bldbs .bldqs > :is(.pninfo, .ckb, .swt, .bldsws) {
+  grid-column: 1 / -1;
+}
+.bld .bldbt .actb.on {
+  color: var(--blue);
+  background: var(--blue-bg);
+}
+/* смена типа вопроса в панели блока */
+.bld .bldbn.tg {
+  border-top: 0;
+  border-bottom: 0;
+  border-left: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--q-font-family);
+  border-radius: 6px 0 0 6px;
+}
+.bld .bldbn.tg:hover,
+.bld .bldbn.tg.on {
+  background: var(--blue-bg);
+}
+.bld .bldbn .bldbnc svg {
+  width: 10px;
+  height: 10px;
+}
+.fpop.bldtypes {
+  max-height: 380px;
+  overflow-y: auto;
+}
+.fpop.bldtypes .ami.on {
+  color: var(--blue);
+  background: var(--blue-bg);
+}
+/* шапка модуля: действия справа от «Модуль 1.2» */
+.bld .bldcrumb {
+  align-items: center;
+}
+.bld .bldma {
+  margin-left: auto;
+  display: inline-flex;
+  gap: 2px;
+}
+/* название раздела правится прямо в структуре */
+.bld .bldtoc .secth {
+  cursor: default;
+  align-items: flex-start;
+}
+.bld .bldtoc .secth .secn {
+  margin-top: 2px;
+}
+.bld .bldtoc .secin {
+  flex: 1;
+  min-width: 0;
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  resize: none;
+  field-sizing: content;
+  padding: 1px 4px;
+  margin: 0 -4px;
+}
+.bld .bldtoc .secin:hover {
+  border-color: var(--stroke2);
+}
+.bld .bldtoc .secin:focus {
+  outline: none;
+  border-color: var(--blue);
+  background: var(--q-content-background);
+}
+.bld .bldtoc .secdel {
+  width: 24px;
+  height: 24px;
+  opacity: 0;
+}
+.bld .bldtoc .secth:hover .secdel {
+  opacity: 1;
+}
+
+/* пустое описание вопроса — только у выбранного блока и при наведении */
+.bld .bldb:not(:hover):not(.on) .sqdi:placeholder-shown {
+  display: none;
+}
+
+/* переключатели вопроса — в одну строку */
+.bld .bldsws {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+}
+
+/* ——— курс: виды модулей, настройки модуля, шаблоны модулей ——— */
+/* меню «Добавить модуль»: виды с подсказкой и «Из шаблонов» */
+.fpop.bldaddmenu {
+  width: 300px;
+  padding: 6px 0;
+}
+.fpop.bldaddmenu .ami {
+  align-items: flex-start;
+  white-space: normal;
+}
+.fpop.bldaddmenu .ami > span {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  text-align: left;
+}
+.fpop.bldaddmenu .ami small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.fpop.bldaddmenu .amsep {
+  border-top: 1px solid var(--stroke);
+  margin: 6px 0;
+}
+/* иконка вида модуля в структуре перед названием */
+.bld :is(.bldtoc, .bldpv) .bldmk {
+  display: inline-flex;
+  flex: none;
+  align-self: center;
+  color: var(--t3);
+}
+.bld :is(.bldtoc, .bldpv) .bldmk svg {
+  width: 14px;
+  height: 14px;
+}
+/* настройки тестирования / задания под описанием модуля — скрываемый блок, шеврон слева */
+.bld .bldms {
+  display: block;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  margin-top: 12px;
+}
+.bld .bldmsh {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+.bld .bldmsh b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+.bld .bldmsh .cfar {
+  width: 24px;
+  height: 24px;
+  margin-left: -6px;
+}
+.bld .bldmsh .cfar svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.15s;
+}
+.bld .bldms.cold .bldmsh .cfar svg {
+  transform: rotate(-90deg);
+}
+.bld .bldmsb {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+  align-items: start;
+  padding: 0 16px 16px;
+}
+.bld .bldmsb > .ckb {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+/* окно «Шаблоны модулей» */
+.bld .mdl.bldtplm {
+  width: 860px;
+  max-width: calc(100vw - 32px);
+}
+.bld .bldtplf {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.bld .bldtplf .tsearch {
+  flex: 1 1 auto;
+}
+.bld .bldtplf app-select {
+  width: 220px;
+}
+.bld .bldtplm .tbl td b {
+  display: block;
+}
+.bld .bldtplm .bldtpld {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: block;
+  margin-top: 2px;
+}
+.bld .bldtplm .bldtpk {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.bld .bldtplm .bldtpk svg {
+  width: 14px;
+  height: 14px;
+  color: var(--t3);
+}
+.bld .bldtplm .tw {
+  max-height: 52vh;
+  overflow: auto;
+}
+.bld .bldtplm .tbl {
+  width: 100%;
+  border-collapse: collapse;
+}
+.bld .bldtplm .tbl th {
+  font: var(--q-font-ui-headline-4);
+  text-align: left;
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+  white-space: nowrap;
+}
+.bld .bldtplm .tbl td {
+  font: var(--q-font-ui-body-2);
+  padding: 12px;
+  border-bottom: 1px solid var(--stroke);
+  vertical-align: middle;
+}
+.bld .bldtplm .tbl td:nth-child(n + 2) {
+  white-space: nowrap;
+}
+.bld .bldtplm .tbl tr.clk {
+  cursor: pointer;
+}
+.bld .bldtplm .tbl tr.clk:hover td {
+  background: var(--hv);
+}
+.bld .bldtplm .tbl tr.clk:hover td b {
+  color: var(--blue);
+}
+.bld .bldtplm .mdlf {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--stroke);
+}
+
+/* строка модуля в структуре: по наведению справа — дублировать и удалить. Кнопки поверх правого края строки (места под них нет),
+   чтобы название занимало всю ширину; под кнопками — фон строки с плавным переходом, текст под ними не просвечивает */
+.bld .bldtoc .plrow:has(> .bldra) {
+  position: relative;
+}
+.bld .bldtoc .plrow .bldra {
+  --rbg: var(--q-content-background);
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  gap: 2px;
+  padding-left: 16px;
+  background: linear-gradient(to right, transparent, var(--rbg) 16px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+.bld .bldtoc .plrow.on .bldra {
+  --rbg: var(--blue-bg);
+}
+.bld .bldtoc .plrow:hover .bldra {
+  opacity: 1;
+  pointer-events: auto;
+}
+.bld .bldtoc .plrow .bldra .actb {
+  width: 26px;
+  height: 26px;
+}

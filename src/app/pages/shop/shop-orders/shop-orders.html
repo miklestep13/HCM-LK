@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (r of rows(); track r.o.no) {
+        @for (r of pg.view(); track r.o.no) {
           <tr class="clk" (click)="open(r.k)">
             <td>{{ r.o.no }}</td>
             <td class="gr">{{ r.o.created }}</td>
@@ -28,4 +28,5 @@
       </tbody>
     </table>
   </div>
+  <div class="cb" style="padding-top: 0"><app-pager [p]="pg" /></div>
 </div>

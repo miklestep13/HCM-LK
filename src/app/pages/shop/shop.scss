@@ -15,7 +15,7 @@
   color: var(--dg);
 }
 .pg-shop .bdg.bl2 {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
   color: var(--blue);
 }
 .pg-shop .tbl {
@@ -108,7 +108,7 @@
   transition: background 0.12s;
 }
 .pg-shop button.balance:hover {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
 }
 .pg-shop .thh {
   display: inline-flex;
@@ -150,7 +150,7 @@
 }
 /* кнопка в шапке страницы — стандартная голубая (.btn.raised: голубой фон, синий текст), при наведении фон ярче */
 .pg-shop .pf-top .btn.raised:hover {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
 }
 .pg-shop .tw {
   overflow-x: auto;
@@ -553,7 +553,7 @@
   cursor: pointer;
 }
 .pg-shop .pqb > button:hover {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
 }
 .pg-shop .pqb > button:disabled {
   opacity: 0.4;

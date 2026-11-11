@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, effect, inject, input, signal, untracked } from '@angular/core';
 import { EventsStore, durText, emptyEvent, parseDT } from '../../core/demo/events-store.service';
 import { NavService } from '../../core/navigation/nav.service';
+import { AttestStore } from '../../core/demo/attest-store.service';
+import { evPerson } from '../attncard/attncard.utils';
+import { cHM, cMin } from '../cal/cal.utils';
 import { COMM_POOL } from '../../data/comm.data';
 import { EVENT_GROUPS, EVENT_ROLES, EVENT_TYPES } from '../../data/events.data';
 import { ME } from '../../data/people.data';
@@ -30,7 +33,7 @@ import { EventnewState } from './eventnew.state';
   selector: 'app-eventnew',
   imports: [PageHead, EventnewMain, EventnewRepeat, CoverUpload, BusyChart, PplCard, EventHead],
   template: `
-    <app-page-head [title]="(s.ro() ? 'Просмотр ' : s.id() || calId() ? 'Редактирование ' : 'Добавление ') + (s.f().type === 'Встреча' ? 'встречи' : 'мероприятия')" [backTo]="s.id() ? 'eventview' : back().page" [backAttrs]="s.id() ? { ev: s.id() } : undefined" [backLabel]="s.id() ? 'К мероприятию' : back().label">
+    <app-page-head [title]="(s.ro() ? 'Просмотр ' : s.id() || calId() || aev() ? 'Редактирование ' : 'Добавление ') + (s.f().type === 'Встреча' ? 'встречи' : 'мероприятия')" [backTo]="s.id() ? 'eventview' : back().page" [backAttrs]="s.id() ? { ev: s.id() } : undefined" [backLabel]="s.id() ? 'К мероприятию' : back().label">
       @if (s.ro() && calEv(); as ce) {
         @if (isOrg()) {
           <span class="objacts"><button class="btn dng" (click)="removeCal(ce)">Удалить</button><button class="btn raised" (click)="calState.edit(ce)">Редактировать</button></span>
@@ -78,7 +81,7 @@ import { EventnewState } from './eventnew.state';
         <div class="pqerr">{{ s.err() }}</div>
       }
       <div class="c ipisl">
-        <div class="ipff"><button class="btn pri" (click)="save()">{{ s.id() || calId() ? 'Сохранить' : 'Создать' }}</button></div>
+        <div class="ipff"><button class="btn pri" (click)="save()">{{ s.id() || calId() || aev() ? 'Сохранить' : 'Создать' }}</button></div>
       </div>
     }
   `,
@@ -102,6 +105,9 @@ export class Eventnew {
   readonly type = input('');
   /** откуда открыта форма: cal — календарь, attncard — бланк аттестации; туда же «Назад» и переход после создания */
   readonly from = input('');
+  /** из бланка аттестации: номер редактируемого мероприятия бланка */
+  readonly aev = input('');
+  private readonly attest = inject(AttestStore);
   /** из календаря: правка встречи и данные из быстрого создания */
   readonly cal = input('');
   readonly title = input('');
@@ -136,7 +142,7 @@ export class Eventnew {
 
   constructor() {
     effect(() => {
-      const id = this.ev(), type = this.type(), cal = this.cal(), view = this.view() === '1', day = this.day();
+      const id = this.ev(), aev = this.aev(), type = this.type(), cal = this.cal(), view = this.view() === '1', day = this.day();
       const pre = { title: this.title(), date: this.date(), time: this.time(), endDate: this.date(), endTime: this.endTime(), place: this.place() };
       untracked(() => {
         this.s.id.set(id);
@@ -149,6 +155,15 @@ export class Eventnew {
         // «Весь день» в форме нет — время всегда указывается; тип нового — из адреса; из календаря — встреча или введенные данные
         const add = ce ? { ...calToForm(ce), ...(view && day ? { date: day, endDate: day } : {}) } : Object.fromEntries(Object.entries(pre).filter(([, v]) => v));
         this.s.f.set({ ...f, allDay: false, type: !id && EVENT_TYPES.includes(type) ? type : f.type, ...add });
+        // мероприятие бланка аттестации: данные строки — в форму
+        const ae = aev !== '' ? this.attest.events()[+aev] : undefined;
+        if (ae) {
+          const [d0, t0] = ae.d.split(' ');
+          this.s.f.set({
+            ...this.s.f(), title: ae.t, desc: ae.s, date: d0, time: t0, endDate: d0, endTime: cHM(cMin(t0) + ae.dur), place: ae.u,
+            people: ae.p.map((x, i) => { const p = evPerson(x); return { n: p.name, pos: p.post, av: p.av, role: i ? 'Участник' : 'Организатор' }; }),
+          });
+        }
       });
     });
   }
@@ -158,6 +173,7 @@ export class Eventnew {
     if (e) return this.s.err.set(e);
     const f = this.s.f(), id = this.s.id();
     if (this.from() === 'cal') return this.saveCal(f);
+    if (this.from() === 'attncard') return this.saveAtt(f);
     if (id) {
       this.store.update(id, f);
       this.toast.show('Изменения сохранены', `Мероприятие «${f.title}» обновлено.`);
@@ -187,6 +203,20 @@ export class Eventnew {
   }
   protected async removeCal(ev: CalEvent): Promise<void> {
     if (await this.calState.remove(ev)) this.nav.go('cal');
+  }
+  /** мероприятие бланка аттестации: правка строки или новая строка, возврат на бланк */
+  private saveAtt(f: ReturnType<EventnewState['f']>): void {
+    const ae = this.aev() !== '' ? this.attest.events()[+this.aev()] : undefined;
+    const a = parseDT(f.date, f.time), b = parseDT(f.endDate || f.date, f.endTime);
+    const patch = {
+      t: f.title, s: f.desc, d: f.date + ' ' + f.time, u: f.place,
+      dur: a && b && b > a ? Math.round((b.getTime() - a.getTime()) / 60000) : 60,
+      f: /^https?:/.test(f.place) ? 'Онлайн' : 'Очно',
+    };
+    if (ae) this.attest.updateEvent(ae, patch);
+    else this.attest.events.update((l) => [...l, { ...patch, p: f.people.filter((p) => p.n).map((p) => (p.n === ME[0] ? 'me' : p.n)), ty: f.type }]);
+    this.toast.show(ae ? 'Изменения сохранены' : 'Мероприятие добавлено', `«${f.title}» · ${f.date} ${f.time}`);
+    this.nav.go('attncard');
   }
   /** встреча из календаря — в календарь (новая или правка), возврат в календарь с подсветкой */
   private saveCal(f: ReturnType<EventnewState['f']>): void {

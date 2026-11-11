@@ -24,7 +24,7 @@
     @for (r of rows(); track r.i) {
       @let m = r.m;
       <div class="c mbc" [class.lock]="m.lock" [class.act]="edit() !== 'inline' && !m.lock" tabindex="0" (click)="click(m, r.i)" (keydown.enter)="click(m, r.i)">
-        @if (edit() === 'inline' && !m.lock) {
+        @if (edit() === 'inline' && !m.lock && (!pickNew() || !m.n)) {
           <ng-container *ngTemplateOutlet="who; context: { m, i: r.i }" />
         } @else {
           @if (has('av')) {
@@ -42,7 +42,7 @@
             }
           </div>
         }
-        @if (edit() === 'inline' && !m.lock) {
+        @if (edit() === 'inline' && !m.lock && (!pickNew() || !m.n)) {
           <div class="mbcf">
             @if (has('role')) {
               <ng-container *ngTemplateOutlet="role; context: { m, i: r.i }" />
@@ -80,7 +80,7 @@
     @for (r of paged(); track r.i) {
       @let m = r.m;
       <div class="mbtr" [class.lock]="m.lock" [class.act]="edit() !== 'inline' && !m.lock" (click)="click(m, r.i)">
-        @if (edit() === 'inline' && !m.lock) {
+        @if (edit() === 'inline' && !m.lock && (!pickNew() || !m.n)) {
           <ng-container *ngTemplateOutlet="who; context: { m, i: r.i }" />
         } @else {
           <span class="mbwho">
@@ -96,7 +96,7 @@
           </span>
         }
         @if (has('role')) {
-          @if (edit() === 'inline' && !m.lock) {
+          @if (edit() === 'inline' && !m.lock && (!pickNew() || !m.n)) {
             <ng-container *ngTemplateOutlet="role; context: { m, i: r.i }" />
           } @else {
             <span class="mbrl">
@@ -112,7 +112,7 @@
           }
         }
         @if (has('w')) {
-          @if (edit() === 'inline' && !m.lock) {
+          @if (edit() === 'inline' && !m.lock && (!pickNew() || !m.n)) {
             <ng-container *ngTemplateOutlet="wt; context: { m, i: r.i }" />
           } @else {
             <span class="gr mbnw">{{ m.lock || noW(m) ? '—' : m.w + '%' }}</span>

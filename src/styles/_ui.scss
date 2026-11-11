@@ -142,6 +142,11 @@
   background: var(--blue-bg);
   color: var(--q-primary-700);
 }
+/* акцентный бейдж: синий фон, белый текст (назначено, ждет действия — «Ожидание») */
+.bdg.pri {
+  background: var(--blue);
+  color: var(--q-content-background);
+}
 .bdg.tq {
   background: var(--q-badge-turquoise-bg);
   color: var(--q-badge-turquoise-color);
@@ -360,7 +365,7 @@
   color: var(--blue);
 }
 .ch .ib2:hover {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
 }
 .actb {
   width: 28px;
@@ -750,6 +755,13 @@ table :is(th, td).tact {
   text-align: right;
   background: var(--q-content-background);
 }
+/* кнопки действий — по правому краю строки, не сжимаются (ячейка растет под них) */
+table td.tact .acts {
+  justify-content: flex-end;
+}
+table td.tact .acts > * {
+  flex-shrink: 0;
+}
 
 /* Счетчик в табах (Каталог 11 · История заказов 6): <span class="pntc">N</span> сразу после названия вкладки.
    Голубая плашка с синим числом — на всех вкладках, и активной, и неактивной. */
@@ -825,4 +837,625 @@ table :is(th, td).tact {
   display: flex;
   width: 16px;
   height: 16px;
+}
+
+/* прогресс со значением под полосой (app-progress below): подпись слева, процент справа */
+.prs.prsb {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.prs.prsb b {
+  font: var(--q-font-ui-description-1);
+  color: var(--t1);
+}
+
+/* таблицы: первая колонка (заголовок и ячейки) — отступ слева 12px, чтобы подсветка строки при наведении не прилипала к тексту.
+   Сильнее правил страниц, где у первой колонки отступ 0 (.pg-… table.tbl :is(th, td):first-child). */
+:is(.pg, .mdl, .drw) table.tbl > :is(thead, tbody, tfoot) > tr > :is(th, td):first-child {
+  padding-left: 12px;
+}
+/* скрываемый блок (правило 17): <div class="c cfold" [class.cold]="…"> — клик по шапке сворачивает, шеврон .cfar слева от заголовка
+   (открыт — вниз, свернут — вправо); в свернутом виде .cb не выводится — заголовок посередине (.c > .ch:last-child). .cfsub — подзаголовок внутри */
+.c.cfold > .ch {
+  justify-content: flex-start;
+  cursor: pointer;
+  user-select: none;
+}
+.c.cfold > .ch h3 {
+  flex: 1 1 0%;
+}
+.c.cfold > .ch .cfar {
+  width: 24px;
+  height: 24px;
+  margin-left: -6px;
+  flex: none;
+}
+.c.cfold > .ch .cfar svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.15s;
+}
+.c.cfold.cold > .ch .cfar svg {
+  transform: rotate(-90deg);
+}
+.c.cfold .cfsub {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+  margin: 8px 0 0;
+}
+/* суммовые показатели (числа — с единицей измерения или без) — по правому краю: <th class="num">, <td class="num">; заголовок с сортировкой — тоже справа */
+table.tbl :is(th, td).num {
+  text-align: right;
+}
+table.tbl th.num .thh {
+  justify-content: flex-end;
+}
+/* последняя колонка — так же отступ справа 12px, чтобы плашки и текст не прилипали к краю таблицы */
+:is(.pg, .mdl, .drw) table.tbl > :is(thead, tbody, tfoot) > tr > :is(th, td):last-child {
+  padding-right: 12px;
+}
+
+/* ===== Графики (shared/ui/chart): цвета — категориальные .s1–.s5 (проверены на различимость), статусы .ok / .warn / .dg, серый .mute,
+   расходящаяся шкала .d1–.d5 (несогласие → нейтрально → согласие). Подписи — цветом текста, не цветом серии. ===== */
+:root {
+  --ch-1: var(--q-primary-500);
+  --ch-2: var(--q-warning-500);
+  --ch-3: var(--q-info-700);
+  --ch-4: var(--q-extra-300);
+  --ch-5: var(--q-success-700);
+  --ch-ok: var(--q-success-500);
+  --ch-warn: var(--q-warning-500);
+  --ch-dg: var(--q-error-500);
+  --ch-mute: var(--q-base-100);
+  --ch-d1: var(--q-warning-700);
+  --ch-d2: var(--q-warning-300);
+  --ch-d3: var(--q-base-100);
+  --ch-d4: var(--q-primary-300);
+  --ch-d5: var(--q-primary-500);
+}
+:is(.chart-donut, .chart-stack, .chart-cols, .chart-bars, .pgst) .s1 { --c: var(--ch-1); }
+:is(.chart-donut, .chart-stack, .chart-cols, .chart-bars, .pgst) .s2 { --c: var(--ch-2); }
+:is(.chart-donut, .chart-stack, .chart-cols, .chart-bars, .pgst) .s3 { --c: var(--ch-3); }
+:is(.chart-donut, .chart-stack, .chart-cols, .chart-bars, .pgst) .s4 { --c: var(--ch-4); }
+:is(.chart-donut, .chart-stack, .chart-cols, .chart-bars, .pgst) .s5 { --c: var(--ch-5); }
+.chart-stack .ok, .chart-donut .ok, .chart-cols .ok { --c: var(--ch-ok); }
+.chart-stack .warn, .chart-donut .warn, .chart-cols .warn { --c: var(--ch-warn); }
+.chart-stack .dg, .chart-donut .dg, .chart-cols .dg { --c: var(--ch-dg); }
+.chart-stack .mute, .chart-donut .mute, .chart-bars .mute, .chart-cols .mute { --c: var(--ch-mute); }
+:is(.chart-donut, .chart-stack, .chart-cols, .pgst) .d1 { --c: var(--ch-d1); }
+:is(.chart-donut, .chart-stack, .chart-cols, .pgst) .d2 { --c: var(--ch-d2); }
+:is(.chart-donut, .chart-stack, .chart-cols, .pgst) .d3 { --c: var(--ch-d3); }
+:is(.chart-donut, .chart-stack, .chart-cols, .pgst) .d4 { --c: var(--ch-d4); }
+:is(.chart-donut, .chart-stack, .chart-cols, .pgst) .d5 { --c: var(--ch-d5); }
+
+/* подсказка при наведении */
+.chtip {
+  font: var(--q-font-ui-description-1);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--q-content-background);
+  box-shadow: 0 4px 16px var(--q-base-transparent-300);
+  color: var(--t2);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 5;
+}
+.chtip b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.chtip small {
+  display: block;
+  color: var(--t3);
+}
+
+/* линия */
+.chart-line {
+  display: block;
+  padding-left: 32px;
+}
+.chl {
+  position: relative;
+  height: 200px;
+}
+.chls {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+.chgrid {
+  stroke: var(--stroke);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.charea {
+  fill: var(--q-primary-transparent-100);
+}
+.chline {
+  fill: none;
+  stroke: var(--ch-1);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+}
+.chcross {
+  stroke: var(--t4);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  vector-effect: non-scaling-stroke;
+}
+.chdot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--ch-1);
+  box-shadow: 0 0 0 2px var(--q-content-background);
+}
+.chl > .chtip {
+  bottom: auto;
+  top: -8px;
+  transform: translate(-50%, -100%);
+}
+.chhit {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+.chhit span {
+  flex: 1;
+}
+.chay span {
+  font: var(--q-font-ui-description-1);
+  position: absolute;
+  left: -32px;
+  width: 26px;
+  text-align: right;
+  transform: translateY(-50%);
+  color: var(--t3);
+}
+.chax {
+  position: relative;
+  height: 22px;
+  margin-top: 6px;
+}
+.chax span {
+  font: var(--q-font-ui-description-1);
+  position: absolute;
+  transform: translateX(-50%);
+  color: var(--t3);
+  white-space: nowrap;
+}
+.chax span.hide {
+  display: none;
+}
+
+/* горизонтальные полосы */
+.chart-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.chb {
+  display: grid;
+  grid-template-columns: minmax(120px, 38%) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+}
+.chbl {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chok {
+  font: var(--q-font-ui-description-1);
+  font-style: normal;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+.chbt {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--track);
+  overflow: hidden;
+}
+.chbt i {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--c, var(--ch-1));
+}
+/* без своего цвета верный вариант — зеленый; с цветом (рядом кольцо) — отметка «верный» у подписи */
+.chb.mark .chbt i:not([class*='s']) {
+  background: var(--ch-ok);
+}
+.chb:hover .chbl {
+  color: var(--blue);
+}
+.chbv {
+  font: var(--q-font-ui-body-2);
+  min-width: 56px;
+  text-align: right;
+  white-space: nowrap;
+}
+.chbv b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.chbv small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-left: 6px;
+}
+
+/* вертикальные столбцы */
+.chc {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  height: 180px;
+  padding-top: 18px;
+}
+.chcc {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  min-width: 0;
+}
+.chcc i {
+  display: block;
+  width: 100%;
+  max-width: 40px;
+  min-height: 2px;
+  border-radius: 4px 4px 0 0;
+  background: var(--c, var(--ch-1));
+}
+.chcc.on i {
+  filter: brightness(0.92);
+}
+.chcv {
+  font: var(--q-font-ui-description-1);
+  color: var(--t2);
+  margin-bottom: 4px;
+}
+.chcl {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 6px;
+  white-space: nowrap;
+}
+
+/* кольцо */
+.chart-donut {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.chd {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+}
+.chds {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.chdseg {
+  fill: none;
+  stroke: var(--c, var(--ch-1));
+  stroke-width: 18;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.chdseg.dim {
+  opacity: 0.35;
+}
+.chdc {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 28px;
+}
+.chdc b {
+  font: var(--q-font-ui-headline-2);
+  color: var(--t1);
+}
+.chdc small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.chdl {
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chdli {
+  font: var(--q-font-ui-body-2);
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto 44px;
+  align-items: center;
+  gap: 8px;
+  color: var(--t1);
+  cursor: default;
+}
+.chdli i {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: var(--c, var(--ch-1));
+}
+.chdli span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chdli b {
+  font: var(--q-font-ui-headline-4);
+}
+.chdli small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  text-align: right;
+}
+.chdli.on span {
+  color: var(--blue);
+}
+
+/* полоса из долей */
+.chs {
+  display: flex;
+  gap: 2px;
+  height: 28px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.chs i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 4px;
+  background: var(--c, var(--ch-1));
+}
+.chs i small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-content-background);
+}
+.chs i:is(.mute, .d3, .d2) small {
+  color: var(--t1);
+}
+.chsl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 12px;
+}
+.chsl span {
+  font: var(--q-font-ui-body-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--t2);
+}
+.chsl i {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: var(--c, var(--ch-1));
+}
+.chsl b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.chsl small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+
+/* ——— шапка объекта (shared/ui/object-head, DS «Object Header»): остров на всю ширину, поля 24, радиус 12 ——— */
+.q-ohead {
+  display: block;
+  background: var(--white);
+  border-radius: 12px;
+  padding: 24px;
+}
+.q-ohead .ohtt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.q-ohead .ohts {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+}
+.q-ohead .ohts h2 {
+  font: var(--q-font-ui-headline-2);
+  color: var(--t1);
+  margin: 0;
+  margin-right: 0;
+}
+.q-ohead .ohts .bdg + .bdg {
+  margin-left: -2px;
+}
+.q-ohead .ohbtns {
+  display: flex;
+  gap: 4px;
+  height: 26px;
+  align-items: center;
+}
+.q-ohead .ohbtns:empty,
+.q-ohead .ohsub:empty {
+  display: none;
+}
+.q-ohead .ohsub {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  margin-top: 4px;
+}
+.q-ohead .ohnote {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 8px;
+  background: var(--blue-bg);
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.q-ohead .ohnote b {
+  display: block;
+  font: var(--q-font-ui-headline-4);
+  color: var(--blue);
+  margin-bottom: 4px;
+}
+.q-ohead .ohdesc {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  max-width: 720px;
+  margin: 20px 0 0;
+}
+/* показатели (KPI Card): серые плитки в ряд, подпись 12 серым, значение 16 полужирным */
+.q-ohead .ohkpi {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+.q-ohead .ohk {
+  flex: 1 1 0;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--s1);
+}
+.q-ohead .ohk .l {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.q-ohead .ohk b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+.q-ohead .ohk b.warn {
+  color: var(--warn);
+}
+.q-ohead .ohk b.dg {
+  color: var(--dg);
+}
+.q-ohead .ohpr {
+  margin-top: 20px;
+}
+.q-ohead .ohpr .pr {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8px;
+  padding-bottom: 2px;
+}
+.q-ohead .ohpr .pr .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-page-text-secondary);
+}
+.q-ohead .ohpr .pr .v {
+  font: var(--q-font-ui-headline-2);
+  color: var(--t1);
+}
+.q-ohead .ohpr .bar {
+  margin-top: 6px;
+}
+.q-ohead .ohpr .prs {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-page-text-secondary);
+  margin-top: 6px;
+}
+
+/* ——— пагинация под таблицей (shared/ui/pager): «Показано 1–10 из 85» слева, страницы и «10 на странице» справа ——— */
+.pgr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+}
+.pgr .pgri {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+.pgr .pgrr,
+.pgr .pgrn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.pgr .pgrr {
+  gap: 12px;
+}
+.pgr .pgrb {
+  font: var(--q-font-ui-headline-4);
+  min-width: 32px;
+  height: 32px;
+  padding: 0 6px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+}
+.pgr .pgrb:hover {
+  background: var(--hv);
+  color: var(--blue);
+}
+.pgr .pgrb.on {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.pgr .pgrb:disabled {
+  opacity: 0.45;
+  cursor: default;
+  background: none;
+  color: var(--q-page-text-ui);
+}
+.pgr .pgrb svg {
+  width: 12px;
+  height: 12px;
+}
+.pgr .pgrd {
+  min-width: 24px;
+  text-align: center;
+  color: var(--t3);
+}
+.pgr .pgrsz {
+  width: auto;
+  min-width: 0;
 }

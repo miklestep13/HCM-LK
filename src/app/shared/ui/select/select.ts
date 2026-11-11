@@ -1,3 +1,4 @@
+import { Icon } from '../icon/icon';
 import { afterNextRender, ChangeDetectionStrategy, Component, computed, ElementRef, inject, Injector, input, model, signal } from '@angular/core';
 
 /**
@@ -6,15 +7,18 @@ import { afterNextRender, ChangeDetectionStrategy, Component, computed, ElementR
  *   <app-select label="Подразделение" [options]="units" [(value)]="unit" />   — вид шапки фильтров: подпись над значением
  * search — поле поиска в списке; placeholder — текст, когда ничего не выбрано.
  * allLabel — первый пункт «сбросить» (например «Все»): выбор дает пустое значение.
+ * icons — иконка перед вариантом и выбранным значением: { 'Рейтинг': 'qRating' }.
  * Стили — глобальные (src/styles/_controls.scss), разметка повторяет прототип.
  */
 @Component({
   selector: 'app-select',
+  imports: [Icon],
   template: `
     @if (label()) {
       <span class="ft2lab">{{ label() }}</span>
     }
     <!-- с подписью (фильтр в панели) — одной строкой «Подпись: значение», пустой — «Подпись: Все» -->
+    @if (icons()[value()]; as ic) {<app-icon class="fsic" [name]="ic" />}
     <span class="fsv" [class.ph]="!value() && !label()">{{ value() ? valuePrefix() + value() : label() ? 'Все' : placeholder() }}</span>
     <svg viewBox="0 0 16 16" fill="none">
       <path
@@ -48,7 +52,7 @@ import { afterNextRender, ChangeDetectionStrategy, Component, computed, ElementR
               [class.on]="o === value() || (o === allLabel() && !value())"
               (click)="pick(o)"
             >
-              {{ o }}
+              @if (icons()[o]; as ic) {<app-icon class="fsic" [name]="ic" />}{{ o }}
             </div>
           } @empty {
             <div class="foe">Ничего не найдено</div>
@@ -82,6 +86,8 @@ export class Select {
   readonly allLabel = input('');
   /** приставка к выбранному значению: «Тип: » → «Тип: МВО» */
   readonly valuePrefix = input('');
+  /** иконки вариантов: вариант → имя иконки */
+  readonly icons = input<Record<string, string>>({});
   /** заблокирован: значение видно, список не открывается */
   readonly disabled = input(false);
 

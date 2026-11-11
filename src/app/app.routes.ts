@@ -103,6 +103,46 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/mygoals/mygoals').then((m) => m.Mygoals),
   },
   {
+    path: 'req',
+    title: 'Заявки · Q.HCM',
+    loadComponent: () => import('./pages/req/req').then((m) => m.ReqPage),
+  },
+  {
+    path: 'reqnew',
+    title: 'Новая заявка · Q.HCM',
+    loadComponent: () => import('./pages/reqnew/reqnew').then((m) => m.Reqnew),
+  },
+  {
+    path: 'polls',
+    title: 'Опросы · Q.HCM',
+    loadComponent: () => import('./pages/polls/polls').then((m) => m.Polls),
+  },
+  {
+    path: 'pollstats',
+    title: 'Итоги опроса · Q.HCM',
+    loadComponent: () => import('./pages/pollstats/pollstats').then((m) => m.Pollstats),
+  },
+  {
+    path: 'pollnew',
+    title: 'Опрос · Q.HCM',
+    loadComponent: () => import('./pages/pollnew/pollnew').then((m) => m.Pollnew),
+  },
+  {
+    path: 'coursenew',
+    title: 'Добавление курса · Q.HCM',
+    loadComponent: () => import('./pages/coursenew/coursenew').then((m) => m.Coursenew),
+  },
+  {
+    path: 'survey',
+    title: 'Опрос · Q.HCM',
+    loadComponent: () => import('./pages/survey/survey').then((m) => m.Survey),
+  },
+  {
+    path: 'surveys',
+    title: 'Опросы · Q.HCM',
+    loadComponent: () => import('./pages/surveys/surveys').then((m) => m.Surveys),
+  },
+  {
     path: 'mytasks',
     title: 'Задания · Q.HCM',
     loadComponent: () => import('./pages/mytasks/mytasks').then((m) => m.Mytasks),

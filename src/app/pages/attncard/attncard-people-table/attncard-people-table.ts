@@ -1,128 +1,162 @@
-import { ChangeDetectionStrategy, Component, computed, inject, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  output,
+  signal,
+} from '@angular/core';
 import { AttestStore } from '../../../core/demo/attest-store.service';
 import { AttPerson } from '../../../interface/attest';
-import { Chips } from '../../../shared/ui/chips/chips';
 import { FilterBar } from '../../../shared/ui/filter-bar/filter-bar';
-import { Float } from '../../../shared/ui/float/float';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { Select } from '../../../shared/ui/select/select';
+import { AttncardPersonAdd } from '../attncard-person-add/attncard-person-add';
+import { AttncardCol } from '../attncard-col/attncard-col';
 import { avFor } from '../attncard.utils';
 
 const RESP = 'Ответственный за бланк';
 
-/** Участники таблицей (раскладка «Одна колонка»): участник, роль, дата с, дата по, статус; поиск, роль и статус */
+/** Участники таблицей (блок сворачивается стрелкой слева от заголовка): участник и роли (только действующие); поиск, фильтр по роли; «Добавить» — справа от фильтра */
 @Component({
   selector: '[attncard-people-table]',
-  imports: [FilterBar, Chips, Select, Icon, Float],
+  imports: [FilterBar, Select, Icon, AttncardPersonAdd, AttncardCol],
   template: `
     <div class="ch">
+      <button attncard-col="Участники"></button>
       <h3>Участники</h3>
       <span class="chip">{{ actN() }}</span>
-      @if (s.canEditPeople()) {
-        <button class="btn pri afpadd" (click)="edit.emit(null)">Добавить</button>
-      }
     </div>
     <app-filter-bar placeholder="Поиск по ФИО или должности" [(query)]="q">
-      @if (!emp()) {
-        <app-chips label="Статус" [options]="statuses" [(value)]="st" />
+      @if (s.canEditPeople()) {
+        <!-- «Добавить» — последней в строке поиска, справа от фильтра: новая строка наверху таблицы -->
+        <button ftAction class="btn pri" (click)="addRow()">Добавить</button>
       }
-      <app-select label="Роль" [options]="roleOpts()" allLabel="Все роли" placeholder="Все роли" [(value)]="r" />
+      <app-select
+        label="Роль"
+        [options]="roleOpts()"
+        allLabel="Все роли"
+        placeholder="Все роли"
+        [(value)]="r"
+      />
     </app-filter-bar>
     <div class="cb">
       <div class="tw">
         <table class="tbl asttbl afpt">
           <thead>
-            <tr><th>Участник</th><th>Роль</th><th>Дата с</th><th>Дата по</th><th>Статус</th><th class="tact"></th></tr>
+            <tr>
+              <th>Участник</th>
+              <th>Роль</th>
+              <th class="tact"></th>
+            </tr>
           </thead>
           <tbody>
+            @if (adding() && !editing()) {
+              <tr class="afedr">
+                <td colspan="3"><div attncard-person-add class="afedit" (done)="adding.set(false)"></div></td>
+              </tr>
+            }
             @for (x of rows(); track x.name + x.role) {
-              @let off = !!x.till;
-              <tr [class.afoff]="off">
-                <td>
-                  <span class="pcell2 clbper astper"
-                    ><span class="av astav" [class]="av(x.name, x.av)"></span><span class="cnm"><b>{{ x.name }}</b><small>{{ x.post }}</small></span></span
-                  >
-                </td>
-                <td>
-                  <span class="gltags">
-                    @for (z of roles(x); track z) {
-                      <span class="bdg">{{ z }}</span>
-                    }
-                  </span>
-                </td>
-                <td>{{ x.since || '01.09.2026' }}</td>
-                <td>
-                  @if (x.till) {
-                    {{ x.till }}
-                  } @else {
-                    <span class="gr">—</span>
-                  }
-                </td>
-                <td>
-                  @if (off) {
-                    <span class="bdg gry">Не действует</span>
-                  } @else {
-                    <span class="bdg ok">Действует</span>
-                  }
-                </td>
-                <td class="tact">
-                  <span class="acts">
-                    @if (s.canEditPeople() && !off && x.role !== 'Руководитель') {
-                      <button class="actb dots afpm" title="Действия" (click)="openMenu(x, $event)"><app-icon name="dots" /></button>
-                    }
-                  </span>
+              @if (editing() === x.name) {
+                <tr class="afedr">
+                  <td colspan="3">
+                    <div
+                      attncard-person-add
+                      class="afedit"
+                     
+                      [person]="x"
+                      (done)="editing.set(null)"
+                    ></div>
+                  </td>
+                </tr>
+              } @else {
+                <tr>
+                  <td>
+                    <span class="pcell2 clbper astper"
+                      ><span class="av astav" [class]="av(x.name, x.av)"></span
+                      ><span class="cnm"
+                        ><b>{{ x.name }}</b
+                        ><small>{{ x.post }}</small></span
+                      ></span
+                    >
+                  </td>
+                  <td>
+                    <span class="gltags">
+                      @for (z of roles(x); track z) {
+                        <span class="bdg">{{ z }}</span>
+                      }
+                    </span>
+                  </td>
+                  <td class="tact">
+                    <span class="acts">
+                      @if (s.canEditPeople() && x.role !== 'Руководитель') {
+                        <!-- действия строки иконками: «Редактировать» слева, «Удалить» справа -->
+                        <button class="actb" title="Редактировать" aria-label="Редактировать участника" (click)="editRow(x)">
+                          <app-icon name="edit" />
+                        </button>
+                        <button class="actb dg" title="Удалить" aria-label="Удалить участника" (click)="remove.emit(x)">
+                          <app-icon name="trashSm" />
+                        </button>
+                      }
+                    </span>
+                  </td>
+                </tr>
+              }
+            } @empty {
+              <tr>
+                <td colspan="3" class="gr curnone">
+                  Участники не найдены. Измените запрос или фильтры.
                 </td>
               </tr>
-            } @empty {
-              <tr><td colspan="6" class="gr curnone">Участники не найдены. Измените запрос или фильтры.</td></tr>
             }
           </tbody>
         </table>
       </div>
     </div>
-    @if (menu(); as m) {
-      <div class="fpop amenu" [appFloat]="m.a" (click)="$event.stopPropagation()">
-        <button class="ami" (click)="menu.set(null); edit.emit(m.x)"><app-icon name="edit" />Редактировать</button>
-        <button class="ami dg" (click)="menu.set(null); remove.emit(m.x)"><app-icon name="trashSm" />Исключить из аттестации</button>
-      </div>
-    }
   `,
-  host: { '(document:click)': 'menu.set(null)' },
+  host: { class: 'afsect', '[class.afcold]': 's.isCold("Участники")' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttncardPeopleTable {
   protected readonly s = inject(AttestStore);
-  readonly edit = output<AttPerson | null>();
   readonly remove = output<AttPerson>();
   protected readonly av = avFor;
-  protected readonly statuses = ['Действует', 'Не действует'];
   protected readonly q = signal('');
   protected readonly r = signal('');
-  protected readonly st = signal('');
-  protected readonly menu = signal<{ x: AttPerson; a: HTMLElement } | null>(null);
-  protected readonly emp = computed(() => this.s.role() === 'emp');
-  protected readonly actN = computed(() => this.s.people().filter((x) => !x.till).length);
-  protected readonly roleOpts = computed(() => [...new Set([...this.s.people().flatMap((x) => (x.role ? x.role.split(', ') : [])), RESP])]);
-  protected roles(x: AttPerson): string[] {
-    return [...(x.role ? x.role.split(', ') : []), ...(x.name === this.s.responsible() && !x.till ? [RESP] : [])];
+  /** открыта строка добавления (наверху таблицы) */
+  protected readonly adding = signal(false);
+  /** участник (ФИО), которого меняют строкой на его месте */
+  protected readonly editing = signal<string | null>(null);
+  /** «Добавить»: новая строка наверху таблицы */
+  protected addRow(): void {
+    this.editing.set(null);
+    this.adding.set(true);
   }
+  /** «Редактировать»: строка на месте участника */
+  protected editRow(x: AttPerson): void {
+    this.adding.set(false);
+    this.editing.set(x.name);
+  }
+  protected readonly actN = computed(() => this.s.people().filter((x) => !x.till).length);
+  protected readonly roleOpts = computed(() => [
+    ...new Set([...this.s.people().flatMap((x) => (x.role ? x.role.split(', ') : [])), RESP]),
+  ]);
+  protected roles(x: AttPerson): string[] {
+    return [
+      ...(x.role ? x.role.split(', ') : []),
+      ...(x.name === this.s.responsible() ? [RESP] : []),
+    ];
+  }
+  /** только действующие участники (исключенные из аттестации не показываются); поиск по ФИО и должности, фильтр по роли */
   protected readonly rows = computed(() => {
-    const q = this.q().trim().toLowerCase(),
-      emp = this.emp();
+    const q = this.q().trim().toLowerCase();
     return this.s
       .people()
       .filter(
         (x) =>
-          (!emp || !x.till) &&
+          !x.till &&
           (!q || (x.name + ' ' + x.post).toLowerCase().includes(q)) &&
-          (!this.r() || this.roles(x).includes(this.r())) &&
-          (!this.st() || (this.st() === 'Действует') === !x.till),
-      )
-      .sort((a, b) => (a.till ? 1 : 0) - (b.till ? 1 : 0));
+          (!this.r() || this.roles(x).includes(this.r())),
+      );
   });
-  protected openMenu(x: AttPerson, e: Event): void {
-    e.stopPropagation();
-    const a = e.currentTarget as HTMLElement;
-    this.menu.set(this.menu()?.a === a ? null : { x, a });
-  }
 }

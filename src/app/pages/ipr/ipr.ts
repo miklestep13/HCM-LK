@@ -1,3 +1,4 @@
+import { IPR_PERIOD_END } from '../../data/ipr.data';
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { IprDemoStatus, IprStore } from '../../core/demo/ipr-store.service';
 import { DevPanelService, devValue } from '../../core/layout/dev-panel/dev-panel.service';
@@ -16,7 +17,7 @@ import { IprHead } from './ipr-head/ipr-head';
 import { IprIsland, IprIslandAct } from './ipr-island/ipr-island';
 import { IprNew } from './ipr-new/ipr-new';
 import { IprParams } from './ipr-params/ipr-params';
-import { IprTaskForm } from './ipr-task-form/ipr-task-form';
+import { IprTaskForm } from '../../widgets/ipr-task-form/ipr-task-form';
 import { IprTaskRun } from './ipr-task-run/ipr-task-run';
 import { IprTasks } from './ipr-tasks/ipr-tasks';
 
@@ -59,14 +60,19 @@ const STATUSES: { value: IprDemoStatus; label: string }[] = [
     IprAgree,
   ],
   template: `
-    <app-page-head [title]="s.creating() ? 'Новый ИПР' : 'ИПР'" [noBack]="true" />
+    <app-page-head [title]="s.creating() ? 'Новый ИПР' : 'ИПР'" [noBack]="true">
+      <!-- кнопка объекта — справа от заголовка страницы (черновик) -->
+      @if (!s.none() && !s.creating() && s.editable()) {
+        <span class="objacts"><button class="btn raised" (click)="params.set(true)">Редактировать</button></span>
+      }
+    </app-page-head>
     @if (s.none()) {
       <app-ipr-empty (ask)="ask()" />
     } @else {
       @if (s.creating()) {
         <div ipr-new [expErr]="expErr()"></div>
       } @else {
-        <div ipr-head (edit)="params.set(true)"></div>
+        <div ipr-head></div>
       }
       <div ipr-tasks (add)="taskForm.set(-1)" (act)="onTask($event)"></div>
       <div ipr-comps [comps]="s.comps()" [tasks]="s.plan().tasks" [editable]="s.editable()" (tasksOf)="tasks()?.showComp($event)"></div>
@@ -75,7 +81,14 @@ const STATUSES: { value: IprDemoStatus; label: string }[] = [
       }
     }
     @if (taskForm() !== null) {
-      <app-ipr-task-form [index]="taskForm()!" (closed)="taskForm.set(null)" />
+      @let ti = taskForm()!;
+      <app-ipr-task-form
+        [task]="ti >= 0 ? s.plan().tasks[ti] : null"
+        [readonly]="s.st() === 'Утверждено'"
+        [due0]="due0()"
+        (saved)="s.saveTask(ti, $event)"
+        (closed)="taskForm.set(null)"
+      />
     }
     @if (run() !== null) {
       <app-ipr-task-run [index]="run()!" (closed)="run.set(null)" />
@@ -108,6 +121,8 @@ export class Ipr {
   private readonly compsW = viewChild(IprComps);
 
   protected readonly taskForm = signal<number | null>(null);
+  /** «Выполнить до» новой задачи — конец периода плана */
+  protected readonly due0 = computed(() => IPR_PERIOD_END[this.s.plan().per] || this.s.plan().due);
   protected readonly run = signal<number | null>(null);
   protected readonly params = signal(false);
   protected readonly chat = signal<{ i: number; why: boolean } | null>(null);
