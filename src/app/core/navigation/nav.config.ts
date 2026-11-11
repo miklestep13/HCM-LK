@@ -46,6 +46,23 @@ export const NAV_TABS: NavTab[] = [
         page: 'kb',
       },
       {
+        title: 'Справочники',
+        children: [
+          {
+            title: 'Роли и грейды',
+            page: 'ctrack',
+            attrs: { ct: 'roles' },
+          },
+          {
+            title: 'Компетенции',
+            page: 'ctrack',
+            attrs: { ct: 'comps' },
+          },
+        ],
+      },
+      { title: 'Роль', page: 'ctrole', hidden: true },
+      { title: 'Компетенция', page: 'ctcomp', hidden: true },
+      {
         title: 'Бронирование',
         page: 'map',
       },
@@ -129,6 +146,10 @@ export const NAV_TABS: NavTab[] = [
         page: 'a360',
       },
       {
+        title: 'Карьера',
+        page: 'career',
+      },
+      {
         title: 'Развитие',
         page: 'growth',
         hidden: true,
@@ -144,6 +165,10 @@ export const NAV_TABS: NavTab[] = [
             title: 'ИПР',
             page: 'ipr',
           },
+          {
+            title: 'Адаптация',
+            page: 'adaptation',
+          },
         ],
       },
       {
@@ -154,6 +179,7 @@ export const NAV_TABS: NavTab[] = [
       {
         title: 'Документы',
         page: 'docs',
+        hidden: true,
       },
       {
         title: 'Доходы и льготы',

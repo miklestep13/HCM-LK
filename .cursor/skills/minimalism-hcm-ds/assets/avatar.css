@@ -1,0 +1,40 @@
+/* ═══ Аватар .q-avatar · Minimalism_HCM ═══
+   Компонент Figma Avatar (Q.HCM-components, секция avatar, node 112:4458, key 51ea9c22536b7a9f91e82d13a82404426f234b35),
+   01.11.2026. Правила — references/avatar.md; Figma — references/avatar-spec.md. Только токены --q-*.
+
+   <img class="q-avatar" src="…" alt="Иванов Павел Сергеевич">                 32 — таблицы
+   <img class="q-avatar q-avatar--36" src="…" alt="">                          шапка приложения, строки людей в виджетах
+   <span class="q-avatar q-avatar--empty" role="img" aria-label="Ершов Никита Павлович"><i class="pi pi-user"></i></span>   фото нет
+   <span class="q-person"><img class="q-avatar q-avatar--36" src="…" alt=""><span><b>Федорова Ю. С.</b><small>Директор департамента</small></span></span>
+   <div class="q-avs"><span class="q-avs__list"><img class="q-avatar" …><img class="q-avatar" …><img class="q-avatar" …></span><a class="q-avs__more" href="…">+4</a></div> */
+
+/* Скругленный квадрат, кругов нет: 24 · 6, 32 · 8, 36 · 10, 40 · 10, 48 · 12, 64 · 12, 112 · 12 */
+.q-avatar{width:32px;height:32px;border-radius:8px;object-fit:cover;flex:none;display:block;background:var(--q-base-50)}
+.q-avatar--24{width:24px;height:24px;border-radius:6px}
+.q-avatar--36{width:36px;height:36px;border-radius:10px}
+.q-avatar--40{width:40px;height:40px;border-radius:10px}
+.q-avatar--48{width:48px;height:48px;border-radius:12px}
+.q-avatar--64{width:64px;height:64px;border-radius:12px}
+.q-avatar--112{width:112px;height:112px;border-radius:12px}
+
+/* Фото нет — Type=No photo: pi-user на сером фоне, тот же размер */
+.q-avatar--empty{display:inline-grid;place-items:center;background:var(--q-badge-grey-bg);color:var(--q-badge-grey-color)}
+.q-avatar--empty .pi{font-size:18px}
+.q-avatar--24.q-avatar--empty .pi{font-size:14px}
+.q-avatar--40.q-avatar--empty .pi,.q-avatar--48.q-avatar--empty .pi{font-size:24px}
+.q-avatar--64.q-avatar--empty .pi{font-size:32px}
+.q-avatar--112.q-avatar--empty .pi{font-size:48px}
+
+/* Человек: аватар + имя 14/20 SemiBold + должность 12/16 base-500 вплотную, gap 8 */
+.q-person{display:flex;align-items:center;gap:8px;min-width:0}
+.q-person b{display:block;font:var(--q-font-ui-headline-4);color:var(--q-content-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q-person small{display:block;font:var(--q-font-ui-description-1);color:var(--q-base-500)}
+
+/* Группа: до 3 фото, обводка 2 цвета фона, наложение 8, первый сверху; «+N» ссылкой через 8 */
+.q-avs{display:flex;align-items:center;gap:8px}
+.q-avs__list{display:flex}
+.q-avs__list .q-avatar{position:relative;box-shadow:0 0 0 2px var(--q-content-background)}
+.q-avs__list .q-avatar+.q-avatar{margin-left:-8px}
+.q-avs__list .q-avatar:nth-child(1){z-index:3}.q-avs__list .q-avatar:nth-child(2){z-index:2}.q-avs__list .q-avatar:nth-child(3){z-index:1}
+.q-avs__more{font:var(--q-font-ui-button-s-xs);color:var(--q-primary-500);text-decoration:none}
+.q-avs__more:hover{color:var(--q-primary-700);text-decoration:underline}

@@ -1,0 +1,65 @@
+/* ═══ Навигация .q-appbar--hcm · Minimalism_HCM ═══
+   Компоненты Figma Navigation (157:3457) и Nav / Menu item (156:3227), Q.HCM-components, 01.11.2026.
+   Правила — references/navigation.md; Figma — references/navigation-spec.md. Только токены --q-*.
+   Область пользователя — assets/user.css и assets/avatar.css; иконочные кнопки — assets/button.css (.q-ib / ghost 36).
+
+   <header class="q-appbar--hcm"><div class="q-appbar__in">
+     <a class="q-logo" href="…"><span class="q-logo__mark">Q</span>Q.HCM</a>
+     <nav class="q-appbar__menu">
+       <div class="q-nav"><button class="q-menu-item is-active" aria-expanded="false">Мой кабинет<i class="pi pi-chevron-down"></i></button>
+         <div class="q-dropdown" role="menu">
+           <a class="q-dropdown__item" href="…">Обзор</a>
+           <a class="q-dropdown__item is-selected" aria-current="page" href="…">ИПР</a>
+           <div class="q-dropdown__item q-dropdown__item--sub">Обучение<i class="pi pi-chevron-right"></i>
+             <div class="q-dropdown q-dropdown--sub"><a class="q-dropdown__item" href="…">Мое обучение</a>…</div></div>
+         </div></div>
+     </nav>
+     <div class="q-appbar__right">
+       <button class="q-appbar__ib" aria-label="Поиск"><i class="pi pi-search"></i></button>
+       <button class="q-appbar__ib" aria-label="Уведомления"><i class="pi pi-bell"></i></button>
+       <div class="q-nav"><button class="q-appbar__profile" aria-expanded="false"><span class="q-user q-user--m">…</span><i class="pi pi-chevron-down"></i></button>
+         <div class="q-dropdown q-dropdown--right">…<div class="q-dropdown__sep"></div><button class="q-dropdown__item q-dropdown__item--danger">Выйти из аккаунта</button></div></div>
+     </div>
+   </div></header> */
+
+.q-appbar--hcm{position:sticky;top:0;z-index:50;height:48px;background:var(--q-content-background);border-bottom:1px solid color-mix(in srgb,var(--q-base-transparent-300) 30%,transparent)}
+.q-appbar__in{display:flex;align-items:center;height:100%;max-width:1200px;margin:0 auto;padding:0 20px}
+@media (min-width:1280px){.q-appbar__in{max-width:1240px}}
+@media (min-width:1536px){.q-appbar__in{max-width:1360px}}
+@media (min-width:1800px){.q-appbar__in{max-width:1480px}}
+
+.q-logo{display:flex;align-items:center;gap:8px;font:var(--q-font-ui-headline-4);color:var(--q-content-text);text-decoration:none;flex:none}
+.q-logo__mark{display:grid;place-items:center;width:24px;height:24px;border-radius:6px;background:var(--q-primary-500);color:var(--q-base-0)}
+
+.q-appbar__menu{display:flex;align-items:center;gap:8px;margin-left:16px}
+.q-nav{position:relative}
+.q-menu-item{display:flex;align-items:center;gap:8px;height:32px;padding:6px 8px;border:0;border-radius:8px;background:none;font:var(--q-font-ui-headline-4);color:var(--q-menu-text);cursor:pointer;white-space:nowrap}
+.q-menu-item .pi{font-size:12px;color:var(--q-page-text-ui)}
+.q-menu-item:hover,.q-menu-item[aria-expanded="true"]{background:var(--q-primary-50);color:var(--q-primary-500)}
+.q-menu-item.is-active{background:var(--q-primary-50);color:var(--q-menu-text-active)}
+.q-menu-item.is-active .pi{color:var(--q-menu-text-active)}
+
+.q-dropdown{position:absolute;top:calc(100% + 4px);left:0;z-index:60;display:none;flex-direction:column;width:240px;padding:4px;border-radius:8px;background:var(--q-menu-bg);box-shadow:var(--q-shadow-dropdown)}
+.q-nav.is-open>.q-dropdown{display:flex}
+.q-dropdown--right{left:auto;right:0}
+.q-dropdown__item{position:relative;display:flex;align-items:center;gap:8px;height:36px;padding:0 12px;border:0;border-radius:8px;background:none;font:var(--q-font-ui-headline-4);color:var(--q-menu-text);text-align:left;text-decoration:none;cursor:pointer;white-space:nowrap}
+.q-dropdown__item:hover{background:var(--q-primary-50);color:var(--q-menu-text-active)}
+.q-dropdown__item.is-selected{background:var(--q-primary-50);color:var(--q-primary-500)}
+.q-dropdown__item:hover>.pi,.q-dropdown__item.is-selected>.pi{color:var(--q-menu-text-active)}
+.q-dropdown__item--danger{color:var(--q-error-500)}
+.q-dropdown__item--danger:hover{background:var(--q-badge-danger-bg);color:var(--q-error-500)}
+.q-dropdown__value{margin-left:auto;color:var(--q-base-500)}
+.q-dropdown__item--sub>.pi{margin-left:auto;font-size:12px;color:var(--q-page-text-ui)}
+.q-dropdown--sub{top:-4px;left:100%}
+.q-dropdown__item--sub:hover>.q-dropdown--sub{display:flex}
+.q-dropdown__sep{height:1px;margin:4px 8px;background:var(--q-content-border-secondary)}
+
+.q-appbar__right{display:flex;align-items:center;gap:8px;margin-left:auto}
+.q-appbar__ib{display:grid;place-items:center;width:36px;height:36px;border:0;border-radius:10px;background:none;color:var(--q-page-text-ui);cursor:pointer}
+.q-appbar__ib .pi{font-size:18px}
+.q-appbar__ib:hover{background:var(--q-primary-50);color:var(--q-primary-500)}
+.q-appbar__ib+.q-appbar__ib{margin-left:-8px}
+.q-appbar__profile{display:flex;align-items:center;gap:8px;padding:4px 8px 4px 4px;border:0;border-radius:10px;background:none;cursor:pointer;text-align:left}
+.q-appbar__profile>.pi{font-size:12px;color:var(--q-page-text-ui)}
+.q-appbar__profile:hover,.q-appbar__profile[aria-expanded="true"]{background:var(--q-primary-50)}
+.q-menu-item:focus-visible,.q-dropdown__item:focus-visible,.q-appbar__ib:focus-visible,.q-appbar__profile:focus-visible{outline:2px solid var(--q-primary-500);outline-offset:2px}

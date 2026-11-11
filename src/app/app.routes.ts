@@ -168,6 +168,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/ipr/ipr').then((m) => m.Ipr),
   },
   {
+    path: 'adaptation',
+    title: 'Адаптация · Q.HCM',
+    loadComponent: () => import('./pages/adapt/adapt').then((m) => m.Adapt),
+  },
+  {
     path: 'mygoalview',
     title: 'Просмотр цели · Q.HCM',
     loadComponent: () => import('./pages/mygoalview/mygoalview').then((m) => m.Mygoalview),
@@ -191,6 +196,26 @@ export const routes: Routes = [
     path: 'player',
     title: 'Курс · Q.HCM',
     loadComponent: () => import('./pages/player/player').then((m) => m.Player),
+  },
+  {
+    path: 'ctrack',
+    title: 'Роли и грейды · Q.HCM',
+    loadComponent: () => import('./pages/ctrack/ctrack').then((m) => m.Ctrack),
+  },
+  {
+    path: 'ctrole',
+    title: 'Роль · Q.HCM',
+    loadComponent: () => import('./pages/ctrole/ctrole').then((m) => m.Ctrole),
+  },
+  {
+    path: 'ctcomp',
+    title: 'Компетенция · Q.HCM',
+    loadComponent: () => import('./pages/ctcomp/ctcomp').then((m) => m.Ctcomp),
+  },
+  {
+    path: 'career',
+    title: 'Карьерный трек · Q.HCM',
+    loadComponent: () => import('./pages/career/career').then((m) => m.Career),
   },
   {
     path: 'legacy/:page',

@@ -1,0 +1,462 @@
+/* Требования грейда: описание, таблицы компетенций и условий перехода.
+   Таблица и полосы уровней — как в справочнике карьерного трека (career.scss), но в области страницы .pg-career */
+.career-req .cpbnr {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 16px 40px 16px 16px;
+  border-radius: 8px;
+  background: var(--blue-bg);
+}
+.career-req .cpbnr > .app-icon {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  margin-top: 1px;
+  color: var(--q-primary-700);
+}
+.career-req .cpbnr b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-primary-700);
+  display: block;
+}
+.career-req .cpbnr p {
+  margin: 4px 0 0;
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+}
+.career-req .cpbnr-x {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--q-base-500);
+  cursor: pointer;
+}
+.career-req .cpbnr-x:hover {
+  background: var(--q-base-transparent-100);
+  color: var(--q-content-text);
+}
+.career-req .cpbnr-x .app-icon {
+  width: 16px;
+  height: 16px;
+}
+.career-req .cpdesc {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+  margin: 0;
+  max-width: 820px;
+}
+.career-req .cpkpi {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.career-req .cpkpi .rst {
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--q-content-background-disabled);
+}
+.career-req .cpkpi .l {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.career-req .cpkpi .v {
+  font: var(--q-font-ui-headline-3);
+  color: var(--q-content-text);
+  margin-top: 4px;
+}
+.career-req .cpsect h4 {
+  font: var(--q-font-ui-headline-3);
+  color: var(--q-content-text);
+  margin: 0 0 8px;
+}
+.career-req .cpcomp {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+.career-req .cpcomp .app-icon {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  margin-top: 2px;
+  color: var(--q-base-500);
+  transform: rotate(-90deg);
+  transition: transform 0.15s;
+}
+.career-req .cpcomp.open .app-icon {
+  transform: none;
+}
+.career-req .cpcomp b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  display: block;
+}
+.career-req .cpcomp:hover b {
+  color: var(--blue);
+}
+.career-req .cpcomp small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  display: block;
+  margin-top: 2px;
+}
+.career-req tr:has(+ .cpxrow) > td {
+  border-bottom-color: transparent;
+}
+.career-req .cpxrow > td {
+  white-space: normal;
+  padding-top: 0;
+  background: none;
+}
+.career-req .cpx {
+  background: var(--s1);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 0 12px 12px;
+}
+.career-req .cpxk b,
+.career-req .cpxw > b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  display: block;
+}
+.career-req .cpxk ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+.career-req .cpxk li {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+  margin-top: 4px;
+}
+.career-req .cpxw {
+  margin-top: 16px;
+}
+.career-req .cpxcard {
+  margin-top: 8px;
+  background: var(--q-content-background);
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.career-req .cpxcard .prow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--stroke);
+}
+.career-req .cpxcard .prow:first-child {
+  border-top: 0;
+}
+.career-req .cpxcard .cico {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  color: var(--blue);
+  flex: none;
+}
+.career-req .cpxcard .cico .app-icon,
+.career-req .cpxcard .cico svg {
+  width: 16px;
+  height: 16px;
+}
+.career-req .cpxcard .prow > div {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.career-req .cpxcard .prow b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  display: block;
+}
+.career-req .cpxcard .prm {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 4px;
+  color: var(--t3);
+}
+.career-req .cpxcard .prm span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.career-req .cpxcard .prm .app-icon,
+.career-req .cpxcard .prm svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+.career-req .cpxcard .prm .od {
+  color: var(--dg);
+}
+.career-req .cpxcard .bdg {
+  flex: none;
+}
+.career-req .cpprof {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.career-req .cpprof .kv {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--q-content-background-disabled);
+  border: 0;
+}
+.career-req .cpprof .kv .k {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.career-req .cpprof .kv .v {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+  text-align: left;
+  flex: none;
+}
+.career-req .cpok {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--q-success-50);
+  color: var(--q-success-500);
+}
+.career-req .cpok .app-icon,
+.career-req .cpok svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+.career-req .cpok b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  display: block;
+}
+.career-req .cpok small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  display: block;
+  margin-top: 4px;
+}
+
+.career-req .cpsect {
+  margin-top: 24px;
+}
+.career-req .cpsh {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.career-req .cpsh h4 {
+  font: var(--q-font-ui-headline-3);
+  color: var(--q-content-text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.career-req .cphint {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  margin: 4px 0 8px;
+}
+.career-req .cphint .app-icon,
+.career-req .cphint svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  margin-top: 1px;
+}
+
+/* таблица на всю карточку: отступы 24px добираем отрицательным полем секции */
+.career-req .tw {
+  overflow-x: auto;
+  margin: 0 -24px;
+}
+.career-req .tbl {
+  width: 100%;
+  border-collapse: collapse;
+}
+.career-req .ctt th,
+.career-req .ctt td {
+  text-align: left;
+  vertical-align: middle;
+}
+.career-req .ctt th {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+  white-space: nowrap;
+}
+.career-req .ctt td {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+.career-req .ctt th:first-child,
+.career-req .ctt td:first-child {
+  padding-left: 24px;
+}
+.career-req .ctt th:last-child,
+.career-req .ctt td:last-child {
+  padding-right: 24px;
+}
+.career-req .ctt tbody tr:last-child td {
+  border-bottom: 0;
+}
+.career-req .ctt td b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+}
+.career-req .ctt th:not(:first-child) {
+  width: 1%;
+}
+.career-req .ctt td:not(:first-child) {
+  white-space: nowrap;
+}
+.career-req .ctt td:first-child {
+  min-width: 200px;
+}
+/* условия перехода: порог и факт переносятся, занимают по четверти таблицы */
+.career-req .cpcond th:nth-child(2),
+.career-req .cpcond th:nth-child(3) {
+  width: 24%;
+}
+.career-req .ctt td.cpwrap {
+  white-space: normal;
+}
+.career-req .ctt .ctsm {
+  display: block;
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  margin-top: 4px;
+}
+.career-req .ctt .cpsrc {
+  margin-top: 6px;
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+}
+.career-req .ctnone td {
+  color: var(--q-base-500);
+}
+.career-req .ctna {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-300);
+}
+.career-req .cpnodata {
+  cursor: help;
+  border-bottom: 1px dashed var(--q-base-300);
+}
+.career-req .cplv {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.career-req .cplv small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+
+/* полосы уровня (ct-level) */
+.career-req .lvw {
+  display: inline-flex;
+  align-items: center;
+}
+.career-req .lvd {
+  display: inline-flex;
+  gap: 5px;
+}
+.career-req .lvd i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--track);
+  display: block;
+}
+.career-req .lvw.l1 .lvd i.l1 {
+  background: var(--q-error-500);
+}
+.career-req .lvw.l2 .lvd i.l2 {
+  background: var(--q-warning-500);
+}
+.career-req .lvw.l3 .lvd i.l3 {
+  background: var(--q-success-500);
+}
+.career-req .lvw.l4 .lvd i.l4 {
+  background: var(--q-primary-500);
+}
+.career-req .lvw.cttip {
+  cursor: help;
+  border-radius: 6px;
+  padding: 4px;
+  margin: -4px;
+}
+.career-req .lvw.cttip:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--q-content-focus-color);
+}
+
+/* действия строки: две компактные кнопки в закрепленной колонке */
+.career-req .ctt .tact {
+  width: auto;
+}
+.career-req .cpacts {
+  display: inline-flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.career-req .cpacts .btn {
+  height: 32px;
+  padding: 0 12px;
+  font: var(--q-font-ui-button-s-xs);
+}
+.career-req .cpacts:empty {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .career-req .cpprof {
+    grid-template-columns: 1fr;
+  }
+}

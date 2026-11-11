@@ -1,0 +1,32 @@
+/* ═══ Ячейка пользователя .q-user · Minimalism_HCM ═══
+   Компонент Figma User (Q.HCM-components, секция user, node 149:2900, key adcde255dc25914b9176728383b78b5cd7a5126a),
+   01.11.2026. Правила — references/user.md; Figma — references/user-spec.md. Только токены --q-*.
+   Аватар — assets/avatar.css, теги — assets/badge.css (.q-badge, по содержимому).
+
+   <div class="q-user q-user--m">
+     <img class="q-avatar q-avatar--36" src="…" alt="">
+     <div class="q-user__text">
+       <div class="q-user__name-row"><b class="q-user__name">Федорова Ю. С.</b></div>
+       <span class="q-user__sub">Директор департамента розничного бизнеса</span>
+       <div class="q-user__tags"><span class="q-badge q-badge--info">Руководитель</span></div>
+     </div>
+   </div>
+   Варианты: --s (32 · 8) · --m (36 · 12) · --l (64 · 12) · --xl (112 · 12) · --stack (64, текст под аватаром). */
+
+.q-user{display:flex;align-items:center;gap:12px;min-width:0}
+.q-user--s{gap:8px}
+.q-user__text{display:flex;flex-direction:column;min-width:0;flex:1 1 auto}
+.q-user__name-row{display:flex;align-items:center;gap:8px;min-width:0}
+.q-user__name{flex:1 1 auto;min-width:0;font:var(--q-font-ui-headline-4);color:var(--q-content-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q-user__sub{font:var(--q-font-ui-description-1);color:var(--q-base-500);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q-user__tags{display:flex;flex-wrap:wrap;gap:6px;padding-top:8px}
+/* ховер — только имя, если ячейка внутри кликабельной строки или карточки */
+a.q-user:hover .q-user__name,[data-href]:hover .q-user__name,.q-user[href]:hover .q-user__name{color:var(--q-primary-500)}
+
+/* Stack: аватар сверху, текст по центру, подпись до двух строк */
+.q-user--stack{flex-direction:column;text-align:center}
+.q-user--stack .q-user__text{align-items:center;width:100%}
+.q-user--stack .q-user__name-row{justify-content:center}
+.q-user--stack .q-user__name{flex:0 1 auto}
+.q-user--stack .q-user__sub{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.q-user--stack .q-user__tags{justify-content:center}

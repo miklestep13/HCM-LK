@@ -1,0 +1,185 @@
+<app-page-head title="Роль" />
+<div class="c ctohead">
+  <div class="cb ct-ohead">
+    <div class="ct-oht">
+      <h2>{{ role.name }}</h2>
+      <span class="bdg">{{ role.kind }} роль</span>
+    </div>
+    <div class="ipsub ctsub"><span>{{ updated }}</span></div>
+    <div class="ctdsc" #dsc [class.clamp]="more()" [class.open]="opened()">
+      @for (p of desc; track p) {
+        <p>{{ p }}</p>
+      }
+    </div>
+    @if (more()) {
+      <button type="button" class="lnk ctmore" [attr.aria-expanded]="opened()" (click)="toggle()">{{ opened() ? 'Свернуть' : 'Читать все' }}</button>
+    }
+    <div class="q-kpis" style="--n: 5">
+      <div class="q-kpi">
+        <span class="q-kpi__title">Лидер роли</span>
+        <span class="q-kpi__value">{{ leaderName }}</span>
+      </div>
+      @for (k of kpis; track k.g) {
+        <div class="q-kpi">
+          <span class="q-kpi__title">{{ k.g }}</span>
+          <span class="q-kpi__value">{{ k.n }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+<div class="c mt">
+  <div class="ch"><h3>Требования к грейдам<span class="chip">{{ detail.grades.length }}</span></h3></div>
+  <div class="cb ctgrades">
+    @for (g of detail.grades; track g.grade) {
+      <div class="ctgr">
+        <div class="ctgrh"><b>{{ g.grade }}</b></div>
+        <div class="iprd"><span class="l">Описание</span>{{ g.desc }}</div>
+        <div class="iprd"><span class="l">Опыт работы</span>{{ g.exp }}</div>
+        <div class="iprd"><span class="l">Образование</span>{{ g.edu }}</div>
+      </div>
+    }
+  </div>
+</div>
+
+<div class="c mt">
+  <div class="ch"><h3>Требуемые уровни компетенций<span class="chip">{{ comps().length }}</span></h3></div>
+  <app-filter-bar placeholder="Поиск по компетенциям" [(query)]="kq" [(opened)]="kOpen">
+    <app-select ftName="Группа" label="Группа" allLabel="Все" [options]="compGroups" [(value)]="kg" />
+  </app-filter-bar>
+  <div class="tw">
+    <table class="tbl ctt">
+      <thead>
+        <tr>
+          @for (h of compHeads; track h; let i = $index) {
+            <th [attr.aria-sort]="ks().k === i ? (ks().d > 0 ? 'ascending' : 'descending') : 'none'">
+              <span class="thh">{{ h }}<button ct-sort [on]="ks().k === i" [desc]="ks().k === i && ks().d < 0" [label]="'Сортировать по столбцу «' + h + '»'" (pressed)="sort('k', i, $event)"></button></span>
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (c of comps(); track c.name) {
+          <tr class="clk" (click)="openComp(c.name)">
+            <td><b class="q-rowname" [title]="c.name">{{ c.name }}</b></td>
+            <td>{{ c.group }}</td>
+            @for (l of c.levels; track $index; let i = $index) {
+              <td><ct-level [level]="l" [comp]="c.name" [grade]="grades[i]" /></td>
+            }
+          </tr>
+        } @empty {
+          <tr class="ctnone"><td [attr.colspan]="2 + grades.length">Ничего не найдено</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="c mt">
+  <div class="ch"><h3>Лидер роли и эксперты<span class="chip">{{ leaders().length }}</span></h3></div>
+  <div class="tbar">
+    <input class="tsearch" placeholder="Поиск по ФИО" [value]="lq()" (input)="lq.set($any($event.target).value)" />
+    <app-select placeholder="Грейд: все" valuePrefix="Грейд: " allLabel="все" [options]="leadGrades" [(value)]="lg" />
+    <app-select placeholder="Подразделение: все" valuePrefix="Подразделение: " allLabel="все" [options]="units" [(value)]="lu" />
+  </div>
+  <div class="tw">
+    <table class="tbl ctt">
+      <thead>
+        <tr>
+          @for (h of ['ФИО', 'Грейд', 'Подразделение', 'Статус в роли']; track h; let i = $index) {
+            <th [attr.aria-sort]="ls().k === i ? (ls().d > 0 ? 'ascending' : 'descending') : 'none'">
+              <span class="thh">{{ h }}<button ct-sort [on]="ls().k === i" [desc]="ls().k === i && ls().d < 0" [label]="'Сортировать по столбцу «' + h + '»'" (pressed)="sort('l', i, $event)"></button></span>
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of leaderRows(); track p.id) {
+          <tr class="clk" (click)="openPerson(p.name)">
+            <td>
+              <span class="pcell2 ctp">
+                @if (av(p.name).photo; as photo) { <img [src]="photo" alt="" /> } @else { <span [class]="'av ' + av(p.name).cls"></span> }
+                <b>{{ p.name }}</b>
+              </span>
+            </td>
+            <td>{{ p.grade }}</td>
+            <td>{{ p.unit }}</td>
+            <td><span class="bdg" [class.info]="p.tag === 'Лидер роли'">{{ p.tag }}</span></td>
+          </tr>
+        } @empty {
+          <tr class="ctnone"><td colspan="4">Ничего не найдено</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="ctfoot">
+    <span>Итого записей: {{ leaders().length }}</span>
+    <span class="ctps"><span>Показывать по</span><app-select [options]="sizes" [value]="'' + lSize()" (valueChange)="lSize.set(+$event || 10)" /></span>
+    @if (leaderPages().length > 1) {
+      <div class="cppn">
+        <button type="button" class="cppb" title="Предыдущая страница" [disabled]="!leaderCur()" (click)="lPage.set(leaderCur() - 1)"><app-icon name="pgPrev" /></button>
+        @for (p of leaderPages(); track p) {
+          <button type="button" class="cppb" [class.on]="p === leaderCur()" (click)="lPage.set(p)">{{ p + 1 }}</button>
+        }
+        <button type="button" class="cppb" title="Следующая страница" [disabled]="leaderCur() >= leaderPages().length - 1" (click)="lPage.set(leaderCur() + 1)"><app-icon name="pgNext" /></button>
+      </div>
+    }
+  </div>
+</div>
+
+<div class="c mt">
+  <div class="ch"><h3>Сотрудники с ролью<span class="chip">{{ staff().length }}</span></h3></div>
+  <div class="tbar">
+    <input class="tsearch" placeholder="Поиск по ФИО" [value]="pq()" (input)="pq.set($any($event.target).value)" />
+    <app-select placeholder="Грейд: все" valuePrefix="Грейд: " allLabel="все" [options]="pplGrades" [(value)]="pg" />
+    <app-select placeholder="Подразделение: все" valuePrefix="Подразделение: " allLabel="все" [options]="units" [(value)]="pu" />
+  </div>
+  <div class="tw">
+    <table class="tbl ctt">
+      <thead>
+        <tr>
+          @for (h of ['ФИО', 'Грейд', 'Подразделение']; track h; let i = $index) {
+            <th [attr.aria-sort]="ps().k === i ? (ps().d > 0 ? 'ascending' : 'descending') : 'none'">
+              <span class="thh">{{ h }}<button ct-sort [on]="ps().k === i" [desc]="ps().k === i && ps().d < 0" [label]="'Сортировать по столбцу «' + h + '»'" (pressed)="sort('p', i, $event)"></button></span>
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of staffRows(); track p.id) {
+          <tr class="clk" (click)="openPerson(p.name)">
+            <td>
+              <span class="pcell2 ctp">
+                @if (av(p.name).photo; as photo) { <img [src]="photo" alt="" /> } @else { <span [class]="'av ' + av(p.name).cls"></span> }
+                <b>{{ p.name }}</b>
+                @if (p.tag) {
+                  <span class="bdg" [class.info]="p.tag === 'Лидер роли'">{{ p.tag }}</span>
+                }
+              </span>
+            </td>
+            <td>{{ p.grade }}</td>
+            <td>{{ p.unit }}</td>
+          </tr>
+        } @empty {
+          <tr class="ctnone"><td colspan="3">Ничего не найдено</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="ctfoot">
+    <span>Итого записей: {{ staff().length }}</span>
+    <span class="ctps"><span>Показывать по</span><app-select [options]="sizes" [value]="'' + pSize()" (valueChange)="pSize.set(+$event || 10)" /></span>
+    @if (staffPages().length > 1) {
+      <div class="cppn">
+        <button type="button" class="cppb" title="Предыдущая страница" [disabled]="!staffCur()" (click)="pPage.set(staffCur() - 1)"><app-icon name="pgPrev" /></button>
+        @for (n of staffPages(); track n) {
+          <button type="button" class="cppb" [class.on]="n === staffCur()" (click)="pPage.set(n)">{{ n + 1 }}</button>
+        }
+        <button type="button" class="cppb" title="Следующая страница" [disabled]="staffCur() >= staffPages().length - 1" (click)="pPage.set(staffCur() + 1)"><app-icon name="pgNext" /></button>
+      </div>
+    }
+  </div>
+</div>
+
+<ct-learn scope="role" />

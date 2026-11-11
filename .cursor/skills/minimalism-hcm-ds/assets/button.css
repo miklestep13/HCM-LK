@@ -1,0 +1,76 @@
+/* ═══ Кнопки .q-btn · Minimalism_HCM ═══
+   Компонент Figma Button (node 15:2505, key 27a1c19e655f548e69bb7bdf261923d70760db87), исправлен 31.10.2026 —
+   соответствие в references/button-spec.md. Правила — references/button.md. Только токены --q-*.
+
+   <button class="q-btn q-btn--primary">Сохранить</button>
+   <button class="q-btn q-btn--secondary">Отменить</button>          мягкая (раньше .q-btn--raised)
+   <button class="q-btn q-btn--white">Пройти опрос</button>          только на голубом фоне
+   <button class="q-btn q-btn--primary"><i class="pi pi-plus"></i>Добавить</button>
+   <button class="q-btn q-btn--secondary q-btn--s">Выполнить</button>
+   <button class="q-btn q-btn--danger">Удалить</button>            только подтверждение в диалоге
+   <button class="q-btn q-btn--danger-soft">Удалить</button>       вне диалога
+   <button class="q-btn q-btn--primary" aria-busy="true"><span class="q-btn__spin"></span><span class="q-btn__label">Сохранить</span></button>
+   <button class="q-ib" aria-label="Фильтры"><i class="pi pi-filter"></i></button>
+   <button class="q-actb" aria-label="Еще"><i class="pi pi-ellipsis-h"></i></button>
+   <a class="q-link--strong">Все</a>
+   Группа: <div class="q-btn-row">…</div> — справа, Primary последней. */
+
+.q-btn{
+  --b-bg:var(--q-primary-50);--b-bg-h:var(--q-primary-100);--b-bg-a:var(--q-primary-100);
+  --b-fg:var(--q-primary-500);--b-fg-a:var(--q-primary-700);
+  position:relative;display:inline-flex;align-items:center;justify-content:center;gap:var(--q-spacing-2);box-sizing:border-box;
+  height:36px;padding:0 var(--q-spacing-4);border:0;border-radius:var(--q-radius-md);
+  background:var(--b-bg);color:var(--b-fg);font:var(--q-font-ui-button-m);white-space:nowrap;cursor:pointer;
+  transition:background var(--q-transition),color var(--q-transition);
+}
+.q-btn .pi{font-size:16px}
+.q-btn:hover{background:var(--b-bg-h)}
+.q-btn:active{background:var(--b-bg-a);color:var(--b-fg-a)}
+/* Одно кольцо фокуса на все типы: 2 px primary-500 с зазором 2 px */
+.q-btn:focus-visible,.q-ib:focus-visible,.q-actb:focus-visible,.q-link--strong:focus-visible{outline:2px solid var(--q-primary-500);outline-offset:2px}
+.q-btn:disabled,.q-btn[aria-disabled="true"]{background:var(--q-content-background-disabled);color:var(--q-base-100);cursor:not-allowed}
+/* Loading — только спиннер, ширина как в Default: подпись остается в потоке, но прозрачна */
+.q-btn[aria-busy="true"]{pointer-events:none}
+.q-btn[aria-busy="true"] > :not(.q-btn__spin){opacity:0}
+.q-btn__spin{position:absolute;inset:0;margin:auto;width:14px;height:14px;box-sizing:border-box;border-radius:50%;
+  border:2px solid currentColor;border-right-color:transparent;animation:q-spin .8s linear infinite}
+@keyframes q-spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.q-btn__spin{animation-duration:2.4s}}
+
+/* Типы */
+.q-btn--primary{--b-bg:var(--q-primary-500);--b-bg-h:var(--q-primary-700);--b-bg-a:var(--q-primary-900);--b-fg:var(--q-base-0);--b-fg-a:var(--q-base-0)}
+.q-btn--secondary,.q-btn--raised{--b-bg:var(--q-primary-50);--b-bg-h:var(--q-primary-100);--b-bg-a:var(--q-primary-100);--b-fg:var(--q-primary-500);--b-fg-a:var(--q-primary-700)}
+.q-btn--white{--b-bg:var(--q-base-0);--b-bg-h:var(--q-primary-100);--b-bg-a:var(--q-primary-100);--b-fg:var(--q-primary-500);--b-fg-a:var(--q-primary-700)}
+.q-btn--danger{--b-bg:var(--q-error-500);--b-bg-h:var(--q-error-700);--b-bg-a:var(--q-error-900);--b-fg:var(--q-base-0);--b-fg-a:var(--q-base-0)}
+.q-btn--danger-soft{--b-bg:var(--q-badge-danger-bg);--b-bg-h:var(--q-error-100);--b-bg-a:var(--q-error-100);--b-fg:var(--q-error-700);--b-fg-a:var(--q-error-900)}
+.q-btn--text{--b-bg:transparent;--b-bg-h:var(--q-primary-50);--b-bg-a:var(--q-primary-100);--b-fg:var(--q-primary-500);--b-fg-a:var(--q-primary-700)}
+
+/* Размеры: M 36 (по умолчанию), S 28. L и XS не используются */
+.q-btn--s{height:28px;padding:0 var(--q-spacing-3)}
+.q-btn--block{width:100%}
+
+/* Иконочные */
+.q-ib{display:inline-grid;place-items:center;width:36px;height:36px;padding:0;border:1px solid var(--q-input-border);border-radius:var(--q-radius-control);
+  background:var(--q-content-background);color:var(--q-page-text-ui);cursor:pointer;transition:color var(--q-transition),border-color var(--q-transition),background var(--q-transition)}
+.q-ib:hover{border-color:var(--q-primary-500);color:var(--q-primary-500)}
+.q-ib--soft{border-color:transparent;background:var(--q-primary-50);color:var(--q-primary-500)}
+.q-ib--soft:hover{border-color:transparent;background:var(--q-primary-100)}
+.q-ib--soft:active{background:var(--q-primary-100);color:var(--q-primary-700)}
+.q-actb{display:inline-grid;place-items:center;width:28px;height:28px;padding:0;border:0;border-radius:var(--q-radius-md);background:transparent;color:var(--q-page-text-ui);cursor:pointer;transition:color var(--q-transition),background var(--q-transition)}
+.q-actb:hover{background:var(--q-primary-50);color:var(--q-primary-500)}
+.q-actb:active{background:var(--q-primary-100);color:var(--q-primary-500)}
+.q-actb--danger:hover{background:var(--q-error-500);color:var(--q-base-0)}
+.q-actb--danger:active{background:var(--q-error-700);color:var(--q-base-0)}
+.q-ib .pi,.q-actb .pi{font-size:16px}
+.q-ib:disabled,.q-actb:disabled{color:var(--q-base-100);cursor:not-allowed}
+
+/* Ссылка-действие */
+.q-link--strong{font:var(--q-font-ui-button-s-xs);color:var(--q-link-text);text-decoration:none;cursor:pointer;background:none;border:0;padding:0}
+.q-link--strong:hover{color:var(--q-primary-700);text-decoration:underline}
+.q-link--strong:active{color:var(--q-primary-900)}
+.q-link--danger{color:var(--q-error-500)}
+.q-link--danger:hover{color:var(--q-error-700)}
+.q-link--danger:active{color:var(--q-error-900)}
+
+/* Группа */
+.q-btn-row{display:flex;justify-content:flex-end;align-items:center;gap:var(--q-spacing-2);flex-wrap:wrap}

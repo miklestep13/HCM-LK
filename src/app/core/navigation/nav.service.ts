@@ -92,7 +92,7 @@ export class NavService {
 }
 
 /** значения параметров по умолчанию, когда их нет в адресе */
-const MENU_DEFAULTS: Record<string, Record<string, string>> = { dev: { lt: 'my' } };
+const MENU_DEFAULTS: Record<string, Record<string, string>> = { dev: { lt: 'my' }, ctrack: { ct: 'roles' } };
 
 /** название пункта меню по ключу страницы */
 function menuTitle(page: string): string {

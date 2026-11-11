@@ -1,0 +1,35 @@
+/* Страница «Карьерный трек» сотрудника: раскладка блоков. Стили блоков — в их папках. */
+.pg-career > .c,
+.pg-career > .career-moved,
+.pg-career > .career-empty {
+  display: block;
+}
+.pg-career > .c + .cpcols,
+.pg-career > .career-moved + .c,
+.pg-career > .career-empty + .cpcols {
+  margin-top: 16px;
+}
+.pg-career .cpcols .cR {
+  gap: 16px;
+}
+.pg-career .cpcols .cM {
+  gap: 16px;
+}
+.pg-career .cpcols .cM > .career-empty .cpempty {
+  padding: 32px 24px;
+}
+/* кнопка «Профиль роли» в шапке страницы — как у ИПР: белая, при наведении голубая */
+.pg-career > .pf-top .btn.raised {
+  background: var(--q-content-background);
+}
+.pg-career > .pf-top .btn.raised:hover {
+  background: var(--blue-bg);
+}
+@media (max-width: 1100px) {
+  .pg-career .cpcols {
+    flex-direction: column;
+  }
+  .pg-career .cpcols .cR {
+    width: 100%;
+  }
+}

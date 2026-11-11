@@ -1,0 +1,94 @@
+/* ═══ Таблица .q-table · Minimalism_HCM ═══
+   Компоненты Figma Table / Header (109:1572) и Table / Cell (120:2600), Avatar (112:4458), Icon (112:5574),
+   Q.HCM-components, 01.11.2026. Правила — references/table.md; Figma — references/table-spec.md. Только токены --q-*.
+   Бейдж — assets/badge.css, прогресс — assets/progress-bar.css, кнопки — assets/button.css,
+   аватар и группа аватаров — assets/avatar.css, плитка Icon — assets/icon.css.
+
+   <div class="q-table-wrap"><table class="q-table">
+     <thead><tr>
+       <th><button class="q-sortb" aria-sort="ascending">Задача<i class="pi pi-sort-alt"></i></button></th>
+       <th class="is-status">Статус</th><th class="is-num">Сумма, ₽</th><th class="q-th--empty"></th>
+     </tr></thead>
+     <tbody>
+       <tr data-href="…">
+         <td><b class="q-td__title">Освоить кредитный анализ</b><small>Курс «Кредитный анализ»</small></td>
+         <td class="is-status"><span class="q-badge q-badge--info q-badge--fixed">В работе</span></td>
+         <td class="is-num">52 000</td>
+         <td class="q-td--acts"><button class="q-actb" aria-label="Еще"><i class="pi pi-ellipsis-h"></i></button></td>
+       </tr>
+       <tr><td><span class="q-cell-person"><img class="q-avatar" src="…" alt=""><span><b>Иванов П. С.</b><small>Кредитный специалист</small></span></span></td>…</tr>
+       <tr class="q-tr--group"><td colspan="4"><b>Управление кредитования</b><span>5 сотрудников</span></td></tr>
+       <tr><td class="q-empty--sm" colspan="4">Ничего не найдено</td></tr>
+     </tbody>
+   </table></div> */
+
+.q-table-wrap{overflow-x:auto;background:var(--q-content-background)}
+.q-table{width:100%;border-collapse:collapse;font:var(--q-font-ui-body-2);color:var(--q-table-body-text)}
+
+/* Заголовок — высота 40, 0 · 12, 14/20 SemiBold base-500, без заливки */
+.q-table th{height:40px;padding:0 12px;text-align:left;font:var(--q-font-ui-headline-4);color:var(--q-base-500);
+  border-bottom:1px solid var(--q-content-border-secondary);background:var(--q-content-background);position:sticky;top:0;white-space:nowrap}
+.q-sortb{display:inline-flex;align-items:center;gap:4px;padding:0;border:0;background:none;font:inherit;color:inherit;cursor:pointer}
+.q-sortb .pi{font-size:12px;color:var(--q-content-text-disabled)}
+.q-sortb[aria-sort="ascending"] .pi,.q-sortb[aria-sort="descending"] .pi{color:var(--q-primary-500)}
+.q-sortb[aria-sort="descending"] .pi{transform:rotate(180deg)}
+
+/* Ячейка — 16 · 12, линия снизу; одна плотность */
+.q-table td{padding:16px 12px;vertical-align:middle;border-bottom:1px solid var(--q-content-border-secondary)}
+/* Крайние столбцы = поля виджета 24: .q-table-wrap стоит в виджете без body (на всю ширину), у крайних ячеек 24.
+   В Figma то же самое собрано иначе: таблица внутри полей виджета, Padding left / right у крайних ячеек выключены. */
+.q-table th:first-child,.q-table td:first-child{padding-left:var(--q-table-edge,24px)}
+.q-table th:last-child,.q-table td:last-child{padding-right:var(--q-table-edge,24px)}
+
+/* Двухстрочная ячейка: название 14/20 SemiBold + подпись 12/16 base-500 вплотную (отступ 0) */
+.q-td__title{display:block;font:var(--q-font-ui-headline-4);color:var(--q-table-body-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q-table td small{display:block;margin-top:0;font:var(--q-font-ui-description-1);color:var(--q-base-500)}
+.q-td--secondary{color:var(--q-base-500)}
+.q-td--danger{color:var(--q-error-700)}           /* Danger, Overdue, Negative — Regular, не жирным */
+.q-td--positive{color:var(--q-success-700)}
+.q-table .is-num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* Строка: клик открывает запись; Hover / Selected — у всей строки */
+.q-table tbody tr[data-href]{cursor:pointer}
+.q-table tbody tr:hover>td{background:var(--q-table-hover-tr)}
+.q-table tbody tr[data-href]:hover .q-td__title{color:var(--q-primary-500)}
+.q-table tbody tr[aria-selected="true"]>td{background:var(--q-table-select)}
+
+/* Статус — бейдж на всю ширину столбца, текст по центру, не обрезается (столбец не уже 184) */
+.q-table .is-status{min-width:calc(var(--q-badge-w,160px) + 24px)}
+.q-table .is-status .q-badge--fixed{width:100%}
+
+/* Сотрудник и объект с иконкой: 32 + текст через 8 */
+.q-cell-person,.q-cell-icon{display:flex;align-items:center;gap:8px;min-width:0}
+.q-cell-person b,.q-cell-icon b{display:block;font:var(--q-font-ui-headline-4);color:var(--q-table-body-text)}
+
+/* Уровень компетенции: 4 точки 10, gap 4; цвет по уровню */
+.q-lvl{display:inline-flex;align-items:center;gap:8px;font:var(--q-font-ui-description-1);color:var(--q-base-500)}
+.q-lvl__dots{display:inline-flex;gap:4px}
+.q-lvl__dots i{width:10px;height:10px;border-radius:50%;background:var(--q-base-50)}
+.q-lvl--1 i.on{background:var(--q-error-500)}.q-lvl--2 i.on{background:var(--q-warning-500)}
+.q-lvl--3 i.on{background:var(--q-success-500)}.q-lvl--4 i.on{background:var(--q-primary-500)}
+
+/* Буквенная оценка: 24, радиус 6, 14/20 SemiBold, gap 4 */
+.q-grades{display:inline-flex;align-items:center;gap:4px;color:var(--q-base-300)}
+.q-grade{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:6px;font:var(--q-font-ui-headline-4);background:var(--q-base-50);color:var(--q-base-500)}
+.q-grade--a{background:var(--q-primary-50);color:var(--q-primary-500)}
+.q-grade--b{background:var(--q-success-100);color:var(--q-success-700)}
+.q-grade--d,.q-grade--e{background:var(--q-error-100);color:var(--q-error-700)}
+
+/* Этап: номер 24, радиус 8, gap 12 */
+.q-step{display:flex;align-items:center;gap:12px}
+.q-step__n{display:grid;place-items:center;width:24px;height:24px;border-radius:8px;flex:none;background:var(--q-primary-50);color:var(--q-primary-500);font:var(--q-font-ui-description-1)}
+
+/* Служебные столбцы */
+.q-td--acts{width:52px;text-align:right;white-space:nowrap}
+.q-td--check{width:40px}
+.q-td--expand{width:52px}
+.q-td--drag{width:40px;color:var(--q-page-text-ui)}
+.q-td--drag .pi{font-size:16px}
+
+/* Строка группы и пустой результат */
+.q-tr--group>td{height:40px;padding-top:10px;padding-bottom:10px;background:var(--q-content-background-disabled)}
+.q-tr--group b{font:var(--q-font-ui-headline-4);color:var(--q-content-text);margin-right:12px}
+.q-tr--group span{color:var(--q-base-500)}
+.q-table td.q-empty--sm{text-align:center;color:var(--q-base-500)}

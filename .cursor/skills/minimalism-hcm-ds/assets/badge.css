@@ -1,0 +1,52 @@
+/* ═══ Бейдж .q-badge · Minimalism_HCM ═══
+   Источник: Figma Q.HCM-components, bage (node 1:333, key 794235889b5c463c780dcebb9c7f0ec433a76662), сверка 31.10.2026.
+   Правила — references/badge.md; геометрия и Figma — references/badge-spec.md.
+
+   Разметка:
+   <span class="q-badge q-badge--info">Утверждено</span>                     по содержимому (по умолчанию)
+   <td><span class="q-badge q-badge--warning q-badge--fixed">На согласовании</span></td>   столбец статуса таблицы
+   <span class="q-badge q-badge--sm">Наставник</span>  <span class="q-badge q-badge--error q-badge--live">Идет сейчас</span>
+   Строка бейджей: <div class="q-tags">…</div> */
+
+/* Значения токенов бейджа (light) — из компонента. Блок перенести в tokens.css; в остальном CSS hex не допускается.
+   Dark не задан: в dark остаются значения tokens.css. */
+:root:not([data-theme="dark"]){
+  --q-badge-default-bg:#efe9fa;  --q-badge-default-color:#5e4bd3;
+  --q-badge-success-bg:#e3f4ea;  --q-badge-success-color:#1f8a55;
+  --q-badge-warning-bg:#fceedc;  --q-badge-warning-color:#b26a00;
+  --q-badge-danger-bg:#fbe7e7;   --q-badge-danger-color:#c4283f;
+  --q-badge-info-bg:#dbeafe;
+}
+
+.q-badge{
+  --q-badge-bg:var(--q-badge-default-bg);--q-badge-fg:var(--q-badge-default-color);
+  display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;
+  height:24px;padding:3px 6px 4px;border-radius:6px;max-width:100%;
+  background:var(--q-badge-bg);color:var(--q-badge-fg);font:var(--q-font-ui-badge);white-space:nowrap;vertical-align:middle;
+}
+.q-badge--info   {--q-badge-bg:var(--q-badge-info-bg);   --q-badge-fg:var(--q-primary-500)}
+.q-badge--warning{--q-badge-bg:var(--q-badge-warning-bg);--q-badge-fg:var(--q-badge-warning-color)}
+.q-badge--success{--q-badge-bg:var(--q-badge-success-bg);--q-badge-fg:var(--q-badge-success-color)}
+.q-badge--error  {--q-badge-bg:var(--q-badge-danger-bg); --q-badge-fg:var(--q-badge-danger-color)}
+
+/* Одна ширина — только столбец статуса таблицы. min-width: длинный статус не обрезается;
+   если он шире 160 — задать ширину столбцу через --q-badge-w на таблице или столбце */
+.q-badge--fixed{min-width:var(--q-badge-w,160px)}
+
+/* Варианты верстки (в Figma их нет) */
+.q-badge--sm{height:20px;padding:2px 6px}
+.q-badge--on-photo{--q-badge-bg:var(--q-content-background);--q-badge-fg:var(--q-content-text);box-shadow:0 1px 3px rgba(31,42,55,.16)}
+.q-badge--live::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;margin-right:6px;flex:none}
+
+.q-tags{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+
+/* Место в строке элемента — по ширине контейнера: шире 360 — справа в первой строке, уже — внизу под метой.
+   Контейнер — виджет или список (.q-widget, .q-list); строка .q-item — сетка 1fr auto (SKILL.md, «Строка списка»);
+   бейдж или .q-tags — прямой потомок строки. Узкая колонка 342 дает ширину содержимого 294 — бейдж внизу. */
+.q-widget,.q-list{container-type:inline-size}
+@container (max-width:359px){
+  .q-item{grid-template-columns:1fr;row-gap:0}
+  .q-item > .q-badge,.q-item > .q-tags{grid-column:1;justify-self:start;margin-top:8px}
+}
+/* Карточка: бейдж всегда у названия, отступ 8 */
+.q-title-row{display:flex;flex-wrap:wrap;align-items:center;column-gap:8px;row-gap:6px}

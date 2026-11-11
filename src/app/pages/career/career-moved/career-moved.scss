@@ -1,0 +1,42 @@
+/* Плашка «Вы на новом грейде»: иконка, текст, кнопка справа */
+.career-moved .cpmoved {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 24px;
+  background: var(--q-success-50);
+}
+.career-moved .cpmvi {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--q-content-background);
+  color: var(--q-success-500);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.career-moved .cpmvi .app-icon,
+.career-moved .cpmvi svg {
+  width: 20px;
+  height: 20px;
+}
+.career-moved .cpmvt {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.career-moved .cpmvt b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+}
+.career-moved .cpmvt small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.career-moved .cpmoved .btn {
+  flex: none;
+  background: var(--q-content-background);
+}
