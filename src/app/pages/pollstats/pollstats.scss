@@ -1,0 +1,477 @@
+/* Итоги опроса (дашборд HR): шапка, вкладки, плитки, сетка карточек с графиками, таблицы */
+.pg-pollstats > .c,
+.pg-pollstats > [pollstats-people],
+.pg-pollstats .psgrid,
+.pg-pollstats .pskpi {
+  margin-bottom: 24px;
+}
+/* шапка */
+.pg-pollstats .psht {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.pg-pollstats .psht h2 {
+  font: var(--q-font-ui-headline-2);
+  color: var(--black);
+  margin: 0 4px 0 0;
+}
+.pg-pollstats .psanon {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pg-pollstats .psanon app-icon,
+.pg-pollstats .psanon svg {
+  width: 12px;
+  height: 12px;
+}
+.pg-pollstats .psmeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 12px;
+}
+.pg-pollstats .psmeta span {
+  font: var(--q-font-ui-body-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--t2);
+}
+.pg-pollstats .psmeta app-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  color: var(--t3);
+}
+.pg-pollstats .psdesc {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+  margin: 12px 0 0;
+  max-width: 860px;
+}
+/* вкладки — отдельная карточка-полоса */
+.pg-pollstats .c.pstabsc {
+  padding: 0;
+}
+.pg-pollstats .svtabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px 24px 0;
+}
+.pg-pollstats .svtabs > span {
+  font: var(--q-font-ui-headline-4);
+  padding: 8px 12px 12px;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-pollstats .svtabs > span:hover,
+.pg-pollstats .svtabs > span.on {
+  color: var(--blue);
+}
+.pg-pollstats .svtabs > span.on {
+  border-bottom-color: var(--blue);
+}
+/* плитки */
+.pg-pollstats .pskpi {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.pg-pollstats .rst {
+  background: var(--q-content-background);
+  border-radius: 16px;
+  padding: 18px 20px;
+}
+.pg-pollstats .c .rst,
+.pg-pollstats .psans .rst {
+  background: var(--s1);
+  border-radius: 10px;
+}
+.pg-pollstats .rst .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+.pg-pollstats .rst .v {
+  font: var(--q-font-ui-headline-1);
+  color: var(--black);
+  margin-top: 6px;
+}
+.pg-pollstats .rst .v.rd {
+  color: var(--dg);
+}
+.pg-pollstats .rst .d {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 2px;
+}
+/* сетка карточек: 2 колонки, «Динамика» — во всю ширину */
+.pg-pollstats .psgrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+.pg-pollstats .psgrid > .c {
+  margin: 0;
+}
+.pg-pollstats .psgrid > .psw2 {
+  grid-column: 1 / -1;
+}
+.pg-pollstats .c > .ch {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.pg-pollstats .c > .ch h3 {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin: 0;
+}
+.pg-pollstats .c > .ch.psch2 {
+  padding-top: 8px;
+}
+.pg-pollstats .pshint {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin: 0;
+}
+.pg-pollstats .pssub {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+  margin: 24px 0 12px;
+}
+.pg-pollstats .pssub small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-left: 6px;
+}
+/* таблицы */
+.pg-pollstats .pstbl {
+  width: 100%;
+}
+.pg-pollstats .pstbl th {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-pollstats .pstbl td {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  padding: 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-pollstats .pstbl tbody tr:hover td {
+  background: var(--q-primary-50);
+}
+.pg-pollstats .pstbl .gr {
+  color: var(--t3);
+}
+.pg-pollstats .pstbl .dgt {
+  color: var(--dg);
+}
+.pg-pollstats .pstbl .okt {
+  color: var(--ok);
+}
+.pg-pollstats .pstbl .cnm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pg-pollstats .pstbl .cnm b {
+  font: var(--q-font-ui-headline-4);
+}
+.pg-pollstats .pstbl .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-pollstats .thh {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pg-pollstats .sortb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--t4);
+  cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+}
+.pg-pollstats .sortb.on {
+  color: var(--blue);
+}
+.pg-pollstats .sortb app-icon,
+.pg-pollstats .sortb svg {
+  width: 14px;
+  height: 14px;
+  display: flex;
+}
+.pg-pollstats .psqtbl tbody tr {
+  cursor: pointer;
+}
+.pg-pollstats .psqt {
+  font: var(--q-font-ui-headline-4);
+}
+.pg-pollstats .psreq {
+  color: var(--dg-ac);
+  margin-left: 4px;
+}
+.pg-pollstats .psty {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--t2);
+}
+.pg-pollstats .psty app-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  color: var(--blue);
+}
+/* страницы таблицы */
+.pg-pollstats .pspg {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+.pg-pollstats .pspg .gr {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+.pg-pollstats .pspgb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.pg-pollstats .pspgb .ib,
+.pg-pollstats .psnav .ib {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.pg-pollstats .pspgb .ib:disabled,
+.pg-pollstats .psnav .ib:disabled {
+  background: none;
+  color: var(--t4);
+  cursor: default;
+}
+.pg-pollstats .pspgb app-icon,
+.pg-pollstats .psnav app-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+}
+.pg-pollstats .pspn {
+  font: var(--q-font-ui-body-2);
+  min-width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--t2);
+  cursor: pointer;
+}
+.pg-pollstats .pspn.on {
+  background: var(--blue);
+  color: var(--q-content-background);
+}
+.pg-pollstats .psanonh {
+  margin-top: 12px;
+}
+/* детализация вопроса */
+.pg-pollstats .psansh {
+  align-items: center;
+}
+.pg-pollstats .pnhico {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.pg-pollstats .pnhico app-icon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+}
+.pg-pollstats .psnav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pg-pollstats .psqsel {
+  width: 380px;
+}
+.pg-pollstats .psqq {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin: 0 0 4px;
+}
+.pg-pollstats .psans .pskpi {
+  margin: 16px 0 0;
+}
+.pg-pollstats .psdist {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+  margin-top: 24px;
+}
+.pg-pollstats .psdist .chdl {
+  display: none;
+}
+.pg-pollstats .psmx {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.pg-pollstats .psmxr {
+  display: grid;
+  grid-template-columns: minmax(160px, 30%) minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+}
+.pg-pollstats .psmxr > span {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.pg-pollstats .psrk {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pg-pollstats .psrki {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 110px minmax(80px, 160px) 150px;
+  gap: 12px;
+  align-items: center;
+}
+.pg-pollstats .psrki > b {
+  font: var(--q-font-ui-headline-4);
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.pg-pollstats .psrki > span:not(.chbt) {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.pg-pollstats .psrki small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-pollstats .pstexts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pg-pollstats .pstexts.col {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.pg-pollstats .pstexts span {
+  font: var(--q-font-ui-body-2);
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--s1);
+  color: var(--t1);
+}
+.pg-pollstats .psq {
+  width: 100%;
+  margin-bottom: 12px;
+}
+.pg-pollstats .psgridt {
+  margin: 0;
+}
+.pg-pollstats .psfiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pg-pollstats .psfile {
+  font: var(--q-font-ui-body-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--stroke);
+  border-radius: 8px;
+  color: var(--t1);
+}
+.pg-pollstats .psfile app-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  color: var(--blue);
+}
+.pg-pollstats .sclh {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  justify-content: space-between;
+  color: var(--t3);
+  margin-top: 4px;
+}
+@media (max-width: 1100px) {
+  .pg-pollstats .pskpi,
+  .pg-pollstats .psgrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+/* сводка: динамика во всю ширину, ниже — левая колонка (вовлеченность и этапы, подразделения) и правая (результаты) */
+.pg-pollstats .c.psdyn {
+  margin-bottom: 24px;
+}
+.pg-pollstats .pscol {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.pg-pollstats .pscol > .c {
+  margin: 0;
+}
+/* выбор процедуры (волны) — справа в строке заголовка */
+.pg-pollstats .psht .pswsel {
+  margin-left: auto;
+  flex: none;
+  width: 280px;
+}
+/* сравнение процедур: строка — переход к итогам процедуры */
+.pg-pollstats .pswaves tr.clk {
+  cursor: pointer;
+}
+.pg-pollstats .pswaves tr.clk:hover td b {
+  color: var(--blue);
+}
+.pg-pollstats .pswaves app-progress {
+  min-width: 160px;
+}

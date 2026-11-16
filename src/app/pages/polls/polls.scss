@@ -1,0 +1,403 @@
+/* «Управление персоналом → Опросы»: таблица (как в «Опросах» сотрудника), участники, окна */
+.pg-polls .sub2 {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 8px;
+}
+.pg-polls .tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--q-font-family);
+}
+.pg-polls .tbl th {
+  font: var(--q-font-ui-headline-4);
+  text-align: left;
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-polls .tbl td {
+  font: var(--q-font-ui-body-2);
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--stroke);
+  vertical-align: middle;
+}
+.pg-polls table.tbl :is(th, td):first-child {
+  padding-left: 0px;
+}
+.pg-polls table.tbl :is(th, td):last-child {
+  padding-right: 0px;
+}
+.pg-polls .tbl tr:last-child td {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+}
+.pg-polls .tbl td b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  display: block;
+}
+.pg-polls .tbl .gr {
+  color: var(--t3);
+}
+.pg-polls .mttbl tr[data-mtid] {
+  cursor: pointer;
+}
+.pg-polls .mttbl tr[data-mtid]:hover td {
+  background: var(--hv);
+}
+.pg-polls .mttbl td .bdg {
+  display: block;
+  text-align: center;
+}
+.pg-polls .mttbl .dgt {
+  font: var(--q-font-ui-headline-4);
+  color: var(--dg);
+}
+.pg-polls .mttbl tbody tr[data-mtid] {
+  cursor: pointer;
+}
+.pg-polls .pf-top h1 .chip {
+  margin-left: 10px;
+  vertical-align: middle;
+}
+.pg-polls .vgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0px, 1fr));
+  gap: 16px;
+}
+@media (max-width: 1200px) {
+.pg-polls .vgrid {
+  grid-template-columns: repeat(3, minmax(0px, 1fr));
+}
+}
+@media (max-width: 900px) {
+.pg-polls .vgrid {
+  grid-template-columns: repeat(2, minmax(0px, 1fr));
+}
+}
+@media (max-width: 600px) {
+.pg-polls .vgrid {
+  grid-template-columns: 1fr;
+}
+}
+.pg-polls .thh {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.pg-polls .sortb {
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  padding: 0px;
+  cursor: pointer;
+  color: var(--t4);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.pg-polls .sortb svg {
+  width: 12px;
+  height: 12px;
+  display: block;
+}
+.pg-polls .sortb:hover {
+  color: var(--q-page-text-ui);
+}
+.pg-polls .sortb.on {
+  color: var(--blue);
+}
+.pg-polls .rtbl th {
+  padding: 8px 12px;
+}
+.pg-polls .rtbl td {
+  padding: 12px;
+}
+.pg-polls .ftrow.hidden {
+  display: none;
+}
+.pg-polls .c.full {
+  min-height: calc(-172px + 100vh);
+}
+.pg-polls .c.full {
+  display: flex;
+  flex-direction: column;
+}
+.pg-polls .rtbl {
+  min-width: 100%;
+}
+.pg-polls .rtbl th {
+  white-space: nowrap;
+  background: var(--q-content-background);
+  position: sticky;
+  top: 0px;
+}
+.pg-polls .rtbl td {
+  vertical-align: middle;
+}
+.pg-polls .rtbl td.gr {
+  color: var(--t2);
+  white-space: nowrap;
+}
+.pg-polls .thh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.pg-polls .mttbl th .thh {
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:last-child {
+  padding-bottom: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar {
+  padding: 16px 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar:first-child {
+  padding-top: 24px;
+}
+.pg-polls .mtccnt {
+  margin-top: 16px;
+}
+.pg-polls .c .tbl tbody > tr:not(.hidden):not(:has(~ tr:not(.hidden):not([hidden]))) > td {
+  padding-bottom: 0px;
+  border-bottom: 0px;
+}
+.pg-polls .av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+  flex-shrink: 0;
+}
+/* строки таблицы: курсор-рука и подсветка при наведении */
+.pg-polls .mttbl tbody tr {
+  cursor: pointer;
+}
+.pg-polls .mttbl tbody tr:hover td {
+  background: var(--q-primary-50);
+}
+/* название в таблице */
+.pg-polls .mttl {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-polls .mttbl .mttl b {
+  display: inline;
+}
+.pg-polls .vt.mttl {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+/* ——— опросы ——— */
+/* вкладки «Активные / Пройденные» над поиском, в той же карточке */
+.pg-polls .svtabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px 24px 0;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-polls .svtabs > span {
+  font: var(--q-font-ui-headline-4);
+  padding: 8px 12px 12px;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-polls .svtabs > span:hover,
+.pg-polls .svtabs > span.on {
+  color: var(--blue);
+}
+.pg-polls .svtabs > span.on {
+  border-bottom-color: var(--blue);
+}
+/* таблица: под названием — тип и «Анонимный», прогресс — полоса и «7 из 12» */
+.pg-polls .svsub {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: block;
+  margin-top: 2px;
+}
+.pg-polls .svprog {
+  min-width: 130px;
+}
+/* прогресс: подпись слева, процент справа, над полосой */
+.pg-polls app-progress .pr {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.pg-polls app-progress .pr .l {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+
+/* название — ссылка на форму опроса */
+.pg-polls .plname {
+  font: var(--q-font-ui-headline-4);
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--black);
+  cursor: pointer;
+  text-align: left;
+}
+.pg-polls .plname:hover {
+  color: var(--blue);
+}
+
+/* участники: три аватарки и «+N» — квадраты со скруглением, как аватарки (по клику — список и общее число) */
+.pg-polls .plav {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.pg-polls .plav .av,
+.pg-polls .plav .more {
+  width: 32px;
+  height: 32px;
+  margin-right: -8px;
+  box-shadow: 0 0 0 2px var(--q-content-background);
+}
+.pg-polls .plav .more {
+  font: var(--q-font-ui-description-1);
+  min-width: 32px;
+  width: auto;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  margin-right: 0;
+}
+.pg-polls .plav .more:hover {
+  background: var(--blue-bg);
+}
+.pg-polls .plppop {
+  width: 300px;
+  padding: 8px 0;
+}
+.pg-polls .plppop .plph {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+  padding: 6px 14px 8px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-polls .plppop .plpl {
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+.pg-polls .plppop .plpi {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+}
+.pg-polls .plppop .plpi .av {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.pg-polls .plppop .plpi b {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  display: block;
+}
+.pg-polls .plppop .plpi small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-polls .plppop .plpall {
+  display: block;
+  margin: 4px 14px 2px;
+}
+
+/* действия строки: иконки справа */
+.pg-polls .acts {
+  display: inline-flex;
+  gap: 4px;
+}
+
+/* окно «Участники»: поиск, список, выгрузка */
+.pg-polls .mdlq {
+  width: 100%;
+  margin-bottom: 12px;
+}
+.pg-polls .mdlppl {
+  display: flex;
+  flex-direction: column;
+  max-height: 420px;
+  overflow-y: auto;
+}
+.pg-polls .mpp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 4px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-polls .mpp .av {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+.pg-polls .mpp b {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  display: block;
+}
+.pg-polls .mpp small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-polls .mdlmore {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  padding-top: 10px;
+  margin: 0;
+}
+
+/* статус — по ширине текста */
+.pg-polls .mttbl td .bdg {
+  white-space: nowrap;
+}
+/* подвал окна участников: слева «Всего N участников», справа выгрузка */
+.pg-polls .mdlf.plpf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.pg-polls .mdlf.plpf .gr {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+/* прогресс в таблице: «N из M» и процент под полосой — 12px, не жирный (не как название в ячейке) */
+.pg-polls .tbl td .prs.prsb b {
+  font: var(--q-font-ui-description-1);
+}

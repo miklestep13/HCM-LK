@@ -1,0 +1,323 @@
+/* Сайдбар задачи ИПР и выбор компетенций из справочника (widgets/ipr-task-form) — общие для страницы ИПР и бланка аттестации; хост .iptf */
+:where(.iptf) .mselsr {
+  position: absolute;
+  right: 8px;
+  top: 9px;
+  width: 34px;
+  height: 34px;
+  border: 0px;
+  border-radius: 8px;
+  background: none;
+  color: var(--t3);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 2;
+}
+:where(.iptf) .mselsr:hover {
+  background: var(--hv);
+  color: var(--blue);
+}
+:where(.iptf) .mselsr svg {
+  width: 18px;
+  height: 18px;
+}
+:where(.iptf) .fld.flt > .mselsr {
+  margin-top: 0px;
+}
+:where(.iptf) .fld.dis .mselsr {
+  display: none;
+}
+
+:where(.iptf) .ipsec {
+  margin-top: 22px;
+}
+:where(.iptf) .ipsech {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin-bottom: 14px;
+}
+:where(.iptf) .chp {
+  font: var(--q-font-ui-body-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--page);
+  border-radius: 8px;
+  padding: 4px 8px;
+  color: var(--t1);
+}
+:where(.iptf) .chx {
+  border: 0px;
+  background: none;
+  padding: 0px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--t3);
+  cursor: pointer;
+}
+:where(.iptf) .chx svg {
+  width: 10px;
+  height: 10px;
+}
+:where(.iptf) .msel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+:where(.iptf) .mad {
+  font: var(--q-font-ui-body-2);
+  color: var(--blue);
+  cursor: pointer;
+}
+:where(.iptf) .ipfrm {
+  grid-template-columns: repeat(2, minmax(0px, 1fr));
+}
+:where(.iptf) .ipfrm .ipsec {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+}
+:where(.iptf) .ipfrm .ipsec .frm {
+  margin-top: 0px;
+}
+:where(.iptf) .msel {
+  border: 1px solid var(--stroke2);
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+:where(.iptf) .fld.flt > .msel,
+:where(.iptf) .fld.flt > .dtin > .fin {
+  font: var(--q-font-ui-body-2);
+  height: 52px;
+  min-height: 52px;
+}
+:where(.iptf) .fld.flt.on > .msel,
+:where(.iptf) .fld.flt.on > .dtin > .fin {
+  padding-top: 20px;
+}
+:where(.iptf) .fld.flt > .dtin .dtb {
+  top: 11px;
+}
+:where(.iptf) .fld.flt > .dtin {
+  width: 100%;
+}
+:where(.iptf) .fld.flt > .msel {
+  padding-bottom: 8px;
+}
+:where(.iptf) .drw.ipw {
+  width: 600px;
+}
+:where(.iptf) .drw.ipw .drwb .ipfrm {
+  grid-template-columns: repeat(2, minmax(0px, 1fr));
+}
+:where(.iptf) .drwf .ipdf {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+:where(.iptf) .iptdh {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+:where(.iptf) .iptdh b {
+  font: var(--q-font-ui-headline-4);
+  flex: 1 1 0%;
+  color: var(--t1);
+}
+:where(.iptf) .iptdh .swt {
+  margin-left: 0px;
+}
+:where(.iptf) .drw.ipw .iptdh {
+  margin: 0px;
+}
+:where(.iptf) .fld.dis .msel,
+:where(.iptf) .fld.dis .dtin .fin {
+  background: var(--s1);
+  color: var(--t3);
+}
+:where(.iptf) .fld.dis .msel .mad,
+:where(.iptf) .fld.dis .msel .chx,
+:where(.iptf) .fld.dis .dtb {
+  display: none;
+}
+:where(.iptf) .ipdone .iptdh {
+  align-items: center;
+  margin-bottom: 12px;
+}
+:where(.iptf) .ipdone .iptdh .ipsech {
+  margin: 0px;
+}
+:where(.iptf) .drw.ipw .ipdone .iptdh {
+  margin: 0px 0px 12px;
+}
+:where(.iptf) .fld.flt > .msel {
+  height: auto;
+}
+:where(.iptf) .fld:has(> .mselq) {
+  position: relative;
+}
+:where(.iptf) .msel.mselq {
+  padding-right: 44px;
+}
+:where(.iptf) .msel {
+  min-height: 36px;
+}
+:where(.iptf) .mph {
+  font: var(--q-font-ui-body-2);
+  color: var(--t4);
+}
+:where(.iptf) .mph {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+:where(.iptf) .fld.flt:not(.on) .msel .mph {
+  visibility: hidden;
+}
+:where(.iptf) .fld.dis .dtb {
+  display: none;
+}
+
+:where(.iptf) .mdl.mdl-lg {
+  width: 760px;
+}
+:where(.iptf) .cmbar {
+  margin-bottom: 16px;
+}
+:where(.iptf) .mdl .tbl .tklnk {
+  cursor: pointer;
+}
+:where(.iptf) .mdl .tbl .tklnk:hover {
+  color: var(--blue);
+}
+:where(.iptf) .mdl .tbl.iprc td.chk {
+  width: 38px;
+  padding-right: 0px;
+}
+:where(.iptf) .cpdone .ckb input:disabled + i {
+  opacity: 0.55;
+}
+:where(.iptf) .cppg {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0px 24px;
+  padding-top: 12px;
+  border-top: 1px solid var(--stroke);
+}
+:where(.iptf) .cpwrap .tw {
+  padding-bottom: 0px;
+}
+:where(.iptf) .cppg small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+:where(.iptf) .cppn {
+  display: flex;
+  gap: 4px;
+}
+:where(.iptf) .cppb {
+  font: var(--q-font-ui-headline-4);
+  display: grid;
+  place-items: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0px 6px;
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+}
+:where(.iptf) .cppb svg {
+  width: 12px;
+  height: 12px;
+}
+:where(.iptf) .cppb:hover {
+  background: var(--hv);
+  color: var(--blue);
+}
+:where(.iptf) .cppb.on {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+:where(.iptf) .cppb:disabled {
+  opacity: 0.45;
+  cursor: default;
+  background: none;
+  color: var(--q-page-text-ui);
+}
+:where(.iptf) .mdl.mdl-md {
+  width: 640px;
+}
+:where(.iptf) .mygld {
+  font: var(--q-font-ui-body-2);
+  margin: 10px 0px 0px;
+  color: var(--t2);
+  max-width: 80ch;
+}
+:where(.iptf) .pqerr {
+  font: var(--q-font-ui-body-2);
+  background: var(--dg-bg);
+  color: var(--dg);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+/* правила прототипа с id (#cpBody, #ipFd) */
+
+.iptf .mdl .c.cmbar {
+  background: none;
+  padding: 0;
+  margin-bottom: 8px;
+  box-shadow: none;
+}
+.iptf .mdl .c.cmbar > .ftbar {
+  padding: 0 !important;
+}
+.iptf .mdl:has(.cpwrap) .cpwrap .tw {
+  padding-left: 0;
+  padding-right: 0;
+}
+.iptf .mdl:has(.cpwrap) .cppg {
+  margin: 0;
+}
+.iptf .mdl:has(.cpwrap) .mdlb > .ipff {
+  position: sticky;
+  bottom: -20px;
+  margin: 12px 0 -20px;
+  padding: 12px 0 20px;
+  background: var(--q-content-background);
+  border-top: 1px solid var(--stroke);
+}
+.iptf .mdl .cpss {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+.iptf .mdl .cpss > span {
+  margin-right: auto;
+}
+.iptf .mdl .cpss small {
+  margin-left: 8px;
+  color: var(--t3);
+}
+
+/* кнопки окна выбора компетенций — справа */
+:where(.iptf) .ipff {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 28px;
+}
+/* шапка поиска в окне — без отступов карточки: поиск сразу под заголовком окна
+   (перебивает общее правило .c:has(> .ftbar)… > .ftbar с !important — специфичность выше) */
+.iptf .mdl.mdl-lg .c.cmbar.cmbar > .ftbar.ftbar {
+  padding: 0 !important;
+}

@@ -1,0 +1,108 @@
+/* Условия отбора участников (widgets/audience) */
+.aud {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+/* группа: без рамки; когда групп несколько — заголовок «Группа N» и полоса слева */
+.aud .audg {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.aud .audg.many {
+  padding-left: 16px;
+  border-left: 3px solid var(--blue-bg);
+}
+.aud .audgh {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.aud .audgh b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+.aud .audgn {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  flex: 1;
+}
+/* строка условия: поле, «включает / исключает», значения, удалить */
+.aud .audrow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 180px minmax(0, 2fr) 36px;
+  gap: 12px;
+  align-items: start;
+}
+.aud .audrow .dis {
+  opacity: 0.6;
+  pointer-events: none;
+}
+.aud .auddel {
+  margin-top: 13px;
+  width: 28px;
+  height: 28px;
+}
+.aud .audrow .msel {
+  min-height: 52px;
+}
+/* «и» между условиями, «или» между группами */
+.aud .audand {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  text-transform: uppercase;
+  padding-left: 4px;
+}
+.aud .audor {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: var(--q-font-ui-headline-4);
+  color: var(--blue);
+}
+.aud .audor::before,
+.aud .audor::after {
+  content: '';
+  flex: 1;
+  border-top: 1px dashed var(--stroke2);
+}
+.aud .audor span {
+  padding: 2px 10px;
+  border-radius: 6px;
+  background: var(--blue-bg);
+  font: var(--q-font-ui-description-1);
+}
+.aud .lnkadd {
+  align-self: flex-start;
+}
+/* низ: «+ группа» и итог «Подходит N из M» */
+.aud .audfoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px solid var(--stroke);
+}
+.aud .audsum {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.aud .audsum.on {
+  color: var(--t1);
+}
+.aud .audsum svg {
+  width: 16px;
+  height: 16px;
+  color: var(--blue);
+}
+@media (max-width: 900px) {
+  .aud .audrow {
+    grid-template-columns: minmax(0, 1fr) 36px;
+  }
+}

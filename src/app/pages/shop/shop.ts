@@ -2,7 +2,6 @@ import { Select } from '../../shared/ui/select/select';
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { ShopStore } from '../../core/demo/shop-store.service';
 import { ORDER_STATUSES, PRODUCTS, PRODUCT_CATS, SHOP_SORTS } from '../../data/shop.data';
-import { Chips } from '../../shared/ui/chips/chips';
 import { DateField } from '../../shared/ui/date-field/date-field';
 import { FilterBar } from '../../shared/ui/filter-bar/filter-bar';
 import { FilterInput } from '../../shared/ui/filter-input/filter-input';
@@ -19,7 +18,7 @@ import { ShopFilters } from './shop.state';
  */
 @Component({
   selector: 'app-shop',
-  imports: [PageHead, ShopHead, FilterBar, SortButton, Chips, FilterInput, DateField, Select, ShopGrid, ShopOrders],
+  imports: [PageHead, ShopHead, FilterBar, SortButton, FilterInput, DateField, Select, ShopGrid, ShopOrders],
   templateUrl: './shop.html',
   styleUrl: './shop.scss',
   encapsulation: ViewEncapsulation.None,

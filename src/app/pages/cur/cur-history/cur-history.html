@@ -1,6 +1,6 @@
 <div class="ch"><h3>История операций</h3></div>
 <app-filter-bar class="flat" placeholder="Поиск по комментарию, отправителю, получателю или номеру" [(query)]="f.q" [(opened)]="f.opened">
-  <app-chips label="Статус" [options]="statuses" [(value)]="f.st" />
+  <app-select label="Статус" [options]="statuses" allLabel="Все статусы" placeholder="Все статусы" [(value)]="f.st" />
   <app-select label="Тип" allLabel="Все типы" [options]="types" [(value)]="f.type" />
   <app-date-range label="Дата и время" [(value)]="f.per" />
 </app-filter-bar>
@@ -19,7 +19,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (r of rows(); track r.h.n) {
+        @for (r of pg.view(); track r.h.n) {
           <tr [class.curx]="r.h.st === 'Отменено'">
             <td>{{ r.h.n }}</td>
             <td class="curdt">{{ r.h.d }}</td>
@@ -55,4 +55,5 @@
       </tbody>
     </table>
   </div>
+  <app-pager [p]="pg" />
 </div>

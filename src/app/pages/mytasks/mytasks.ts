@@ -1,3 +1,4 @@
+import { Pager } from '../../shared/ui/pager/pager';
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject } from '@angular/core';
 import { NavService } from '../../core/navigation/nav.service';
 import { TASK_DIRECT_PAGES, TASK_QUICK, TASK_SORTS, TASK_STATUSES } from '../../data/tasks.data';
@@ -20,7 +21,7 @@ import { MytasksState } from './mytasks.state';
  */
 @Component({
   selector: 'app-mytasks',
-  imports: [PageHead, FilterBar, Select, DateRangeField, SortButton, ViewSwitch, MytasksTable, MytasksCards, MytasksPanel],
+  imports: [Pager, PageHead, FilterBar, Select, DateRangeField, SortButton, ViewSwitch, MytasksTable, MytasksCards, MytasksPanel],
   template: `
     <app-page-head title="Задания" [chip]="s.rows().length" />
     <!-- небольшое задание открывается справа: список слева, панель обработки справа -->
@@ -38,12 +39,12 @@ import { MytasksState } from './mytasks.state';
         </app-filter-bar>
         @if (s.view() === 'table') {
           <div class="cb" style="padding-top: 4px" mytasks-table (open)="open($event)"></div>
-          <div class="cb" style="padding-top: 0"><div class="sub2">{{ count() }}</div></div>
+          <div class="cb" style="padding-top: 0"><app-pager [p]="s.pg" /></div>
         }
       </div>
       @if (s.view() === 'cards') {
         <div class="vgrid mtvgrid" mytasks-cards (open)="open($event)"></div>
-        <div class="sub2 mtccnt">{{ count() }}</div>
+        <app-pager class="mtccnt" [p]="s.pg" />
       }
       </div>
       @if (s.quick()) {

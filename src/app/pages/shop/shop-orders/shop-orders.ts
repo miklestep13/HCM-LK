@@ -1,3 +1,4 @@
+import { Pager, paginate } from '../../../shared/ui/pager/pager';
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -21,6 +22,7 @@ export const ORDER_COLS: [string, (o: Order) => string | number][] = [
 /** Блок «История заказов»: таблица с сортировкой по любому столбцу; строка открывает заказ. */
 @Component({
   selector: '[shop-orders]',
+  imports: [Pager],
   templateUrl: './shop-orders.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,4 +54,6 @@ export class ShopOrders {
     this.f.osort.set({ k, d: s.k === k ? -s.d : 1 });
   }
   protected open(k: number): void { this.router.navigateByUrl('/shop/order/' + k); window.scrollTo(0, 0); }
+  /** постранично: <app-pager [p]="pg" /> под таблицей */
+  protected readonly pg = paginate(() => this.rows());
 }

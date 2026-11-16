@@ -35,6 +35,8 @@ export interface CommentItem {
         </div>
       </div>
     </div>
+    <!-- пустой список и линия над ним не рисуются, если empty="" -->
+    @if (items().length || empty()) {
     <div class="clist">
       @for (m of items(); track $index; let k = $index) {
         <div class="cmt">
@@ -88,6 +90,7 @@ export interface CommentItem {
         <p class="shnocm">{{ empty() }}</p>
       }
     </div>
+    }
   `,
   styleUrl: './comments.scss',
   encapsulation: ViewEncapsulation.None,

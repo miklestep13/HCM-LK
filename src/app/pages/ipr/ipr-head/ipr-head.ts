@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { IprStore } from '../../../core/demo/ipr-store.service';
 import { IPR_STATUS_LABEL, IPR_STATUS_TONE } from '../../../data/ipr.data';
 import { roleWithGrade, shortFio } from '../../../data/org.data';
@@ -6,7 +6,7 @@ import { ME, ME_PHOTO } from '../../../data/people.data';
 import { Progress } from '../../../shared/ui/progress/progress';
 
 /**
- * Шапка плана: название, статус (и «Просрочен»), «Редактировать» (черновик и утвержденный план),
+ * Шапка плана: название, статус (и «Просрочен»); «Редактировать» — в заголовке страницы, напротив «ИПР» (черновик),
  * серый подстрочник (скрыт: showSub), у руководителя — карточка сотрудника (фото, ФИО, должность, подразделение, как в карте целей), описание, плитки (вид развития, текущая и целевая должность, срок) и прогресс.
  */
 @Component({
@@ -23,9 +23,6 @@ import { Progress } from '../../../shared/ui/progress/progress';
             <span class="bdg dg">Просрочен</span>
           }
         </span>
-        @if (s.editable()) {
-          <span class="objacts"><button class="btn raised" (click)="edit.emit()">Редактировать</button></span>
-        }
       </div>
       @if (showSub) {
         <div class="ipsub">
@@ -53,7 +50,7 @@ import { Progress } from '../../../shared/ui/progress/progress';
           label="Выполнено"
           [value]="s.progress() + '%'"
           [percent]="s.progress()"
-          [tone]="s.st() === 'Выполнено' ? 'ok' : s.over() ? 'dg' : ''"
+          [tone]="s.st() === 'Выполнено' ? 'ok' : s.st() === 'Не выполнено' ? 'dg' : ''"
           [caption]="'Закрыто ' + s.doneN() + ' из ' + P.tasks.length + ' задач'"
         />
     </div>
@@ -63,7 +60,6 @@ import { Progress } from '../../../shared/ui/progress/progress';
 })
 export class IprHead {
   protected readonly s = inject(IprStore);
-  readonly edit = output<void>();
   protected readonly fio = shortFio;
   /** должность с грейдом: «Старший кредитный специалист» */
   protected readonly grade = roleWithGrade;

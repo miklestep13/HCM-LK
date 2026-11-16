@@ -1,0 +1,51 @@
+/* Форма курса: поля в две колонки, заглушки шагов, кнопки внизу — остров (как в форме опроса) */
+.pg-coursenew .c > .ch h3 {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin: 0;
+}
+.pg-coursenew .frm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 20px;
+}
+.pg-coursenew .frm > .full {
+  grid-column: 1 / -1;
+}
+.pg-coursenew .c.ipisl {
+  padding: 16px 24px;
+  margin-top: 24px;
+}
+.pg-coursenew .ipff {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.pg-coursenew .cnwip {
+  padding: 48px 24px;
+}
+/* настройки курса: тумблер «Все учебные материалы просмотрены» — подпись слева, тумблер справа */
+.pg-coursenew .swt.cnsw {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  white-space: normal;
+}
+.pg-coursenew .cnsw span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pg-coursenew .cnsw b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-coursenew .cnsw small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-coursenew .cnsw i {
+  margin-top: 2px;
+}

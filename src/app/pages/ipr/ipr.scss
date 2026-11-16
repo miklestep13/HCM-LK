@@ -29,7 +29,7 @@
   background: var(--white);
 }
 :where(.pg-ipr) .pf-top .btn.raised:hover {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
 }
 .pg-ipr.pg-ipr .iptit {
   display: flex;
@@ -370,7 +370,7 @@
   width: 56px;
   height: 56px;
   border-radius: 12px;
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
   color: var(--blue);
   display: grid;
   place-items: center;

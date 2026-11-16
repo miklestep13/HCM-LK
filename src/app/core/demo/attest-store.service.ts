@@ -27,13 +27,12 @@ export interface AttFinalForm {
 
 /**
  * Демо-хранилище бланка аттестации сотрудника: этап, роль, оценки по этапам, мероприятия, участники, итоги.
- * Демо-переключатели (этап, роль, раскладка, способ ввода значения) — в dev-панели страницы.
+ * Демо-переключатели (этап, роль, способ ввода значения) — в dev-панели страницы.
  */
 @Injectable({ providedIn: 'root' })
 export class AttestStore {
   readonly stage = signal<AttStage>('self');
   readonly role = signal('emp');
-  readonly layout = signal<'two' | 'one'>('two');
   /** способ ввода значения оценки: A–E, список, текст, число */
   readonly inputMode = signal<'seg' | 'list' | 'text' | 'num'>('seg');
 
@@ -69,13 +68,16 @@ export class AttestStore {
   own(a: AttRate): boolean {
     return !!a.own && a.own === this.role() && this.stage() === OWN_STEP[this.role()];
   }
+  /** свернут ли блок на текущем этапе: выбор пользователя, иначе по умолчанию — «Участники» свернуты после «Оценок комиссии» */
   isCold(title: string): boolean {
-    return !!this.cold()[this.stage() + '|' + title];
+    const v = this.cold()[this.stage() + '|' + title];
+    return v ?? (title === 'Участники' && !['self', 'mgr', 'comm'].includes(this.stage()));
   }
   toggleCold(title: string): void {
-    const k = this.stage() + '|' + title;
-    this.cold.update((c) => ({ ...c, [k]: !c[k] }));
+    const k = this.stage() + '|' + title, v = !this.isCold(title);
+    this.cold.update((c) => ({ ...c, [k]: v }));
   }
+
   /** статус мероприятия: прошлых шагов — проведены, текущего и следующих — запланированы; «…» меняет вручную */
   eventStatus(e: AttEvent): 'done' | 'plan' | 'cancel' {
     const cur = Math.min(5, ORDER.indexOf(this.stage())),

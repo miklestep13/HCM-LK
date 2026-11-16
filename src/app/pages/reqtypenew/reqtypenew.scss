@@ -1,0 +1,91 @@
+/* «Новый тип заявки»: степпер, общая информация (2 колонки), конструктор заявки, кнопки внизу */
+.pg-reqtypenew .stepper {
+  margin-bottom: 16px;
+}
+.pg-reqtypenew .rtnfrm {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  padding: 24px;
+}
+.pg-reqtypenew .rtnfrm .fld {
+  margin: 0;
+}
+.pg-reqtypenew .rtnpre .fld {
+  width: 100%;
+}
+.pg-reqtypenew .rtnhint {
+  display: block;
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 4px;
+}
+/* подпись над полем без плавающей подписи: ответственные, иконка */
+.pg-reqtypenew .rtnl {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-reqtypenew .rtnic {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pg-reqtypenew .rtnit {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.pg-reqtypenew .rtnit svg {
+  width: 20px;
+  height: 20px;
+}
+.pg-reqtypenew .rtnrm {
+  color: var(--t3);
+}
+/* сетка иконок «Выбрать иконку» */
+.fpop.rtnicons {
+  display: grid;
+  grid-template-columns: repeat(8, 36px);
+  gap: 4px;
+  padding: 8px;
+}
+.fpop.rtnicons .rtnib {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+}
+.fpop.rtnicons .rtnib:hover {
+  background: var(--raised);
+  color: var(--blue);
+}
+.fpop.rtnicons .rtnib.on {
+  background: var(--blue);
+  color: var(--q-button-primary-text);
+}
+.fpop.rtnicons .rtnib svg {
+  width: 18px;
+  height: 18px;
+}
+/* кнопки внизу — остров, как в форме опроса */
+.pg-reqtypenew .c.rtnbar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 16px 24px;
+  margin-top: 24px;
+}
+@media (max-width: 760px) {
+  .pg-reqtypenew .rtnfrm {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -20,10 +20,9 @@ import { PlayerState } from './player.state';
       </div>
     }
   `,
-  styleUrl: './player.scss',
   encapsulation: ViewEncapsulation.None,
   providers: [PlayerState],
-  host: { class: 'pg pg-player' },
+  host: { class: 'pg pg-player pg-pass' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Player {

@@ -149,50 +149,6 @@
   cursor: pointer;
 }
 
-/* описание встречи — редактор (как в форме встречи календаря) */
-.pg-eventnew .rte {
-  border: 1px solid var(--stroke2);
-  border-radius: 8px;
-  overflow: hidden;
-}
-.pg-eventnew .rtb {
-  display: flex;
-  gap: 2px;
-  padding: 6px;
-  border-bottom: 1px solid var(--stroke);
-  background: var(--hv);
-}
-.pg-eventnew .rtbb {
-  width: 30px;
-  height: 30px;
-  display: grid;
-  place-items: center;
-  border: none;
-  background: none;
-  border-radius: 8px;
-  color: var(--q-page-text-ui);
-  cursor: pointer;
-}
-.pg-eventnew .rtbb:hover {
-  background: var(--raised);
-  color: var(--blue);
-}
-.pg-eventnew .rtbb svg {
-  width: 16px;
-  height: 16px;
-}
-.pg-eventnew .rtc {
-  font: var(--q-font-ui-body-2);
-  min-height: 120px;
-  padding: 12px 14px;
-  color: var(--t1);
-  outline: none;
-}
-.pg-eventnew .rtc:empty::before {
-  content: attr(data-ph);
-  color: var(--t3);
-}
-
 /* «Повторение»: правило и интервал в строку, дни недели, окончание, итог */
 .pg-eventnew .frm.enrp {
   display: grid;

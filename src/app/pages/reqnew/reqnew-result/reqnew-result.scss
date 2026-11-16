@@ -1,0 +1,96 @@
+/* «Результат обработки»: форма ответственного или решение — как «Итог» бланка аттестации */
+.pg-reqnew .rqres .rqrgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.pg-reqnew .rqres .rqrgrid .rqrfull {
+  grid-column: 1 / -1;
+}
+.pg-reqnew .rqres .rqrgrid .fld {
+  margin: 0;
+}
+/* решение: плашка в цвете вида результата */
+.pg-reqnew .rqrhero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  border-radius: 12px;
+  background: var(--ok-bg);
+}
+.pg-reqnew .rqrhero.wr {
+  background: var(--warn-bg);
+}
+.pg-reqnew .rqrhero.dg {
+  background: var(--dg-bg);
+}
+.pg-reqnew .rqrhic {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: var(--q-content-background);
+  background: var(--ok-ac);
+}
+.pg-reqnew .rqrhero.wr .rqrhic {
+  background: var(--warn-ac);
+}
+.pg-reqnew .rqrhero.dg .rqrhic {
+  background: var(--dg-ac);
+}
+.pg-reqnew .rqrhic app-icon,
+.pg-reqnew .rqrhic svg {
+  width: 28px;
+  height: 28px;
+}
+.pg-reqnew .rqrhtx {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.pg-reqnew .rqrhtx small,
+.pg-reqnew .rqrcm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-reqnew .rqrhtx b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+  margin-top: 2px;
+}
+.pg-reqnew .rqrhtx span {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 4px;
+}
+.pg-reqnew .rqrcm {
+  margin-top: 20px;
+}
+.pg-reqnew .rqrcm small {
+  display: block;
+  margin-bottom: 4px;
+}
+.pg-reqnew .rqrcm p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin: 0;
+  max-width: 880px;
+  white-space: pre-line;
+}
+/* «Документы» — подраздел в конце блока, через линию */
+.pg-reqnew .rqrdocs {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--q-content-border-secondary);
+}
+.pg-reqnew .rqrdocs h4 {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+}

@@ -1,0 +1,459 @@
+/* Опросы (на основе «Заданий») */
+.pg-surveys .sub2 {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 8px;
+}
+.pg-surveys .tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--q-font-family);
+}
+.pg-surveys .tbl th {
+  font: var(--q-font-ui-headline-4);
+  text-align: left;
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-surveys .tbl td {
+  font: var(--q-font-ui-body-2);
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--stroke);
+  vertical-align: middle;
+}
+.pg-surveys table.tbl :is(th, td):first-child {
+  padding-left: 0px;
+}
+.pg-surveys table.tbl :is(th, td):last-child {
+  padding-right: 0px;
+}
+.pg-surveys .tbl tr:last-child td {
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+}
+.pg-surveys .tbl td b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  display: block;
+}
+.pg-surveys .tbl .gr {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+.pg-surveys .mttbl tr[data-mtid] {
+  cursor: pointer;
+}
+.pg-surveys .mttbl tr[data-mtid]:hover td {
+  background: var(--hv);
+}
+.pg-surveys .mttbl td .bdg {
+  display: block;
+  text-align: center;
+}
+.pg-surveys .mttbl .dgt {
+  font: var(--q-font-ui-headline-4);
+  color: var(--dg);
+}
+.pg-surveys .mttbl tbody tr[data-mtid] {
+  cursor: pointer;
+}
+.pg-surveys .pf-top h1 .chip {
+  margin-left: 10px;
+  vertical-align: middle;
+}
+.pg-surveys .vgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0px, 1fr));
+  gap: 16px;
+}
+@media (max-width: 1200px) {
+.pg-surveys .vgrid {
+  grid-template-columns: repeat(3, minmax(0px, 1fr));
+}
+}
+@media (max-width: 900px) {
+.pg-surveys .vgrid {
+  grid-template-columns: repeat(2, minmax(0px, 1fr));
+}
+}
+@media (max-width: 600px) {
+.pg-surveys .vgrid {
+  grid-template-columns: 1fr;
+}
+}
+.pg-surveys .thh {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.pg-surveys .sortb {
+  border-width: medium;
+  border-style: none;
+  border-color: currentcolor;
+  border-image: none;
+  background: none;
+  padding: 0px;
+  cursor: pointer;
+  color: var(--t4);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.pg-surveys .sortb svg {
+  width: 12px;
+  height: 12px;
+  display: block;
+}
+.pg-surveys .sortb:hover {
+  color: var(--q-page-text-ui);
+}
+.pg-surveys .sortb.on {
+  color: var(--blue);
+}
+.pg-surveys .rtbl th {
+  padding: 8px 12px;
+}
+.pg-surveys .rtbl td {
+  padding: 12px;
+}
+.pg-surveys .ftrow.hidden {
+  display: none;
+}
+.pg-surveys .c.full {
+  min-height: calc(-172px + 100vh);
+}
+.pg-surveys .c.full {
+  display: flex;
+  flex-direction: column;
+}
+.pg-surveys .rtbl {
+  min-width: 100%;
+}
+.pg-surveys .rtbl th {
+  white-space: nowrap;
+  background: var(--q-content-background);
+  position: sticky;
+  top: 0px;
+}
+.pg-surveys .rtbl td {
+  vertical-align: middle;
+}
+.pg-surveys .rtbl td.gr {
+  color: var(--t2);
+  white-space: nowrap;
+}
+.pg-surveys .thh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.pg-surveys .mttbl th .thh {
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:last-child {
+  padding-bottom: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar {
+  padding: 16px 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .ftbar:first-child {
+  padding-top: 24px;
+}
+.pg-surveys .mtccnt {
+  margin-top: 16px;
+}
+.pg-surveys .c .tbl tbody > tr:not(.hidden):not(:has(~ tr:not(.hidden):not([hidden]))) > td {
+  padding-bottom: 0px;
+  border-bottom: 0px;
+}
+.pg-surveys .av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+  flex-shrink: 0;
+}
+.pg-surveys .vcard .cbody {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0%;
+}
+.pg-surveys .vmeta.row {
+  flex-flow: wrap;
+  gap: 14px;
+}
+.pg-surveys .vcard {
+  background: var(--q-content-background);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid transparent;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.pg-surveys .vb {
+  padding: 16px 20px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1 1 0%;
+}
+.pg-surveys .vt {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+.pg-surveys .vmeta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pg-surveys .vmeta span {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--grey);
+}
+.pg-surveys .vmeta svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.pg-surveys .vb .bdg {
+  align-self: flex-start;
+  margin-top: auto;
+}
+.pg-surveys img.av {
+  object-fit: cover;
+  display: block;
+}
+.pg-surveys .vcard:hover :is(.nm, .it, .tt, .vt, .iprn, .npt, .cmtt, .mlt, .rpt b, .cc2 > b, .pn3, .glgn, .nt, .t) {
+  color: var(--blue);
+  transition: color 0.15s;
+}
+.pg-surveys .vmeta span.od {
+  color: var(--dg);
+}
+.pg-surveys .vcard .vt {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.pg-surveys .vcard .vb {
+  min-height: 98px;
+}
+.pg-surveys .vcard .vb .vmeta.row {
+  gap: 4px 14px;
+  align-content: flex-start;
+}
+.pg-surveys .vcard.mtvc {
+  cursor: pointer;
+  outline: none;
+}
+.pg-surveys .vcard.mtvc .vb {
+  padding-top: 20px;
+}
+.pg-surveys .vcard.mtvc .mtbd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pg-surveys .vcard.mtvc .mtbd .bdg {
+  margin-top: 0px;
+}
+.pg-surveys .vcard.mtvc .mtvf {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0px;
+  padding: 16px 20px 20px;
+}
+.pg-surveys .vcard.mtvc .mtvf img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: 0 0 auto;
+}
+.pg-surveys .vcard.mtvc .mtvf > span {
+  display: flex;
+  flex-direction: column;
+  min-width: 0px;
+}
+.pg-surveys .vcard.mtvc .mtvf b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pg-surveys .vcard.mtvc .mtvf small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.pg-surveys .vcard .vt {
+  font: var(--q-font-ui-headline-3);
+}
+
+/* таблица: прокрутка по горизонтали, «⋯» — последняя колонка (закреплена справа, см. _ui.scss) */
+.pg-surveys [surveys-table] > .tw {
+  overflow-x: auto;
+}
+
+/* строки таблицы: курсор-рука и подсветка при наведении */
+.pg-surveys .mttbl tbody tr {
+  cursor: pointer;
+}
+.pg-surveys .mttbl tbody tr:hover td {
+  background: var(--q-primary-50);
+}
+/* название в таблице */
+.pg-surveys .mttl {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-surveys .mttbl .mttl b {
+  display: inline;
+}
+.pg-surveys .vt.mttl {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+/* ——— опросы ——— */
+/* вкладки «Активные / Пройденные» над поиском, в той же карточке */
+.pg-surveys .svtabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px 24px 0;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-surveys .svtabs > span {
+  font: var(--q-font-ui-headline-4);
+  padding: 8px 12px 12px;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-surveys .svtabs > span:hover,
+.pg-surveys .svtabs > span.on {
+  color: var(--blue);
+}
+.pg-surveys .svtabs > span.on {
+  border-bottom-color: var(--blue);
+}
+/* таблица: под названием — тип и «Анонимный», прогресс — полоса и «7 из 12» */
+.pg-surveys .svsub {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: block;
+  margin-top: 2px;
+}
+
+/* ——— карточка опроса: статус над названием, данные с иконками (текст — как в карточке «Обучения»), без прогресса ——— */
+.pg-surveys .vcard.svc {
+  padding: 20px;
+  gap: 10px;
+  cursor: pointer;
+}
+.pg-surveys .vcard.svc:hover {
+  border-color: var(--q-primary-100);
+}
+.pg-surveys .svc .svhd {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.pg-surveys .svc .svhd .bdg {
+  flex-shrink: 0;
+}
+.pg-surveys .svtt {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.pg-surveys .vcard.svc:hover .svtt {
+  color: var(--blue);
+}
+.pg-surveys .svmeta {
+  font: var(--q-font-ui-description-1);
+  color: var(--t2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+}
+.pg-surveys .svmeta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.pg-surveys .svmeta app-icon {
+  display: flex;
+  width: 14px;
+  height: 14px;
+}
+.pg-surveys .svmeta .svdue.warn {
+  color: var(--warn);
+}
+.pg-surveys .svmeta .svdue.dg {
+  color: var(--dg);
+}
+
+/* прогресс в таблице: под полосой «9 из 25» и процент справа — 12px, не жирный */
+.pg-surveys .svprog {
+  min-width: 130px;
+}
+.pg-surveys .svprog :is(.prs, .prs b) {
+  font: var(--q-font-ui-description-1);
+}
+/* прогресс в карточке — прижат к низу; подпись и процент над полосой — как у карточки «Обучения» */
+.pg-surveys .vcard.svc .svcpr {
+  margin-top: auto;
+  padding-top: 8px;
+}
+.pg-surveys .svcpr .pr {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.pg-surveys .svcpr .pr .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+.pg-surveys .svcpr .pr .v {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+.pg-surveys .svcpr .bar {
+  margin-top: 6px;
+}
+.pg-surveys .svcpr .prs {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 6px;
+}

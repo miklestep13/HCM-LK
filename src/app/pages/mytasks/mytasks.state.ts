@@ -1,3 +1,4 @@
+import { paginate } from '../../shared/ui/pager/pager';
 import { Injectable, computed, signal } from '@angular/core';
 import { MY_TASKS, TASK_FINAL } from '../../data/tasks.data';
 import { MyTask } from '../../interface/task';
@@ -44,6 +45,8 @@ export class MytasksState {
     this.stOver.update((o) => ({ ...o, [id]: st }));
   }
   readonly authors = [...new Set(MY_TASKS.map((t) => t.author))].sort();
+  /** постранично (таблица и карточки): <app-pager [p]="s.pg" /> */
+  readonly pg = paginate(() => this.rows());
   readonly rows = computed(() => {
     const q = this.q().trim().toLowerCase(), a = this.author(), st = this.status(), due = this.due();
     const f = TASK_SORT_KEYS[this.sort().k], dir = this.sort().dir;

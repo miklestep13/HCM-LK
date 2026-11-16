@@ -2,27 +2,20 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { AttestStore } from '../../../core/demo/attest-store.service';
 import { AttachFile } from '../../../interface/attach';
 import { Attach } from '../../../shared/ui/attach/attach';
-import { AttncardCol } from '../attncard-col/attncard-col';
 
-/** Документы итогов (под участниками): HR загружает, остальные смотрят */
+/** Документы итогов — подраздел в конце блока «Итог»: карточки файлов как в виджете загрузки (app-attach); HR загружает, остальные смотрят */
 @Component({
   selector: '[attncard-docs]',
-  imports: [Attach, AttncardCol],
+  imports: [Attach],
   template: `
-    <div class="ch">
-      <button attncard-col="Документы"></button>
-      <h3>Документы</h3>
-      @if (!up()) {
-        <span class="chip">{{ docs().length }}</span>
-      }
-    </div>
+    <h4 class="afdh">Документы<span class="pntc">{{ docs().length }}</span></h4>
     @if (up()) {
-      <div class="cb"><app-attach edit [files]="docs()" (filesChange)="set($event)" /></div>
+      <app-attach edit [files]="docs()" (filesChange)="set($event)" />
     } @else {
-      <div class="cb attv"><app-attach [files]="docs()" /></div>
+      <app-attach class="attv" [files]="docs()" />
     }
   `,
-  host: { class: 'afsect', '[class.afcold]': 's.isCold("Документы")' },
+  host: { class: 'afdocs' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttncardDocs {

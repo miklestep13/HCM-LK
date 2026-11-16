@@ -148,10 +148,29 @@ export class IprStore {
     else {
       this.none.set(false);
       this.status.set(v);
+      this.demoDone(v);
     }
   }
+  /** перевод плана по этапам (кнопки острова): только статус, выполненные задачи — как есть */
   setStatus(s: IprStatus): void {
-    this.setDemo(s);
+    if (this.nf()) this.cancelNew();
+    this.none.set(false);
+    this.status.set(s);
+  }
+  /**
+   * демо: выполненные задачи под статус плана — черновик и предложено 0 из 7, утверждено и «не выполнено» — 2 (как в данных),
+   * «выполнено частично» — 5, «выполнено» — все
+   */
+  private demoDone(v: IprStatus): void {
+    const seed = IPR_ME.tasks.map((t) => t.done);
+    let extra = v === 'Выполнено частично' ? 3 : 0;
+    const done = seed.map((d) => {
+      if (v === 'Черновик' || v === 'Предложено') return false;
+      if (v === 'Выполнено') return true;
+      if (!d && extra > 0) return extra--, true;
+      return d;
+    });
+    this.plan.update((p) => ({ ...p, tasks: p.tasks.map((t, i) => ({ ...t, done: done[i] ?? t.done })) }));
   }
 
   /** демо-сценарий наполнения: подменяет задачи и компетенции текущего плана */

@@ -21,7 +21,7 @@ import { Select } from '../../../shared/ui/select/select';
           <app-select [options]="decisions" [value]="f().dec" (valueChange)="setDec($event)" placeholder="Выберите решение" />
         </app-field>
         @if (f().dec === 'Превосходит ожидания') {
-          <label class="ckb afck"
+          <label class="swt afck"
             ><input type="checkbox" [checked]="f().cand" (change)="patch({ cand: $any($event.target).checked })" /><i></i><span>Кандидат на повышение</span></label
           >
         }

@@ -51,9 +51,9 @@ export const TODAY = new Date(2026, 8, 30);
 @Component({
   selector: 'app-date-range',
   template: `
+    <!-- как app-select с подписью: одной строкой «Подпись: период» (подпись серая), пустой — «Подпись: Все» -->
     <span class="ft2lab">{{ label() }}</span>
-    <!-- одной строкой «Подпись: период», пустой — «Подпись: Все» -->
-    <input class="fin" readonly [value]="label() + ': ' + (text() || 'Все')" [title]="text()" />
+    <span class="fsv" [title]="text()">{{ text() || 'Все' }}</span>
     <button class="dtb" type="button" aria-label="Выбрать период">
       <svg viewBox="0 0 16 16" fill="none">
         <rect
@@ -113,7 +113,10 @@ export const TODAY = new Date(2026, 8, 30);
     }
   `,
   host: {
-    class: 'dtin ftrng ft2w',
+    class: 'fsel ft2fs dtin ftrng',
+    role: 'button',
+    tabindex: '0',
+    '[class.act]': 'open()',
     '[class.is-empty]': '!value().a',
     '(click)': 'toggle()',
     '(document:click)': 'outside($event)',

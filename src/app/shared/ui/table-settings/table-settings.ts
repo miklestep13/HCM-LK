@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, input, model, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, booleanAttribute, inject, input, model, signal } from '@angular/core';
 
 /**
  * Кнопка «Настройка таблицы» в шапке фильтров: список столбцов с отметками (первый столбец скрыть нельзя).
  * Скрытые столбцы — номера с 1; на таблицу вешаются классы hcN: [class]="hiddenCols(hidden())".
- *   <button ftAction app-table-settings [columns]="cols" [(hidden)]="hidden"></button>
+ *   <button ftAction app-table-settings [columns]="cols" [(hidden)]="hidden" all></button>   — all: пункт «Все» (включить / отключить все столбцы)
  */
 @Component({
   selector: 'button[app-table-settings]',
@@ -13,6 +13,10 @@ import { ChangeDetectionStrategy, Component, ElementRef, inject, input, model, s
       <div class="fpop selpop chpop plcolp" [style.left.px]="pos().left" [style.top.px]="pos().top" (click)="$event.stopPropagation()">
         <div class="plcolh">Столбцы таблицы</div>
         <div class="folist">
+          @if (all()) {
+            <!-- «Все»: включает все столбцы; если уже все включены — оставляет только первый -->
+            <div class="foi foall" [class.on]="!hidden().length" [class.mid]="hidden().length && hidden().length < columns().length - 1" (click)="flipAll()">Все</div>
+          }
           @for (c of columns(); track c; let i = $index) {
             <div class="foi" [class.on]="!hidden().includes(i + 1)" [class.dis]="i === 0" (click)="flip(i + 1)">{{ c }}</div>
           }
@@ -26,19 +30,25 @@ import { ChangeDetectionStrategy, Component, ElementRef, inject, input, model, s
 export class TableSettings {
   readonly columns = input.required<string[]>();
   readonly hidden = model<number[]>([]);
+  /** пункт «Все» над списком — включить или отключить все столбцы (кроме первого) */
+  readonly all = input(false, { transform: booleanAttribute });
   protected readonly open = signal(false);
   protected readonly pos = signal({ left: 0, top: 0 });
   private readonly el = inject(ElementRef<HTMLElement>);
   protected toggle(): void {
     if (this.open()) return this.open.set(false);
     const r = this.el.nativeElement.getBoundingClientRect();
-    this.pos.set({ left: Math.min(r.left, innerWidth - 248), top: r.bottom + 6 });
+    // список шириной 260 — у правого края кнопки, не выходя за окно
+    this.pos.set({ left: Math.max(8, Math.min(r.right - 260, innerWidth - 268)), top: r.bottom + 6 });
     this.open.set(true);
   }
   protected flip(n: number): void {
     if (n === 1) return;
     const h = this.hidden();
     this.hidden.set(h.includes(n) ? h.filter((x) => x !== n) : [...h, n]);
+  }
+  protected flipAll(): void {
+    this.hidden.set(this.hidden().length ? [] : this.columns().map((_, i) => i + 1).slice(1));
   }
   protected outside(e: Event): void {
     if (this.open() && !this.el.nativeElement.contains(e.target as Node)) this.open.set(false);

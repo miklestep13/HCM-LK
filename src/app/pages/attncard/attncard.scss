@@ -295,10 +295,6 @@
 .pg-attncard .afrow.afexp:hover .afchev {
   color: var(--blue);
 }
-.pg-attncard .atfin2 .asttbl thead th:first-child,
-.pg-attncard .afacttbl thead th:first-child {
-  padding-left: 22px;
-}
 .pg-attncard .afrow.open .afchev svg {
   transform: rotate(180deg);
 }
@@ -343,7 +339,8 @@
   width: 140px;
 }
 .pg-attncard .afevtbl th:nth-child(5) {
-  width: 48px;
+  /* две кнопки 28px («Редактировать», «Удалить») с зазором и отступами ячейки */
+  width: 88px;
 }
 .pg-attncard .afevtbl td:last-child .acts {
   justify-content: flex-end;
@@ -368,7 +365,7 @@
   color: var(--blue);
 }
 .pg-attncard .afevav .more:hover {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
 }
 .pg-attncard .afevav .av {
   cursor: default;
@@ -418,7 +415,7 @@
   width: 100%;
 }
 .pg-attncard .atfin2 .asttbl th:nth-child(1) {
-  width: 160px !important;
+  width: 240px !important;
 }
 .pg-attncard .atfin2 .asttbl th:nth-child(2) {
   width: auto !important;
@@ -551,9 +548,6 @@
 .pg-attncard .afacttbl th:nth-child(6) {
   width: 48px;
 }
-.pg-attncard .atfin2 .asttbl thead th:first-child {
-  padding-left: 22px;
-}
 .pg-attncard .afsect > .ch {
   align-items: center;
   gap: 8px;
@@ -591,7 +585,7 @@
   padding-left: 22px;
 }
 .pg-attncard .afacttbl th:nth-child(1) {
-  width: 160px;
+  width: 240px;
 }
 .pg-attncard .afacttbl th:nth-child(2) {
   width: auto;
@@ -701,20 +695,6 @@
 }
 .pg-attncard .afevt > .ch .afevadd {
   margin-left: auto;
-}
-.pg-attncard .atfppl .afppsw {
-  font: var(--q-font-ui-body-2);
-  color: var(--t1);
-  margin: 0px 0px 12px;
-  align-self: flex-start;
-  display: inline-flex;
-}
-.pg-attncard .atfppl .mem.afoff .av {
-  opacity: 0.5;
-}
-.pg-attncard .atfppl .mem.afoff .nm,
-.pg-attncard .atfppl .mem.afoff .rl {
-  color: var(--t3);
 }
 .pg-attncard .btn:disabled {
   opacity: 0.45;
@@ -904,48 +884,25 @@
   grid-template-columns: repeat(2, minmax(0px, 1fr));
   gap: 12px;
 }
-.pg-attncard .afdocb .attl {
+/* «Документы» — подраздел в конце «Итога»: карточки файлов друг под другом, как в виджете загрузки */
+.pg-attncard .afdocs {
+  display: block;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--q-content-border-secondary);
+}
+.pg-attncard .afdocs .afdh {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+.pg-attncard .afresb .afdocs .attl {
   display: flex;
   flex-direction: column;
-  gap: 0px;
-}
-.pg-attncard .afdocb .attc {
-  border-top: 0px;
-  border-right: 0px;
-  border-left: 0px;
-  border-image: none;
-  border-radius: 0px;
-  padding: 12px 0px;
-  border-bottom: 1px solid var(--q-content-border-secondary);
-  background: none;
-}
-.pg-attncard .afdocb .attc:last-child {
-  border-bottom: 0px;
-  padding-bottom: 0px;
-}
-.pg-attncard .afdocb .attl > .attc:first-child {
-  padding-top: 4px;
-}
-.pg-attncard .stickR .afdocb .attc {
-  gap: 12px;
-}
-.pg-attncard .stickR .afdocb .attn small {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-}
-.pg-attncard .stickR .afdocb .atta {
-  gap: 4px;
-}
-.pg-attncard .stickR .afdocb .atti {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-}
-.pg-attncard .stickR .afdocb .attb {
-  width: 28px;
-  height: 28px;
+  gap: 8px;
 }
 .pg-attncard .hmiprr {
   margin-bottom: 14px;
@@ -1079,18 +1036,15 @@
 .pg-attncard .afpt .astper .cnm small {
   max-width: none;
 }
+/* участник — 40 %, роли — все остальное место (бейджи в строку, переносятся только когда не помещаются); действия — 88 */
+.pg-attncard .afpt th:nth-child(1) {
+  width: 40%;
+}
 .pg-attncard .afpt th:nth-child(2) {
-  width: 220px;
+  width: auto;
 }
-.pg-attncard .afpt th:nth-child(3),
-.pg-attncard .afpt th:nth-child(4) {
-  width: 116px;
-}
-.pg-attncard .afpt th:nth-child(5) {
-  width: 140px;
-}
-.pg-attncard .afpt th:nth-child(6) {
-  width: 48px;
+.pg-attncard .afpt th:nth-child(3) {
+  width: 88px;
 }
 .pg-attncard .afpt tr.afoff .astper {
   opacity: 0.6;
@@ -1308,4 +1262,144 @@
 .pg-attncard .atemp .cnm small {
   font: var(--q-font-ui-description-1);
   color: var(--t3);
+}
+
+/* добавление участника строкой (вариант «В строке»): ссылка под списком и строка выбора сотрудника и ролей (без рамки) */
+.pg-attncard .atfppl .afadd {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+}
+/* в таблице — поля в ряд, ровно по колонкам: «Участник» 40 %, «Роль» — остальное, действия — 88 (ячейка colspan с полями 12:
+   40 % таблицы минус поля ячейки = 40 % сетки − 14.4px; между колонками — 24 = поля соседних ячеек) */
+.pg-attncard .afpplt .afadd {
+  grid-template-columns: calc(40% - 14.4px) minmax(0, 1fr) 64px;
+  column-gap: 24px;
+  align-items: center;
+}
+.pg-attncard .afpplt .afadd .afada {
+  justify-content: flex-end;
+}
+.pg-attncard .atfppl .afadd .fld {
+  margin: 0;
+}
+/* роли — той же высоты, что и выбор сотрудника; текст с тем же отступом слева */
+.pg-attncard .atfppl .afadd .msel {
+  min-height: 48px;
+  padding: 6px 12px;
+}
+/* выбор сотрудника — как в виджете участников: фото, ФИО и должность */
+.pg-attncard .atfppl .afadp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 10px 0 8px;
+  border: 1px solid var(--q-input-border);
+  border-radius: 8px;
+  background: var(--q-content-background);
+  cursor: pointer;
+  text-align: left;
+  color: var(--q-content-text);
+}
+.pg-attncard .atfppl .afadp:hover,
+.pg-attncard .atfppl .afadp.act {
+  border-color: var(--q-input-hover-border);
+}
+.pg-attncard .atfppl .afadp .av {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 8px;
+}
+.pg-attncard .atfppl .afadp .cnm {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.pg-attncard .atfppl .afadp .cnm b {
+  font: var(--q-font-ui-body-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pg-attncard .atfppl .afadp .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-attncard .atfppl .afadp .ph {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  padding-left: 4px;
+  margin-left: 4px;
+}
+.pg-attncard .atfppl .afadp > app-icon {
+  display: flex;
+  width: 16px;
+  height: 16px;
+  margin-left: auto;
+  color: var(--q-base-500);
+  flex: none;
+}
+.pg-attncard .atfppl :is(.afadp.err, .afadd .fld.err .msel) {
+  border-color: var(--q-error-500);
+}
+/* кнопки: «Отменить» слева, «Добавить» справа */
+.pg-attncard .atfppl .afada {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+/* изменение участника строкой — на его месте в списке; сотрудник показан без выбора */
+.pg-attncard .atfppl .afadd.afedit {
+  margin: 0;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-attncard .afpplt tr.afedr > td {
+  padding: 12px;
+}
+.pg-attncard .afpplt tr.afedr .afadd.afedit {
+  padding: 0;
+  border-bottom: 0;
+}
+.pg-attncard .atfppl .afadp.ro {
+  cursor: default;
+  background: var(--s1);
+}
+.pg-attncard .atfppl .afadp.ro:hover {
+  border-color: var(--q-input-border);
+}
+/* в таблице кнопки строки — иконками: галочка «Сохранить» / «Добавить» — синяя */
+.pg-attncard .atfppl .afada .actb.afok {
+  color: var(--blue);
+}
+.pg-attncard .afpplt .afadd {
+  align-items: center;
+}
+/* кнопки строки в таблице закреплены справа, как колонка «⋯», — видны и при горизонтальной прокрутке */
+.pg-attncard .afpplt tr.afedr .afada {
+  position: sticky;
+  right: 0;
+  background: var(--q-content-background);
+  padding-left: 8px;
+}
+
+/* таблицы оценок: в узком окне не сжимаем «Оценивающего» до обрезанного ФИО — таблица прокручивается по горизонтали (действия закреплены справа) */
+.pg-attncard .atfin2 .asttbl,
+.pg-attncard .afacttbl {
+  min-width: 860px;
+}
+/* «Кандидат на повышение» — свитчер на всю строку формы итога, слева, обычным шрифтом */
+.pg-attncard .frm .swt.afck {
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin-left: 0;
+}
+.pg-attncard .frm .swt.afck span {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
 }

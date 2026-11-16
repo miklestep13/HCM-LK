@@ -1,0 +1,570 @@
+/* Страница прохождения — раскладка плеера курса и предпросмотра конструктора (хост .pg-pass):
+   слева — карточка с названием и ключевой информацией, ниже — структура (.pltoc: разделы .sect и строки .plrow),
+   справа — контент (.plmain: заголовок .plhd, описание .pld, кнопки .plnav внизу). */
+:where(.pg-pass) .secn {
+  font: var(--q-font-ui-description-1);
+  display: inline-block;
+  border-radius: 6px;
+  padding: 2px 7px;
+  white-space: nowrap;
+  background: var(--s2);
+  color: var(--t2);
+  vertical-align: middle;
+}
+:where(.pg-pass) .secn {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+:where(.pg-pass) .c.full {
+  min-height: calc(-172px + 100vh);
+}
+:where(.pg-pass) .c.full {
+  display: flex;
+  flex-direction: column;
+}
+:where(.pg-pass) .sect {
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+:where(.pg-pass) .sect:last-child {
+  margin-bottom: 0px;
+}
+:where(.pg-pass) .secth {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  background: var(--s1);
+}
+:where(.pg-pass) .secth b {
+  font: var(--q-font-ui-headline-4);
+  flex: 1 1 0%;
+  color: var(--black);
+}
+:where(.pg-pass) .cblk {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 11px 16px;
+  border-top: 1px solid var(--stroke);
+}
+:where(.pg-pass) .cbi {
+  font:var(--q-font-ui-description-1);
+  flex:0 0 18px;
+  text-align:right;
+  background:none;
+  border-radius:0;
+  color:var(--t3);
+  font-variant-numeric:tabular-nums;
+}
+:where(.pg-pass) .cblk > div:not(.cbi) {
+  flex: 1 1 0%;
+  min-width: 0px;
+}
+:where(.pg-pass) .cblk b {
+  font: var(--q-font-ui-headline-4);
+  display: block;
+  color: var(--t1);
+}
+:where(.pg-pass) .bmeta {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  white-space: nowrap;
+}
+:where(.pg-pass) .plpr {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:first-child {
+  padding-top: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) .c > .cb:last-child {
+  padding-bottom: 24px;
+}
+:is(.pg:not(.pg-home):not(.pg-company)) :is(.row3, .row4t, .bgrid, .two, .plside, .crow) .c > .cb {
+  padding: 20px 24px;
+}
+:where(.pg-pass) .cblk .cbi svg {
+  width: 16px;
+  height: 16px;
+}
+:where(.pg-pass) .plpr .pr {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+:where(.pg-pass) .plpr .pr .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--grey);
+}
+:where(.pg-pass) .plpr .pr .v {
+  font: var(--q-font-ui-headline-4);
+}
+:where(.pg-pass) .plmain h2 {
+  font: var(--q-font-ui-headline-2);
+  margin: 6px 0px 8px;
+  color: var(--black);
+}
+:where(.pg-pass) .pld {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+  margin: 0px 0px 20px;
+}
+:where(.pg-pass) .plnav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+:where(.pg-pass) .plq {
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+:where(.pg-pass) .plq b {
+  font: var(--q-font-ui-headline-4);
+  display: block;
+  margin-bottom: 8px;
+}
+:where(.pg-pass) .plo {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 0px;
+  cursor: pointer;
+}
+:where(.pg-pass) .plo input {
+  accent-color: var(--blue);
+}
+:where(.pg-pass) .secth .secn {
+  font: var(--q-font-ui-headline-4);
+  background: none;
+  color: var(--black);
+  padding: 0px;
+  min-width: 14px;
+}
+:where(.pg-pass) .secth > .bmeta {
+  margin-left: auto;
+}
+:where(.pg-pass) .secth[data-acc] {
+  cursor: pointer;
+  user-select: none;
+}
+:where(.pg-pass) .secth .accar {
+  display: inline-flex;
+  color: var(--t3);
+  transition: transform 0.15s;
+}
+:where(.pg-pass) .secth .accar svg {
+  width: 14px;
+  height: 14px;
+}
+:where(.pg-pass) .cblk .cbi {
+  flex: 0 0 auto;
+  min-width: 14px;
+  text-align: left;
+}
+:where(.pg-pass) .plgrid {
+  display: grid;
+  grid-template-columns: 380px minmax(0px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+:where(.pg-pass) .plside {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 72px; /* под шапкой сайта */
+}
+:where(.pg-pass) .pltitle {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin-bottom: 12px;
+}
+:where(.pg-pass) .pli {
+  display: inline-flex;
+}
+:where(.pg-pass) .pli svg {
+  width: 16px;
+  height: 16px;
+}
+:where(.pg-pass) .pli.ok {
+  color: var(--ok);
+}
+:where(.pg-pass) .pli.cur {
+  color: var(--blue);
+}
+:where(.pg-pass) .pli.dg {
+  color: var(--dg);
+}
+:where(.pg-pass) .c.full.plmain {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0px;
+}
+:where(.pg-pass) .plhd {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+:where(.pg-pass) .plhd h2 {
+  font: var(--q-font-ui-headline-2);
+  color: var(--black);
+  margin: 0px;
+}
+:where(.pg-pass) .plhd .bmeta {
+  font: var(--q-font-ui-body-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+:where(.pg-pass) .plhd .bmeta svg {
+  width: 14px;
+  height: 14px;
+}
+:where(.pg-pass) .plbody {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+:where(.pg-pass) .plq {
+  padding-bottom: 16px;
+}
+:where(.pg-pass) .plq .tsearch {
+  width: 100%;
+}
+:where(.pg-pass) .pltitle.lfpt {
+  cursor: pointer;
+}
+:where(.pg-pass) .pltitle.lfpt:hover {
+  color: var(--blue);
+}
+:where(.pg-pass) .lnk.lfcrumb {
+  font: var(--q-font-ui-headline-4);
+  display: block;
+  align-self: flex-start;
+  text-align: left;
+  width: fit-content;
+  margin: 0px 0px 6px;
+  padding: 0px;
+}
+:where(.pg-pass) .plpr .pr {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8px;
+}
+:where(.pg-pass) .plpr .pr .l {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+:where(.pg-pass) .plpr .pr .v {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+:where(.pg-pass) .plpr .bar {
+  margin-top: 8px;
+}
+:where(.pg-pass) .plvid {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  max-height: 420px;
+  border-radius: 12px;
+  background: var(--t1) center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+:where(.pg-pass) .plvid::before {
+  content: "";
+  position: absolute;
+  inset: 0px;
+  background: linear-gradient(180deg,var(--q-base-transparent-500),var(--q-base-transparent-700));
+}
+:where(.pg-pass) .plvp {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--q-button-primary-text) 92%, transparent);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 6px 20px var(--q-overlay);
+  transition: transform 0.15s;
+}
+:where(.pg-pass) .plvid:hover .plvp {
+  transform: scale(1.06);
+}
+:where(.pg-pass) .plvp svg {
+  width: 28px;
+  height: 28px;
+  color: var(--blue);
+  margin-left: 3px;
+}
+:where(.pg-pass) .plvm {
+  font: var(--q-font-ui-headline-4);
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  color: var(--q-content-background);
+}
+:where(.pg-pass) .tkfiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+:where(.pg-pass) .pldrop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 28px 16px;
+  border: 1.5px dashed var(--stroke2);
+  border-radius: 12px;
+  background: var(--s1);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+:where(.pg-pass) .pldrop:hover {
+  border-color: var(--blue);
+  background: var(--blue-bg);
+}
+:where(.pg-pass) .pldrop svg {
+  width: 28px;
+  height: 28px;
+  color: var(--blue);
+  margin-bottom: 4px;
+}
+:where(.pg-pass) .pldrop b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+:where(.pg-pass) .pldrop b u {
+  color: var(--blue);
+  text-decoration: none;
+}
+:where(.pg-pass) .pldrop small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+:where(.pg-pass) .pltask .tkfiles {
+  margin-top: 12px;
+}
+:where(.pg-pass) .lfres {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 8px 0px 4px;
+}
+:where(.pg-pass) .lfres svg {
+  width: 40px;
+  height: 40px;
+}
+:where(.pg-pass) .lfres.dg svg {
+  color: var(--dg);
+}
+:where(.pg-pass) .lfres b {
+  font: var(--q-font-ui-headline-3);
+}
+:where(.pg-pass) .lfres span {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+  max-width: 440px;
+}
+:where(.pg-pass) .lfres.inl {
+  align-items: flex-start;
+  text-align: left;
+  padding: 16px;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  gap: 4px;
+}
+:where(.pg-pass) .lfres.inl svg {
+  width: 24px;
+  height: 24px;
+}
+:where(.pg-pass) .lfres.inl b {
+  font: var(--q-font-ui-headline-4);
+}
+:where(.pg-pass) .lfres.ok svg {
+  color: var(--ok);
+}
+:where(.pg-pass) .lfstars {
+  font: var(--q-font-ui-headline-1);
+  color: var(--stroke2);
+  margin-bottom: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+:where(.pg-pass) .lfstars span.on {
+  color: var(--warn);
+}
+:where(.pg-pass) .plfb {
+  max-width: 720px;
+  margin: 24px auto 0px;
+  width: 100%;
+}
+:where(.pg-pass) .plfb h3 {
+  font: var(--q-font-ui-headline-3);
+  margin: 0px 0px 6px;
+}
+:where(.pg-pass) .sect.closed .accar {
+  transform: rotate(-90deg);
+}
+:where(.pg-pass) .sect.closed .cblk {
+  display: none;
+}
+
+/* содержание курса (#plToc прототипа) */
+.pg-pass.pg-pass .pltoc .sect:last-child{margin-bottom:0}
+.pg-pass.pg-pass .pltoc .plrow{cursor:pointer;align-items:center;padding:10px 16px}
+.pg-pass.pg-pass .pltoc .plrow.on{background:var(--blue-bg)}
+.pg-pass.pg-pass .pltoc .plrow:hover b{color:var(--blue)}
+.pg-pass.pg-pass .pltoc .cbi{display:flex;align-items:center;min-width:16px}
+
+/* прикрепленные файлы задания */
+:where(.pg-pass) .tkfiles{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+:where(.pg-pass) .tkfile{display:inline-flex;align-items:center;gap:10px;padding:8px 14px 8px 10px;border:1px solid var(--stroke2);border-radius:10px;cursor:pointer;max-width:100%}
+:where(.pg-pass) .tkfi{width:32px;height:32px;border-radius:8px;background:var(--blue-bg);color:var(--blue);display:grid;place-items:center;flex:none}
+:where(.pg-pass) .tkfi svg{width:18px;height:18px}
+:where(.pg-pass) .tkfn{display:flex;flex-direction:column;min-width:0}
+:where(.pg-pass) .tkfn b{font:var(--q-font-ui-headline-4);color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+:where(.pg-pass) .tkfn small{font:var(--q-font-ui-description-1);color:var(--t3)}
+:where(.pg-pass) .tkfile:hover b{color:var(--blue)}
+:where(.pg-pass) .pltask .tkfiles{margin-top:12px}
+:where(.pg-pass) .pltask .tkfile{background:var(--white);cursor:default}
+:where(.pg-pass) .pltask .tkfile .tkfx{margin-left:6px;color:var(--t3);display:inline-flex;cursor:pointer}
+:where(.pg-pass) .pltask .tkfile .tkfx svg{width:14px;height:14px}
+:where(.pg-pass) .pltask .tkfile .tkfx:hover{color:var(--dg)}
+
+/* узкий экран: структура над контентом */
+@media (max-width: 1100px) {
+  :where(.pg-pass) .plgrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  :where(.pg-pass) .plside {
+    position: static;
+  }
+}
+
+/* поиск над структурой — без рамки (у .plq рамка только для вопроса теста в контенте) */
+:where(.pg-pass) .c > .cb.plq {
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+}
+
+/* панель просмотра документа и презентации (из прототипа) */
+:where(.pg-pass) .pltb {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  color: var(--t2);
+}
+:where(.pg-pass) .pltb span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+:where(.pg-pass) .pltb svg {
+  width: 16px;
+  height: 16px;
+}
+:where(.pg-pass) .pltb .ib3.flip svg {
+  transform: rotate(180deg);
+}
+:where(.pg-pass) .pltb .plpg {
+  margin-left: auto;
+}
+/* презентация */
+:where(.pg-pass) .plpres {
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  overflow: hidden;
+}
+:where(.pg-pass) .plslide {
+  aspect-ratio: 16 / 9;
+  max-height: 440px;
+  background: var(--s1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 48px;
+  gap: 10px;
+}
+:where(.pg-pass) .plslide small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+:where(.pg-pass) .plslide b {
+  font: var(--q-font-ui-headline-2);
+  color: var(--black);
+}
+:where(.pg-pass) .plslide span {
+  font: var(--q-font-ui-body-1);
+  color: var(--t2);
+  max-width: 560px;
+}
+:where(.pg-pass) .plpres .pltb {
+  justify-content: center;
+  border-top: 1px solid var(--stroke);
+}
+/* встроенный PDF */
+:where(.pg-pass) .plpdf {
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--s1);
+}
+:where(.pg-pass) .plpdf .pltb.top {
+  background: var(--white);
+  border-bottom: 1px solid var(--stroke);
+}
+:where(.pg-pass) .plpage {
+  margin: 24px auto;
+  width: min(560px, 90%);
+  background: var(--white);
+  border-radius: 6px;
+  box-shadow: 0 1px 4px var(--q-base-transparent-100);
+  padding: 36px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+:where(.pg-pass) .plpage b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin-bottom: 8px;
+}
+:where(.pg-pass) .plpage i {
+  display: block;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--stroke);
+}
+:where(.pg-pass) .plpage i.s {
+  width: 60%;
+}

@@ -18,14 +18,29 @@ import { EmployeeCard } from '../../widgets/employee-card/employee-card';
 import { Events } from '../../widgets/events/events';
 import { IprComps } from '../../widgets/ipr-comps/ipr-comps';
 import { IprTaskCard } from '../../widgets/ipr-task-card/ipr-task-card';
+import { IprTaskForm } from '../../widgets/ipr-task-form/ipr-task-form';
+import { RelDocs } from '../../widgets/rel-docs/rel-docs';
+import { ReqBuilder } from '../../widgets/req-builder/req-builder';
+import { rqDefaultBlocks } from '../../data/req-builder.data';
+import { RqBlock } from '../../interface/req-builder';
 import { LearnActionButton } from '../../widgets/learn-action/learn-action';
 import { LearnCard } from '../../widgets/learn-card/learn-card';
 import { Members } from '../../widgets/members/members';
+import { Builder } from '../../widgets/builder/builder';
+import { Audience } from '../../widgets/audience/audience';
+import { AudGroup } from '../../interface/audience';
+import { AUD_POOL } from '../../data/audience.data';
+import { Seg } from '../../shared/ui/seg/seg';
+import { BLD_DEMO } from '../../data/builder.data';
+import { BldKind, BldMaterial } from '../../interface/builder';
 import { NewsPost } from '../../widgets/news-post/news-post';
 import { PlanSummary } from '../../widgets/plan-summary/plan-summary';
 import { Poll } from '../../widgets/poll/poll';
 import { PplCard } from '../../widgets/ppl-card/ppl-card';
 import { EventHead } from '../../widgets/event-head/event-head';
+import { EventMembers } from '../../widgets/event-members/event-members';
+import { EVM_DEMO, EVM_MORE, EVM_ROLES, EVM_TYPES, EVM_COMPANIES } from '../../data/event-members.data';
+import { EvMember } from '../../interface/member';
 import { WalletSendService } from '../../widgets/wallet-send/wallet-send.service';
 
 /**
@@ -49,9 +64,13 @@ import { WalletSendService } from '../../widgets/wallet-send/wallet-send.service
     PplCard,
     EventHead,
     CoverUpload,
-    IprTaskCard,
+    IprTaskCard, IprTaskForm, RelDocs, ReqBuilder,
     IprComps,
     BusyChart,
+    Builder,
+    Seg,
+    Audience,
+    EventMembers,
   ],
   template: `
     <app-page-head title="Виджеты" [noBack]="true" />
@@ -153,8 +172,47 @@ import { WalletSendService } from '../../widgets/wallet-send/wallet-send.service
                 }
               </div></div>
             }
+            @case ('ipr-task-form') {
+              <div class="c wgbox"><button class="btn pri" (click)="tform.set(true)">Добавить задачу</button></div>
+              @if (tform()) {
+                <app-ipr-task-form due0="31.12.2026" (saved)="todo()" (closed)="tform.set(false)" />
+              }
+            }
+            @case ('rel-docs') {
+              <div class="c wgbox" app-rel-docs edit></div>
+            }
+            @case ('req-builder') {
+              <div app-req-builder [(blocks)]="rqb" title="Справка 2-НДФЛ"></div>
+            }
+            @case ('event-members') {
+              <!-- ⚙ справа в шапке виджета — переключить настройки на месте -->
+              <div
+                class="c"
+                event-members
+                configurable
+                [(rows)]="evm"
+                colSettings
+                [pool]="evmPool"
+                [types]="evmTypes"
+                [roles]="evmRoles"
+                edit="all"
+                filters
+                addAt="bottom"
+                paging="pages"
+              ></div>
+            }
             @case ('ipr-comps') {
               <div class="afipr"><div ipr-comps [comps]="ipr.comps()" [tasks]="ipr.plan().tasks" (tasksOf)="todo()"></div></div>
+            }
+            @case ('builder') {
+              <div class="c mb wgbox wgbld">
+                <span class="gr">Вид материала:</span>
+                <app-seg [options]="bldKinds" [value]="bldKind()" (valueChange)="setBld($event)" />
+              </div>
+              <div app-builder [material]="bld()"></div>
+            }
+            @case ('audience') {
+              <div class="c wgbox"><div app-audience [(groups)]="aud" [pool]="audPool"></div></div>
             }
             @case ('wallet-send') {
               <div class="c wgbox"><button class="btn pri" (click)="wallet.open()">Перечислить валюту</button></div>
@@ -194,9 +252,48 @@ export class Widgets {
   protected readonly busyPool = [...COMM_POOL, ...EVENT_GROUPS];
   protected readonly busyT = signal({ t1: WIDGET_BUSY.t1, t2: WIDGET_BUSY.t2 });
   protected readonly open = signal(-1);
+  // «Участники события»: демо-список и настройки показа
+  /** конструктор заявки: инфоблоки примера */
+  protected readonly rqb = signal<RqBlock[]>(rqDefaultBlocks());
+  protected readonly evm = signal<EvMember[]>([...EVM_DEMO, ...EVM_MORE].map((m) => ({ ...m })));
+  protected readonly evmTypes = EVM_TYPES;
+  /** выбор участника события: сотрудники, подразделения, команды, компании */
+  protected readonly evmPool = [...COMM_POOL, ...EVENT_GROUPS, ...EVM_COMPANIES];
+  protected readonly evmRoles = EVM_ROLES;
+  /** пример сайдбара задачи ИПР открыт */
+  protected readonly tform = signal(false);
   protected readonly chat = signal<CommentItem[]>(
     Object.values(PRODUCT_CHAT)[0].map((m) => ({ av: m[0], author: m[1], date: m[2], text: m[3], likes: m[5] || 0, liked: !!m[6], mine: false })),
   );
+
+  /** условия отбора: два подразделения и исключение по грейду; вторая группа — руководители отдела продаж */
+  protected readonly audPool = AUD_POOL;
+  protected readonly aud = signal<AudGroup[]>([
+    { c: [{ f: 'Подразделение', op: 'in', v: ['Управление рисков', 'Управление банковских продуктов'] }, { f: 'Грейд', op: 'out', v: ['Стажер', 'Intern'] }] },
+    { c: [{ f: 'Подразделение', op: 'in', v: ['Отдел продаж'] }, { f: 'Должность', op: 'in', v: ['Руководитель отдела продаж'] }] },
+  ]);
+  /** конструктор: вид материала и пример (пульс-опрос — опрос из одних вопросов) */
+  protected readonly bldKinds = [
+    { value: 'course', label: 'Курс' },
+    { value: 'test', label: 'Тест' },
+    { value: 'poll', label: 'Опрос' },
+    { value: 'pulse', label: 'Пульс-опрос' },
+    { value: 'task', label: 'Задание' },
+    { value: 'program', label: 'Программа' },
+  ];
+  protected readonly bldKind = signal('course');
+  protected readonly bld = signal<BldMaterial>(BLD_DEMO.course());
+  protected setBld(k: string): void {
+    this.bldKind.set(k);
+    if (k === 'pulse') {
+      const m = BLD_DEMO.poll();
+      m.t = 'Пульс-опрос: как прошла неделя';
+      m.one = true;
+      m.paging = 'block';
+      m.secs = [{ ...m.secs[0], mods: [{ ...m.secs[0].mods[0], t: '', d: '', blocks: m.secs[0].mods.flatMap((x) => x.blocks).slice(0, 5) }] }];
+      this.bld.set(m);
+    } else this.bld.set(BLD_DEMO[k as BldKind]());
+  }
 
   protected go(key: string): void {
     document.getElementById('wg-' + key)?.scrollIntoView({ behavior: 'smooth', block: 'start' });

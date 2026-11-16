@@ -6,10 +6,11 @@ import { AttachFile } from '../../../interface/attach';
 import { AttRate } from '../../../interface/attest';
 import { AttachPreviewService } from '../../../shared/ui/attach/attach-preview.service';
 import { attachKind, attachSize } from '../../../shared/ui/attach/attach.utils';
-import { Chips } from '../../../shared/ui/chips/chips';
 import { FilterBar } from '../../../shared/ui/filter-bar/filter-bar';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { Select } from '../../../shared/ui/select/select';
+import { DateRange, DateRangeField, EMPTY_RANGE, inRange } from '../../../shared/ui/date-range/date-range';
+import { MultiSelect, MultiSelectMeta } from '../../../shared/ui/multi-select/multi-select';
 import { AttncardCol } from '../attncard-col/attncard-col';
 import { AttncardRateForm } from '../attncard-rate-form/attncard-rate-form';
 import { avFor, isLetter, rateMethod } from '../attncard.utils';
@@ -20,7 +21,7 @@ import { avFor, isLetter, rateMethod } from '../attncard.utils';
  */
 @Component({
   selector: '[attncard-rates]',
-  imports: [AttncardCol, FilterBar, Chips, Select, Icon, AttncardRateForm],
+  imports: [AttncardCol, FilterBar, Select, MultiSelect, DateRangeField, Icon, AttncardRateForm],
   template: `
     <div class="ch">
       <button attncard-col="Требуемые оценки"></button>
@@ -28,15 +29,18 @@ import { avFor, isLetter, rateMethod } from '../attncard.utils';
       <span class="chip">{{ man().length }}</span>
     </div>
     <app-filter-bar placeholder="Поиск по способу оценки или оценивающему" [(query)]="q">
-      <app-chips label="Статус" [options]="statuses" [(value)]="st" />
       <app-select label="Способ" [options]="types()" allLabel="Все способы" placeholder="Все способы" [(value)]="t" />
+      <app-multi-select label="Оценивающий" [options]="whoOpts()" [meta]="whoMeta()" [(value)]="who" />
+      <app-date-range label="Дата оценки" [(value)]="dr" />
+      <app-select label="Значение" [options]="valOpts()" allLabel="Все значения" placeholder="Все значения" [(value)]="val" />
+      <app-select label="Статус" [options]="statuses" allLabel="Все статусы" placeholder="Все статусы" [(value)]="st" />
     </app-filter-bar>
     <div class="cb">
       <div class="tw">
         <table class="tbl clbtbl asttbl">
           <thead>
             <tr>
-              <th style="width: 130px">Способ оценки</th>
+              <th>Способ оценки</th>
               <th style="width: 190px">Оценивающий</th>
               <th style="width: 104px">Дата оценки</th>
               <th style="width: 84px">Значение</th>
@@ -51,12 +55,9 @@ import { avFor, isLetter, rateMethod } from '../attncard.utils';
               @let x = d && (!!a.cr || !!docs.length);
               <tr class="afrow" [class.afexp]="x" [class.open]="x && opened().has(a.k)" (click)="x ? toggle(a.k) : null">
                 <td>
+                  <!-- стрелка аккордеона — только у строки, которую можно раскрыть; без нее текст без отступа слева -->
                   <span class="afcell"
-                    ><span class="afchev">
-                      @if (x) {
-                        <app-icon name="chevDown" />
-                      } </span
-                    ><b class="asttp">{{ method(a) }}</b></span
+                    >@if (x) {<span class="afchev"><app-icon name="chevDown" /></span>}<b class="asttp">{{ method(a) }}</b></span
                   >
                 </td>
                 <td>
@@ -163,19 +164,36 @@ export class AttncardRates {
   protected readonly q = signal('');
   protected readonly t = signal('');
   protected readonly st = signal('');
+  /** фильтры: оценивающие (любой из выбранных; в списке — фото и роль), дата оценки, значение */
+  protected readonly who = signal<string[]>([]);
+  protected readonly dr = signal<DateRange>(EMPTY_RANGE);
+  protected readonly val = signal('');
   protected readonly opened = signal(new Set<string>());
   protected readonly rate = signal<AttRate | null>(null);
 
   /** оценки людей (360 и цели — в «Пройденных оценках») */
   protected readonly man = computed(() => this.s.list().filter((a) => a.kind === 'man'));
   protected readonly types = computed(() => [...new Set(this.man().map((a) => a.t))]);
+  protected readonly whoOpts = computed(() => [...new Set(this.man().map((a) => a.who))]);
+  protected readonly whoMeta = computed(() =>
+    Object.fromEntries(
+      this.man().map((a): [string, MultiSelectMeta] => [
+        a.who,
+        a.av === 'me' ? { img: this.me, sub: a.role } : { av: typeof a.av === 'number' ? avFor(a.who, a.av) : '', sub: a.role },
+      ]),
+    ),
+  );
+  protected readonly valOpts = computed(() => [...new Set(this.man().filter((a) => a.st === 'done' && a.r).map((a) => a.r!))].sort());
   protected readonly rows = computed(() => {
     const q = this.q().trim().toLowerCase();
     return this.man().filter(
       (a) =>
         (!q || (a.t + ' ' + a.who + ' ' + a.role).toLowerCase().includes(q)) &&
         (!this.t() || a.t === this.t()) &&
-        (!this.st() || (this.st() === 'Проставлена' ? a.st === 'done' : a.st !== 'done')),
+        (!this.st() || (this.st() === 'Проставлена' ? a.st === 'done' : a.st !== 'done')) &&
+        (!this.who().length || this.who().includes(a.who)) &&
+        (!this.dr().a || (a.st === 'done' && inRange(this.dr(), a.d || ''))) &&
+        (!this.val() || (a.st === 'done' && a.r === this.val())),
     );
   });
   protected okDocs(a: AttRate): AttachFile[] {

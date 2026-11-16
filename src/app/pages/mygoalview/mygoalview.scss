@@ -114,7 +114,7 @@
 }
 /* кнопка в шапке страницы — стандартная голубая (.btn.raised: голубой фон, синий текст), при наведении фон ярче */
 :where(.pg-mygoalview) .pf-top .btn.raised:hover {
-  background: var(--blue-bg2);
+  background: var(--blue-bg);
 }
 :where(.pg-mygoalview) .tw {
   overflow-x: auto;

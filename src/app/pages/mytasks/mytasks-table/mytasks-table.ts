@@ -30,7 +30,7 @@ import { MytasksState } from '../mytasks.state';
         </tr>
       </thead>
       <tbody>
-        @for (t of s.rows(); track t.id) {
+        @for (t of s.pg.view(); track t.id) {
           <tr [class.mtcur]="s.quick() === t.id" (click)="open.emit(t)">
             <td>
               <span class="mttl"

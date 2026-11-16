@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, ElementRef, ViewEncapsulation, bool
 import { iprPl } from '../../core/demo/ipr-store.service';
 import { IPR_LEVELS } from '../../data/ipr.data';
 import { IprComp, IprTask } from '../../interface/ipr';
-import { Chips } from '../../shared/ui/chips/chips';
 import { FilterBar } from '../../shared/ui/filter-bar/filter-bar';
 import { Icon } from '../../shared/ui/icon/icon';
 import { Select } from '../../shared/ui/select/select';
@@ -23,7 +22,7 @@ const COLS: [string, number | null][] = [
  */
 @Component({
   selector: '[ipr-comps]',
-  imports: [FilterBar, Chips, Select, Icon, IprLevel],
+  imports: [FilterBar, Select, Icon, IprLevel],
   template: `
     <div class="ch">
       <button class="actb ipcol" title="Свернуть" (click)="cold.set(!cold())"><app-icon name="chevSm" /></button>
@@ -32,7 +31,7 @@ const COLS: [string, number | null][] = [
     </div>
     <app-filter-bar placeholder="Поиск по компетенциям" [(query)]="q">
       @if (comps().length) {
-        <app-chips label="Обязательность" [options]="opts(1)" [(value)]="fo" />
+        <app-select label="Обязательность" [options]="opts(1)" allLabel="Все" placeholder="Обязательность" [(value)]="fo" />
         <app-select label="Компетенция" [options]="opts(0)" allLabel="Все" placeholder="Компетенция" [(value)]="fn" />
         <app-select label="Текущий уровень" [options]="opts(2)" allLabel="Все" placeholder="Текущий уровень" [(value)]="fc" />
         <app-select label="Целевой уровень" [options]="opts(3)" allLabel="Все" placeholder="Целевой уровень" [(value)]="ft" />

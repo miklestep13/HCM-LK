@@ -10,17 +10,23 @@ import { attachKind, attachSize, todayDmy } from './attach.utils';
  *   <app-attach [files]="docs" />                    — просмотр: скопировать ссылку, скачать
  *   <app-attach edit [(files)]="docs" />             — редактирование: зона загрузки, переименовать, удалить, отмена загрузки
  *   <app-attach compact [files]="docs" />            — компактные карточки (плитка 32px, кнопки 28px) — в сайдбарах и списках
+ *   <app-attach edit single hint="MP4 до 500 МБ" … /> — один файл: загружен — только карточка (заменить — сначала удалить), нет — только зона загрузки
  * Пока файл грузится — плитка со спиннером («Загружаем…»); занятость — attachBusy(files).
  */
 @Component({
   selector: 'app-attach',
   imports: [Icon],
   template: `
-    @if (edit()) {
+    @if (edit() && !(single() && files().length)) {
       <div class="dropz sm attdz" [class.over]="over()" (dragover)="$event.preventDefault(); over.set(true)" (dragleave)="leave($event)" (drop)="drop($event)">
         <div class="dzi"><app-icon name="upload" /></div>
-        <b>Перетащите файлы сюда</b><small>PDF, DOCX, XLSX, PPTX, JPG или PNG, до 50 МБ каждый</small>
-        <button class="btn raised" type="button" (click)="pick()">Выбрать файлы</button>
+        @if (single()) {
+          <b>Перетащите файл сюда</b><small>{{ hint() || 'Один файл до 50 МБ' }}</small>
+          <button class="btn raised" type="button" (click)="pick()">Выбрать файл</button>
+        } @else {
+          <b>Перетащите файлы сюда</b><small>{{ hint() || 'PDF, DOCX, XLSX, PPTX, JPG или PNG, до 50 МБ каждый' }}</small>
+          <button class="btn raised" type="button" (click)="pick()">Выбрать файлы</button>
+        }
       </div>
     }
     <div class="attl">
@@ -73,6 +79,10 @@ export class Attach {
   readonly edit = input(false, { transform: booleanAttribute });
   /** компактные карточки, ниже по высоте */
   readonly compact = input(false, { transform: booleanAttribute });
+  /** только один файл: пока он есть, зоны загрузки нет */
+  readonly single = input(false, { transform: booleanAttribute });
+  /** подпись под «Перетащите…» (форматы и размер) */
+  readonly hint = input('');
   protected readonly pv = inject(AttachPreviewService);
   private readonly toast = inject(ToastService);
   private readonly el: HTMLElement = inject(ElementRef).nativeElement;
@@ -90,7 +100,7 @@ export class Attach {
   protected pick(): void {
     const i = document.createElement('input');
     i.type = 'file';
-    i.multiple = true;
+    i.multiple = !this.single();
     i.onchange = () => i.files && this.add(i.files);
     i.click();
   }
@@ -105,7 +115,7 @@ export class Attach {
   /** загрузка: файл появляется сразу, через секунду-другую — готов */
   private add(list: FileList): void {
     const add: AttachFile[] = [];
-    for (const file of Array.from(list)) {
+    for (const file of Array.from(list).slice(0, this.single() ? 1 : undefined)) {
       if (file.size > 50 * 1048576) {
         this.toast.show('Файл слишком большой', `«${file.name}» больше 50 МБ.`);
         continue;

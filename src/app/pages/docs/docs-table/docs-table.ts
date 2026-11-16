@@ -1,3 +1,4 @@
+import { Pager, paginate } from '../../../shared/ui/pager/pager';
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input, output, signal } from '@angular/core';
 import { DOC_STATUS_TONE } from '../../../data/docs.data';
 import { MyDoc } from '../../../interface/doc';
@@ -8,7 +9,7 @@ import { ToastService } from '../../../shared/ui/toast/toast.service';
 /** Таблица документов: документ, источник, дата, статус; справа — «Скачать» и «⋯» (открыть, отправить на почту). Клик по строке открывает документ. */
 @Component({
   selector: '[docs-table]',
-  imports: [Float, Icon],
+  imports: [Pager, Float, Icon],
   template: `
     <div class="tw">
       <table class="tbl rtbl dctbl">
@@ -22,7 +23,7 @@ import { ToastService } from '../../../shared/ui/toast/toast.service';
           </tr>
         </thead>
         <tbody>
-          @for (d of list(); track d.id) {
+          @for (d of pg.view(); track d.id) {
             <tr (click)="open.emit(d)">
               <td><b>{{ d.name }}</b></td>
               <td class="gr">{{ d.src }}</td>
@@ -41,6 +42,7 @@ import { ToastService } from '../../../shared/ui/toast/toast.service';
         </tbody>
       </table>
     </div>
+    <app-pager [p]="pg" />
     @if (menu(); as m) {
       <div class="fpop amenu" [appFloat]="m.a" (click)="$event.stopPropagation()">
         <button class="ami" (click)="openDoc()"><app-icon name="open" />Открыть</button>
@@ -55,6 +57,8 @@ import { ToastService } from '../../../shared/ui/toast/toast.service';
 export class DocsTable {
   readonly list = input.required<MyDoc[]>();
   readonly open = output<MyDoc>();
+  /** постранично: <app-pager [p]="pg" /> под таблицей */
+  protected readonly pg = paginate(() => this.list());
   protected readonly tone = DOC_STATUS_TONE;
   private readonly toast = inject(ToastService);
   protected readonly menu = signal<{ d: MyDoc; a: HTMLElement } | null>(null);

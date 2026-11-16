@@ -62,6 +62,9 @@ export const NAV_TABS: NavTab[] = [
       },
       { title: 'Роль', page: 'ctrole', hidden: true },
       { title: 'Компетенция', page: 'ctcomp', hidden: true },
+        title: 'Опросы',
+        page: 'surveys',
+      },
       {
         title: 'Бронирование',
         page: 'map',
@@ -85,8 +88,12 @@ export const NAV_TABS: NavTab[] = [
     page: 'home',
     items: [
       {
-        title: 'Обзор',
-        page: 'home',
+        title: 'Задания',
+        page: 'mytasks',
+      },
+      {
+        title: 'Заявки',
+        page: 'req',
       },
       {
         title: 'Целеполагание',
@@ -102,19 +109,11 @@ export const NAV_TABS: NavTab[] = [
         ],
       },
       {
-        title: 'Задания',
-        page: 'mytasks',
-      },
-      {
         title: 'Календарь',
         children: [
           {
             title: 'Мой календарь',
             page: 'cal',
-          },
-          {
-            title: 'Мероприятия',
-            page: 'events',
           },
           {
             title: 'График отсутствий',
@@ -172,11 +171,6 @@ export const NAV_TABS: NavTab[] = [
         ],
       },
       {
-        title: 'Заявки',
-        page: 'req',
-        hidden: true,
-      },
-      {
         title: 'Документы',
         page: 'docs',
         hidden: true,
@@ -206,48 +200,137 @@ export const NAV_TABS: NavTab[] = [
         page: 'recruit',
       },
       {
-        title: 'Подбор',
-        page: 'recruit',
+        title: 'Подбор персонала',
+        children: [
+          {
+            title: 'План найма',
+            page: 'recruit',
+            attrs: {
+              rt: 'plan',
+            },
+          },
+          {
+            title: 'Вакансии',
+            page: 'recruit',
+            attrs: {
+              rt: 'vac',
+            },
+          },
+          {
+            title: 'Кандидаты',
+            page: 'recruit',
+            attrs: {
+              rt: 'cand',
+            },
+          },
+          {
+            title: 'Кадровый резерв',
+            page: 'reserve',
+          },
+        ],
       },
       {
-        title: 'Адаптация',
-        page: 'adapt',
+        title: 'Аттестация',
+        children: [
+          {
+            title: 'Адаптации',
+            page: 'adapt',
+          },
+          {
+            title: 'ИПР',
+            page: 'attest',
+          },
+          {
+            title: 'Бланки аттестации',
+            page: 'attn',
+          },
+        ],
       },
       {
         title: 'Обучение',
-        page: 'learn',
+        children: [
+          {
+            title: 'Курсы',
+            page: 'learn',
+            attrs: {
+              et: 'cat',
+            },
+          },
+          {
+            title: 'Тренинги',
+            page: 'learn',
+            attrs: {
+              et: 'trn',
+            },
+          },
+          {
+            title: 'Задания',
+            page: 'learn',
+            attrs: {
+              et: 'task',
+            },
+          },
+          {
+            title: 'Проверки знаний',
+            page: 'polls',
+            attrs: {
+              kind: 'test',
+            },
+          },
+          {
+            title: 'Опросы',
+            page: 'polls',
+            attrs: {
+              kind: 'poll',
+            },
+          },
+        ],
       },
       {
-        title: 'Оценка',
-        page: 'assess',
+        title: 'Заявки',
+        children: [
+          {
+            title: 'Все заявки',
+            page: 'req',
+          },
+          {
+            title: 'Типы заявок',
+            page: 'reqtypes',
+          },
+          {
+            title: 'Категории заявок',
+            attrs: {
+              todo: 'Категории заявок — в разработке.',
+            },
+          },
+          {
+            title: 'Процесс заявки',
+            attrs: {
+              todo: 'Процесс заявки — в разработке.',
+            },
+          },
+        ],
+      },
+      {
+        title: 'Целеполагание',
+        children: [
+          {
+            title: 'Оценки',
+            page: 'assess',
+          },
+          {
+            title: 'Цели',
+            page: 'goals',
+          },
+        ],
       },
       {
         title: 'Калибровка',
         page: 'calib',
       },
       {
-        title: 'Цели',
-        page: 'goals',
-      },
-      {
-        title: 'ИПР сотрудников',
-        page: 'attest',
-      },
-      {
-        title: 'Аттестация',
-        page: 'attn',
-      },
-      {
         title: 'Матрица 9-box',
         page: 'hr9',
-      },
-      {
-        title: 'Кадровый резерв',
-        page: 'reserve',
-      },
-      {
-        title: 'Опросы',
-        page: 'polls',
       },
       {
         title: 'Аналитика персонала',

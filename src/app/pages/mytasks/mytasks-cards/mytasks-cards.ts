@@ -11,7 +11,7 @@ import { MytasksState } from '../mytasks.state';
   selector: '[mytasks-cards]',
   imports: [Icon, Tooltip],
   template: `
-    @for (t of s.rows(); track t.id) {
+    @for (t of s.pg.view(); track t.id) {
       @let d = s.dueText(t.due);
       <div class="vcard mtvc" [class.mtcur]="s.quick() === t.id" tabindex="0" role="link" [attr.aria-label]="t.title" (click)="open.emit(t)" (keydown.enter)="open.emit(t)">
         <div class="cbody">

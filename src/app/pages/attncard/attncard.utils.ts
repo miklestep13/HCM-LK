@@ -1,7 +1,9 @@
 import { ATT_EVENT_PEOPLE, ATT_SCALE } from '../../data/attest.data';
 import { avCls } from '../../data/people.data';
 import { WALLET_EMPLOYEES } from '../../data/wallet.data';
-import { AttEvent, AttRate } from '../../interface/attest';
+import { AttEvent, AttPerson, AttRate } from '../../interface/attest';
+import { AttestStore } from '../../core/demo/attest-store.service';
+import { todayDmy } from '../../shared/ui/attach/attach.utils';
 import { cDur, cHM, cMin } from '../cal/cal.utils';
 import { PickPerson } from '../../shared/ui/emp-pick/emp-pick';
 
@@ -67,3 +69,38 @@ export const isLetter = (v?: string): boolean => !!v && !!ATT_SCALE[v];
 /** склонение: 1 оценке, 2 оценкам */
 export const pl = (n: number, a: string, b: string, c: string): string =>
   a && n % 10 === 1 && n % 100 !== 11 ? a : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? b : c;
+
+/** роль «Ответственный за бланк» — одна на бланк, в списке ролей участника */
+export const ATT_RESP = 'Ответственный за бланк';
+/** сотрудник недоступен для добавления: уже участвует или сам аттестуемый */
+export const attBusy = (s: AttestStore, n: string): boolean => n === ATT_EVENT_PEOPLE['me'][0] || s.people().some((z) => z.name === n && !z.till);
+/**
+ * Добавить участников (сайдбар и строка под списком): роли — выбранные, кроме «Ответственный за бланк» (он один — переходит к первому);
+ * возвращает текст уведомления.
+ */
+export function attAddPeople(s: AttestStore, names: string[], sel: string[]): string {
+  const own = sel.includes(ATT_RESP),
+    role = sel.filter((r) => r !== ATT_RESP).join(', '),
+    since = todayDmy(),
+    pick = attPeoplePick();
+  s.people.update((l) => [
+    ...l,
+    ...names.map((n): AttPerson => {
+      const e = pick.find((z) => z.name === n) || { name: n, post: '', av: 1 };
+      return { role, name: n, post: e.post, av: e.av || 1, mail: '', tel: '', since };
+    }),
+  ]);
+  if (own) s.responsible.set(names[0]);
+  return (names.length > 1 ? 'Добавлено участников: ' + names.length + '.' : 'Участник ' + names[0] + ' добавлен.') + (own ? ' Ответственный за бланк сменен.' : '');
+}
+/** роли участника для выбора: его роли и «Ответственный за бланк», если он ответственный */
+export const attRolesOf = (s: AttestStore, x: AttPerson): string[] => [...(x.role ? x.role.split(', ') : []), ...(x.name === s.responsible() ? [ATT_RESP] : [])];
+/** изменить роли участника (сайдбар и строка): «Ответственный за бланк» переходит к нему или, если снят, — к руководителю; возвращает текст уведомления */
+export function attSavePerson(s: AttestStore, x: AttPerson, sel: string[]): string {
+  const own = sel.includes(ATT_RESP),
+    was = s.responsible() === x.name;
+  s.people.update((l) => l.map((z) => (z === x ? { ...z, role: sel.filter((r) => r !== ATT_RESP).join(', ') } : z)));
+  if (own) s.responsible.set(x.name);
+  else if (was) s.responsible.set(s.people().find((z) => z.role === 'Руководитель' && !z.till)?.name ?? '');
+  return 'Изменения по ' + shortFio(x.name) + ' сохранены.' + (own && !was ? ' Ответственный за бланк сменен.' : '');
+}
