@@ -89,7 +89,7 @@ export interface IprTaskAct {
         </button>
       }
       @if (run()) {
-        <button class="actb" title="Выполнение задачи" (click)="act.emit({ a: 'run', i: index() })"><app-icon name="edit" /></button>
+        <button class="actb ipfin" [title]="runTitle()" [attr.aria-label]="runTitle()" (click)="act.emit({ a: 'run', i: index() })"><app-icon [name]="runIcon()" /></button>
       }
       @if (editable()) {
         <button class="actb" [title]="status() === 'Утверждено' ? 'Редактировать задание' : 'Редактировать'" (click)="act.emit({ a: 'edit', i: index() })">
@@ -125,6 +125,10 @@ export class IprTaskCard {
   readonly rate = input<IprRate | undefined>();
   /** число комментариев */
   readonly cm = input(0);
+  /** иконка открытия сайдбара выполнения. В ИПР — карандаш */
+  readonly runIcon = input('edit');
+  /** подпись этой кнопки */
+  readonly runTitle = input('Выполнение задачи');
   readonly act = output<IprTaskAct>();
 
   protected readonly rates = IPR_RATES;

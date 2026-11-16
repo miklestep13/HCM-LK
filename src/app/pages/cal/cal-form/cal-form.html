@@ -1,0 +1,175 @@
+@if (f(); as F) {
+  <app-drawer [title]="F.id ? 'Изменить встречу' : 'Новая встреча'" [okLabel]="F.id ? 'Сохранить' : 'Создать встречу'" wide xl [open]="true" (cancel)="close()" (ok)="save()">
+    <div class="calfm">
+      <div class="calcols">
+        <div class="bkf">
+          <app-field label="Наименование" required [filled]="!!F.t">
+            <input class="fin" placeholder="Например: синк по адаптации" [value]="F.t" (input)="set('t', val($event))" />
+          </app-field>
+          <div class="bk2">
+            <app-field label="Начало" required [float]="false">
+              <div class="caldt">
+                <app-date-field [value]="F.d1" (valueChange)="set('d1', $event)" />
+                @if (!F.all) {
+                  <input class="fin caltm" inputmode="numeric" autocomplete="off" maxlength="5" aria-label="Время" [value]="F.t1" [appSuggest]="times" [suggestAll]="true" (change)="setT1(val($event))" (keydown.enter)="setT1(val($event))" />
+                }
+              </div>
+            </app-field>
+            <app-field label="Конец" required [float]="false">
+              <div class="caldt">
+                <app-date-field [value]="F.d2" (valueChange)="set('d2', $event)" />
+                @if (!F.all) {
+                  <input class="fin caltm" inputmode="numeric" autocomplete="off" maxlength="5" aria-label="Время" [value]="F.t2" [appSuggest]="times" [suggestAll]="true" (change)="setT2(val($event))" (keydown.enter)="setT2(val($event))" />
+                }
+              </div>
+            </app-field>
+          </div>
+          <app-field label="Место или ссылка" [filled]="!!F.place">
+            <input class="fin" autocomplete="off" placeholder="Переговорная, адрес или ссылка на видеовстречу" [value]="F.place" [appSuggest]="places" (input)="set('place', val($event))" (change)="set('place', val($event))" />
+            <button type="button" class="lnk cfgen" (click)="gen()">Сгенерировать ссылку встречи</button>
+          </app-field>
+          <app-field label="Описание" [float]="false">
+            <app-rich-text [value]="F.desc" (valueChange)="set('desc', $event)" />
+          </app-field>
+          <div class="caladv" [class.on]="F.adv">
+            <button type="button" class="caladvh" [attr.aria-expanded]="F.adv" (click)="set('adv', !F.adv)">
+              <span>Дополнительные настройки@if (advSum()) {<small>{{ advSum() }}</small>}</span>
+              <svg viewBox="0 0 16 16" fill="none"><path d="M4 6.4 8 10.4l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </button>
+            <div class="caladvb">
+              <div class="bk2">
+                <app-field label="Напоминание" filled><app-select [options]="remindOpts" [value]="F.remind" (valueChange)="set('remind', $event)" /></app-field>
+                <app-field label="Показывать как" filled><app-select [options]="showOpts" [value]="F.show" (valueChange)="set('show', $event)" /></app-field>
+              </div>
+              <ng-container *ngTemplateOutlet="sw; context: { k: 'aip', on: F.aip, t: 'Направить ИИ-протокол', sub: 'Направить ИИ-протокол встречи всем участникам после ее окончания' }" />
+              <ng-container *ngTemplateOutlet="sw; context: { k: 'all', on: F.all, t: 'Весь день', sub: 'Встреча без точного времени, например выездное мероприятие' }" />
+              <ng-container *ngTemplateOutlet="sw; context: { k: 'priv', on: F.priv, t: 'Пометить как личное', sub: 'Коллеги увидят только, что вы заняты, без названия и деталей' }" />
+              <ng-container *ngTemplateOutlet="sw; context: { k: 'rep', on: F.rep, t: 'Повторять', sub: 'Настройте регулярность: по дням, неделям, месяцам' }" />
+              @if (F.rep) {
+                <div class="calrep">
+                  <div class="bk2">
+                    <app-field label="Повторять" filled><app-select [options]="repOpts" [value]="repF[F.rf]" (valueChange)="setRf($event)" /></app-field>
+                    @if (unit()) {
+                      <app-field label="Интервал" [float]="false">
+                        <div class="calint"><span>Каждые</span><input class="fin" type="number" min="1" max="30" [value]="F.rn" (change)="set('rn', +val($event) || 1)" /><span>{{ unitWord() }}</span></div>
+                      </app-field>
+                    } @else {
+                      <div></div>
+                    }
+                  </div>
+                  @if (F.rf === 'w') {
+                    <app-field label="Дни недели" [float]="false">
+                      <div class="bkwd">
+                        @for (w of wd; track w; let i = $index) {
+                          <button type="button" [class.on]="F.rdays.includes(i)" (click)="toggleDay(i)">{{ w }}</button>
+                        }
+                      </div>
+                    </app-field>
+                  }
+                  @if (F.rf === 'm') {
+                    <app-field label="Когда" [float]="false">
+                      <label class="glrad"><input type="radio" name="cfM" [checked]="!F.rdow" (change)="set('rdow', false)" /><span><b>{{ day().getDate() }}-го числа</b><small>Каждый месяц в один и тот же день</small></span></label>
+                      <label class="glrad"><input type="radio" name="cfM" [checked]="F.rdow" (change)="set('rdow', true)" /><span><b>В {{ nth() }}</b><small>Например, для ежемесячных итогов</small></span></label>
+                    </app-field>
+                  }
+                  @if (F.rf === 'y') {
+                    <p class="glhint">Встреча будет повторяться каждый год {{ yearly() }}.</p>
+                  }
+                  <div class="bk2">
+                    <app-field label="Окончание" filled><app-select [options]="endOpts" [value]="repEnd[F.rend]" (valueChange)="setEnd($event)" /></app-field>
+                    @if (F.rend === 'date') {
+                      <app-field label="Дата окончания" [float]="false"><app-date-field [value]="F.ru" (valueChange)="set('ru', $event)" /></app-field>
+                    } @else if (F.rend === 'cnt') {
+                      <app-field label="Повторений" [float]="false"><input class="fin" type="number" min="1" [value]="F.rc" (change)="set('rc', +val($event) || 1)" /></app-field>
+                    } @else {
+                      <div></div>
+                    }
+                  </div>
+                  <div class="cusum">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M12.6 6A5 5 0 0 0 3.4 5M3.4 10a5 5 0 0 0 9.2 1M12.8 2.6V6H9.4M3.2 13.4V10h3.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>{{ repText() }}
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+          @if (err()) {
+            <div class="pqerr">{{ err() }}</div>
+          }
+        </div>
+        <div class="calpcol">
+          <app-field label="Участники" [float]="false">
+            @let L = lanes();
+            <div class="calpp">
+              <div class="calppd">{{ dayLabel() }}</div>
+              <div class="calppw">
+                <div class="calppn">
+                  <div class="calpph">Сотрудники</div>
+                  @for (r of L.rows; track r.n) {
+                    <div class="calppr" [class.cf]="r.conf">
+                      <ng-container *ngTemplateOutlet="avt; context: { $implicit: r.n }" />
+                      <span>{{ r.n === me ? short(r.n) + ' (вы)' : short(r.n) }}</span>
+                      @if (r.n !== me) {
+                        <button type="button" class="chx" title="Убрать" (click)="removePerson(r.n)">
+                          <svg viewBox="0 0 16 16" fill="none"><path d="M4.6 4.6 11.4 11.4M11.4 4.6 4.6 11.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+                        </button>
+                      }
+                    </div>
+                  }
+                  <div class="calppr add">
+                    <button type="button" class="calpa" (click)="openPk($event)"><i><svg viewBox="0 0 16 16" fill="none"><path d="M8 3.2v9.6M3.2 8h9.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg></i>Добавить</button>
+                  </div>
+                </div>
+                <div class="calppg">
+                  <div class="calppt" [style.width.px]="(H1 - H0) * W">
+                    @for (i of hours; track i) {
+                      <span [style.left.px]="i * W">{{ H0 + i }}</span>
+                    }
+                    @if (L.band; as b) {
+                      <i class="calband" [style.left.px]="b.left" [style.width.px]="b.width"></i>
+                    }
+                    @for (r of L.rows; track r.n; let ri = $index) {
+                      <div class="calppl" [style.top.px]="34 + ri * 44">
+                        @for (b of r.blocks; track $index) {
+                          <i class="calbz" [class.mb]="b.mb" [style.left.px]="b.left" [style.width.px]="b.width" [title]="b.title"></i>
+                        }
+                      </div>
+                    }
+                    <div class="calppl add" [style.top.px]="34 + L.rows.length * 44"></div>
+                    <div class="calpphit" [style.height.px]="34 + (L.rows.length + 1) * 44" title="Нажмите на час, чтобы перенести встречу" (click)="moveTo($event)"></div>
+                  </div>
+                </div>
+              </div>
+              @if (L.conf.length) {
+                <div class="glwarnb">{{ confText() }}</div>
+              } @else if (L.rows.length > 1) {
+                <div class="calok"><svg viewBox="0 0 16 16" fill="none"><path d="m3.4 8.4 3 3 6.2-6.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>Все участники свободны в это время</div>
+              }
+            </div>
+          </app-field>
+        </div>
+      </div>
+    </div>
+  </app-drawer>
+  @if (pk(); as a) {
+    <div class="fpop selpop chpop" [appFloat]="a" (click)="$event.stopPropagation()">
+      <input class="fin fsq" placeholder="Поиск по ФИО" [value]="pq()" (input)="pq.set(val($event))" />
+      <div class="folist">
+        @for (n of invite(); track n) {
+          <div class="foi" [class.on]="F.ppl.includes(n)" (click)="togglePerson(n)">{{ n }}</div>
+        }
+      </div>
+    </div>
+  }
+}
+
+<ng-template #sw let-k="k" let-on="on" let-t="t" let-sub="sub">
+  <label class="swt pqsw"><input type="checkbox" [checked]="on" (change)="set(k, !on)" /><i></i><span><b>{{ t }}</b><small>{{ sub }}</small></span></label>
+</ng-template>
+<ng-template #avt let-n>
+  @let a = av(n);
+  @if (a.photo) {
+    <img class="av" [src]="a.photo" alt="" />
+  } @else {
+    <span class="av" [class]="a.cls"></span>
+  }
+</ng-template>

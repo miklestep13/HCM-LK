@@ -1,0 +1,28 @@
+/* Карточки как «Участники» бланка аттестации: портрет, должность, нейтральный тег снизу */
+.career-experts .cb {
+  padding-top: 4px;
+}
+.career-experts .mem {
+  cursor: pointer;
+}
+.career-experts .mem:first-child {
+  padding-top: 0;
+}
+.career-experts .mem:last-child {
+  padding-bottom: 0;
+}
+.career-experts .mem .av {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  display: block;
+  object-fit: cover;
+  background-size: cover;
+  background-position: center;
+}
+.career-experts .mem .rl {
+  font: var(--q-font-ui-description-1);
+}
+.career-experts .mem .gltags {
+  margin-top: 8px;
+}

@@ -1,0 +1,88 @@
+<app-page-head [title]="head()" />
+<div class="c ctlist">
+  @if (tab() === 'roles') {
+    <app-filter-bar placeholder="Поиск по названию роли" [(query)]="rq" [(opened)]="opened">
+      <app-select ftName="Тип роли" label="Тип роли" allLabel="Все" [options]="kinds" [(value)]="rt" />
+      <app-select ftName="Лидер роли" label="Лидер роли" allLabel="Все" [search]="true" [options]="leaders" [(value)]="rl" />
+    </app-filter-bar>
+    <div class="tw">
+      <table class="tbl ctt">
+        <thead>
+          <tr>
+            @for (h of ['Роль', 'Лидер роли', 'Тип роли', 'Сотрудников']; track h; let i = $index) {
+              <th [class.is-num]="i === 3" [attr.aria-sort]="rs().k === i ? (rs().d > 0 ? 'ascending' : 'descending') : 'none'">
+                <span class="thh">{{ h }}<button ct-sort [on]="rs().k === i" [desc]="rs().k === i && rs().d < 0" [label]="'Сортировать по столбцу «' + h + '»'" (pressed)="sortRoles(i, $event)"></button></span>
+              </th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (r of roleRows(); track r.id) {
+            <tr class="clk" (click)="openRole(r.id)">
+              <td><b class="q-rowname" [title]="r.name">{{ r.name }}</b></td>
+              <td>{{ r.leader }}</td>
+              <td><span class="bdg">{{ r.kind }}</span></td>
+              <td class="is-num">{{ r.people }}</td>
+            </tr>
+          } @empty {
+            <tr class="ctnone"><td colspan="4">Ничего не найдено</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="ctfoot">
+      <span>Итого записей: {{ roles().length }}</span>
+      <span class="ctps"><span>Показывать по</span><app-select [options]="sizes" [value]="'' + rSize()" (valueChange)="setRoleSize($event)" /></span>
+      @if (rolePages().length > 1) {
+        <div class="cppn">
+          <button type="button" class="cppb" title="Предыдущая страница" [disabled]="!roleCur()" (click)="rPage.set(roleCur() - 1)"><app-icon name="pgPrev" /></button>
+          @for (p of rolePages(); track p) {
+            <button type="button" class="cppb" [class.on]="p === roleCur()" (click)="rPage.set(p)">{{ p + 1 }}</button>
+          }
+          <button type="button" class="cppb" title="Следующая страница" [disabled]="roleCur() >= rolePages().length - 1" (click)="rPage.set(roleCur() + 1)"><app-icon name="pgNext" /></button>
+        </div>
+      }
+    </div>
+  } @else {
+    <app-filter-bar placeholder="Поиск по названию или описанию" [(query)]="cq" [(opened)]="opened">
+      <app-select ftName="Группа" label="Группа" allLabel="Все" [options]="groups" [(value)]="cg" />
+    </app-filter-bar>
+    <div class="tw">
+      <table class="tbl ctt">
+        <thead>
+          <tr>
+            @for (h of ['Компетенция', 'Группа', 'Ролей']; track h; let i = $index) {
+              <th [class.is-num]="i === 2" [attr.aria-sort]="cs().k === i ? (cs().d > 0 ? 'ascending' : 'descending') : 'none'">
+                <span class="thh">{{ h }}<button ct-sort [on]="cs().k === i" [desc]="cs().k === i && cs().d < 0" [label]="'Сортировать по столбцу «' + h + '»'" (pressed)="sortComps(i, $event)"></button></span>
+              </th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of compRows(); track c.id) {
+            <tr class="clk" (click)="openComp(c.id)">
+              <td><b class="q-rowname" [title]="c.name">{{ c.name }}</b><small class="ctsm" [title]="c.desc">{{ c.desc }}</small></td>
+              <td>{{ c.group }}</td>
+              <td class="is-num">{{ c.roles }}</td>
+            </tr>
+          } @empty {
+            <tr class="ctnone"><td colspan="3">Ничего не найдено</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="ctfoot">
+      <span>Итого записей: {{ comps().length }}</span>
+      <span class="ctps"><span>Показывать по</span><app-select [options]="sizes" [value]="'' + cSize()" (valueChange)="setCompSize($event)" /></span>
+      @if (compPages().length > 1) {
+        <div class="cppn">
+          <button type="button" class="cppb" title="Предыдущая страница" [disabled]="!compCur()" (click)="cPage.set(compCur() - 1)"><app-icon name="pgPrev" /></button>
+          @for (p of compPages(); track p) {
+            <button type="button" class="cppb" [class.on]="p === compCur()" (click)="cPage.set(p)">{{ p + 1 }}</button>
+          }
+          <button type="button" class="cppb" title="Следующая страница" [disabled]="compCur() >= compPages().length - 1" (click)="cPage.set(compCur() + 1)"><app-icon name="pgNext" /></button>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,62 @@
+<app-page-head title="Компетенция" />
+<div class="c ctohead">
+  <div class="cb">
+    <div class="iptit"><h2 class="tkt">{{ comp.name }}</h2></div>
+    <div class="gltags cttags"><span class="bdg">{{ comp.group }}</span></div>
+    <div class="ipsub ctsub"><span>{{ sub }}</span></div>
+    <div class="ctdsc" #dsc [class.clamp]="more()" [class.open]="opened()">
+      <p>{{ comp.desc }}</p>
+    </div>
+    @if (more()) {
+      <button type="button" class="lnk ctmore" [attr.aria-expanded]="opened()" (click)="toggle()">{{ opened() ? 'Свернуть' : 'Читать все' }}</button>
+    }
+  </div>
+</div>
+
+<div class="c mt">
+  <div class="ch"><h3>Уровни компетенции<span class="chip">{{ levels.length }}</span></h3></div>
+  <div class="cb ctgrades">
+    @for (l of levels; track l) {
+      <div class="ctgr">
+        <div class="ctgrh"><ct-level [level]="l" /><b>{{ l }}</b></div>
+        <div class="iprd"><span class="l">Описание уровня</span>{{ levelDesc[l] }}</div>
+        <div class="iprd"><span class="l">Что умеет сотрудник</span>{{ behavior(l) }}</div>
+      </div>
+    }
+  </div>
+</div>
+
+<div class="c mt">
+  <div class="ch"><h3>Роли с компетенцией<span class="chip">{{ rows().length }}</span></h3></div>
+  <div class="tbar">
+    <input class="tsearch" placeholder="Поиск по названию роли" [value]="q()" (input)="q.set($any($event.target).value)" />
+  </div>
+  <ct-legend />
+  <div class="tw">
+    <table class="tbl ctt">
+      <thead>
+        <tr>
+          @for (h of heads; track h; let i = $index) {
+            <th [attr.aria-sort]="sortBy().k === i ? (sortBy().d > 0 ? 'ascending' : 'descending') : 'none'">
+              <span class="thh">{{ h }}<button ct-sort [on]="sortBy().k === i" [desc]="sortBy().k === i && sortBy().d < 0" [label]="'Сортировать по столбцу «' + h + '»'" (pressed)="sort(i, $event)"></button></span>
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of rows(); track r.id) {
+          <tr class="clk" (click)="openRole(r.id)">
+            <td><b class="q-rowname" [title]="r.name">{{ r.name }}</b></td>
+            @for (l of r.levels; track $index; let i = $index) {
+              <td><ct-level [level]="l" comp="Кредитный анализ и оценка рисков" [grade]="grades[i]" /></td>
+            }
+          </tr>
+        } @empty {
+          <tr class="ctnone"><td [attr.colspan]="1 + grades.length">Ничего не найдено</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ct-learn scope="comp" />

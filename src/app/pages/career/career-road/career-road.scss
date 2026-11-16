@@ -1,0 +1,157 @@
+/* Возможности развития: освоенные грейды, заявленный переход и серый соединитель без плана.
+   Заголовок — как название в шапке объекта (.tkt, ui-headline-2), не как шапка виджета. */
+.career-road > .ch > h3 {
+  font: var(--q-font-ui-headline-2);
+}
+.career-road .cproad {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+}
+.career-road .cpstep {
+  position: relative;
+  min-width: 0;
+  padding-right: 16px;
+}
+.career-road .cpline {
+  position: absolute;
+  left: 44px;
+  right: 0;
+  top: 17px;
+  height: 2px;
+  background: var(--track);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.career-road .cpline::before {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 2px;
+}
+.career-road .cpline.ok::before,
+.career-road .cpline.go::before {
+  width: 100%;
+}
+.career-road .cpline.ok::before {
+  background: var(--q-success-500);
+}
+.career-road .cpline.go::before {
+  background: var(--q-primary-500);
+}
+.career-road .cpnode {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 0 8px 12px 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 10px;
+  font-family: inherit;
+}
+.career-road .cpnode:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--q-content-focus-color);
+}
+.career-road .cpdot {
+  font: var(--q-font-ui-headline-4);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  border: 2px solid var(--stroke2);
+  background: var(--q-content-background);
+  color: var(--q-base-500);
+  flex: none;
+  position: relative;
+  z-index: 1;
+}
+.career-road .cpdot .app-icon,
+.career-road .cpdot svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+.career-road .cpstep.done .cpdot {
+  background: var(--q-success-500);
+  border-color: var(--q-success-500);
+  color: var(--q-content-background);
+}
+.career-road .cpstep.aim .cpdot {
+  background: var(--q-primary-500);
+  border-color: var(--q-primary-500);
+  color: var(--q-content-background);
+}
+.career-road .cptxt {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+  padding: 10px 12px;
+  margin-left: -12px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  width: calc(100% + 12px);
+  transition: background 0.15s;
+}
+.career-road .cpnode:hover .cptxt {
+  background: var(--s1);
+}
+.career-road .cpstep.cpsel .cptxt {
+  background: var(--blue-bg);
+}
+.career-road .cptxt b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--q-content-text);
+}
+.career-road .cpstep.cpsel .cptxt b {
+  color: var(--blue);
+}
+.career-road .cpstep.future .cptxt b {
+  color: var(--q-base-500);
+}
+.career-road .cpstep.future.cpsel .cptxt b {
+  color: var(--blue);
+}
+.career-road .cptxt small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  white-space: normal;
+  max-width: 100%;
+}
+.career-road .cpnote {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-base-500);
+  margin: 16px 0 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.career-road .cpnote .app-icon,
+.career-road .cpnote svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  margin-top: 2px;
+}
+
+@media (max-width: 900px) {
+  .career-road .cproad {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 16px;
+  }
+  .career-road .cpstep:nth-child(2) .cpline {
+    display: none;
+  }
+}

@@ -1,0 +1,83 @@
+/* ═══ KPI-карточка .q-kpi · Minimalism_HCM ═══
+   Источник: Figma Q.HCM-components, KPI Card (node 1:195, key 7eb0433068b57a341a322dbc88a97e245d125219), сверка 30.10.2026.
+   Только токены --q-* из tokens.css (Q.PALETTE). Hex в этом файле не допускается.
+   Правила выбора Type / Status / Direction — references/kpi-card.md; геометрия и привязка к Figma — references/kpi-card-spec.md.
+
+   Разметка:
+   <div class="q-kpi [q-kpi--success|--warning|--critical]">
+     <div class="q-kpi__head">
+       <span class="q-kpi__title">Охват</span>
+       <button class="q-kpi__ib" aria-label="Как считается"><i class="pi pi-info-circle"></i></button>   опц.
+       <button class="q-kpi__ib" aria-label="Действия"><i class="pi pi-ellipsis-v"></i></button>          опц.
+     </div>
+     Default ........ <div class="q-kpi__value">83%</div> <div class="q-kpi__sub">20 из 24 сотрудников</div>
+     Progress ....... + <div class="q-kpi__bar" style="--p:83%"><i></i></div> после __sub
+     Trend .......... <div class="q-kpi__trend"><div class="q-kpi__stack">__value + __sub</div><svg class="q-kpi__chart">…</svg></div>
+     Arrow inline ... <div class="q-kpi__row"><span class="q-kpi__value">3,0</span><span class="q-kpi__delta q-kpi__delta--up">0,2</span></div> + __sub
+     Arrow subtitle . __value + <div class="q-kpi__foot"><span class="q-kpi__delta q-kpi__delta--down">2</span><span class="q-kpi__sub">к II кв. 2026</span></div>
+   </div>
+   Кликабельная карточка — <a class="q-kpi" href="…">. */
+
+/* Ряд: 1–4 карточки одной ширины */
+.q-kpis{display:grid;grid-template-columns:repeat(var(--n,4),minmax(160px,1fr));gap:var(--q-spacing-3);align-items:stretch}
+@media (max-width:1023px){.q-kpis{grid-template-columns:repeat(min(var(--n,4),2),minmax(160px,1fr))}}
+
+/* Контейнер. Status задает один акцент: значение, полоса, график, стрелка и процент */
+.q-kpi{
+  --q-kpi-accent:var(--q-card-text);
+  --q-kpi-bar:var(--q-progressbar-value-bg);
+  display:flex;flex-direction:column;gap:var(--q-spacing-1);
+  min-width:160px;padding:var(--q-spacing-3) var(--q-spacing-4);
+  border-radius:var(--q-radius-control);background:var(--q-base-50);
+  color:var(--q-card-text);text-decoration:none;box-sizing:border-box;
+}
+.q-kpi--success {--q-kpi-accent:var(--q-success-700);--q-kpi-bar:var(--q-success-700)}
+.q-kpi--warning {--q-kpi-accent:var(--q-warning-700);--q-kpi-bar:var(--q-warning-700)}
+.q-kpi--critical{--q-kpi-accent:var(--q-error-700);  --q-kpi-bar:var(--q-error-700)}
+
+/* Верхняя строка: заголовок + иконки 20 (глиф 18) */
+.q-kpi__head{display:flex;align-items:center;gap:6px}
+.q-kpi__title{flex:1 1 auto;min-width:0;font:var(--q-font-ui-description-1);color:var(--q-base-500);overflow-wrap:anywhere}
+.q-kpi__ib{flex:none;display:grid;place-items:center;width:20px;height:20px;padding:0;border:0;border-radius:var(--q-radius-sm);
+  background:none;color:var(--q-page-text-ui);font-size:18px;line-height:1;cursor:pointer;transition:color var(--q-transition)}
+.q-kpi__ib:hover{color:var(--q-primary-500)}
+.q-kpi__ib:focus-visible{outline:none;box-shadow:0 0 0 var(--q-focus-ring-width) var(--q-content-focus-color)}
+
+/* Значение и пояснение */
+.q-kpi__value{font:var(--q-font-ui-headline-3);color:var(--q-kpi-accent);overflow-wrap:anywhere}
+.q-kpi__sub{font:var(--q-font-ui-description-1);color:var(--q-base-500);overflow-wrap:anywhere}
+
+/* Progress: трек 6, заливка по доле --p */
+.q-kpi__bar{height:6px;border-radius:3px;background:var(--q-progressbar-bg);overflow:hidden}
+.q-kpi__bar>i{display:block;width:var(--p,0%);height:100%;border-radius:3px;background:var(--q-kpi-bar)}
+
+/* Trend: стек значения и пояснения + мини-график 52 × 22 */
+.q-kpi__trend{display:flex;align-items:center;gap:var(--q-spacing-2)}
+.q-kpi__stack{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:var(--q-spacing-1)}
+.q-kpi__chart{flex:none;width:52px;height:22px;color:var(--q-kpi-accent);overflow:visible}
+.q-kpi__chart polyline{fill:none;stroke:currentColor;stroke-width:1.39;stroke-linecap:round;stroke-linejoin:miter}
+.q-kpi__chart circle{fill:currentColor;stroke:none}
+
+/* Arrow inline: значение + индикатор сразу после числа, gap 6 */
+.q-kpi__row{display:flex;align-items:center;gap:6px}
+.q-kpi__row>.q-kpi__value{flex:none}
+/* Arrow subtitle: индикатор + пояснение, gap 4 */
+.q-kpi__foot{display:flex;align-items:center;gap:var(--q-spacing-1)}
+.q-kpi__foot>.q-kpi__sub{flex:1 1 auto;min-width:0}
+
+/* Индикатор изменения: символ → число, gap 2, символ на базовой линии числа.
+   В шкале ui-* нет стиля 600 12/16 (в Figma текст без стиля) — берем ui-button-s-xs и строку 16 до решения (см. spec §5). */
+.q-kpi__delta{flex:none;display:inline-flex;align-items:baseline;gap:2px;
+  font:var(--q-font-ui-button-s-xs);line-height:16px;color:var(--q-kpi-accent);white-space:nowrap}
+.q-kpi__delta::before{content:"";flex:none;width:10px;background:currentColor}
+.q-kpi__delta--up::before  {height:9px;clip-path:polygon(50% 0,100% 100%,0 100%)}
+.q-kpi__delta--down::before{height:9px;clip-path:polygon(0 0,100% 0,50% 100%)}
+/* Unchanged: «=» из двух полос 10 × 1,5 с зазором 3; символ и число серые при любом Status */
+.q-kpi__delta--flat{color:var(--q-base-500)}
+.q-kpi__delta--flat::before{height:6px;background:linear-gradient(currentColor 0 1.5px,transparent 1.5px 4.5px,currentColor 4.5px 6px)}
+
+/* Кликабельная карточка: ховер — только значение, фокус — кольцо */
+a.q-kpi{cursor:pointer}
+a.q-kpi .q-kpi__value{transition:color var(--q-transition)}
+a.q-kpi:hover .q-kpi__value{color:var(--q-primary-500)}
+a.q-kpi:focus-visible{outline:none;box-shadow:0 0 0 var(--q-focus-ring-width) var(--q-content-focus-color)}

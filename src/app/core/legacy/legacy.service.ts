@@ -27,8 +27,12 @@ export class LegacyService {
   /** общие с прототипом данные: ключ → как взять и как применить */
   private readonly shared = new Map<string, { get: () => unknown; set: (v: any) => void }>();
 
-  /** адрес прототипа: embed — режим встраивания, ng — страницы, которые открывает Angular */
-  readonly src = 'legacy/index.html?embed=1&ng=' + Object.keys(ANGULAR_PAGES).join(',');
+  /**
+   * Адрес прототипа: embed — режим встраивания, ng — страницы, которые открывает Angular.
+   * В однофайловом Q.HCM-prototype.html страница лежит внутри файла: до запуска приложения
+   * скрипт кладет ее в window.__legacySrc, и iframe берет ее оттуда, а не с диска.
+   */
+  readonly src = legacySrc();
 
   constructor() {
     window.addEventListener('message', (e) => {
@@ -108,4 +112,11 @@ export class LegacyService {
   private post(page: string, attrs?: Record<string, string>): void {
     this.frame?.contentWindow?.postMessage({ type: 'hcm:go', page, attrs: attrs ?? null, state: this.state() }, '*');
   }
+}
+
+/** Обычный запуск — файл public/legacy. Однофайловый прототип подставляет свою копию через window.__legacySrc. */
+function legacySrc(): string {
+  const q = 'embed=1&ng=' + Object.keys(ANGULAR_PAGES).join(',');
+  const pack = (window as unknown as { __legacySrc?: (query: string) => string }).__legacySrc;
+  return pack ? pack(q) : 'legacy/index.html?' + q;
 }

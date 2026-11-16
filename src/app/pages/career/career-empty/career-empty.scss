@@ -1,0 +1,39 @@
+/* Пустое состояние карьерного трека */
+.career-empty .cpempty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 40px 32px;
+}
+.career-empty .cpemi {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+}
+.career-empty .cpemi .app-icon,
+.career-empty .cpemi svg {
+  width: 26px;
+  height: 26px;
+}
+.career-empty .cpempty h2 {
+  font: var(--q-font-ui-headline-2);
+  color: var(--q-content-text);
+  margin: 0;
+}
+.career-empty .cpempty p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+  max-width: 620px;
+  margin: 0;
+}
+.career-empty .cpebtns {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
