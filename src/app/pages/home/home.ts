@@ -14,7 +14,6 @@ import { HomeProfile } from './home-profile/home-profile';
 import { HomeDevelopment } from './home-development/home-development';
 import { HomeAwards } from './home-awards/home-awards';
 import { HomeWallet } from './home-wallet/home-wallet';
-import { HomeIncome } from './home-income/home-income';
 import { HomeVacation } from './home-vacation/home-vacation';
 import { HomeTimeOff } from './home-time-off/home-time-off';
 import { HomeTasks } from './home-tasks/home-tasks';
@@ -36,7 +35,6 @@ import { HomeRequests } from './home-requests/home-requests';
     HomeDevelopment,
     HomeAwards,
     HomeWallet,
-    HomeIncome,
     HomeVacation,
     HomeTimeOff,
     HomeTasks,
