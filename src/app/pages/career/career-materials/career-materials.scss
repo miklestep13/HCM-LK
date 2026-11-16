@@ -1,0 +1,83 @@
+/* Всплывающая панель «Материалы уровня» у кнопки в таблице компетенций */
+.career-materials .cpmat {
+  width: 420px;
+  max-width: 96vw;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.career-materials .cpmath {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.career-materials .cpmath b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  display: block;
+}
+.career-materials .cpmath small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  display: block;
+  margin-top: 2px;
+}
+.career-materials .cpmath .actb {
+  flex: none;
+  margin: -4px -4px 0 0;
+}
+.career-materials .cpmi {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid var(--q-content-border-secondary);
+}
+.career-materials .cpmi img {
+  width: 64px;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  cursor: pointer;
+}
+.career-materials .cpmit {
+  min-width: 0;
+  cursor: pointer;
+}
+.career-materials .cpmit b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.career-materials .cpmit:hover b {
+  color: var(--blue);
+}
+.career-materials .cpmit small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  display: block;
+  margin-top: 2px;
+}
+.career-materials .cpmia .btn {
+  height: 32px;
+  padding: 0 12px;
+  font: var(--q-font-ui-button-s-xs);
+  white-space: nowrap;
+}
+.career-materials .cpmnone {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-base-500);
+  padding: 8px 0;
+  border-top: 1px solid var(--q-content-border-secondary);
+}
+.career-materials .cpmall {
+  align-self: flex-start;
+  padding: 0;
+}

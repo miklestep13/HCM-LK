@@ -1,0 +1,31 @@
+/* Сайдбар «Подтверждение уровня»: форма в одну колонку */
+.career-confirm .cpfrm {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+.career-confirm .fld.dis .fin {
+  background: var(--s1);
+  color: var(--t3);
+}
+.career-confirm .cpbeh {
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--q-content-background-disabled);
+}
+.career-confirm .cpbeh b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  display: block;
+}
+.career-confirm .cpbeh p {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+  margin: 6px 0 0;
+}
+.career-confirm .fhelp.cperr {
+  color: var(--q-error-500);
+}
+.career-confirm .fld.err .fta {
+  border-color: var(--q-error-500);
+}

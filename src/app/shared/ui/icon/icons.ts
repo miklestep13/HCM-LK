@@ -160,6 +160,8 @@ export const ICONS: Record<string, string> = {
     '<svg viewBox="0 0 16 16" fill="none"><rect x="2.2" y="3.6" width="11.6" height="10.2" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M5.4 2v3M10.6 2v3M2.2 6.8h11.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>',
   checkSm:
     '<svg viewBox="0 0 16 16" fill="none"><path d="m3.6 8.4 2.8 2.8 6-6.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  doneCircle:
+    '<svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.1" stroke="currentColor" stroke-width="1.6"/><path d="M5 8.15 7.05 10.2 11.1 5.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   chev16:
     '<svg viewBox="0 0 16 16" fill="none"><path d="M4 6.4 8 10.4l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   thumbUp:

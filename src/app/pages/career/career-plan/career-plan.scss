@@ -1,0 +1,42 @@
+/* «План развития» в правой колонке карьерного трека */
+.career-plan .hmiprh.cb {
+  padding-top: 0;
+}
+.career-plan .cplink {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 4px;
+}
+.career-plan .cpgoal {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.career-plan .cpgoal .app-icon,
+.career-plan .cpgoal svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  margin-top: 1px;
+  color: var(--blue);
+}
+.career-plan .cpfull {
+  width: 100%;
+}
+.career-plan .cpempty {
+  margin-bottom: 14px;
+}
+.career-plan .cpempty b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  display: block;
+}
+.career-plan .cpempty small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  display: block;
+  margin-top: 4px;
+}

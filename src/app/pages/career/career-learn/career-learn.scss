@@ -1,0 +1,61 @@
+/* «Рекомендуем изучить»: компактные карточки каталога в правой колонке */
+.career-learn .cplc {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--q-content-border-secondary);
+}
+.career-learn .cplc:first-child {
+  padding-top: 0;
+}
+.career-learn .cplc img {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  cursor: pointer;
+}
+.career-learn .cplct {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.career-learn .cplct b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  cursor: pointer;
+}
+.career-learn .cplct b:hover {
+  color: var(--blue);
+}
+.career-learn .cplct small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.career-learn .cplct .cplcf {
+  color: var(--blue);
+}
+.career-learn .cplca .btn {
+  width: 100%;
+}
+.career-learn .cplca .lfnote {
+  justify-content: center;
+}
+.career-learn .cplnone b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  display: block;
+}
+.career-learn .cplnone small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  display: block;
+  margin-top: 4px;
+}
+.career-learn .cplall {
+  display: block;
+  padding: 14px 0 0;
+}
