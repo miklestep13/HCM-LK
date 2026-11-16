@@ -19,6 +19,10 @@ import { Events } from '../../widgets/events/events';
 import { IprComps } from '../../widgets/ipr-comps/ipr-comps';
 import { IprTaskCard } from '../../widgets/ipr-task-card/ipr-task-card';
 import { IprTaskForm } from '../../widgets/ipr-task-form/ipr-task-form';
+import { RelDocs } from '../../widgets/rel-docs/rel-docs';
+import { ReqBuilder } from '../../widgets/req-builder/req-builder';
+import { rqDefaultBlocks } from '../../data/req-builder.data';
+import { RqBlock } from '../../interface/req-builder';
 import { LearnActionButton } from '../../widgets/learn-action/learn-action';
 import { LearnCard } from '../../widgets/learn-card/learn-card';
 import { Members } from '../../widgets/members/members';
@@ -34,6 +38,9 @@ import { PlanSummary } from '../../widgets/plan-summary/plan-summary';
 import { Poll } from '../../widgets/poll/poll';
 import { PplCard } from '../../widgets/ppl-card/ppl-card';
 import { EventHead } from '../../widgets/event-head/event-head';
+import { EventMembers } from '../../widgets/event-members/event-members';
+import { EVM_DEMO, EVM_MORE, EVM_ROLES, EVM_TYPES, EVM_COMPANIES } from '../../data/event-members.data';
+import { EvMember } from '../../interface/member';
 import { WalletSendService } from '../../widgets/wallet-send/wallet-send.service';
 
 /**
@@ -57,12 +64,13 @@ import { WalletSendService } from '../../widgets/wallet-send/wallet-send.service
     PplCard,
     EventHead,
     CoverUpload,
-    IprTaskCard, IprTaskForm,
+    IprTaskCard, IprTaskForm, RelDocs, ReqBuilder,
     IprComps,
     BusyChart,
     Builder,
     Seg,
     Audience,
+    EventMembers,
   ],
   template: `
     <app-page-head title="Виджеты" [noBack]="true" />
@@ -170,6 +178,29 @@ import { WalletSendService } from '../../widgets/wallet-send/wallet-send.service
                 <app-ipr-task-form due0="31.12.2026" (saved)="todo()" (closed)="tform.set(false)" />
               }
             }
+            @case ('rel-docs') {
+              <div class="c wgbox" app-rel-docs edit></div>
+            }
+            @case ('req-builder') {
+              <div app-req-builder [(blocks)]="rqb" title="Справка 2-НДФЛ"></div>
+            }
+            @case ('event-members') {
+              <!-- ⚙ справа в шапке виджета — переключить настройки на месте -->
+              <div
+                class="c"
+                event-members
+                configurable
+                [(rows)]="evm"
+                colSettings
+                [pool]="evmPool"
+                [types]="evmTypes"
+                [roles]="evmRoles"
+                edit="all"
+                filters
+                addAt="bottom"
+                paging="pages"
+              ></div>
+            }
             @case ('ipr-comps') {
               <div class="afipr"><div ipr-comps [comps]="ipr.comps()" [tasks]="ipr.plan().tasks" (tasksOf)="todo()"></div></div>
             }
@@ -221,6 +252,14 @@ export class Widgets {
   protected readonly busyPool = [...COMM_POOL, ...EVENT_GROUPS];
   protected readonly busyT = signal({ t1: WIDGET_BUSY.t1, t2: WIDGET_BUSY.t2 });
   protected readonly open = signal(-1);
+  // «Участники события»: демо-список и настройки показа
+  /** конструктор заявки: инфоблоки примера */
+  protected readonly rqb = signal<RqBlock[]>(rqDefaultBlocks());
+  protected readonly evm = signal<EvMember[]>([...EVM_DEMO, ...EVM_MORE].map((m) => ({ ...m })));
+  protected readonly evmTypes = EVM_TYPES;
+  /** выбор участника события: сотрудники, подразделения, команды, компании */
+  protected readonly evmPool = [...COMM_POOL, ...EVENT_GROUPS, ...EVM_COMPANIES];
+  protected readonly evmRoles = EVM_ROLES;
   /** пример сайдбара задачи ИПР открыт */
   protected readonly tform = signal(false);
   protected readonly chat = signal<CommentItem[]>(

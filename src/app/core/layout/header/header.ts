@@ -3,6 +3,7 @@ import { Icon } from '../../../shared/ui/icon/icon';
 import { NavService } from '../../navigation/nav.service';
 import { ME_MENU, NAV_TABS, NavItem, NavTab } from '../../navigation/nav.config';
 import { ME } from '../../../data/home.data';
+import { ToastService } from '../../../shared/ui/toast/toast.service';
 
 /**
  * Шапка портала: вкладки «Компания / Мой кабинет / Управление сотрудниками / Управление персоналом» с меню.
@@ -21,6 +22,7 @@ export class Header {
   protected readonly tabs = NAV_TABS;
   protected readonly meMenu = ME_MENU;
   protected readonly me = ME;
+  private readonly toast = inject(ToastService);
 
   /** активная вкладка — та, в меню которой есть текущая страница */
   protected readonly activeTab = computed(() => {
@@ -78,6 +80,9 @@ export class Header {
     e?.stopPropagation();
     if (menu) this.closed.set(menu);
     const page = (item as NavItem).page ?? (item as NavTab).page;
+    const todo = (item as NavItem).attrs?.['todo'];
+    // пункт без страницы с attrs.todo — страница еще не сделана: уведомление
+    if (!page && todo) return this.toast.show('В разработке', todo);
     if (page) this.nav.goMenu(page, (item as NavItem).attrs);
   }
 }

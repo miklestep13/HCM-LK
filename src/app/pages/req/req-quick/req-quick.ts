@@ -3,7 +3,7 @@ import { NavService } from '../../../core/navigation/nav.service';
 import { REQ_QUICK } from '../../../data/req.data';
 import { Icon } from '../../../shared/ui/icon/icon';
 
-/** Быстрые заявки над списком: иконка, название, подсказка. Открывают форму «Новая заявка» с этим типом. */
+/** Быстрые заявки над списком: иконка, название, подсказка. Открывают форму «Добавление заявки» с этим типом. */
 @Component({
   selector: '[req-quick]',
   imports: [Icon],
@@ -22,7 +22,7 @@ import { Icon } from '../../../shared/ui/icon/icon';
 export class ReqQuick {
   private readonly nav = inject(NavService);
   protected readonly items = REQ_QUICK;
-  /** форма «Новая заявка» с выбранным типом */
+  /** форма «Добавление заявки» с выбранным типом */
   protected go(type: string): void {
     this.nav.go('reqnew', { type });
   }

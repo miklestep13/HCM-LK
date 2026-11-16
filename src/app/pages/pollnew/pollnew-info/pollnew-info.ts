@@ -1,15 +1,16 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { POLL_STATUSES, POLL_VIEWS } from '../../../data/polls.data';
+import { POLL_STATUSES } from '../../../data/polls.data';
 import { PollStatus } from '../../../interface/poll';
 import { DateField } from '../../../shared/ui/date-field/date-field';
 import { Field } from '../../../shared/ui/field/field';
+import { NumInput } from '../../../shared/ui/num-input/num-input';
 import { Select } from '../../../shared/ui/select/select';
 import { PollnewState } from '../pollnew.state';
 
-/** Шаг «Общая информация» (без заголовка): наименование и описание; вид опроса, дата начала (обязательная, у нового — сегодня), дата окончания (необязательная), статус. */
+/** Шаг «Общая информация» (без заголовка): наименование и описание; дата начала (обязательная, у нового — сегодня), дата окончания (необязательная), время прохождения в минутах, статус; у теста — проходной балл; внизу — «Сделать опрос анонимным». */
 @Component({
   selector: '[pollnew-info]',
-  imports: [Field, Select, DateField],
+  imports: [Field, Select, DateField, NumInput],
   template: `
     <div class="cb frm pnfrm">
       <app-field label="Наименование" required full [filled]="!!s.n()" [error]="s.isBad('n') && !s.n().trim()">
@@ -18,18 +19,30 @@ import { PollnewState } from '../pollnew.state';
       <app-field label="Описание" full [filled]="!!s.d()">
         <textarea class="fta" rows="4" placeholder="Зачем проводится опрос и как будут использованы результаты" [value]="s.d()" (input)="s.d.set($any($event.target).value)"></textarea>
       </app-field>
-      <app-field label="Вид опроса" required filled>
-        <app-select [options]="viewNames" [value]="viewName()" (valueChange)="setView($event)" />
-      </app-field>
       <app-field label="Дата начала" required [filled]="!!s.start()" [error]="s.isBad('start') && !s.start()">
         <app-date-field [value]="s.start()" (valueChange)="s.start.set($event)" />
       </app-field>
       <app-field label="Дата окончания" [filled]="!!s.end()" [error]="s.isBad('end')">
         <app-date-field [value]="s.end()" (valueChange)="s.end.set($event)" />
       </app-field>
+      <app-field label="Время прохождения" [filled]="!!s.dur()">
+        <app-num-input [min]="1" [max]="240" placeholder="В минутах, например 10" [value]="s.dur()" (valueChange)="s.dur.set($event)" />
+      </app-field>
       <app-field label="Статус" filled>
         <app-select [options]="statuses" [value]="s.status()" (valueChange)="s.status.set($any($event))" />
       </app-field>
+      @if (s.kind() === 'Тест') {
+        <app-field label="Проходной балл, %" filled>
+          <app-num-input [min]="1" [max]="100" [value]="'' + s.pass()" (valueChange)="s.pass.set(+$event)" />
+        </app-field>
+      }
+      <!-- внизу формы — тумблер слева от подписи, 14 обычным -->
+      <div class="fld full">
+        <label class="swt pnanon"
+          ><input type="checkbox" [checked]="s.anon()" (change)="s.anon.set($any($event.target).checked)" /><i></i
+          ><span>Сделать опрос анонимным</span></label
+        >
+      </div>
     </div>
   `,
   host: { class: 'c' },
@@ -37,12 +50,5 @@ import { PollnewState } from '../pollnew.state';
 })
 export class PollnewInfo {
   protected readonly s = inject(PollnewState);
-  protected readonly viewNames = POLL_VIEWS.map((x) => x.t);
   protected readonly statuses: PollStatus[] = POLL_STATUSES;
-  protected viewName(): string {
-    return POLL_VIEWS.find((x) => x.v === this.s.view())!.t;
-  }
-  protected setView(t: string): void {
-    this.s.view.set(POLL_VIEWS.find((x) => x.t === t)!.v);
-  }
 }

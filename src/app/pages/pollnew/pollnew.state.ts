@@ -3,9 +3,9 @@ import { NavService } from '../../core/navigation/nav.service';
 import { audGroup, audMatch } from '../../data/audience.data';
 import { COMM_POOL } from '../../data/comm.data';
 import { materialToPoll, pollToMaterial } from '../../data/builder.data';
-import { POLL_MAIL, POLL_TEMPLATES } from '../../data/polls.data';
+import { POLL_MAIL, POLL_ROLES, POLL_TEMPLATES } from '../../data/polls.data';
 import { BldMaterial } from '../../interface/builder';
-import { Member } from '../../interface/member';
+import { EvMember, Member } from '../../interface/member';
 import { Poll, PollKind, PollQuestion, PollSection, PollStatus, PollView, PollWave } from '../../interface/poll';
 import { ToastService } from '../../shared/ui/toast/toast.service';
 import { PollsState } from '../polls/polls.state';
@@ -54,6 +54,10 @@ export class PollnewState {
   readonly anon = signal(true);
   /** тест: проходной балл, % */
   readonly pass = signal(80);
+  /** примерное время прохождения, мин (строка поля; пусто — не указано) */
+  readonly dur = signal('');
+  /** шапка предпросмотра в конструкторе — как на странице прохождения опроса */
+  readonly svInfo = computed(() => ({ t: this.n(), d: this.d(), end: this.end(), dur: +this.dur() || null, anon: this.anon() }));
   readonly sec = signal<PollSection[]>([{ name: 'Раздел 1', q: [] }]);
   readonly sel = signal<PollQuestion | null>(null);
   /** материал конструктора на шаге «Вопросы» — собирается из разделов при входе на шаг (тип мог измениться) */
@@ -73,6 +77,19 @@ export class PollnewState {
   readonly qCount = computed(() => this.sec().reduce((a, s) => a + s.q.length, 0));
   /** участники каждой процедуры (id → список): один массив на правку — таблица участников не пересоздается */
   readonly waveList = computed(() => new Map(this.waves().map((w) => [w.id, this.waveMembers(w)])));
+  /** участники процедуры строками таблицы «Участники события» (колонки «Сотрудник» и «Роль») */
+  readonly waveRows = computed(
+    () =>
+      new Map(
+        this.waves().map((w) => [
+          w.id,
+          (this.waveList().get(w.id) ?? []).map(
+            (m, i): EvMember => ({ id: 'pw-' + (m.n || 'new' + i), n: m.n, pos: m.pos, dep: m.dep, av: m.av, type: 'Сотрудник', roles: [m.role || POLL_ROLES[0]], from: w.date }),
+          ),
+        ]),
+      ),
+  );
+  readonly roles = POLL_ROLES;
   /** участников во всех процедурах */
   readonly count = computed(() => this.waves().reduce((a, w) => a + this.waveCount(w), 0));
   readonly pool = POOL;
@@ -94,6 +111,7 @@ export class PollnewState {
     this.view.set(p?.view ?? (p?.kind === 'Пульс-опрос' ? 'step' : 'mods'));
     this.status.set(p?.sts ?? 'Черновик');
     this.pass.set(p?.pass ?? 80);
+    this.dur.set(p?.dur ? String(p.dur) : '');
     this.sec.set(p ? deep(p.sec ?? t!.sec) : [{ name: 'Раздел 1', q: [] }]);
     // процедуры: сохраненные; у опроса без процедур — одна, из его участников и дат; у нового — одна пустая с датой начала
     const legacy = (p: Poll): PollWave => ({
@@ -229,6 +247,14 @@ export class PollnewState {
       excl: [...new Set([...w.excl.filter((n) => !list.some((m) => m.n === n)), ...auto.filter((a) => !list.some((m) => m.n === a.n)).map((a) => a.n)])],
     });
   }
+  /** правка таблицы участников (event-members): условия отбора пока не используются — список фиксируется целиком */
+  setWaveRows(w: PollWave, rows: EvMember[]): void {
+    this.setWave(w, {
+      rules: [],
+      excl: [],
+      man: rows.map((r) => ({ n: r.n, pos: r.pos, dep: r.dep, av: r.av, role: r.roles[0] || POLL_ROLES[0] })),
+    });
+  }
   /** новая процедура — внизу и раскрыта; первая — с датой начала опроса */
   addWave(): void {
     const l = this.waves();
@@ -252,7 +278,7 @@ export class PollnewState {
     const sts: PollStatus = !pub ? 'Черновик' : this.status() !== 'Черновик' ? this.status() : iso(this.start()) > iso(today()) ? 'Запланирован' : 'Активен';
     const waves = this.waves().map((w) => ({ ...deep(w), man: w.man.filter((m) => m.n), total: this.waveCount(w), done: Math.min(w.done, this.waveCount(w)) }));
     const e: Omit<Poll, 'idx'> = {
-      n: this.n().trim(), kind: this.kind(), view: this.view(), d: this.d(), anon: this.anon(), pass: this.kind() === 'Тест' ? this.pass() : undefined, tpl: 0, sec: deep(this.sec()),
+      n: this.n().trim(), kind: this.kind(), view: this.view(), d: this.d(), anon: this.anon(), pass: this.kind() === 'Тест' ? this.pass() : undefined, dur: +this.dur() || undefined, tpl: 0, sec: deep(this.sec()),
       waves, total: this.count(), done: waves.reduce((a, w) => a + w.done, 0), start: this.start(), end: this.end() || '—',
       st: sts === 'Завершен' ? 'done' : sts === 'В архиве' ? 'arch' : 'act', sts, off: this.count() % 24,
     };

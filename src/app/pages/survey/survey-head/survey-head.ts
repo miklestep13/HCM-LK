@@ -8,7 +8,7 @@ import { SurveyPassState } from '../survey.state';
  * Шапка опроса — шапка объекта (shared/ui/object-head): название, статус и «Анонимный»;
  * серые плитки показателей: срок (дата) или дата прохождения, время, вопросов (анонимность — бейджем «Анонимный» у названия);
  * пройденный — уведомление «Ответы отправлены»; вступление; прогресс «Выполнено», под полосой «Отвечено N из M».
- * 9-box: название и вводная опроса руководителя, подзаголовок — команда; плитки «Сотрудников», «Оценок».
+ * 9-box: название и вводная опроса руководителя, подзаголовок — команда; плитка «Сотрудников»; под прогрессом — «N из M».
  */
 @Component({
   selector: '[survey-head]',
@@ -41,7 +41,7 @@ export class SurveyHead {
     const n = this.p.questions.length,
       a = this.p.answeredN(),
       pct = Math.round((a / n) * 100);
-    return { label: 'Выполнено', value: pct + '%', percent: pct, tone: pct === 100 ? ('ok' as const) : ('' as const), caption: `Отвечено ${a} из ${n}` };
+    return { label: 'Выполнено', value: pct + '%', percent: pct, tone: pct === 100 ? ('ok' as const) : ('' as const), caption: this.p.nine() ? `${a} из ${n}` : `Отвечено ${a} из ${n}` };
   });
   protected readonly kpis = computed(() => {
     const S = this.p.survey();
@@ -50,7 +50,7 @@ export class SurveyHead {
       this.p.ro() ? { label: 'Пройден', value: S.doneAt ?? S.end ?? '—' } : { label: 'Срок', value: this.p.nine() ? 'до ' + this.p.nineBox.due : S.end ? 'до ' + S.end : 'Без срока' },
       { label: 'Время прохождения', value: '≈ ' + S.minutes + ' мин' },
       ...(this.p.nine()
-        ? [{ label: 'Сотрудников', value: String(this.p.nineBox.employees.length) }, { label: 'Оценок', value: String(this.p.questions.length) }]
+        ? [{ label: 'Сотрудников', value: String(this.p.nineBox.employees.length) }]
         : [{ label: 'Вопросов', value: String(this.p.questions.length) }]),
     ];
   });

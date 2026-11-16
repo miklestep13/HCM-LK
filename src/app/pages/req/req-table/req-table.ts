@@ -3,21 +3,22 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject
 import { NgTemplateOutlet } from '@angular/common';
 import { NavService } from '../../../core/navigation/nav.service';
 import { ME_PHOTO } from '../../../data/people.data';
-import { REQ_STATUS_TONE, REQ_TYPES, reqLegacyStatus } from '../../../data/req.data';
+import { REQ_ME, REQ_STATUS_TONE, REQ_TYPES, reqLegacyStatus } from '../../../data/req.data';
 import { Req, ReqTab } from '../../../interface/req';
 import { Float } from '../../../shared/ui/float/float';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { Rating } from '../../../shared/ui/rating/rating';
 import { ToastService } from '../../../shared/ui/toast/toast.service';
-import { ReqState, reqEnd, reqResult } from '../req.state';
+import { ReqState, reqEnd, reqFrom, reqProc, reqResult, reqTo } from '../req.state';
 
 /** время действия в демо: «сегодня» 30.09.2026 */
 const NOW_TEXT = '30.09.2026 12:00';
 
 /**
- * Таблица заявок: чек-бокс и «Выбрать все», №, тип заявки, состояние (без этапа), автор, ответственный за этап, дата и время создания,
- * уточнение к результату обработки, дата окончания (срок открытой — красным, если прошел);
- * справа «⋯» — действия по вкладке.
+ * Таблица заявок (колонки включаются кнопкой настройки в строке поиска): чек-бокс и «Выбрать все», №, тип заявки, код, состояние (без этапа), автор, ответственный за этап, дата и время создания,
+ * дата с, дата по (срок открытой — красным, если прошел), дата завершения обработки, порядковый номер, подразделение, описание (2 строки),
+ * документы (скрепка и число);
+ * справа: «Обработать», если я ответственный за открытую заявку; карандаш — только если я автор; «⋯» — действия по вкладке.
  * Над таблицей при выборе строк — панель массовых действий. Клик по строке — просмотр заявки (pages/reqnew, только чтение).
  */
 @Component({
@@ -34,7 +35,7 @@ const NOW_TEXT = '30.09.2026 12:00';
       </div>
     }
     <div class="tw">
-      <table class="tbl rtbl mttbl rqtbl">
+      <table class="tbl rtbl mttbl rqtbl" [style.min-width.px]="tw()">
         <thead>
           <tr>
             <th class="chk">
@@ -43,7 +44,7 @@ const NOW_TEXT = '30.09.2026 12:00';
               ></label>
             </th>
             @for (c of cols(); track c[0]) {
-              <th [style.width.px]="c[2] || null">
+              <th [style.width.px]="c[2] || null" [class.num]="c[3] === 'num'" [class.rqdc]="c[3] === 'rqdc'">
                 <span class="thh"
                   >{{ c[1]
                   }}<button class="sortb mts" [class.on]="s.sort().k === c[0]" title="Сортировать" [style.transform]="s.sort().k === c[0] && s.sort().dir < 0 ? 'scaleY(-1)' : null" (click)="s.sortBy(c[0])">
@@ -93,19 +94,49 @@ const NOW_TEXT = '30.09.2026 12:00';
                   @case ('res') {
                     <td [class.gr]="!result(r)">{{ result(r) || '—' }}</td>
                   }
-                  @case ('end') {
-                    <!-- дата окончания: у открытой — срок (просрочен — красным), у завершенной — дата завершения -->
-                    <td [class]="s.overdue(r) ? 'dgt' : 'gr'">{{ end(r) || '—' }}</td>
+                  @case ('code') {
+                    <td [class.gr]="!r.code">{{ r.code || '—' }}</td>
+                  }
+                  @case ('from') {
+                    <td>{{ from(r) || '—' }}</td>
+                  }
+                  @case ('to') {
+                    <!-- дата по: у открытой — срок (просрочен — красным) -->
+                    <td [class.dgt]="s.overdue(r)">{{ to(r) || '—' }}</td>
+                  }
+                  @case ('proc') {
+                    <td [class.gr]="!proc(r)">{{ proc(r) || '—' }}</td>
+                  }
+                  @case ('chan') {
+                    <td [class.gr]="!r.chan">{{ r.chan || '—' }}</td>
+                  }
+                  @case ('dep') {
+                    <td [class.gr]="!r.dep">{{ r.dep || '—' }}</td>
+                  }
+                  @case ('info') {
+                    <!-- описание — не выше двух строк -->
+                    <td><span class="rqinfo" [class.gr]="!r.info" [title]="r.info || ''">{{ r.info || '—' }}</span></td>
+                  }
+                  @case ('docs') {
+                    <!-- документы: индикатор — скрепка, если к заявке приложены документы; нет — прочерк -->
+                    <td class="rqdc">
+                      @if (r.docs?.length) {
+                        <span class="rqdocs" title="Есть документы" aria-label="Есть документы"><app-icon name="clip" /></span>
+                      } @else {
+                        <span class="gr">—</span>
+                      }
+                    </td>
                   }
                 }
               }
               <!-- действия строки закреплены справа: «Редактировать» левее «⋯» -->
               <td class="tact">
                 <span class="acts">
-                  @if (s.tab() === 'act') {
-                    <!-- «Требуют действия»: вместо карандаша — иконка «Обработать» (открывает заявку на согласование / доработку) -->
+                  @if (mine(r.resp) && !s.final(r)) {
+                    <!-- я ответственный за открытую заявку — «Обработать» вместо карандаша (открывает заявку на согласование / доработку) -->
                     <button class="actb" title="Обработать" aria-label="Обработать заявку" (click)="$event.stopPropagation(); open(r)"><app-icon name="mTask" /></button>
-                  } @else {
+                  } @else if (mine(r.ini)) {
+                    <!-- карандаш — только у своих заявок (я автор) -->
                     <button class="actb" title="Редактировать" aria-label="Редактировать заявку" (click)="$event.stopPropagation(); open(r)"><app-icon name="edit" /></button>
                   }
                   <button class="actb dots" title="Действия" aria-label="Действия" [class.on]="menu()?.r === r" (click)="toggleMenu(r, $event)"><app-icon name="dots" /></button>
@@ -160,17 +191,18 @@ export class ReqTable {
   protected readonly rate = signal<{ r: Req; a: HTMLElement } | null>(null);
 
   /** столбцы — одинаковые на всех вкладках (как в реестре заявок): №, тип, состояние, автор, ответственный, создание, уточнение, окончание */
-  protected readonly cols = computed((): [string, string, number?][] => [
-    ['id', '№', 110],
-    ['n', 'Тип заявки', 260],
-    ['st', 'Состояние', 160],
-    ['ini', 'Автор', 300],
-    ['resp', 'Ответственный', 300],
-    ['cr', 'Дата и время создания', 190],
-    ['res', 'Уточнение к результату обработки', 320],
-    ['end', 'Дата окончания', 150],
-  ]);
+  /** колонки — выбранные в настройке (кнопка в строке поиска) */
+  protected readonly cols = this.s.cols;
+  /** ширина таблицы — по включенным колонкам (чек-бокс 48, действия 88): меньше карточки — растягивается, больше — прокрутка */
+  protected readonly tw = computed(() => this.cols().reduce((a, c) => a + c[2], 48 + 88));
   protected readonly result = reqResult;
+  /** это я (текущий сотрудник) */
+  protected mine(p?: { n: string; av: string } | null): boolean {
+    return !!p && (p.av === 'me' || p.n === REQ_ME.n);
+  }
+  protected readonly from = reqFrom;
+  protected readonly to = reqTo;
+  protected readonly proc = reqProc;
   /** дата окончания: открытая — срок, завершенная — дата завершения (без времени) */
   protected end(r: Req): string {
     return reqEnd(r).split(' ')[0];
@@ -237,7 +269,7 @@ export class ReqTable {
       case 'edit':
         return this.open(R[0]);
       case 'repeat':
-        this.toast.show('Новая заявка', 'Поля заполнены по заявке ' + R[0].id + '.');
+        this.toast.show('Добавление заявки', 'Поля заполнены по заявке ' + R[0].id + '.');
         return this.nav.go('reqnew', { type: REQ_TYPES.includes(R[0].n) ? R[0].n : '' });
       case 'remind':
         return this.toast.show('Напоминание отправлено', open.length ? one + ' — ответственный за этап получит уведомление.' : 'Среди выбранных нет открытых заявок.');

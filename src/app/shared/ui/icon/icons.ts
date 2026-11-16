@@ -37,6 +37,8 @@ export const ICONS: Record<string, string> = {
   comment:
     '<svg viewBox="0 0 16 16" fill="none"><path d="M13.4 9.4a1.6 1.6 0 0 1-1.6 1.6H5.2L2.6 13.6V3.8a1.6 1.6 0 0 1 1.6-1.6h7.6a1.6 1.6 0 0 1 1.6 1.6v5.6Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path></svg>',
   eye: '<svg viewBox="0 0 16 16" fill="none"><path d="M1.4 8S3.8 3.6 8 3.6 14.6 8 14.6 8 12.2 12.4 8 12.4 1.4 8 1.4 8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path><circle cx="8" cy="8" r="2.1" stroke="currentColor" stroke-width="1.4"></circle></svg>',
+  eyeOff:
+    '<svg viewBox="0 0 16 16" fill="none"><path d="M6.4 3.8A6.6 6.6 0 0 1 8 3.6C12.2 3.6 14.6 8 14.6 8a11 11 0 0 1-1.8 2.4M10 11.9a5.6 5.6 0 0 1-2 .5C3.8 12.4 1.4 8 1.4 8a11 11 0 0 1 2.4-3M6.5 6.5a2.1 2.1 0 0 0 3 3M2.2 2.2l11.6 11.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>',
   filter:
     '<svg viewBox="0 0 16 16" fill="none"><path d="M2.2 3.4h11.6L9.4 8.4v4.4L6.6 14V8.4L2.2 3.4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>',
   chevDown:

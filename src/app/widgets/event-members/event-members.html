@@ -1,0 +1,314 @@
+<!-- шапка: название и число участников сразу после него; справа — «Добавить» (без фильтров) и настройки ⚙ -->
+<div class="ch">
+  <h3>{{ title() }}</h3>
+  <span class="pntc">{{ rows().length }}</span>
+  <span class="evmhr">
+    @if (mColSet() && !mFilters()) {
+      <!-- без шапки фильтров настройка столбцов — в шапке карточки -->
+      <button app-table-settings [columns]="colNames" [hidden]="hiddenCols()" (hiddenChange)="setHidden($event)" all></button>
+    }
+    @if (canEdit() && mAdd() === 'toolbar' && !mFilters()) {
+      <button class="btn pri" [disabled]="!!edId()" (click)="add()">Добавить</button>
+    }
+    @if (configurable()) {
+      <button class="actb evmcfgb" [class.act]="!!cfgOpen()" title="Настройки виджета" aria-label="Настройки виджета" (click)="toggleCfg($event)"><app-icon name="settings" /></button>
+    }
+  </span>
+</div>
+<div class="cb">
+  @if (mFilters()) {
+    <app-filter-bar placeholder="Поиск по ФИО, должности или подразделению" [(query)]="q" [(opened)]="fOpen">
+      <!-- настройка столбцов — перед кнопкой фильтра -->
+      @if (mColSet()) {
+        <button ftLead app-table-settings [columns]="colNames" [hidden]="hiddenCols()" (hiddenChange)="setHidden($event)" all></button>
+      }
+      @if (canEdit() && mAdd() === 'toolbar') {
+        <button ftAction class="btn pri" [disabled]="!!edId()" (click)="add()">Добавить</button>
+      }
+      @if (has('flags')) {
+        <!-- признак один — фильтр кнопкой-переключателем: нажата — только основные -->
+        <button type="button" ftName="Основные" class="fsel evmfmain" [class.on]="fMain()" [attr.aria-pressed]="fMain()" (click)="fMain.set(!fMain())"><app-icon name="star" />Основные</button>
+      }
+      @if (has('type')) {
+        <app-select label="Тип участника" allLabel="Все" [options]="types()" [(value)]="fType" />
+      }
+      @if (has('role')) {
+        <app-select label="Роль" allLabel="Все" [options]="roles()" [(value)]="fRole" />
+      }
+      @if (has('w')) {
+        <app-select label="Вес" allLabel="Все" [options]="weightOpts" [(value)]="fW" />
+      }
+      @if (has('from')) {
+        <app-date-range label="Дата начала" [(value)]="fFrom" />
+      }
+      @if (has('to')) {
+        <app-date-range label="Дата окончания" [(value)]="fTo" />
+      }
+      @if (has('status')) {
+        <app-select label="Статус" allLabel="Все" [options]="statuses" [(value)]="fSt" />
+      }
+    </app-filter-bar>
+  }
+
+  <!-- заголовок колонки с сортировкой: щелчок — по возрастанию, повторный — по убыванию; ⇅ у активной — синяя -->
+  <ng-template #sh let-k="k" let-t="t">
+    <button type="button" class="evmsh" [class.on]="srt().k === k" [title]="srt().k !== k ? 'Сортировать: ' + t : srt().d > 0 ? t + ': по возрастанию — нажмите, чтобы по убыванию' : t + ': по убыванию — нажмите, чтобы по возрастанию'" (click)="sortBy(k)">
+      {{ t }}
+      @if (srt().k !== k) {
+        <!-- не сортируется: ⇅ серая -->
+        <svg viewBox="0 0 12 12" fill="none"><path d="M3.6 9.4V2.6M1.9 4.3 3.6 2.6l1.7 1.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /><path d="M8.4 2.6v6.8M6.7 7.7l1.7 1.7 1.7-1.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      } @else if (srt().d > 0) {
+        <!-- по возрастанию (А–Я, 0–9): стрелка вверх -->
+        <svg viewBox="0 0 12 12" fill="none" aria-label="по возрастанию"><path d="M6 10V2M2.8 5.2 6 2l3.2 3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      } @else {
+        <!-- по убыванию (Я–А, 9–0): стрелка вниз -->
+        <svg viewBox="0 0 12 12" fill="none" aria-label="по убыванию"><path d="M6 2v8M2.8 6.8 6 10l3.2-3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      }
+    </button>
+  </ng-template>
+  <!-- таблица: колонки фиксированной ширины, прокрутка по горизонтали -->
+  <div class="evmwrap" [class.nopg]="mPaging() !== 'pages'">
+    <div class="tw evmtw">
+      <table class="evmt" [class.ed]="canEdit()">
+        <thead>
+          <tr>
+            @if (has('member')) {
+              <th class="evmc-m" [attr.aria-sort]="sortAria('member')"><ng-container *ngTemplateOutlet="sh; context: { k: 'member', t: memberLabel() }" /></th>
+            }
+            @if (has('type')) {
+              <th class="evmc-t" [attr.aria-sort]="sortAria('type')"><ng-container *ngTemplateOutlet="sh; context: { k: 'type', t: 'Тип участника' }" /></th>
+            }
+            @if (has('role')) {
+              <th class="evmc-r" [attr.aria-sort]="sortAria('role')"><ng-container *ngTemplateOutlet="sh; context: { k: 'role', t: 'Роль' }" /></th>
+            }
+            @if (has('w')) {
+              <th class="evmc-w num" [attr.aria-sort]="sortAria('w')"><ng-container *ngTemplateOutlet="sh; context: { k: 'w', t: 'Вес' }" /></th>
+            }
+            @if (has('from')) {
+              <th class="evmc-d" [attr.aria-sort]="sortAria('from')"><ng-container *ngTemplateOutlet="sh; context: { k: 'from', t: 'Дата начала' }" /></th>
+            }
+            @if (has('to')) {
+              <th class="evmc-d" [attr.aria-sort]="sortAria('to')"><ng-container *ngTemplateOutlet="sh; context: { k: 'to', t: 'Дата окончания' }" /></th>
+            }
+            @if (has('desc')) {
+              <th class="evmc-x">Описание</th>
+            }
+            @if (has('status')) {
+              <th class="evmc-s" [attr.aria-sort]="sortAria('status')"><ng-container *ngTemplateOutlet="sh; context: { k: 'status', t: 'Статус' }" /></th>
+            }
+            @if (canEdit()) {
+              <!-- действия — без заголовка, закреплены справа -->
+              <th class="tact"></th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (r of view(); track r.id) {
+            @let E = isEd(r);
+            @let C = cur(r);
+            <tr [class.evmon]="edId() === r.id">
+              @if (has('member')) {
+                <td class="evmc-m">
+                  @if (E) {
+                    <div class="evmpick">
+                      <!-- выбор участника — как в формах: фото, ФИО и должность -->
+                      <button type="button" class="evmsel" [class.act]="pick()?.r?.id === r.id" aria-label="Участник" (click)="openPick($event, r)">
+                        @if (C.n) {
+                          <span class="evmv">
+                            @if (showW('av')) {
+                              <span class="av" [class]="av(C)"></span>
+                            }
+                            <span class="cnm"><b [title]="C.n">{{ C.n }}</b>
+                              @if (sub(C)) {
+                                <small>{{ sub(C) }}</small>
+                              }
+                            </span>
+                          </span>
+                        } @else {
+                          <span class="evmph">Выберите участника</span>
+                        }
+                        <app-icon name="chevDown" />
+                      </button>
+                      @if (has('flags')) {
+                        <!-- признак «Основной» — переключатель-значок: нажат — отмечен -->
+                        <button type="button" class="evmflag" [class.on]="C.main" [attr.aria-pressed]="!!C.main" appTip="Основной участник" (click)="flip(r, 'main')"><app-icon name="star" /></button>
+                      }
+                    </div>
+                  } @else {
+                    <span class="evmwho">
+                      @if (showW('av')) {
+                        <span class="av" [class]="av(r)"></span>
+                      }
+                      <span class="cnm">
+                        <b>
+                          <span class="evmn">{{ r.n }}</span>
+                          @if (has('flags') && r.main) {
+                            <span class="evmmark main" appTip="Основной участник"><app-icon name="star" /></span>
+                          }
+                        </b>
+                        @if (sub(r)) {
+                          <small>{{ sub(r) }}</small>
+                        }
+                      </span>
+                    </span>
+                  }
+                </td>
+              }
+              @if (has('type')) {
+                <!-- тип — из реестра по виду участника, не правится -->
+                <td class="evmc-t">
+                  <span [class.gr]="!C.type">{{ C.type || '—' }}</span>
+                </td>
+              }
+              @if (has('role')) {
+                <td class="evmc-r">
+                  @if (E) {
+                    @if (mRole() === 'single') {
+                      <!-- одна роль — список -->
+                      <app-select [options]="roles()" placeholder="Выберите роль" [value]="C.roles[0] || ''" (valueChange)="set(r, { roles: [$event] })" />
+                    } @else {
+                      <!-- ролей может быть несколько — чипами -->
+                      <app-chip-select [options]="roles()" placeholder="Выберите роли" [value]="C.roles" (valueChange)="set(r, { roles: $event })" />
+                    }
+                  } @else {
+                    <span class="evmroles">
+                      @for (x of rolesOf(r); track x) {
+                        <span class="bdg">{{ x }}</span>
+                      } @empty {
+                        —
+                      }
+                    </span>
+                  }
+                </td>
+              }
+              @if (has('w')) {
+                <td class="evmc-w num">
+                  @if (E) {
+                    <!-- вес, % — как в форме цели: только цифры -->
+                    <div class="evmwt"><input class="fin" inputmode="numeric" placeholder="0" aria-label="Вес, %" [value]="C.w ?? ''" (input)="setW(r, $event)" /><span>%</span></div>
+                  } @else {
+                    {{ r.w != null ? r.w + ' %' : '—' }}
+                  }
+                </td>
+              }
+              @if (has('from')) {
+                <td class="evmc-d">
+                  @if (E) {
+                    <app-date-field [value]="C.from" (valueChange)="set(r, { from: $event })" />
+                  } @else {
+                    {{ r.from || '—' }}
+                  }
+                </td>
+              }
+              @if (has('to')) {
+                <td class="evmc-d">
+                  @if (E) {
+                    <app-date-field [value]="C.to || ''" (valueChange)="set(r, { to: $event })" />
+                  } @else {
+                    {{ r.to || '—' }}
+                  }
+                </td>
+              }
+              @if (has('desc')) {
+                <td class="evmc-x">
+                  @if (E) {
+                    <input class="fin" placeholder="Описание" [value]="C.desc || ''" (input)="set(r, { desc: $any($event.target).value })" />
+                  } @else {
+                    <span [class.gr]="!r.desc">{{ r.desc || '—' }}</span>
+                  }
+                </td>
+              }
+              @if (has('status')) {
+                <td class="evmc-s">
+                  @let st = status(C);
+                  @if (E) {
+                    <!-- статус: по датам или вручную -->
+                    <app-select [options]="statusOpts" [value]="st" (valueChange)="set(r, { st: $event })" />
+                  } @else {
+                    <span class="bdg" [class.ok]="st === 'Действует'">{{ st }}</span>
+                  }
+                </td>
+              }
+              @if (canEdit()) {
+                <td class="tact">
+                  <span class="acts">
+                    @if (mEdit() === 'row' && edId() === r.id) {
+                      <button class="actb" title="Сохранить" aria-label="Сохранить" [disabled]="!C.n" (click)="save()"><app-icon name="check" /></button>
+                      <button class="actb" title="Отменить" aria-label="Отменить" (click)="cancel()"><app-icon name="close" /></button>
+                    } @else {
+                      @if (mEdit() === 'row') {
+                        <button class="actb" title="Редактировать" aria-label="Редактировать" [disabled]="!!edId()" (click)="open(r)"><app-icon name="edit" /></button>
+                      }
+                      <button class="actb" title="Убрать" aria-label="Убрать" (click)="remove(r)"><app-icon name="trash" /></button>
+                    }
+                  </span>
+                </td>
+              }
+            </tr>
+          } @empty {
+            <tr>
+              <td class="empty sm" [attr.colspan]="colCount()">Участников нет</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  @if (more()) {
+    <!-- ленивая загрузка: метка внизу — когда видна, догружаем следующую порцию -->
+    <div class="evmsent">
+      @if (loading()) {
+        <app-icon name="spin" />Загружаем…
+      }
+    </div>
+  }
+  @if (canEdit() && mAdd() === 'bottom') {
+    <button class="lnk lnkadd" [disabled]="!!edId()" (click)="add()"><app-icon name="plus" />Добавить участника</button>
+  }
+  @if (mPaging() === 'pages' && pageSize()) {
+    <app-pager [p]="pg" />
+  }
+</div>
+
+@if (pick(); as k) {
+  <!-- список выбора участника: поиск, фото, ФИО, должность -->
+  <div class="fpop selpop cupop mbpick evmpop" [appFloat]="k.el" floatTrack [style.width.px]="k.w" (click)="$event.stopPropagation()">
+    <input class="fin fsq" placeholder="Поиск по названию, ФИО или должности" [value]="pq()" (input)="pq.set($any($event.target).value)" />
+    @if (pkinds().length > 2) {
+      <!-- вкладки по виду участника -->
+      <div class="mbpk" role="tablist">
+        @for (t of pkinds(); track t[0]) {
+          <button role="tab" [class.on]="pkind() === t[0]" [attr.aria-selected]="pkind() === t[0]" (click)="pkind.set(t[0])">{{ t[1] }}</button>
+        }
+      </div>
+    }
+    <div class="folist cul">
+      @for (x of found(); track x.n) {
+        <button class="mbko" [class.on]="x.n === k.r.n" (click)="choose(x)">
+          <span class="av" [class]="av(x)"></span><span class="cnm"><b>{{ x.n }}</b><small>{{ x.pos }}</small></span>
+          @if (x.n === k.r.n) {
+            <app-icon name="checkSm" />
+          }
+        </button>
+      } @empty {
+        <div class="foe">Ничего не нашли. Проверьте написание.</div>
+      }
+    </div>
+  </div>
+}
+
+@if (cfgOpen(); as el) {
+  <!-- настройки виджета (кнопка ⚙): на страницах задаются в коде, здесь — переключить на месте -->
+  <div class="fpop evmcfg" [appFloat]="el" (click)="$event.stopPropagation()">
+    <b>Настройки виджета</b>
+    <app-select label="Редактирование" [options]="cfg.edits" [value]="cfgEdit()" (valueChange)="setEdit($event)" />
+    <app-select label="Настройка столбцов" [options]="cfg.onoff" [value]="mColSet() ? 'Есть' : 'Нет'" (valueChange)="mColSet.set($event === 'Есть')" />
+    <app-select label="Фильтры" [options]="cfg.onoff" [value]="mFilters() ? 'Есть' : 'Нет'" (valueChange)="mFilters.set($event === 'Есть')" />
+    <app-select label="Кнопка добавления" [options]="cfg.adds" [value]="cfgAdd()" (valueChange)="setAdd($event)" />
+    <app-select label="Длинный список" [options]="cfg.pagings" [value]="cfgPaging()" (valueChange)="setPaging($event)" />
+    <app-select label="Роль" [options]="cfg.roleModes" [value]="cfgRole()" (valueChange)="setRole($event)" />
+    <app-multi-select label="Колонки" [options]="cfg.cols" [value]="cfgCols()" (valueChange)="setCols($event)" />
+    <app-multi-select label="Участник" [options]="cfg.who" [value]="cfgWho()" (valueChange)="setWho($event)" />
+  </div>
+}

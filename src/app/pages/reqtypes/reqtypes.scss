@@ -1,0 +1,30 @@
+/* «Управление персоналом → Заявки → Типы заявок»: таблица справочника (как таблица «Заявок») */
+.pg-reqtypes .c.full {
+  min-height: calc(-172px + 100vh);
+  display: flex;
+  flex-direction: column;
+}
+.pg-reqtypes .tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--q-font-family);
+}
+.pg-reqtypes .tbl th {
+  font: var(--q-font-ui-headline-4);
+  text-align: left;
+  color: var(--t3);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--stroke);
+  white-space: nowrap;
+  background: var(--q-content-background);
+}
+.pg-reqtypes .tbl td {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  padding: 12px;
+  border-bottom: 1px solid var(--stroke);
+  vertical-align: middle;
+}
+.pg-reqtypes .tbl tbody tr:hover td {
+  background: var(--hv);
+}

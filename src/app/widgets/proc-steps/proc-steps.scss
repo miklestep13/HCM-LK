@@ -1,0 +1,181 @@
+/* «Ход процесса»: шапка со счетчиком и стрелками, лента шагов с прокруткой */
+.w-proc {
+  display: block;
+  min-width: 0;
+}
+.w-proc .wpsh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.w-proc .wpsh h4 {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  margin: 0;
+}
+.w-proc .wpsn {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.w-proc .wpsar {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+}
+.w-proc .wpsar .actb:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* лента: шаги не уже 200, иначе делят ширину поровну; полоса прокрутки скрыта (листают колесом, свайпом и стрелками) */
+.w-proc .wpsv {
+  position: relative;
+}
+.w-proc .wpst-list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+.w-proc .wpst-list::-webkit-scrollbar {
+  display: none;
+}
+/* затухание у края, за которым есть шаги */
+.w-proc .wpsv::before,
+.w-proc .wpsv::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 32px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms;
+  z-index: 1;
+}
+.w-proc .wpsv::before {
+  left: 0;
+  background: linear-gradient(to right, var(--q-content-background), transparent);
+}
+.w-proc .wpsv::after {
+  right: 0;
+  background: linear-gradient(to left, var(--q-content-background), transparent);
+}
+.w-proc .wpsv.fl::before,
+.w-proc .wpsv.fr::after {
+  opacity: 1;
+}
+
+.w-proc .wpst {
+  flex: 1 0 200px;
+  min-width: 200px;
+  padding-right: 16px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 0;
+}
+.w-proc .wpst:last-child {
+  flex-grow: 0.6;
+  padding-right: 0;
+}
+/* кружок и линия до следующего */
+.w-proc .wpsr {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  margin-right: -6px;
+}
+.w-proc .wpsc {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  border: 2px solid var(--stroke2);
+  background: var(--q-content-background);
+  box-sizing: border-box;
+}
+.w-proc .wpsc app-icon,
+.w-proc .wpsc svg {
+  width: 18px;
+  height: 18px;
+}
+.w-proc .wpsl {
+  flex: 1 1 auto;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--stroke);
+  overflow: hidden;
+}
+.w-proc .wpsl i {
+  display: block;
+  height: 100%;
+  width: 0;
+}
+/* название — до двух строк, длиннее — с «…» (полностью — в подсказке) */
+.w-proc .wpst b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.w-proc .wpst small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+
+/* пройден — зеленый, галочка, линия зеленая */
+.w-proc .wpst.done .wpsc {
+  border-color: var(--ok-ac);
+  background: var(--ok-ac);
+  color: var(--q-content-background);
+}
+.w-proc .wpst.done .wpsl i {
+  width: 100%;
+  background: var(--ok-ac);
+}
+/* текущий — синий с ореолом, линия синяя наполовину */
+.w-proc .wpst.cur .wpsc {
+  border: 2px solid var(--blue);
+  background: var(--blue);
+  color: var(--q-content-background);
+  position: relative;
+  z-index: 1;
+}
+.w-proc .wpst.cur .wpsl i {
+  width: 30%;
+  background: var(--blue);
+}
+.w-proc .wpst.cur b {
+  color: var(--blue);
+}
+/* впереди — серый */
+.w-proc .wpst.next b {
+  color: var(--t3);
+}
+/* отклонен — красный с крестиком */
+.w-proc .wpst.fail .wpsc {
+  border-color: var(--dg-ac);
+  background: var(--dg-ac);
+  color: var(--q-content-background);
+}
+.w-proc .wpst.fail b {
+  color: var(--dg);
+}
+/* остановлен (отозвано) — серый, пунктир */
+.w-proc .wpst.stop .wpsc {
+  border-style: dashed;
+}

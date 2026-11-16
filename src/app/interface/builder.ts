@@ -124,6 +124,19 @@ export interface BldMaterial {
   secs: BldSection[];
 }
 
+/** шапка предпросмотра опроса (вход [survey] конструктора): как на странице прохождения опроса */
+export interface BldSurveyInfo {
+  /** название опроса */
+  t: string;
+  /** описание */
+  d?: string;
+  /** срок: дата окончания «дд.мм.гггг» */
+  end?: string;
+  /** примерное время прохождения, мин */
+  dur?: number | null;
+  anon?: boolean;
+}
+
 /** пункт палитры «Добавить блок» */
 export interface BldPaletteItem {
   k: BldBlockType;

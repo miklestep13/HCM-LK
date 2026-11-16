@@ -1,0 +1,133 @@
+/* Доход: сумма и последние начисления; суммы скрываются */
+.hm-income .hmin .cb {
+  padding-top: 4px;
+  padding-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+/* сумма и глаз справа от нее */
+.hm-income .hminrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hm-income .hmineye {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: none;
+  color: var(--blue);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+.hm-income .hmineye:hover {
+  color: var(--q-primary-700);
+}
+/* как иконка «Открыть раздел» в шапке: 16px, тонкая линия */
+.hm-income .hmineye svg {
+  width: 16px;
+  height: 16px;
+}
+.hm-income .hmineye svg path,
+.hm-income .hmineye svg circle {
+  stroke-width: 1.2;
+}
+.hm-income .hminsub {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 2px;
+}
+.hm-income .hmincap {
+  font: var(--q-font-ui-description-1);
+  font-weight: 600;
+  color: var(--t1);
+  margin-bottom: 4px;
+}
+.hm-income .hminops .kv .k small {
+  display: block;
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 2px;
+}
+.hm-income .hminops .kv {
+  align-items: center;
+}
+.hm-income .hminops .kv .k {
+  font: var(--q-font-ui-description-1);
+}
+.hm-income .hminops .kv:last-child {
+  padding-bottom: 0;
+}
+.hm-income .hmineye svg {
+  transition: transform 0.2s ease;
+}
+.hm-income .hmineye:active svg {
+  transform: scale(0.85);
+}
+/* сумма — кнопка: щелчок показывает / скрывает все суммы */
+.hm-income .hminamt {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  background: none;
+  border: none;
+  padding: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  vertical-align: middle;
+}
+.hm-income .hminamt.big {
+  font: var(--q-font-ui-headline-2);
+  min-height: 32px;
+}
+.hm-income .hminamt:hover .hminval {
+  color: var(--blue);
+}
+/* цифры проявляются из размытия */
+.hm-income .hminval {
+  animation: hminReveal 0.35s ease-out;
+}
+@keyframes hminReveal {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+  }
+}
+/* скрытая сумма: размытые цифры-заглушка (7 знаков), как в банковских приложениях */
+.hm-income .hminmask {
+  display: inline-block;
+  color: var(--t2);
+  filter: blur(4px);
+  user-select: none;
+  animation: hminHide 0.25s ease-out;
+  transition: color 0.15s;
+}
+.hm-income .big .hminmask {
+  filter: blur(6px);
+}
+.hm-income .hminamt:hover .hminmask {
+  color: var(--blue);
+}
+@keyframes hminHide {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hm-income .hminval,
+  .hm-income .hminmask {
+    animation: none;
+  }
+}
+.hm-income .hminamt:focus-visible,
+.hm-income .hmineye:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}

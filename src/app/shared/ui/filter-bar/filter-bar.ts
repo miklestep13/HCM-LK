@@ -12,6 +12,7 @@ interface FtItem {
  * Шапка с фильтрами (паттерн прототипа .ftbar): строка 1 — поиск, кнопка фильтров, действия; строка 2 — панель фильтров.
  *   <app-filter-bar placeholder="Найти сотрудника" [(query)]="q">
  *     <button ftAction class="btn raised">Развернуть все</button>      — действие в строке поиска
+ *     <button ftLead app-table-settings …></button>                    — кнопка перед фильтром (настройка столбцов)
  *     <app-select label="Подразделение" … />                           — фильтры (строка 2)
  *   </app-filter-bar>
  * Кнопка фильтров — из двух частей:
@@ -34,6 +35,8 @@ interface FtItem {
         [value]="query()"
         (input)="query.set($any($event.target).value)"
       />
+      <!-- ftLead — кнопки перед фильтром (например, настройка столбцов) -->
+      <ng-content select="[ftLead]" />
       <span class="ftbw ftsplit">
         <button class="ib3 ic ftb ftbl" aria-label="Выбрать фильтры" appTip="Выбрать фильтры" [class.on]="menu()" (click)="toggleMenu($event)">
           <svg viewBox="0 0 16 16" fill="none">

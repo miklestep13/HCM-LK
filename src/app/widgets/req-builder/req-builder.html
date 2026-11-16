@@ -1,0 +1,222 @@
+<!-- верхняя панель: число инфоблоков и переключатель «Редактор / Предпросмотр» -->
+<div class="c rqbbar">
+  <span class="bdg info">Заявка</span>
+  <span class="rqbsum">Инфоблоков: {{ blocks().length }}</span>
+  <app-seg [options]="modes" [value]="mode()" (valueChange)="mode.set($event)" />
+</div>
+
+@if (mode() === 'edit') {
+  <!-- редактор как в Тильде: форма видна целиком, как ее увидит сотрудник; управление — по наведению и щелчку -->
+  <div class="rqbed">
+    @for (b of blocks(); track b.id; let i = $index, last = $last) {
+      <!-- «+» между инфоблоками — вставить инфоблок в это место -->
+      <div class="rqbgap"><button class="rqbgapb" title="Добавить инфоблок сюда" aria-label="Добавить инфоблок сюда" (click)="openPal($event, i)"><app-icon name="plus" /></button></div>
+      @let bs = blockSel(b);
+      <div class="c rqbblk" [class.on]="bs" [class.drag]="isDrag(b)" (dragover)="overBlock($event, b)" (drop)="drop($event)" (click)="sel.set(null)">
+        <!-- панель инфоблока по наведению: перетащить, выше, ниже, удалить -->
+        <div class="rqbtools" (click)="$event.stopPropagation()">
+          <span class="cdrag" title="Перетащите инфоблок" draggable="true" (dragstart)="start($event, { b })" (dragend)="drag.set(null)"><app-icon name="grip" /></span>
+          <button class="actb" title="Выше" aria-label="Переместить инфоблок выше" [disabled]="i === 0" (click)="move(b, -1)"><app-icon name="arrowUp" /></button>
+          <button class="actb rqbdn" title="Ниже" aria-label="Переместить инфоблок ниже" [disabled]="last" (click)="move(b, 1)"><app-icon name="arrowUp" /></button>
+          <button class="actb" [class.on]="b.noTitle" [title]="b.noTitle ? 'Показать заголовок' : 'Скрыть заголовок'" [attr.aria-label]="b.noTitle ? 'Показать заголовок' : 'Скрыть заголовок'" [attr.aria-pressed]="!!b.noTitle" (click)="toggleTitle(b)"><app-icon [name]="b.noTitle ? 'eye' : 'eyeOff'" /></button>
+          <button class="actb dg" title="Удалить инфоблок" aria-label="Удалить инфоблок" (click)="del(b)"><app-icon name="trashSm" /></button>
+        </div>
+        <!-- заголовок; скрытый — бледный, справа иконка скрытого глаза (щелчок — показать; в заявке заголовка не будет) -->
+        <div class="ch rqbbh" [class.off]="b.noTitle">
+          <input class="rqbtin" aria-label="Название инфоблока" [value]="b.t" (click)="$event.stopPropagation()" (input)="rename(b, $any($event.target).value)" />
+          @if (b.noTitle) {
+            <button class="actb rqbtoff" title="Заголовок скрыт — показать" aria-label="Заголовок скрыт — показать" (click)="$event.stopPropagation(); toggleTitle(b)"><app-icon name="eyeOff" /></button>
+          }
+        </div>
+        <div class="cb">
+          <!-- раскладка полей — как в заявке: 4 колонки, ширина поля из настроек -->
+          <div class="rqbgrid">
+            @for (f of b.fields; track f.k) {
+              @if (f.on) {
+                <div
+                  class="rqbt"
+                  [class]="'rqbt ' + wcls(f)"
+                  [class.on]="isSel(b, f)"
+                  [class.drag]="isDrag(b, f)"
+                  draggable="true"
+                  (dragstart)="start($event, { b, f })"
+                  (dragend)="drag.set(null)"
+                  (dragover)="overField($event, b, f)"
+                  (drop)="drop($event)"
+                  (click)="$event.stopPropagation(); pickField(b, f)"
+                >
+                  <!-- поле — настоящий контрол дизайн-системы (подпись внутри поля), без ввода: щелчок выбирает поле -->
+                  <!-- ручка у правого края: растянуть поле по сетке (25, 33, 50, 100 %); загрузка документов — всегда на всю ширину -->
+                  @if (f.t !== 'files') {
+                    <span class="rqbsz" [class.on]="sizing() === cfgKeyOf(b, f)" title="Потяните, чтобы изменить ширину" (pointerdown)="resize($event, b, f)" (click)="$event.stopPropagation()" (dragstart)="$event.preventDefault()"><b>{{ f.w }} %</b></span>
+                  }
+                  <button class="actb rqbhide" title="Скрыть поле" aria-label="Скрыть поле" (click)="$event.stopPropagation(); setOn(b, f, false)"><app-icon name="eyeOff" /></button>
+                  <div class="rqbctl" inert>
+                    @switch (f.t) {
+                      @case ('textarea') {
+                        <app-field [label]="f.l" [required]="f.req"><textarea class="fta" rows="3"></textarea></app-field>
+                      }
+                      @case ('date') {
+                        <app-field [label]="f.l" [required]="f.req"><app-date-field value="" /></app-field>
+                      }
+                      @case ('select') {
+                        <app-field [label]="f.l" [required]="f.req"><app-select [options]="f.opts ?? []" placeholder="" value="" /></app-field>
+                      }
+                      @case ('employee') {
+                        <app-field [label]="f.l" [required]="f.req"><app-select [options]="people" placeholder="" value="" /></app-field>
+                      }
+                      @case ('files') {
+                        <!-- без подписи над зоной загрузки: заголовок инфоблока уже называет поле -->
+                        <app-attach edit [files]="[]" [hint]="formatsHint(f.formats)" />
+                      }
+                      @default {
+                        <app-field [label]="f.l" [required]="f.req"><input class="fin" /></app-field>
+                      }
+                    }
+                  </div>
+                  @if (f.hint) {
+                    <small class="rqbhint">{{ f.hint }}</small>
+                  }
+                </div>
+              }
+            } @empty {}
+          </div>
+          @if (!fieldsOn(b)) {
+            <div class="rqbnone">Все поля инфоблока скрыты — верните их ниже</div>
+          }
+          <!-- скрытые поля — чипами: щелчок возвращает поле в раскладку -->
+          @if (fieldsOn(b) < b.fields.length) {
+            <div class="rqbhid" (click)="$event.stopPropagation()">
+              <span class="l">Скрытые поля:</span>
+              @for (f of b.fields; track f.k) {
+                @if (!f.on) {
+                  <button class="rqbchip" [title]="'Показать поле «' + f.l + '»'" (click)="setOn(b, f, true)"><app-icon name="plus" />{{ f.l }}</button>
+                }
+              }
+            </div>
+          }
+          <!-- настройки выбранного поля -->
+          @if (selField(b); as f) {
+            <div class="rqbcfg" (click)="$event.stopPropagation()">
+              <div class="rqbcfgh"><b>Поле «{{ f.l }}»</b><span class="rqbft">{{ typeName[f.t] }}</span></div>
+              <div class="rqbcfgg">
+                <app-field label="Подпись" [filled]="!!f.l">
+                  <input class="fin rqbname" [value]="f.l" (input)="patchField(b, f, { l: $any($event.target).value })" />
+                </app-field>
+                <app-field label="Подсказка под полем" [filled]="!!f.hint">
+                  <input class="fin" placeholder="Необязательно" [value]="f.hint || ''" (input)="patchField(b, f, { hint: $any($event.target).value })" />
+                </app-field>
+              </div>
+              @if (f.t === 'files') {
+                <!-- поле загрузки: какие форматы документов можно приложить (пусто — любые) -->
+                <app-field class="rqbfmt" label="Форматы документов" [float]="false">
+                  <app-chip-select [options]="fileFormats" [value]="f.formats ?? []" (valueChange)="patchField(b, f, { formats: $event })" placeholder="Любые форматы" />
+                </app-field>
+              }
+              <div class="rqbcfgr">
+                @if (f.t !== 'files') {
+                  <div class="rqbcw">
+                    <span class="l">Ширина в форме</span>
+                    <app-seg [options]="widths" [value]="f.w" (valueChange)="patchField(b, f, { w: $event })" />
+                  </div>
+                }
+                <label class="swt"><input type="checkbox" [checked]="f.req" (change)="patchField(b, f, { req: $any($event.target).checked })" /><i></i><span>Обязательное</span></label>
+                <button class="btn raised sm" (click)="setOn(b, f, false)"><app-icon name="eyeOff" />Скрыть поле</button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    } @empty {
+      <div class="c rqbempty">
+        <b>В заявке пока нет инфоблоков</b>
+        <small>Добавьте инфоблок — у каждого свой набор полей: их можно переименовывать, скрывать, переставлять и делать обязательными</small>
+      </div>
+    }
+    <button class="btn onbg radd rqbadd" (click)="openPal($event, blocks().length)"><app-icon name="plus" />Добавить инфоблок</button>
+  </div>
+} @else {
+  <!-- предпросмотр: форма заявки, как ее увидит сотрудник -->
+  @if (title()) {
+    <!-- как в форме «Добавление заявки»: сверху — карточка «Тип заявки» с выбранным типом -->
+    <div class="c rqbpvt">
+      <app-field label="Тип заявки" required filled>
+        <app-select [options]="[title()]" [value]="title()" />
+      </app-field>
+    </div>
+  }
+  @for (b of blocks(); track b.id) {
+    @if (fieldsOn(b)) {
+      <div class="c rqbpv">
+        @if (!b.noTitle) {
+          <div class="ch"><h3>{{ b.t }}</h3></div>
+        }
+        <div class="cb">
+          <div class="rqbgrid">
+            @for (f of b.fields; track f.k) {
+              @if (f.on) {
+                <div [class]="'rqbpf ' + wcls(f)">
+                  @switch (f.t) {
+                    @case ('textarea') {
+                      <app-field [label]="f.l" [required]="f.req" [filled]="!!val(b, f)">
+                        <textarea class="fta" rows="3" [value]="val(b, f)" (input)="setVal(b, f, $any($event.target).value)"></textarea>
+                      </app-field>
+                    }
+                    @case ('date') {
+                      <app-field [label]="f.l" [required]="f.req" [filled]="!!val(b, f)">
+                        <app-date-field [value]="val(b, f)" (valueChange)="setVal(b, f, $event)" />
+                      </app-field>
+                    }
+                    @case ('select') {
+                      <app-field [label]="f.l" [required]="f.req" [filled]="!!val(b, f)">
+                        <app-select [options]="f.opts ?? []" [search]="(f.opts?.length ?? 0) > 6" placeholder="Выберите значение" [value]="val(b, f)" (valueChange)="setVal(b, f, $event)" />
+                      </app-field>
+                    }
+                    @case ('employee') {
+                      <app-field [label]="f.l" [required]="f.req" [filled]="!!val(b, f)">
+                        <app-select [options]="people" [search]="true" placeholder="Выберите сотрудника" [value]="val(b, f)" (valueChange)="setVal(b, f, $event)" />
+                      </app-field>
+                    }
+                    @case ('files') {
+                      <app-attach edit [files]="files()[b.id + f.k] ?? []" [hint]="formatsHint(f.formats)" (filesChange)="setFiles(b, f, $event)" />
+                    }
+                    @case ('number') {
+                      <app-field [label]="f.l" [required]="f.req" [filled]="!!val(b, f)">
+                        <input class="fin" inputmode="numeric" [value]="val(b, f)" (input)="setNum(b, f, $any($event.target))" />
+                      </app-field>
+                    }
+                    @default {
+                      <app-field [label]="f.l" [required]="f.req" [filled]="!!val(b, f)">
+                        <input class="fin" [value]="val(b, f)" (input)="setVal(b, f, $any($event.target).value)" />
+                      </app-field>
+                    }
+                  }
+                  @if (f.hint) {
+                    <small class="rqbhint">{{ f.hint }}</small>
+                  }
+                </div>
+              }
+            }
+          </div>
+        </div>
+      </div>
+    }
+  } @empty {
+    <div class="c rqbempty"><b>Форма пустая</b><small>Добавьте инфоблоки в редакторе</small></div>
+  }
+}
+
+@if (pal(); as a) {
+  <!-- палитра «Добавить инфоблок»: только названия; уже добавленные не показываем -->
+  <div class="fpop amenu rqbpal" [appFloat]="a.a" (click)="$event.stopPropagation()">
+    <div class="rqbpg">Инфоблоки</div>
+    @for (k of kinds; track k.k) {
+      @if (!used().has(k.k)) {
+        <button class="ami" (click)="add(k.k, a.at)">{{ k.name }}</button>
+      }
+    }
+    @if (used().size === kinds.length) {
+      <div class="rqbpe">Все инфоблоки уже в заявке</div>
+    }
+  </div>
+}

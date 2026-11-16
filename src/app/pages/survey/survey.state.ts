@@ -2,8 +2,8 @@ import { Injectable, computed, signal } from '@angular/core';
 import { SURVEYS, SURVEY_DEMO_ANSWERS, SURVEY_FORM, SURVEY_NINE_BOX, SURVEY_NINE_DEMO } from '../../data/surveys.data';
 import { Survey, SurveyAnswer, SurveyQuestion, SurveyStatus } from '../../interface/survey';
 
-/** вид прохождения (dev-панель): обычный, узкий (колонка 760 px), 9-box (узкий, блок вопросов на каждого сотрудника) */
-export type SurveyView = 'wide' | 'narrow' | 'nine';
+/** вид прохождения (dev-панель): обычный — узкий (колонка 760 px), 9-box (узкий, блок вопросов на каждого сотрудника) */
+export type SurveyView = 'narrow' | 'nine';
 
 /**
  * Прохождение опроса: опрос из списка, анкета (блоки и вопросы), ответы, проверка обязательных.
@@ -22,9 +22,9 @@ export class SurveyPassState {
   readonly tried = signal(false);
 
   readonly nineBox = SURVEY_NINE_BOX;
-  readonly view = signal<SurveyView>('wide');
-  /** узкий вид прохождения (колонка 760 px): без матрицы — она слишком широкая для узкой колонки */
-  readonly narrow = computed(() => this.view() !== 'wide');
+  readonly view = signal<SurveyView>('narrow');
+  /** прохождение всегда узкое (колонка 760 px): без матрицы — она слишком широкая для узкой колонки */
+  readonly narrow = computed(() => true);
   /** 9-box: вопросы повторяются для каждого сотрудника руководителя */
   readonly nine = computed(() => this.view() === 'nine');
   /** комментарии к оценкам: вопрос → текст */

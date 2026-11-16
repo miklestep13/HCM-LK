@@ -1,7 +1,10 @@
+import { AttachFile } from '../../interface/attach';
 import { CommentItem } from '../../widgets/comments/comments';
 import { Injectable, computed, signal } from '@angular/core';
-import { REQS, REQ_FINAL, REQ_TYPE_CAT, REQ_ME, REQ_BOSS } from '../../data/req.data';
+import { REQS, REQ_FINAL, REQ_TYPE_CAT, REQ_ME, REQ_BOSS, REQ_STAGES } from '../../data/req.data';
+import { ProcStep } from '../../interface/proc-step';
 import { Req, ReqTab } from '../../interface/req';
+import { EvMember } from '../../interface/member';
 import { DateRange, EMPTY_RANGE, TODAY, inRange } from '../../shared/ui/date-range/date-range';
 
 /** сегмент над таблицей: открытые / завершенные / все */
@@ -34,7 +37,22 @@ export const REQ_SORT_KEYS: Record<string, (r: Req) => string | number> = {
   cr: (r) => key(r.created),
   res: (r) => reqResult(r),
   end: (r) => key(reqEnd(r)),
+  code: (r) => r.code || '',
+  from: (r) => key(reqFrom(r)),
+  to: (r) => key(reqTo(r)),
+  proc: (r) => key(reqProc(r)),
+  chan: (r) => r.chan || '',
+  dep: (r) => r.dep || '',
+  info: (r) => r.info || '',
+  docs: (r) => (r.docs?.length ? 1 : 0),
 };
+
+/** «Дата с»: из формы, иначе дата создания */
+export const reqFrom = (r: Req) => r.from || r.created.split(' ')[0];
+/** «Дата по»: из формы, иначе срок или дата завершения */
+export const reqTo = (r: Req) => r.to || (r.closed || r.due || '').split(' ')[0];
+/** «Дата завершения обработки»: из формы, иначе дата завершения заявки */
+export const reqProc = (r: Req) => r.procEnd || (r.closed || '').split(' ')[0];
 
 /** ответственный за текущий этап (у завершенных — нет) */
 export const reqResp = (r: Req) => r.resp;
@@ -44,7 +62,52 @@ export const reqEnd = (r: Req) => r.closed || r.due || '';
 export const reqResult = (r: Req) =>
   r.st === 'Выполнена' ? r.stage : r.st === 'Отклонена' ? 'Отклонена на этапе «' + r.stage + '»' : r.st === 'Отозвана' ? 'Отозвана автором' : '';
 
+/** «Иванов Павел Сергеевич» → «Иванов П. С.» */
+const short = (n: string) => {
+  const [f, i = '', o = ''] = n.split(' ');
+  return [f, i && i[0] + '.', o && o[0] + '.'].filter(Boolean).join(' ');
+};
+/**
+ * ход обработки заявки — шаги для widgets/proc-steps: названия этапов — свои у заявки или по категории (первые steps, текущий — stage);
+ * пройденные — зеленые, текущий — синий (ответственный и срок), впереди — серые; отклонена — текущий красный, отозвана — текущий остановлен.
+ */
+export function reqProcess(r: Req): ProcStep[] {
+  const base = r.stages ?? REQ_STAGES[r.cat] ?? [];
+  const names = Array.from({ length: r.steps }, (_, i) => base[i] ?? 'Этап ' + (i + 1));
+  names[r.step - 1] = r.stage;
+  const day = (d?: string) => (d || '').split(' ')[0];
+  return names.map((n, i): ProcStep => {
+    const k = i + 1;
+    if (r.st === 'Выполнена') return { n, st: 'done', sub: k === 1 ? 'Создана ' + day(r.created) : k === r.steps ? 'Завершена ' + day(r.closed) : 'Пройден' };
+    if (k < r.step) return { n, st: 'done', sub: k === 1 ? 'Создана ' + day(r.created) : 'Пройден' };
+    if (k > r.step) return { n, st: 'next', sub: r.st === 'Отклонена' || r.st === 'Отозвана' ? 'Не выполнялся' : 'Ожидает' };
+    if (r.st === 'Отклонена') return { n, st: 'fail', sub: 'Отклонена ' + day(r.closed) };
+    if (r.st === 'Отозвана') return { n, st: 'stop', sub: 'Отозвана ' + day(r.closed) };
+    return { n, st: 'cur', sub: [r.resp ? short(r.resp.n) : 'Ответственный не назначен', r.due ? 'срок ' + day(r.due) : ''].filter(Boolean).join(' · ') };
+  });
+}
+
 /** Вкладки, сегмент, фильтры, сортировка, выбор строк и изменения из меню «⋯» (до перезагрузки) списка «Заявки». */
+/** колонки реестра: ключ, заголовок, ширина, класс (num — число справа) */
+export const REQ_COLS: [string, string, number, string?][] = [
+  ['id', '№', 110],
+  ['n', 'Тип заявки', 260],
+  ['code', 'Код', 150],
+  ['st', 'Состояние', 170],
+  ['ini', 'Автор', 300],
+  ['resp', 'Ответственный', 300],
+  ['cr', 'Дата и время создания', 190],
+  ['from', 'Дата с', 120],
+  ['to', 'Дата по', 120],
+  ['proc', 'Дата завершения обработки', 280],
+  ['chan', 'Тип канала поступления', 250],
+  ['dep', 'Подразделение', 260],
+  ['info', 'Описание', 320],
+  ['docs', 'Документы', 130, 'rqdc'],
+];
+/** по умолчанию включены: №, тип заявки, состояние, автор, ответственный, дата и время создания, дата завершения обработки */
+const REQ_COLS_ON = ['id', 'n', 'st', 'ini', 'resp', 'cr', 'proc'];
+
 @Injectable({ providedIn: 'root' })
 export class ReqState {
   readonly tab = signal<ReqTab>('my');
@@ -59,6 +122,10 @@ export class ReqState {
   readonly ended = signal<DateRange>(EMPTY_RANGE);
   readonly opened = signal(false);
   readonly sort = signal<{ k: string; dir: number }>({ k: 'cr', dir: -1 });
+  /** настройка колонок (кнопка в строке поиска): скрытые — номера с 1, как в app-table-settings */
+  readonly colNames = REQ_COLS.map((c) => c[1]);
+  readonly hidden = signal<number[]>(REQ_COLS.map((c, i) => (REQ_COLS_ON.includes(c[0]) ? 0 : i + 1)).filter(Boolean));
+  readonly cols = computed(() => REQ_COLS.filter((_, i) => !this.hidden().includes(i + 1)));
   /** отмеченные строки (номера) */
   readonly sel = signal<Set<string>>(new Set());
   /** правки из меню и массовых действий: номер → поля */
@@ -66,7 +133,7 @@ export class ReqState {
 
   /** комментарии к заявкам: номер → обсуждение (до перезагрузки) */
   readonly comments = signal<Record<string, CommentItem[]>>({});
-  /** созданные в форме «Новая заявка» (до перезагрузки) */
+  /** созданные в форме «Добавление заявки» (до перезагрузки) */
   readonly added = signal<Req[]>([]);
   readonly all = computed(() => {
     const O = this.over();
@@ -77,12 +144,12 @@ export class ReqState {
     const n = Math.max(...this.all().map((r) => +r.id.replace(/\D/g, '') || 0));
     return 'REQ-' + (n + 1);
   }
-  /** «Новая заявка»: в «Мои заявки», дата окончания — «Дата по» (или «Дата с») */
-  add(f: { t: string; st: string; from: string; to: string; info: string; name?: string; dep?: string }): void {
+  /** «Добавление заявки»: в «Мои заявки», дата окончания — «Дата по» (или «Дата с») */
+  add(f: { t: string; st: string; from: string; to: string; info: string; name?: string; dep?: string; code?: string; chan?: string; procEnd?: string; docs?: AttachFile[]; members?: EvMember[] }): void {
     const end = f.to || f.from;
     const r: Req = {
       id: this.nextId(), n: f.t, cat: REQ_TYPE_CAT[f.t] || 'Кадры', st: f.st, stage: 'Регистрация', step: 1, steps: 3,
-      due: end + ' 18:00', ini: REQ_ME, resp: REQ_BOSS, created: NOW_TEXT, tab: 'my', info: f.info || undefined, title: f.name, dep: f.dep,
+      due: end + ' 18:00', ini: REQ_ME, resp: REQ_BOSS, created: NOW_TEXT, tab: 'my', info: f.info || undefined, title: f.name, dep: f.dep, code: f.code, chan: f.chan, members: f.members?.length ? f.members : undefined, procEnd: f.procEnd, docs: f.docs, from: f.from, to: f.to || undefined,
     };
     this.added.update((l) => [r, ...l]);
     this.setTab('my');

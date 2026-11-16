@@ -2,7 +2,7 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { BldTemplatesStore } from '../../core/demo/bld-templates.store';
 import { BLD_KINDS, BLD_MOD_KINDS, bldId, moduleFromTemplate, newBlock, newKindModule, newModule } from '../../data/builder.data';
 import { newPollQuestion } from '../../data/polls.data';
-import { BldBlock, BldBlockType, BldMaterial, BldModKind, BldModTemplate, BldModule, BldSection } from '../../interface/builder';
+import { BldBlock, BldBlockType, BldMaterial, BldModKind, BldModTemplate, BldModule, BldSection, BldSurveyInfo } from '../../interface/builder';
 import { ToastService } from '../../shared/ui/toast/toast.service';
 import { PollQType, PollQuestion } from '../../interface/poll';
 
@@ -23,6 +23,10 @@ export class BuilderState {
   readonly mod = signal<BldModule | null>(null);
   readonly sel = signal<BldSel>({ lv: 'mod' });
   readonly mode = signal<'edit' | 'view'>('edit');
+  /** можно добавлять и дублировать модули (вход addMods виджета) */
+  readonly addMods = signal(true);
+  /** предпросмотр как страница прохождения опроса (вход survey виджета); null — раскладка страницы прохождения курса */
+  readonly survey = signal<BldSurveyInfo | null>(null);
   onChange: (m: BldMaterial) => void = () => {};
   private readonly tpls = inject(BldTemplatesStore);
   private readonly toast = inject(ToastService);

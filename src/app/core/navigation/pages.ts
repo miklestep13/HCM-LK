@@ -25,6 +25,8 @@ export const ANGULAR_PAGES: Record<string, string> = {
   polls: '/polls',
   req: '/req',
   reqnew: '/reqnew',
+  reqtypes: '/reqtypes',
+  reqtypenew: '/reqtypenew',
   pollnew: '/pollnew',
   coursenew: '/coursenew',
   pollstats: '/pollstats',
