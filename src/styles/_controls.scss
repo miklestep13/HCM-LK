@@ -605,28 +605,50 @@
   width: 0px;
   height: 0px;
 }
+/* чек-бокс: квадрат 18 (рамка 1.5, скругление 5), галочка — тонкая линия 1.5 по центру (маска, цвет — токен);
+   промежуточное состояние («Выбрать все», выбрана часть) — черточка */
 .ckb i {
-  width: 17px;
-  height: 17px;
-  border: 1.6px solid var(--stroke3);
-  border-radius: 6px;
+  box-sizing: border-box;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--stroke2);
+  border-radius: 5px;
+  background: var(--q-content-background);
   display: block;
   position: relative;
+  transition: background 0.12s, border-color 0.12s;
 }
-.ckb input:checked + i {
+.ckb:hover input:not(:disabled) + i {
+  border-color: var(--blue);
+}
+.ckb input:checked + i,
+.ckb input:indeterminate + i {
   background: var(--blue);
   border-color: var(--blue);
 }
-.ckb input:checked + i::after {
-  content:"";
-  position:absolute;
-  left:5px;
-  top:1.5px;
-  width:4px;
-  height:8px;
-  border:solid var(--q-content-background);
-  border-width:0 2px 2px 0;
-  transform:rotate(43deg);
+.ckb input:checked + i::after,
+.ckb input:indeterminate + i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 12px;
+  height: 12px;
+  background: var(--q-content-background);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.6 6.2 5 8.5l4.4-5' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px 12px no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.6 6.2 5 8.5l4.4-5' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px 12px no-repeat;
+}
+.ckb input:indeterminate + i::after {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 6h6' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 6h6' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+.ckb input:disabled + i {
+  opacity: 0.5;
+}
+.ckb input:focus-visible + i {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
 }
 /* красная кнопка («Удалить»): бледный фон error-50, текст error-500; при наведении — error-100 */
 .btn.dng {
@@ -651,6 +673,21 @@
   border:solid var(--blue);
   border-width:0 2px 2px 0;
   transform:rotate(45deg);
+}
+/* настройка столбцов: «Все» — над списком, отделен линией; включена часть — черточка */
+.fpop.chpop .foi.foall {
+  border-bottom: 1px solid var(--stroke);
+  margin-bottom: 4px;
+}
+.fpop.chpop .foi.foall.mid::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  width: 9px;
+  height: 2px;
+  margin-top: -1px;
+  background: var(--blue);
 }
 .npost .npau .cmpk {
   margin-left: auto;
@@ -844,6 +881,11 @@
   display: flex;
   justify-content: flex-end;
   padding-top: 16px;
+}
+/* список «Столбцы таблицы» — внутри кнопки, поэтому выравнивание задаем явно; ширина 260, справа не выходит за окно */
+.fpop.plcolp {
+  width: 260px;
+  text-align: left;
 }
 .plcolh {
   font: var(--q-font-ui-description-1);

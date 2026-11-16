@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject } from '@angular/core';
 import { NavService } from '../../core/navigation/nav.service';
+import { TableSettings } from '../../shared/ui/table-settings/table-settings';
 import { REQS, REQ_CATS, REQ_STATUSES, REQ_TABS } from '../../data/req.data';
 import { ME_PHOTO } from '../../data/people.data';
 import { DateRangeField } from '../../shared/ui/date-range/date-range';
@@ -15,11 +16,11 @@ import { ReqState } from './req.state';
  * «Мой кабинет → Заявки» (перенесено из прототипа pg-req, таблица собрана по примерам рынка):
  * «Добавить» справа от заголовка — каталог заявок; быстрые заявки; вкладки «Мои заявки / Требуют действия / Наблюдаю» со счетчиками;
  * поиск по номеру или типу; фильтры по колонкам: тип заявки, автор, ответственный (фото и должность в списке), дата создания, состояние, дата окончания.
- * «Добавить» — форма «Новая заявка» (pages/reqnew); карточка заявки пока в старом прототипе (rqcard).
+ * «Добавить» — форма «Добавление заявки» (pages/reqnew); карточка заявки пока в старом прототипе (rqcard).
  */
 @Component({
   selector: 'app-req',
-  imports: [PageHead, FilterBar, Select, MultiSelect, DateRangeField, ReqQuick, ReqTable],
+  imports: [PageHead, FilterBar, Select, MultiSelect, DateRangeField, ReqQuick, ReqTable, TableSettings],
   template: `
     <app-page-head title="Заявки" [noBack]="true">
       <button class="btn pri" (click)="nav.go('reqnew')">Добавить</button>
@@ -33,6 +34,8 @@ import { ReqState } from './req.state';
       </div>
       <!-- фильтры — по колонкам таблицы, все одного вида («Подпись: значение») -->
       <app-filter-bar placeholder="Поиск по номеру или типу заявки" [(query)]="s.q" [(opened)]="s.opened">
+        <!-- настройка колонок таблицы — перед кнопкой фильтра: список всех колонок с отметками и «Все» -->
+        <button ftLead app-table-settings [columns]="s.colNames" [(hidden)]="s.hidden" all></button>
         <app-select label="Тип заявки" allLabel="Все" [options]="cats" [(value)]="s.cat" />
         <app-multi-select label="Автор" [options]="authorOpts()" [meta]="people()" [(value)]="s.authors" />
         <app-multi-select label="Ответственный" [options]="respOpts()" [meta]="people()" [(value)]="s.resps" />

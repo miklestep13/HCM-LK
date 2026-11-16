@@ -109,8 +109,18 @@ export const routes: Routes = [
   },
   {
     path: 'reqnew',
-    title: 'Новая заявка · Q.HCM',
+    title: 'Добавление заявки · Q.HCM',
     loadComponent: () => import('./pages/reqnew/reqnew').then((m) => m.Reqnew),
+  },
+  {
+    path: 'reqtypenew',
+    title: 'Новый тип заявки · Q.HCM',
+    loadComponent: () => import('./pages/reqtypenew/reqtypenew').then((m) => m.Reqtypenew),
+  },
+  {
+    path: 'reqtypes',
+    title: 'Типы заявок · Q.HCM',
+    loadComponent: () => import('./pages/reqtypes/reqtypes').then((m) => m.Reqtypes),
   },
   {
     path: 'polls',

@@ -69,14 +69,18 @@ type Drag = { sec: BldSection } | { mod: BldModule } | BldBlock;
                 <div><b [class.ph]="!m.t">{{ m.t || 'Без названия' }}</b></div>
                 <!-- по наведению: дублировать и удалить модуль -->
                 <span class="bldra" (click)="$event.stopPropagation()">
-                  <button class="actb" title="Дублировать" (click)="s.dupModule(m)"><app-icon name="copy" /></button>
+                  @if (s.addMods()) {
+                    <button class="actb" title="Дублировать" (click)="s.dupModule(m)"><app-icon name="copy" /></button>
+                  }
                   @if (s.mods().length > 1) {
                     <button class="actb dg" title="Удалить" (click)="del(m)"><app-icon name="trashSm" /></button>
                   }
                 </span>
               </div>
             }
-            <button class="lnk lnkadd bldaddm" (click)="add($event, S)"><app-icon name="plus" />Добавить {{ s.conf().mod.toLowerCase() }}</button>
+            @if (s.addMods()) {
+              <button class="lnk lnkadd bldaddm" (click)="add($event, S)"><app-icon name="plus" />Добавить {{ s.conf().mod.toLowerCase() }}</button>
+            }
           </div>
         }
         @if (!M.flat) {

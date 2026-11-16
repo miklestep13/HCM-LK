@@ -1,0 +1,480 @@
+/* Конструктор заявки: инфоблоки карточками, поля строками; «Предпросмотр» — форма заявки в 4 колонки */
+.w-rqb {
+  display: block;
+}
+
+/* верхняя панель: «Заявка», число инфоблоков, «Редактор / Предпросмотр» */
+.w-rqb .rqbbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+}
+.w-rqb .rqbsum {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  margin-right: auto;
+}
+
+/* ——— редактор (как конструктор опросов): форма как у сотрудника, рамка по наведению, синяя — выбранное ——— */
+/* «+» между инфоблоками: линия и кнопка по наведению */
+.w-rqb .rqbgap {
+  position: relative;
+  height: 16px;
+}
+.w-rqb .rqbgap::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  top: 50%;
+  border-top: 1px dashed var(--blue);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.w-rqb .rqbgapb {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: var(--blue);
+  color: var(--q-button-primary-text);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 3;
+}
+.w-rqb .rqbgapb svg {
+  width: 14px;
+  height: 14px;
+}
+.w-rqb .rqbgap:hover::before,
+.w-rqb .rqbgap:hover .rqbgapb,
+.w-rqb .rqbgapb:focus-visible {
+  opacity: 1;
+}
+
+/* инфоблок — карточка формы; рамка по наведению, синяя — выбран инфоблок или его поле */
+.w-rqb .rqbblk {
+  position: relative;
+  /* панель инфоблока выходит за рамку сверху — карточку не обрезаем */
+  overflow: visible;
+  border: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+.w-rqb .rqbblk:hover {
+  border-color: var(--stroke2);
+}
+.w-rqb .rqbblk.on {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-bg);
+}
+.w-rqb .rqbblk.drag,
+.w-rqb .rqbt.drag {
+  opacity: 0.5;
+}
+/* панель инфоблока — над рамкой справа, по наведению и у выбранного */
+.w-rqb .rqbtools {
+  position: absolute;
+  top: -15px;
+  right: 16px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 4px;
+  border-radius: 8px;
+  background: var(--q-content-background);
+  border: 1px solid var(--stroke2);
+  box-shadow: 0 2px 8px var(--q-overlay);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+.w-rqb .rqbblk:hover .rqbtools,
+.w-rqb .rqbblk.on .rqbtools {
+  opacity: 1;
+  pointer-events: auto;
+}
+.w-rqb .rqbtools .actb {
+  width: 26px;
+  height: 26px;
+}
+.w-rqb .rqbtools .actb:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.w-rqb .rqbtools .actb.on {
+  background: var(--raised);
+  color: var(--blue);
+}
+.w-rqb .rqbdn svg {
+  transform: rotate(180deg);
+}
+.w-rqb .cdrag {
+  display: inline-flex;
+  align-items: center;
+  color: var(--t3);
+  cursor: grab;
+  height: 18px;
+  padding: 0 4px;
+}
+/* название инфоблока и подписи полей — правятся на месте: рамка по наведению и в фокусе */
+.w-rqb .rqbtin {
+  min-width: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  color: var(--t1);
+  padding: 2px 6px;
+  margin-left: -7px;
+}
+.w-rqb .rqbtin {
+  flex: 1 1 auto;
+  font: var(--q-font-ui-headline-3);
+}
+.w-rqb .rqbtin:hover {
+  border-color: var(--stroke2);
+}
+.w-rqb .rqbtin:focus {
+  outline: none;
+  border-color: var(--blue);
+  background: var(--q-content-background);
+}
+
+/* поле — плитка шириной как в заявке: подпись, контрол без ввода, подсказка; рамка по наведению, синяя — выбрано */
+.w-rqb .rqbt {
+  position: relative;
+  min-width: 0;
+  cursor: pointer;
+}
+/* рамка плитки — псевдоэлементом вокруг поля (без отрицательных отступов: поля в строке стоят ровно) */
+.w-rqb .rqbt::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  pointer-events: none;
+  transition: border-color 0.15s;
+}
+.w-rqb .rqbt:hover::before {
+  border-color: var(--stroke2);
+}
+.w-rqb .rqbt.on::before {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-bg);
+}
+/* контрол — как в форме заявки, без ввода (inert): курсор — выбор поля */
+.w-rqb .rqbctl .fld {
+  margin: 0;
+}
+.w-rqb .rqbctl app-date-field,
+.w-rqb .rqbctl app-select {
+  display: block;
+  width: 100%;
+}
+.w-rqb .rqbt .rqbctl {
+  pointer-events: none;
+}
+.w-rqb .rqbnone {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+
+/* настройки выбранного поля и инфоблока — под раскладкой, как настройки блока в опросе */
+.w-rqb .rqbcfg {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--stroke);
+  cursor: default;
+}
+.w-rqb .rqbcfgh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.w-rqb .rqbcfgh b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.w-rqb .rqbcfgg {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.w-rqb .rqbcfg .fld {
+  margin: 0;
+}
+.w-rqb .rqbcfgr {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 24px;
+  margin-top: 16px;
+}
+.w-rqb .rqbcfgr .btn {
+  margin-left: auto;
+}
+.w-rqb .rqbcfgr .btn app-icon {
+  width: 16px;
+  height: 16px;
+}
+.w-rqb .rqbcw {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.w-rqb .rqbcw .l,
+.w-rqb .rqbcnt {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+/* настройки инфоблока: поля списком — показать, вид, обязательность */
+.w-rqb .rqbf {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--stroke);
+}
+.w-rqb .rqbf:last-child {
+  border-bottom: none;
+}
+.w-rqb .rqbf > .swt:first-child {
+  flex: 1 1 auto;
+}
+.w-rqb .rqbf.off > .swt:first-child span {
+  color: var(--t4);
+}
+.w-rqb .rqbft {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  background: var(--s2);
+  border-radius: 6px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+/* пусто и «Добавить инфоблок» */
+.w-rqb .rqbempty {
+  margin-top: 16px;
+  padding: 32px 24px;
+  text-align: center;
+}
+.w-rqb .rqbempty b {
+  display: block;
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.w-rqb .rqbempty small {
+  display: block;
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  margin-top: 4px;
+}
+.w-rqb .rqbadd {
+  width: 100%;
+  margin-top: 16px;
+}
+.w-rqb .rqbed > .rqbgap:first-child {
+  height: 24px;
+}
+
+/* предпросмотр: название заявки, инфоблоки — карточки с полями в 4 колонки */
+.w-rqb .rqbpvt {
+  margin-top: 16px;
+  padding: 24px;
+}
+.w-rqb .rqbpvt .fld {
+  margin: 0;
+}
+.w-rqb .rqbpv {
+  margin-top: 16px;
+}
+.w-rqb .rqbgrid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+}
+.w-rqb .rqbed .rqbgrid {
+  gap: 20px 16px;
+}
+.w-rqb .rqbgrid .rqbw25 {
+  grid-column: span 3;
+}
+.w-rqb .rqbgrid .rqbw33 {
+  grid-column: span 4;
+}
+.w-rqb .rqbgrid .rqbw50 {
+  grid-column: span 6;
+}
+.w-rqb .rqbgrid .rqbw100 {
+  grid-column: 1 / -1;
+}
+/* ручка ширины — у правого края плитки по наведению; при растягивании — подпись «50 %» */
+.w-rqb .rqbsz {
+  position: absolute;
+  top: 50%;
+  right: -15px;
+  z-index: 2;
+  width: 12px;
+  height: 32px;
+  margin-top: -16px;
+  border-radius: 6px;
+  background: var(--blue);
+  border: 2px solid var(--q-content-background);
+  cursor: ew-resize;
+  opacity: 0;
+  touch-action: none;
+  transition: opacity 0.15s;
+}
+.w-rqb .rqbt:hover .rqbsz,
+.w-rqb .rqbt.on .rqbsz,
+.w-rqb .rqbsz.on {
+  opacity: 1;
+}
+.w-rqb .rqbsz b {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  font: var(--q-font-ui-badge);
+  color: var(--q-button-primary-text);
+  background: var(--blue);
+  border-radius: 6px;
+  padding: 2px 6px;
+  white-space: nowrap;
+  display: none;
+}
+.w-rqb .rqbsz.on b,
+.w-rqb .rqbsz:hover b {
+  display: block;
+}
+.w-rqb .rqbpf .fld {
+  margin: 0;
+}
+.w-rqb .rqbpf app-date-field {
+  display: block;
+  width: 100%;
+}
+.w-rqb .rqbhint {
+  display: block;
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 4px;
+}
+.w-rqb .rqbst {
+  color: var(--dg-ac);
+  margin-left: 4px;
+}
+
+/* узкое окно: поля и настройки — в одну колонку */
+@media (max-width: 760px) {
+  .w-rqb .rqbgrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .w-rqb .rqbgrid > * {
+    grid-column: auto !important;
+  }
+  .w-rqb .rqbf {
+    flex-wrap: wrap;
+  }
+  .w-rqb .rqbcfgg {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* палитра «Добавить инфоблок»: заголовок 12, только названия */
+.fpop.rqbpal {
+  min-width: 260px;
+}
+/* заголовок и пункты — по одному левому краю (отступ как у пункта меню) */
+.fpop.rqbpal .rqbpg {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  padding: 6px 10px 4px;
+}
+/* пункт — 14, обычное начертание */
+.fpop.rqbpal .ami {
+  font: var(--q-font-ui-body-2);
+}
+.fpop.rqbpal .rqbpe {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  padding: 8px 10px;
+}
+
+/* «Скрыть поле» — в правом верхнем углу плитки по наведению */
+.w-rqb .rqbhide {
+  position: absolute;
+  top: -18px;
+  right: -18px;
+  z-index: 2;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--q-content-background);
+  border: 1px solid var(--stroke2);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.w-rqb .rqbhide svg {
+  width: 14px;
+  height: 14px;
+}
+.w-rqb .rqbt:hover .rqbhide,
+.w-rqb .rqbt.on .rqbhide {
+  opacity: 1;
+}
+
+/* скрытые поля — чипами под раскладкой */
+.w-rqb .rqbhid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+.w-rqb .rqbhid .l {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.w-rqb .rqbchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font: var(--q-font-ui-description-1);
+  color: var(--blue);
+  background: var(--blue-bg);
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.w-rqb .rqbchip app-icon {
+  width: 12px;
+  height: 12px;
+}
+
+/* «Форматы документов» в настройках поля загрузки */
+.w-rqb .rqbcfg .rqbfmt {
+  margin-top: 16px;
+}
+
+/* скрытый заголовок инфоблока: в редакторе бледный, справа — иконка скрытого глаза (щелчок — показать) */
+.w-rqb .rqbbh.off .rqbtin {
+  color: var(--t4);
+  text-decoration: line-through;
+}
+.w-rqb .rqbtoff {
+  flex: none;
+  color: var(--t3);
+}

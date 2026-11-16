@@ -37,7 +37,9 @@ import { BuilderState } from '../builder.state';
             @if (s.kinded()) {
               <button class="actb" title="Сохранить в шаблоны" (click)="s.saveTemplate(m)"><app-icon name="bookmark" /></button>
             }
-            <button class="actb" title="Дублировать {{ s.conf().mod.toLowerCase() }}" (click)="s.dupModule(m)"><app-icon name="copy" /></button>
+            @if (s.addMods()) {
+              <button class="actb" title="Дублировать {{ s.conf().mod.toLowerCase() }}" (click)="s.dupModule(m)"><app-icon name="copy" /></button>
+            }
             @if (s.mods().length > 1) {
               <button class="actb dg" title="Удалить {{ s.conf().mod.toLowerCase() }}" (click)="s.delModule(m)"><app-icon name="trashSm" /></button>
             }

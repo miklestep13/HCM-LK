@@ -11,7 +11,6 @@ import { PollnewState } from '../pollnew.state';
   selector: '[pollnew-pub]',
   imports: [Field, RichText],
   template: `
-    <div class="ch"><h3>Публикация</h3></div>
     <div class="cb frm pnpub">
       <app-field label="Содержание письма" full [float]="false">
         <app-rich-text [value]="mail()" (valueChange)="s.mail.set($event)" />

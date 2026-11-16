@@ -1271,11 +1271,6 @@
   display: block;
   margin-top: 4px;
 }
-/* шаг «Общая информация»: блок «Настройки опроса» под основной карточкой */
-.pg-pollnew .c[pollnew-info] + .c[pollnew-settings] {
-  margin-top: 24px;
-}
-
 /* шаг «Процедуры опроса»: пояснение, карточки процедур (скрываемые), «Добавить процедуру» внизу */
 .pg-pollnew .c.pnwhint .cb {
   padding-top: 20px;
@@ -1294,10 +1289,19 @@
 .pg-pollnew .pnwave > .ch h3 {
   flex: 0 1 auto;
 }
+/* шапка процедуры: название сверху, ниже — дата и участники с иконками (как карточка цели) */
+.pg-pollnew .pnwhd {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 .pg-pollnew .pnwmeta {
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   gap: 16px;
-  margin: 0 auto 0 8px;
+  margin: 0;
   font: var(--q-font-ui-body-2);
   color: var(--t3);
 }
@@ -1339,7 +1343,36 @@
   padding-left: 12px;
   padding-right: 12px;
 }
+/* таблица участников события внутри процедуры: без своей карточки, заголовок — как подзаголовок формы */
+.pg-pollnew .pnwave .c.pnwevm {
+  margin: 32px 0 0;
+  background: none;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+}
+.pg-pollnew .pnwave .c.pnwevm > .ch {
+  padding: 0 0 16px;
+  min-height: 0;
+}
+.pg-pollnew .pnwave .c.pnwevm > .ch h3 {
+  font: var(--q-font-ui-headline-4);
+}
+.pg-pollnew .pnwave .c.pnwevm > .cb {
+  padding: 0;
+}
 .pg-pollnew .pnwadd {
   width: 100%;
   margin-top: 16px;
+}
+
+/* «Сделать опрос анонимным» (внизу формы «Общая информация») — тумблер слева от подписи, подпись 14 обычным */
+.pg-pollnew .swt.pnanon {
+  align-items: center;
+  gap: 10px;
+  align-self: flex-start;
+}
+.pg-pollnew .swt.pnanon span {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
 }

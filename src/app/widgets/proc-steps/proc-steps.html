@@ -1,0 +1,43 @@
+<!-- шапка: название, «Этап N из M»; справа — стрелки, если шаги не помещаются -->
+<div class="wpsh">
+  <h4>{{ title() }}</h4>
+  <span class="wpsn">{{ allDone() ? 'Все этапы пройдены' : 'Этап ' + at() + ' из ' + steps().length }}</span>
+  @if (canL() || canR()) {
+    <span class="wpsar">
+      <button type="button" class="actb" aria-label="Предыдущие этапы" title="Предыдущие этапы" [disabled]="!canL()" (click)="go(-1)"><app-icon name="pgPrev" /></button>
+      <button type="button" class="actb" aria-label="Следующие этапы" title="Следующие этапы" [disabled]="!canR()" (click)="go(1)"><app-icon name="pgNext" /></button>
+    </span>
+  }
+</div>
+<!-- лента шагов: прокручивается по горизонтали; затухание у края, за которым есть шаги -->
+<div class="wpsv" [class.fl]="canL()" [class.fr]="canR()">
+  <ol #track class="wpst-list" (scroll)="check()">
+    @for (s of steps(); track $index; let i = $index, last = $last) {
+      <li class="wpst" [class]="'wpst ' + s.st" [attr.aria-current]="s.st === 'cur' ? 'step' : null">
+        <div class="wpsr">
+          <span class="wpsc">
+            @switch (s.st) {
+              @case ('done') {
+                <app-icon name="check" />
+              }
+              @case ('fail') {
+                <app-icon name="close" />
+              }
+              @default {
+                {{ i + 1 }}
+              }
+            }
+          </span>
+          @if (!last) {
+            <!-- линия до следующего шага: после пройденного — зеленая, после текущего — синяя наполовину -->
+            <span class="wpsl"><i></i></span>
+          }
+        </div>
+        <b [title]="s.n">{{ s.n }}</b>
+        @if (s.sub) {
+          <small>{{ s.sub }}</small>
+        }
+      </li>
+    }
+  </ol>
+</div>

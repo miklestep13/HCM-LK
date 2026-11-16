@@ -262,6 +262,31 @@ export const NAV_TABS: NavTab[] = [
         ],
       },
       {
+        title: 'Заявки',
+        children: [
+          {
+            title: 'Все заявки',
+            page: 'req',
+          },
+          {
+            title: 'Типы заявок',
+            page: 'reqtypes',
+          },
+          {
+            title: 'Категории заявок',
+            attrs: {
+              todo: 'Категории заявок — в разработке.',
+            },
+          },
+          {
+            title: 'Процесс заявки',
+            attrs: {
+              todo: 'Процесс заявки — в разработке.',
+            },
+          },
+        ],
+      },
+      {
         title: 'Целеполагание',
         children: [
           {

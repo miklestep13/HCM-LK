@@ -1,0 +1,40 @@
+/* Типы заявок: таблица — название, даты создания и изменения */
+.rt-table .rttbl td {
+  vertical-align: middle;
+}
+.rt-table .rtdt {
+  white-space: nowrap;
+}
+/* заголовок колонки с сортировкой: текст и ⇅ — одна кнопка; ⇅ серая, у активной колонки — синяя */
+.rt-table .rtsh {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.rt-table .rtsh svg {
+  width: 12px;
+  height: 12px;
+  flex: none;
+  color: var(--t4);
+}
+.rt-table .rtsh:hover,
+.rt-table .rtsh:hover svg {
+  color: var(--q-page-text-ui);
+}
+.rt-table .rtsh.on,
+.rt-table .rtsh.on svg {
+  color: var(--blue);
+}
+/* действия строки: карандаш «Редактировать» и «⋯» — в одну строку справа */
+.rt-table .rttbl td.tact .acts {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}

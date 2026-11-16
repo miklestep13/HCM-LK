@@ -1,0 +1,439 @@
+/* «Участники события»: шапка, фильтры (app-filter-bar), таблица */
+/* шапка: число участников сразу после названия, справа — «Добавить» и настройки */
+.w-evm .ch {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+.w-evm .ch > h3 {
+  flex: 0 0 auto;
+}
+.w-evm .evmhr {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.w-evm .evmcfgb.act {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+/* фильтры внутри тела карточки — без своих полей (у тела уже есть отступы) */
+.w-evm .cb > .ftbar {
+  padding: 0 0 12px;
+}
+
+/* таблица */
+.w-evm .evmwrap {
+  display: flex;
+  min-width: 0;
+}
+.w-evm .evmtw {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+}
+/* колонки фиксированной ширины, таблица шире карточки — прокрутка по горизонтали (при большом числе колонок — почти всегда) */
+.w-evm .evmt {
+  width: 100%;
+  border-collapse: collapse;
+}
+.w-evm .evmt th {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  text-align: left;
+  white-space: nowrap;
+  height: 44px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+.w-evm .evmt td {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  height: 64px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--stroke);
+  vertical-align: middle;
+}
+.w-evm .evmt tr.evmon td {
+  background: var(--hv);
+}
+.w-evm .evmt :is(th, td).evmc-m {
+  width: 400px;
+  min-width: 400px;
+  max-width: 400px;
+}
+.w-evm .evmt :is(th, td).evmc-t {
+  width: 170px;
+  min-width: 170px;
+}
+.w-evm .evmt :is(th, td).evmc-r {
+  width: 240px;
+  min-width: 240px;
+}
+.w-evm .evmt :is(th, td).evmc-w {
+  width: 110px;
+  min-width: 110px;
+  white-space: nowrap;
+}
+/* вес, %: поле с подписью «%» справа (как в форме цели) */
+.w-evm .evmwt {
+  position: relative;
+}
+.w-evm .evmt td .evmwt .fin {
+  padding-right: 30px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.w-evm .evmwt span {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  pointer-events: none;
+}
+.w-evm .evmt :is(th, td).evmc-d {
+  width: 140px;
+  min-width: 140px;
+  white-space: nowrap;
+}
+.w-evm .evmt :is(th, td).evmc-x {
+  width: 320px;
+  min-width: 320px;
+}
+.w-evm .evmt :is(th, td).evmc-s {
+  width: 140px;
+  min-width: 140px;
+  white-space: nowrap;
+}
+/* описание — не выше двух строк */
+.w-evm .evmt td.evmc-x > span {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* поля в ячейках — на всю ширину колонки (у селекта display не трогаем: значение выравнивается флексом) */
+.w-evm .evmt td app-select,
+.w-evm .evmt td .fin {
+  width: 100%;
+}
+.w-evm .evmt td app-date-field {
+  display: block;
+  width: 100%;
+}
+/* в правке — даты и статус шире под поле */
+.w-evm .evmt.ed :is(th, td).evmc-s {
+  width: 170px;
+  min-width: 170px;
+}
+.w-evm .evmt.ed :is(th, td).evmc-d {
+  width: 170px;
+  min-width: 170px;
+}
+
+/* участник: фото, ФИО со значками признаков, должность · подразделение */
+.w-evm .evmwho {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.w-evm .evmwho .av {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  flex: none;
+}
+/* ФИО и «должность · подразделение» — каждое в одну строку, длинное — с «…»; значки признаков сразу после ФИО */
+.w-evm .evmwho .cnm {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1 1 0%;
+}
+.w-evm .evmwho b {
+  font: var(--q-font-ui-headline-4);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.w-evm .evmwho .evmn {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.w-evm .evmwho small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.w-evm .evmmark {
+  flex: none;
+}
+.w-evm .evmmark {
+  display: inline-flex;
+  color: var(--t3);
+}
+.w-evm .evmmark.main {
+  color: var(--warn-ac);
+}
+.w-evm .evmmark app-icon,
+.w-evm .evmmark svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* правка: выбор сотрудника и переключатели признаков */
+.w-evm .evmpick {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.w-evm .evmpick app-select {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.w-evm .evmflag {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--stroke2);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--t4);
+  cursor: pointer;
+}
+.w-evm .evmflag.on {
+  border-color: var(--blue);
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.w-evm .evmflag app-icon,
+.w-evm .evmflag svg {
+  width: 16px;
+  height: 16px;
+}
+.w-evm .lnkadd {
+  margin-top: 12px;
+}
+.w-evm .pgr {
+  margin-top: 12px;
+}
+
+
+/* действия строки — в одну строку */
+.w-evm td.tact .acts {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
+}
+
+/* выбор участника — как в формах: поле 48 с фото 32, ФИО и должностью */
+.w-evm .evmsel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 48px;
+  padding: 0 10px 0 8px;
+  border: 1px solid var(--q-input-border);
+  border-radius: 8px;
+  background: var(--q-content-background);
+  cursor: pointer;
+  text-align: left;
+  color: var(--q-content-text);
+}
+.w-evm .evmsel:hover,
+.w-evm .evmsel.act {
+  border-color: var(--q-input-hover-border);
+}
+.w-evm .evmsel > app-icon {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  color: var(--q-base-500);
+  flex: none;
+  margin-left: auto;
+}
+.w-evm .evmsel > app-icon svg {
+  width: 16px;
+  height: 16px;
+}
+.w-evm .evmph {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-base-300);
+  padding-left: 4px;
+}
+.w-evm .evmv {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1 1 0%;
+}
+.w-evm .evmv > .av {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  flex: none;
+}
+.w-evm .evmv .cnm {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.w-evm .evmv .cnm b {
+  font: var(--q-font-ui-headline-4);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.w-evm .evmv .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.w-evm .evmn {
+  min-width: 0;
+}
+
+/* роли — несколько бейджей; в правке — выбор чипами */
+.w-evm .evmroles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.w-evm .evmt td app-chip-select {
+  width: 100%;
+}
+.w-evm .evmt.ed :is(th, td).evmc-r {
+  width: 320px;
+  min-width: 320px;
+}
+
+/* без пагинации у последней строки нет линии снизу */
+.w-evm .evmwrap.nopg .evmt tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* ленивая загрузка: метка под таблицей */
+.w-evm .evmsent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 32px;
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+.w-evm .evmsent app-icon,
+.w-evm .evmsent svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* панель настроек (⚙) */
+.fpop.evmcfg {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 300px;
+  padding: 16px;
+}
+.fpop.evmcfg > b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  margin-bottom: 4px;
+}
+.fpop.evmcfg > * {
+  width: 100%;
+}
+
+/* список выбора участника: вкладки в одну строку, высота списка постоянная — окно не прыгает при смене вкладки */
+.fpop.evmpop .mbpk {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  flex: none;
+}
+.fpop.evmpop .mbpk button {
+  flex: none;
+  white-space: nowrap;
+}
+.fpop.evmpop .cul {
+  height: 300px;
+  max-height: none;
+}
+
+/* суммовые колонки (вес) — заголовок и значения по правому краю */
+.w-evm .evmt :is(th, td).num {
+  text-align: right;
+}
+
+/* фильтр «Основные» — кнопка-переключатель в ряду фильтров: высота, рамка и шрифт как у фильтров, ширина по тексту */
+.w-evm .ftrow .fsel.evmfmain,
+.w-evm .ftpanel .fsel.evmfmain {
+  flex: none;
+  min-width: 0;
+  width: auto;
+  gap: 6px;
+  padding: 0 12px;
+  white-space: nowrap;
+  color: var(--q-base-500);
+}
+.w-evm .evmfmain app-icon,
+.w-evm .evmfmain svg {
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+  color: var(--q-base-300);
+}
+.w-evm .fsel.evmfmain.on {
+  border-color: var(--blue);
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.w-evm .evmfmain.on :is(app-icon, svg) {
+  color: var(--warn-ac);
+}
+
+/* заголовок колонки с сортировкой: текст и ⇅ — одна кнопка; ⇅ серая, у активной колонки — синяя (по убыванию — перевернута) */
+.w-evm .evmsh {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.w-evm .evmsh svg {
+  width: 12px;
+  height: 12px;
+  flex: none;
+  color: var(--t4);
+}
+.w-evm .evmsh:hover,
+.w-evm .evmsh:hover svg {
+  color: var(--q-page-text-ui);
+}
+.w-evm .evmsh.on,
+.w-evm .evmsh.on svg {
+  color: var(--blue);
+}

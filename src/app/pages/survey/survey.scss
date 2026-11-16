@@ -28,9 +28,7 @@
   padding: 24px 0;
   scroll-margin-top: 90px;
 }
-.pg-survey .sq + .sq {
-  border-top: 1px solid var(--stroke);
-}
+/* между вопросами — без разделителей, только отступ */
 .pg-survey .sqn {
   font: var(--q-font-ui-description-1);
   display: inline-block;

@@ -421,10 +421,36 @@
   margin-bottom: 8px;
 }
 
-/* реестр заявок: 8 колонок — в узком окне таблица не сжимается, а прокручивается по горизонтали (действия закреплены справа) */
+/* реестр заявок: 14 колонок (у «Дата завершения обработки» — 280: заголовок и сортировка в одну строку) — таблица не сжимается, а прокручивается по горизонтали (действия закреплены справа) */
 .pg-req .rqtbl {
-  min-width: 1920px;
   table-layout: fixed;
+}
+/* описание — не выше двух строк */
+.pg-req .rqtbl .rqinfo {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* документы: скрепка и число */
+.pg-req .rqtbl .rqdocs {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+/* «Документы» — индикатор по центру колонки */
+.pg-req .rqtbl :is(th, td).rqdc {
+  text-align: center;
+}
+.pg-req .rqtbl .rqdocs app-icon,
+.pg-req .rqtbl .rqdocs svg {
+  width: 16px;
+  height: 16px;
 }
 .pg-req .rqtbl .rqwho > span {
   min-width: 0;

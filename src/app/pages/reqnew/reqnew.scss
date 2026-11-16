@@ -26,6 +26,9 @@
   color: var(--dg);
   margin-top: 12px;
 }
+.pg-reqnew .rqndocs {
+  margin-top: 16px;
+}
 .pg-reqnew .rqnact {
   margin-top: 16px;
   padding: 16px 24px;
@@ -43,7 +46,7 @@
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
-  margin: 0 0 20px;
+  margin: 0;
 }
 .pg-reqnew .rqnvt h2 {
   font: var(--q-font-ui-headline-2);
@@ -89,9 +92,10 @@
 
 /* участники под заголовком — как сотрудник в шапке ИПР: фото 48 (скругление 12), ФИО 14, роль 12 серым через 2; до данных — 20 */
 .pg-reqnew .rqnppl {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  /* автор и ответственный — друг за другом слева, не по половинам карточки */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 48px;
   margin-bottom: 20px;
 }
 /* блок участника — без обертки: подпись 12 серым, ниже фото, ФИО и должность */
@@ -137,4 +141,43 @@
 .pg-reqnew .rqnrow.rqnr2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 12px;
+}
+
+/* просмотр: поля в тех же 4 колонках, что форма добавления (колонки через 16 — как автор и ответственный), строки через 20 */
+.pg-reqnew .rqnvgrid {
+  row-gap: 20px;
+}
+
+/* просмотр: шапка заканчивается автором и ответственным; «Параметры заявки» — отдельный блок ниже */
+.pg-reqnew .rqnview .rqnppl {
+  margin-bottom: 0;
+}
+.pg-reqnew .rqnpar {
+  margin-top: 16px;
+}
+
+/* поля выбранного типа — отдельной карточкой под типом заявки */
+.pg-reqnew .rqnflds {
+  margin-top: 16px;
+}
+
+/* участники (виджет «Участники события»), маршрут обработки и результат обработки — отдельными блоками */
+.pg-reqnew .rqnmem,
+.pg-reqnew .rqnproc,
+.pg-reqnew .rqnres {
+  margin-top: 16px;
+}
+/* маршрут обработки — скрыть шапку виджета (заголовок уже в .ch), убрать отступы виджета */
+.pg-reqnew .rqnproc .w-proc .wpsh {
+  display: none;
+}
+.pg-reqnew .rqnproc .w-proc {
+  margin: 0;
+}
+/* затухание использует цвет фона карточки */
+.pg-reqnew .rqnproc .wpsv::before {
+  background: linear-gradient(to right, var(--q-content-background), transparent);
+}
+.pg-reqnew .rqnproc .wpsv::after {
+  background: linear-gradient(to left, var(--q-content-background), transparent);
 }
