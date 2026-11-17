@@ -18,7 +18,7 @@ export const SURVEYS: Survey[] = [
 
 export const SURVEY_KINDS = ['Опрос', 'Тест'];
 export const SURVEY_STATUSES: SurveyStatus[] = ['Назначен', 'В процессе', 'Пройден'];
-/** цвет бейджа статуса (.bdg): назначен — синий, в процессе — желтый, пройден — серый */
+/** цвет бейджа статуса (.bdg): «Назначен» — голубой/синий фон и белый текст (.pri); «В процессе» — желтый; «Пройден» — серый */
 export const SURVEY_STATUS_TONE: Record<SurveyStatus, string> = {
   Назначен: 'pri',
   'В процессе': 'warn',
