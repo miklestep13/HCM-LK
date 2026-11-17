@@ -5,9 +5,10 @@ import { Icon } from '../../../shared/ui/icon/icon';
 import { SurveysState } from '../surveys.state';
 
 /**
- * Карточка опроса: статус над названием, под названием данные с иконками
- * (срок — оранжевый за 3 дня и меньше, красный — просрочено; время, вопросы, «Анонимно»), внизу — прогресс начатого или результат теста.
- * Кнопок нет — карточка открывается кликом. Автор, тип, описание и «Обязательный» в карточке не показываем.
+ * Карточка опроса: заголовок слева и бейдж статуса справа в одной строке,
+ * под ними мета с иконками (срок, время, вопросы, «Анонимно»),
+ * у «В процессе» — прогресс «Выполнено %» + бар + «N из M».
+ * Кнопок нет — карточка открывается кликом.
  */
 @Component({
   selector: '[surveys-cards]',
@@ -16,9 +17,10 @@ import { SurveysState } from '../surveys.state';
     @for (x of s.pg.view(); track x.id) {
       @let d = s.due(x);
       <div class="vcard svc" tabindex="0" role="link" [attr.aria-label]="x.title" (click)="s.open(x)" (keydown.enter)="s.open(x)">
-        <!-- статус — над названием -->
-        <div class="svhd"><span class="bdg" [class]="tone[x.status]">{{ x.status }}</span></div>
-        <div class="svtt" [title]="x.title">{{ x.title }}</div>
+        <div class="svhd">
+          <div class="svtt" [title]="x.title">{{ x.title }}</div>
+          <span class="bdg" [class]="tone[x.status]">{{ x.status }}</span>
+        </div>
         <div class="svmeta">
           <span class="svdue" [class]="d.tone"><app-icon [name]="x.status === 'Пройден' ? 'check' : 'calendar'" />{{ d.t }}</span>
           <span><app-icon name="clock" />≈ {{ x.minutes }} мин</span>
@@ -29,7 +31,6 @@ import { SurveysState } from '../surveys.state';
         </div>
         @let p = s.progress(x);
         @if (p) {
-          <!-- прогресс внизу карточки — как в «Обучении»: «Выполнено» / «Результат» и процент над полосой, под ней «9 из 25» -->
           <app-progress class="svcpr" label="Выполнено" [value]="p.value" [percent]="p.pct" [tone]="p.tone" [caption]="p.caption" />
         }
       </div>
