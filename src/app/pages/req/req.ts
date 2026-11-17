@@ -8,24 +8,22 @@ import { FilterBar } from '../../shared/ui/filter-bar/filter-bar';
 import { PageHead } from '../../shared/ui/page-head/page-head';
 import { MultiSelect, MultiSelectMeta } from '../../shared/ui/multi-select/multi-select';
 import { Select } from '../../shared/ui/select/select';
-import { ReqQuick } from './req-quick/req-quick';
 import { ReqTable } from './req-table/req-table';
 import { ReqState } from './req.state';
 
 /**
  * «Мой кабинет → Заявки» (перенесено из прототипа pg-req, таблица собрана по примерам рынка):
- * «Добавить» справа от заголовка — каталог заявок; быстрые заявки; вкладки «Мои заявки / Требуют действия / Наблюдаю» со счетчиками;
+ * «Добавить» справа от заголовка открывает каталог типов (reqpick); вкладки «Мои заявки / Требуют действия» со счетчиками;
  * поиск по номеру или типу; фильтры по колонкам: тип заявки, автор, ответственный (фото и должность в списке), дата создания, состояние, дата окончания.
- * «Добавить» — форма «Добавление заявки» (pages/reqnew); карточка заявки пока в старом прототипе (rqcard).
+ * Тип выбирается в каталоге (reqpick), форма — pages/reqnew. Карточка заявки пока в старом прототипе (rqcard).
  */
 @Component({
   selector: 'app-req',
-  imports: [PageHead, FilterBar, Select, MultiSelect, DateRangeField, ReqQuick, ReqTable, TableSettings],
+  imports: [PageHead, FilterBar, Select, MultiSelect, DateRangeField, ReqTable, TableSettings],
   template: `
     <app-page-head title="Заявки" [noBack]="true">
-      <button class="btn pri" (click)="nav.go('reqnew')">Добавить</button>
+      <button class="btn pri" (click)="nav.go('reqpick')">Добавить</button>
     </app-page-head>
-    <div req-quick></div>
     <div class="c full">
       <div class="svtabs">
         @for (t of tabs; track t[0]) {

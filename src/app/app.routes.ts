@@ -108,6 +108,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/req/req').then((m) => m.ReqPage),
   },
   {
+    path: 'reqpick',
+    title: 'Добавление заявки · Q.HCM',
+    loadComponent: () => import('./pages/reqpick/reqpick').then((m) => m.Reqpick),
+  },
+  {
     path: 'reqnew',
     title: 'Добавление заявки · Q.HCM',
     loadComponent: () => import('./pages/reqnew/reqnew').then((m) => m.Reqnew),

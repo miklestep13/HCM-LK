@@ -1,0 +1,134 @@
+/* каталог типов заявки: вкладки, поиск, карточки */
+.pg-reqpick .c > .ctabs {
+  display: flex;
+  gap: 4px;
+  padding: 16px 24px 0;
+  border-bottom: 1px solid var(--stroke);
+  overflow-x: auto;
+}
+.pg-reqpick .ctabs > span {
+  font: var(--q-font-ui-headline-4);
+  padding: 8px 12px 12px;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  user-select: none;
+  background: none;
+  border-radius: 0;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.pg-reqpick .ctabs > span:hover,
+.pg-reqpick .ctabs > span.on {
+  color: var(--blue);
+}
+.pg-reqpick .ctabs > span.on {
+  border-bottom-color: var(--blue);
+}
+.pg-reqpick .rqfind {
+  display: flex;
+  padding: 16px 24px 8px;
+}
+.pg-reqpick .rqgrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px 16px;
+  padding: 8px 12px 16px;
+}
+.pg-reqpick .rqp {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--q-font-family);
+}
+.pg-reqpick .rqp:hover {
+  background: var(--q-content-background-alt);
+}
+.pg-reqpick .rqp:hover b {
+  color: var(--blue);
+}
+.pg-reqpick .rqp:focus-visible {
+  outline: 2px solid var(--q-primary-500);
+  outline-offset: 2px;
+}
+.pg-reqpick .rqp .ic {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: var(--raised);
+  color: var(--blue);
+}
+.pg-reqpick .rqp .ic svg {
+  width: 18px;
+  height: 18px;
+}
+.pg-reqpick .rqp .cnt {
+  min-width: 0;
+}
+.pg-reqpick .rqp b {
+  font: var(--q-font-ui-headline-4);
+  display: block;
+  color: var(--t1);
+}
+.pg-reqpick .rqp small {
+  display: block;
+  margin-top: 2px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-reqpick .empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  text-align: center;
+}
+.pg-reqpick .wipi {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+}
+.pg-reqpick .wipi app-icon,
+.pg-reqpick .wipi svg {
+  width: 26px;
+  height: 26px;
+}
+.pg-reqpick .empty b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+.pg-reqpick .empty small {
+  max-width: 420px;
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+@media (max-width: 1100px) {
+  .pg-reqpick .rqgrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 700px) {
+  .pg-reqpick .rqgrid {
+    grid-template-columns: 1fr;
+  }
+}
