@@ -37,7 +37,7 @@ export type EvAddAt = 'bottom' | 'toolbar';
 export type EvWho = 'av' | 'pos' | 'dep';
 const WHO: [EvWho, string][] = [['av', 'Фото'], ['pos', 'Должность'], ['dep', 'Подразделение']];
 /** вывод длинного списка: pages — пагинация под таблицей; lazy — догрузка порциями при прокрутке до конца таблицы */
-export type EvPaging = 'pages' | 'lazy';
+export type EvPaging = 'pages' | 'lazy' | 'off';
 /** роль участника: multi — несколько ролей (чипами); single — одна роль (список) */
 export type EvRoleMode = 'multi' | 'single';
 
@@ -73,7 +73,7 @@ const SORT_KEY: Partial<Record<EvCol, (r: EvMember) => string | number>> = {
 /** настройки (кнопка ⚙): подписи и значения */
 const EDITS: [EvEdit, string][] = [['all', 'Весь список'], ['row', 'По строке'], ['none', 'Просмотр']];
 const ADDS: [EvAddAt, string][] = [['bottom', 'Снизу'], ['toolbar', 'В строке поиска']];
-const PAGINGS: [EvPaging, string][] = [['pages', 'Пагинация'], ['lazy', 'Ленивая загрузка']];
+const PAGINGS: [EvPaging, string][] = [['pages', 'Пагинация'], ['lazy', 'Ленивая загрузка'], ['off', 'Без пагинации']];
 const ONOFF = ['Есть', 'Нет'];
 const ROLE_MODES: [EvRoleMode, string][] = [['multi', 'Несколько'], ['single', 'Одна']];
 /** вкладки списка выбора: по виду участника */
@@ -89,11 +89,11 @@ const dk = (d?: string) => (d ? d.split('.').reverse().join('') : '');
  * вес, %; дата начала и окончания участия; описание; статус «Действует / Не действует» (по датам, в правке — можно задать вручную);
  * справа — действия (без заголовка). Любую колонку можно отключить: cols.
  *   <div class="c" event-members [(rows)]="list" [pool]="people" [types] [roles]
- *        edit="all | row | none" filters addAt="bottom | toolbar" paging="pages | lazy" [cols]="['member', 'role', 'from', 'status']" configurable></div>
+ *        edit="all | row | none" filters addAt="bottom | toolbar" paging="pages | lazy | off" [cols]="['member', 'role', 'from', 'status']" configurable></div>
  *   edit     — 'all': все строки сразу полями; 'row': строки текстом, ✎ открывает одну строку, новая — одна строка с «Сохранить / Отменить»;
  *   filters  — шапка с поиском и фильтрами (app-filter-bar), без него — только таблица;
  *   addAt    — 'bottom': ссылка «+ Добавить участника» под таблицей (новая строка внизу); 'toolbar': «Добавить» в строке поиска (новая строка наверху);
- *   paging   — 'pages': пагинация под таблицей (pageSize на странице); 'lazy': показываем pageSize, остальное догружается при прокрутке до конца;
+ *   paging   — 'pages': пагинация под таблицей (pageSize на странице); 'lazy': показываем pageSize, остальное догружается при прокрутке до конца; 'off': все строки, без пагинации;
  *   configurable — справа в шапке кнопка ⚙: все настройки можно переключить на месте (для показа).
  * Выбор участника — как в формах: поле с фото, ФИО и должностью, список с поиском и вкладками вида: сотрудники, подразделения, команды, компании.
  * who — что показывать у участника кроме ФИО: 'av' (фото), 'pos' (должность), 'dep' (подразделение); любое можно отключить.
@@ -269,8 +269,8 @@ export class EventMembers {
   /** ленивая загрузка: сколько строк показано; догружаем порцию pageSize, когда низ таблицы виден */
   protected readonly shown = linkedSignal(() => this.pageSize());
   protected readonly loading = signal(false);
-  /** строки на экране: страница пагинации или первые shown строк */
-  protected readonly view = computed(() => (this.mPaging() === 'pages' ? this.pg.view() : this.sorted().slice(0, this.shown())));
+  /** строки на экране: страница пагинации, первые shown строк или весь список */
+  protected readonly view = computed(() => (this.mPaging() === 'pages' ? this.pg.view() : this.mPaging() === 'lazy' ? this.sorted().slice(0, this.shown()) : this.sorted()));
   protected readonly more = computed(() => this.mPaging() === 'lazy' && this.filtered().length > this.shown());
 
   private readonly el: HTMLElement = inject(ElementRef).nativeElement;

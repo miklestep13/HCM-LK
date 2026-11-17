@@ -148,12 +148,12 @@
   row-gap: 20px;
 }
 
-/* просмотр: шапка заканчивается автором и ответственным; «Параметры заявки» — отдельный блок ниже */
+/* просмотр: параметры сразу под названием, без отдельного заголовка */
+.pg-reqnew .rqnview .rqnvgrid {
+  margin-top: 20px;
+}
 .pg-reqnew .rqnview .rqnppl {
   margin-bottom: 0;
-}
-.pg-reqnew .rqnpar {
-  margin-top: 16px;
 }
 
 /* поля выбранного типа — отдельной карточкой под типом заявки */
@@ -161,23 +161,8 @@
   margin-top: 16px;
 }
 
-/* участники (виджет «Участники события»), маршрут обработки и результат обработки — отдельными блоками */
+/* участники и результат обработки — отдельными блоками */
 .pg-reqnew .rqnmem,
-.pg-reqnew .rqnproc,
 .pg-reqnew .rqnres {
   margin-top: 16px;
-}
-/* маршрут обработки — скрыть шапку виджета (заголовок уже в .ch), убрать отступы виджета */
-.pg-reqnew .rqnproc .w-proc .wpsh {
-  display: none;
-}
-.pg-reqnew .rqnproc .w-proc {
-  margin: 0;
-}
-/* затухание использует цвет фона карточки */
-.pg-reqnew .rqnproc .wpsv::before {
-  background: linear-gradient(to right, var(--q-content-background), transparent);
-}
-.pg-reqnew .rqnproc .wpsv::after {
-  background: linear-gradient(to left, var(--q-content-background), transparent);
 }
