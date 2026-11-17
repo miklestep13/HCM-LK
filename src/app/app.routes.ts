@@ -28,6 +28,16 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/docs/docs').then((m) => m.Docs),
   },
   {
+    path: 'benef',
+    title: 'Доходы и льготы · Q.HCM',
+    loadComponent: () => import('./pages/benef/benef').then((m) => m.Benef),
+  },
+  {
+    path: 'benefcard',
+    title: 'Льгота · Q.HCM',
+    loadComponent: () => import('./pages/benef/benefcard/benefcard').then((m) => m.Benefcard),
+  },
+  {
     path: 'people',
     title: 'Сотрудники · Q.HCM',
     loadComponent: () => import('./pages/people/people').then((m) => m.People),

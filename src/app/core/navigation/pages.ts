@@ -53,4 +53,6 @@ export const ANGULAR_PAGES: Record<string, string> = {
   ctcomp: '/ctcomp',
   career: '/career',
   docs: '/docs',
+  benef: '/benef',
+  benefcard: '/benefcard',
 };

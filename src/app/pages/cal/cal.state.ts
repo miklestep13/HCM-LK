@@ -35,6 +35,8 @@ export class CalState {
   readonly sel = signal<string | null>(null);
   /** быстрое создание: выделенный интервал (день, начало и конец в минутах, весь день) */
   readonly quick = signal<{ d: Date; s: number; e: number; all?: boolean } | null>(null);
+  /** форма встречи: правка существующей или создание на выбранный день и время */
+  readonly form = signal<{ ev?: CalEvent; d?: Date; s?: number } | null>(null);
 
   /** границы видимого периода */
   readonly range = computed<[Date, Date]>(() => {

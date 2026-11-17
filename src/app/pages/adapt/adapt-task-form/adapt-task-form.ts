@@ -11,7 +11,7 @@ import { Icon } from '../../../shared/ui/icon/icon';
 import { Select } from '../../../shared/ui/select/select';
 import { ToastService } from '../../../shared/ui/toast/toast.service';
 import { Tooltip } from '../../../shared/ui/tooltip/tooltip';
-import { IprCompPick } from '../../ipr/ipr-comp-pick/ipr-comp-pick';
+import { IprCompPick } from '../../../widgets/ipr-task-form/ipr-comp-pick/ipr-comp-pick';
 
 const NONE = '—';
 
