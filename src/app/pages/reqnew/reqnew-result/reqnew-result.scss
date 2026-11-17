@@ -80,17 +80,3 @@
   max-width: 880px;
   white-space: pre-line;
 }
-/* «Документы» — подраздел в конце блока, через линию */
-.pg-reqnew .rqrdocs {
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid var(--q-content-border-secondary);
-}
-.pg-reqnew .rqrdocs h4 {
-  font: var(--q-font-ui-headline-4);
-  color: var(--t1);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0 0 12px;
-}
