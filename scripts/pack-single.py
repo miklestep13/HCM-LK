@@ -48,6 +48,7 @@ CHUNK_RE = re.compile(r'(["\'])\./(chunk-[A-Z0-9]+\.js)\1')
 
 def fix_js(js: str) -> str:
     js = CHUNK_RE.sub(r'\1\2\1', js)
+    # старый бандл склеивал URL строкой; новый — через window.__legacySrc (см. boot ниже)
     js = js.replace('"legacy/index.html?embed=1&ng="', '"about:blank#embed=1&ng="')
     js = js.replace("'legacy/index.html?embed=1&ng='", '"about:blank#embed=1&ng="')
     return inline_assets(js)
@@ -59,7 +60,10 @@ css_file = next(f for f in files if re.match(r'styles-[A-Z0-9]+\.css$', f))
 
 imap = {c: 'data:text/javascript;base64,' + b64(fix_js(open(os.path.join(SRC, c), encoding='utf-8').read()).encode()) for c in chunks}
 main_js = fix_js(open(os.path.join(SRC, main), encoding='utf-8').read())
-assert 'about:blank#embed=1' in main_js or any('about:blank#embed=1' in base64.b64decode(v.split(',', 1)[1]).decode() for v in imap.values()), 'legacy src not patched'
+# приложение берет URL legacy из window.__legacySrc(query) либо из склеенной строки
+has_legacy_hook = '__legacySrc' in main_js or any('__legacySrc' in base64.b64decode(v.split(',', 1)[1]).decode() for v in imap.values())
+has_legacy_literal = 'about:blank#embed=1' in main_js or any('about:blank#embed=1' in base64.b64decode(v.split(',', 1)[1]).decode() for v in imap.values())
+assert has_legacy_hook or has_legacy_literal, 'legacy src not patched'
 css = css_urls(open(os.path.join(SRC, css_file), encoding='utf-8').read())
 
 # старый прототип: параметры embed/ng читает из # (у blob: URL нет query)
@@ -81,10 +85,12 @@ html = html.replace('href="favicon.ico"', 'href="%s"' % fav if fav else 'href="d
 html = css_urls(html)  # url() во встроенных критических стилях
 
 import json
-# старый прототип — srcdoc у iframe (работает и с диска, где blob:-рамки запрещены); параметры embed/ng — в data-q рамки
+# старый прототип — srcdoc у iframe (работает и с диска, где blob:-рамки запрещены); параметры embed/ng — в data-q рамки.
+# window.__legacySrc — хук из LegacyService: обычный запуск читает файл, однофайловый — about:blank#query.
 boot = (
     '<script>(function(){var b=atob(%s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);'
     'var L=new TextDecoder().decode(u);'
+    'window.__legacySrc=function(q){return "about:blank#"+(q||"");};'
     'function fix(f){var s=f.getAttribute("src")||"";if(f.__hcm||s.indexOf("about:blank#embed=")!==0)return;'
     'f.__hcm=1;f.setAttribute("data-q",s.split("#")[1]);f.srcdoc=L;}'
     'new MutationObserver(function(){document.querySelectorAll("iframe").forEach(fix);})'
