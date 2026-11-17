@@ -20,7 +20,7 @@ import { SurveysState } from './surveys.state';
   selector: 'app-surveys',
   imports: [Pager, PageHead, FilterBar, Select, DateRangeField, SortButton, ViewSwitch, SurveysCards, SurveysTable],
   template: `
-    <app-page-head title="Опросы" [chip]="s.count().act" />
+    <app-page-head title="Опросы" />
     <div class="c" [class.mb]="s.view() === 'cards'">
       <div class="svtabs">
         <span [class.on]="s.tab() === 'act'" (click)="s.tab.set('act')">Активные<span class="pntc">{{ s.count().act }}</span></span>
