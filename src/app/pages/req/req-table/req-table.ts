@@ -134,7 +134,7 @@ const NOW_TEXT = '30.09.2026 12:00';
                 <span class="acts">
                   @if (mine(r.resp) && !s.final(r)) {
                     <!-- я ответственный за открытую заявку — «Обработать» вместо карандаша (открывает заявку на согласование / доработку) -->
-                    <button class="actb" title="Обработать" aria-label="Обработать заявку" (click)="$event.stopPropagation(); open(r)"><app-icon name="mTask" /></button>
+                    <button class="actb" title="Обработать" aria-label="Обработать заявку" (click)="$event.stopPropagation(); open(r)"><app-icon name="checkSquare" /></button>
                   } @else if (mine(r.ini)) {
                     <!-- карандаш — только у своих заявок (я автор) -->
                     <button class="actb" title="Редактировать" aria-label="Редактировать заявку" (click)="$event.stopPropagation(); open(r)"><app-icon name="edit" /></button>

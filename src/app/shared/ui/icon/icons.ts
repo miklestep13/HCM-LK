@@ -90,6 +90,9 @@ export const ICONS: Record<string, string> = {
     '<svg viewBox="0 0 16 16" fill="none"><path d="M8 12V3.6M4.8 6.8 8 3.6l3.2 3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.6 11.6v1.2A1.6 1.6 0 0 0 4.2 14.4h7.6a1.6 1.6 0 0 0 1.6-1.6v-1.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
   dots: '<svg viewBox="0 0 16 16" fill="none"><circle cx="3.4" cy="8" r="1.5" fill="currentColor"/><circle cx="8" cy="8" r="1.5" fill="currentColor"/><circle cx="12.6" cy="8" r="1.5" fill="currentColor"/></svg>',
   check: '<svg viewBox="0 0 16 16" fill="none"><path d="m3.6 8.4 2.8 2.8 6-6.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  /** выполнение / обработка / оценка: квадрат с галочкой, длинный штрих выходит из правого верхнего угла */
+  checkSquare:
+    '<svg viewBox="0 0 16 16" fill="none"><path d="m5.6 7.2 2.2 2.2 6.4-6.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.4 7.8v4.4A1.6 1.6 0 0 1 11.8 13.8H4.2A1.6 1.6 0 0 1 2.6 12.2V4.6A1.6 1.6 0 0 1 4.2 3h5.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   cross: '<svg viewBox="0 0 16 16" fill="none"><path d="m4.4 4.4 7.2 7.2M11.6 4.4l-7.2 7.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
   group:
     '<svg viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5.6" r="2.4" stroke="currentColor" stroke-width="1.4"/><path d="M1.8 13a4.2 4.2 0 0 1 8.4 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M10.6 3.4a2.4 2.4 0 0 1 0 4.4M11.6 9.4a4.2 4.2 0 0 1 2.6 3.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>',

@@ -125,8 +125,8 @@ export class IprTaskCard {
   readonly rate = input<IprRate | undefined>();
   /** число комментариев */
   readonly cm = input(0);
-  /** иконка открытия сайдбара выполнения. В ИПР — карандаш */
-  readonly runIcon = input('edit');
+  /** иконка открытия сайдбара выполнения (галочка в квадрате) */
+  readonly runIcon = input('checkSquare');
   /** подпись этой кнопки */
   readonly runTitle = input('Выполнение задачи');
   readonly act = output<IprTaskAct>();

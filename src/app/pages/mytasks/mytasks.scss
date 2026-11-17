@@ -352,6 +352,15 @@
 .pg-mytasks .mttbl .mttl b {
   display: inline;
 }
+/* действия строки: «Выполнить» и «⋯» — колонка шире, закреплена справа */
+.pg-mytasks .mttbl :is(th, td).tact {
+  width: 88px;
+}
+.pg-mytasks .mttbl td.tact .acts {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
 .pg-mytasks .mtqo {
   flex: none;
   color: var(--blue);
