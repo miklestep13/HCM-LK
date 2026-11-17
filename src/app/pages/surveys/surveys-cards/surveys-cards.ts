@@ -20,7 +20,7 @@ import { SurveysState } from '../surveys.state';
         <div class="svhd"><span class="bdg" [class]="tone[x.status]">{{ x.status }}</span></div>
         <div class="svtt" [title]="x.title">{{ x.title }}</div>
         <div class="svmeta">
-          <span class="svdue" [class]="d.tone"><app-icon [name]="x.status === 'Завершен' ? 'check' : 'calendar'" />{{ d.t }}</span>
+          <span class="svdue" [class]="d.tone"><app-icon [name]="x.status === 'Пройден' ? 'check' : 'calendar'" />{{ d.t }}</span>
           <span><app-icon name="clock" />≈ {{ x.minutes }} мин</span>
           <span><app-icon name="test" />{{ s.questionsText(x) }}</span>
           @if (x.anon) {

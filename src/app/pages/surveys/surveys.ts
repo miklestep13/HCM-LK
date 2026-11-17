@@ -53,7 +53,7 @@ import { SurveysState } from './surveys.state';
 })
 export class Surveys {
   protected readonly s = inject(SurveysState);
-  protected readonly statuses = SURVEY_STATUSES.filter((x) => x !== 'Завершен');
+  protected readonly statuses = SURVEY_STATUSES.filter((x) => x !== 'Пройден');
   protected readonly sortNames = SURVEY_SORTS.map((x) => x[0]);
   protected readonly sortName = computed(() => (SURVEY_SORTS.find((x) => x[1] === this.s.sort().k && x[2] === this.s.sort().dir) || SURVEY_SORTS[0])[0]);
   protected readonly countText = computed(() => {

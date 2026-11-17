@@ -2,28 +2,27 @@ import { Survey, SurveyAnswer, SurveyForm, SurveyStatus, SurveyNineBox } from '.
 
 /** «Компания → Опросы»: опросы и тесты, доступные сотруднику (демо, «сегодня» — 30.09.2026) */
 export const SURVEYS: Survey[] = [
-  { id: 's1', kind: 'Тест', title: 'Проверка знаний по информационной безопасности', author: 'Кравцова Елена Сергеевна', start: '15.09.2026', end: '05.10.2026', status: 'Ожидание', questions: 20, minutes: 25, required: true, pass: 80 },
-  { id: 's2', kind: 'Опрос', title: 'Ежеквартальный eNPS · III квартал 2026', author: 'Смирнова Виктория Олеговна', start: '01.09.2026', end: '20.10.2026', status: 'В работе', questions: 15, answered: 7, minutes: 10, anon: true },
-  { id: 's3', kind: 'Опрос', title: 'Обратная связь по онбордингу', author: 'Смирнова Виктория Олеговна', start: '01.09.2026', end: '30.09.2026', status: 'Ожидание', questions: 8, minutes: 7, required: true },
-  { id: 's4', kind: 'Тест', title: 'Регламент кредитования физических лиц', author: 'Федорова Юлия Сергеевна', start: '20.09.2026', end: '15.10.2026', status: 'В работе', questions: 25, answered: 9, minutes: 30, required: true, pass: 75 },
-  { id: 's5', kind: 'Опрос', title: 'Удовлетворенность условиями работы в офисе', author: 'Крылов Михаил Петрович', start: '15.09.2026', end: '31.10.2026', status: 'Доступен', questions: 15, minutes: 12, anon: true },
-  { id: 's6', kind: 'Опрос', title: 'Обратная связь по Дню здоровья', author: 'Кравцова Елена Сергеевна', start: '25.09.2026', end: '', status: 'Доступен', questions: 6, minutes: 5 },
-  { id: 's7', kind: 'Тест', title: 'Противодействие отмыванию доходов (115-ФЗ)', author: 'Кравцова Елена Сергеевна', start: '01.10.2026', end: '30.10.2026', status: 'Ожидание', questions: 30, minutes: 35, required: true, pass: 80 },
-  { id: 's8', kind: 'Опрос', title: 'Вовлеченность сети отделений', author: 'Смирнова Виктория Олеговна', start: '25.08.2026', end: '15.10.2026', status: 'Доступен', questions: 18, minutes: 15, anon: true },
-  { id: 's9', kind: 'Тест', title: 'Знание продуктов банка: кредитные карты', author: 'Федорова Юлия Сергеевна', start: '01.09.2026', end: '25.09.2026', status: 'Завершен', questions: 15, minutes: 20, score: 87, pass: 75, doneAt: '18.09.2026' },
-  { id: 's10', kind: 'Опрос', title: 'Итоги стратегической сессии', author: 'Крылов Михаил Петрович', start: '04.08.2026', end: '11.08.2026', status: 'Завершен', questions: 10, minutes: 8, doneAt: '06.08.2026' },
-  { id: 's11', kind: 'Тест', title: 'Охрана труда и пожарная безопасность', author: 'Кравцова Елена Сергеевна', start: '01.07.2026', end: '31.07.2026', status: 'Завершен', questions: 20, minutes: 25, score: 70, pass: 80, doneAt: '28.07.2026' },
-  { id: 's12', kind: 'Опрос', title: 'Ежеквартальный eNPS · II квартал 2026', author: 'Смирнова Виктория Олеговна', start: '01.06.2026', end: '20.06.2026', status: 'Завершен', questions: 12, minutes: 10, anon: true, doneAt: '09.06.2026' },
+  { id: 's1', kind: 'Тест', title: 'Проверка знаний по информационной безопасности', author: 'Кравцова Елена Сергеевна', start: '15.09.2026', end: '05.10.2026', status: 'Назначен', questions: 20, minutes: 25, required: true, pass: 80 },
+  { id: 's2', kind: 'Опрос', title: 'Ежеквартальный eNPS · III квартал 2026', author: 'Смирнова Виктория Олеговна', start: '01.09.2026', end: '20.10.2026', status: 'В процессе', questions: 15, answered: 7, minutes: 10, anon: true },
+  { id: 's3', kind: 'Опрос', title: 'Обратная связь по онбордингу', author: 'Смирнова Виктория Олеговна', start: '01.09.2026', end: '30.09.2026', status: 'Назначен', questions: 8, minutes: 7, required: true },
+  { id: 's4', kind: 'Тест', title: 'Регламент кредитования физических лиц', author: 'Федорова Юлия Сергеевна', start: '20.09.2026', end: '15.10.2026', status: 'В процессе', questions: 25, answered: 9, minutes: 30, required: true, pass: 75 },
+  { id: 's5', kind: 'Опрос', title: 'Удовлетворенность условиями работы в офисе', author: 'Крылов Михаил Петрович', start: '15.09.2026', end: '31.10.2026', status: 'Назначен', questions: 15, minutes: 12, anon: true },
+  { id: 's6', kind: 'Опрос', title: 'Обратная связь по Дню здоровья', author: 'Кравцова Елена Сергеевна', start: '25.09.2026', end: '', status: 'Назначен', questions: 6, minutes: 5 },
+  { id: 's7', kind: 'Тест', title: 'Противодействие отмыванию доходов (115-ФЗ)', author: 'Кравцова Елена Сергеевна', start: '01.10.2026', end: '30.10.2026', status: 'Назначен', questions: 30, minutes: 35, required: true, pass: 80 },
+  { id: 's8', kind: 'Опрос', title: 'Вовлеченность сети отделений', author: 'Смирнова Виктория Олеговна', start: '25.08.2026', end: '15.10.2026', status: 'Назначен', questions: 18, minutes: 15, anon: true },
+  { id: 's9', kind: 'Тест', title: 'Знание продуктов банка: кредитные карты', author: 'Федорова Юлия Сергеевна', start: '01.09.2026', end: '25.09.2026', status: 'Пройден', questions: 15, minutes: 20, score: 87, pass: 75, doneAt: '18.09.2026' },
+  { id: 's10', kind: 'Опрос', title: 'Итоги стратегической сессии', author: 'Крылов Михаил Петрович', start: '04.08.2026', end: '11.08.2026', status: 'Пройден', questions: 10, minutes: 8, doneAt: '06.08.2026' },
+  { id: 's11', kind: 'Тест', title: 'Охрана труда и пожарная безопасность', author: 'Кравцова Елена Сергеевна', start: '01.07.2026', end: '31.07.2026', status: 'Пройден', questions: 20, minutes: 25, score: 70, pass: 80, doneAt: '28.07.2026' },
+  { id: 's12', kind: 'Опрос', title: 'Ежеквартальный eNPS · II квартал 2026', author: 'Смирнова Виктория Олеговна', start: '01.06.2026', end: '20.06.2026', status: 'Пройден', questions: 12, minutes: 10, anon: true, doneAt: '09.06.2026' },
 ];
 
 export const SURVEY_KINDS = ['Опрос', 'Тест'];
-export const SURVEY_STATUSES: SurveyStatus[] = ['Ожидание', 'Доступен', 'В работе', 'Завершен'];
-/** цвет бейджа статуса (.bdg): назначен — синий, доступен — голубой, в работе — желтый, завершен — серый */
+export const SURVEY_STATUSES: SurveyStatus[] = ['Назначен', 'В процессе', 'Пройден'];
+/** цвет бейджа статуса (.bdg): назначен — синий, в процессе — желтый, пройден — серый */
 export const SURVEY_STATUS_TONE: Record<SurveyStatus, string> = {
-  'Ожидание': 'pri',
-  'Доступен': 'info',
-  'В работе': 'warn',
-  Завершен: '',
+  Назначен: 'pri',
+  'В процессе': 'warn',
+  Пройден: '',
 };
 /** сортировка карточек: подпись, поле, направление */
 export const SURVEY_SORTS: [string, string, number][] = [
@@ -82,7 +81,7 @@ export const SURVEY_FORM: SurveyForm = {
   ],
 };
 
-/** ответы демо: «В работе» — первые 7 вопросов, «Завершен» — все */
+/** ответы демо: «В процессе» — первые 7 вопросов, «Пройден» — все */
 /** «Опрос руководителя · 9-box»: два вопроса (производительность, потенциал, шкала 0–10 с комментарием) — для каждого сотрудника команды */
 export const SURVEY_NINE_BOX: SurveyNineBox = {
   title: 'Опрос руководителя · 9-box',
@@ -102,7 +101,7 @@ export const SURVEY_NINE_BOX: SurveyNineBox = {
     { id: 'e5', name: 'Волков Андрей Ильич', pos: 'Ведущий специалист по кредитованию', av: 'av4' },
   ],
 };
-/** 9-box «В работе» / «Пройден» — баллы по порядку вопросов */
+/** 9-box «В процессе» / «Пройден» — баллы по порядку вопросов */
 export const SURVEY_NINE_DEMO = [3, 5, 6, 7, 8, 6, 5, 4, 9, 8];
 
 export const SURVEY_DEMO_ANSWERS: Record<string, SurveyAnswer> = {

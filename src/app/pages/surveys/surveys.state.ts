@@ -22,13 +22,14 @@ const SORT_KEYS: Record<string, (s: Survey) => string | number> = {
   start: (s) => iso(s.start),
   end: (s) => iso(s.end),
   done: (s) => iso(s.doneAt ?? ''),
-  prog: (s) => (s.status === 'Завершен' ? 101 : s.answered ? (s.answered / s.questions) * 100 : 0),
+  prog: (s) => (s.status === 'Пройден' ? 101 : s.answered ? (s.answered / s.questions) * 100 : 0),
   status: (s) => s.status,
 };
 
 /**
  * «Компания → Опросы»: вкладки «Активные / Пройденные», поиск и фильтры (статус, срок), сортировка,
  * вид «Карточки / Таблица» (запоминается в браузере, как в «Заданиях»).
+ * Статусы: «Назначен», «В процессе» (с progress bar), «Пройден».
  */
 @Injectable({ providedIn: 'root' })
 export class SurveysState {
@@ -42,14 +43,14 @@ export class SurveysState {
   readonly view = signal<ViewMode>(this.load());
 
   readonly all = SURVEYS;
-  readonly count = computed(() => ({ act: SURVEYS.filter((s) => s.status !== 'Завершен').length, done: SURVEYS.filter((s) => s.status === 'Завершен').length }));
+  readonly count = computed(() => ({ act: SURVEYS.filter((s) => s.status !== 'Пройден').length, done: SURVEYS.filter((s) => s.status === 'Пройден').length }));
   /** список вкладки после поиска и фильтров */
   /** постранично (таблица и карточки): <app-pager [p]="s.pg" /> */
   readonly pg = paginate(() => this.rows());
   readonly rows = computed(() => {
     const q = this.q().trim().toLowerCase(), st = this.status(), r = this.end(), done = this.tab() === 'done';
     const f = SORT_KEYS[this.sort().k] ?? SORT_KEYS['end'], dir = this.sort().dir;
-    return SURVEYS.filter((s) => (s.status === 'Завершен') === done)
+    return SURVEYS.filter((s) => (s.status === 'Пройден') === done)
       .filter((s) => (!st || s.status === st) && (!s.end || inRange(r, s.end)) && (!q || s.title.toLowerCase().includes(q)))
       .sort((x, y) => (f(x) < f(y) ? -dir : f(x) > f(y) ? dir : 0));
   });
@@ -68,29 +69,25 @@ export class SurveysState {
   /** срок: «до 05.10.2026 · через 5 дней» / «· просрочено на 2 дня» / «Без срока» */
   endText(s: Survey): { over: boolean; t: string } {
     if (!s.end) return { over: false, t: 'Без срока' };
-    if (s.status === 'Завершен') return { over: false, t: s.end };
+    if (s.status === 'Пройден') return { over: false, t: s.end };
     const n = Math.round((+toDate(s.end) - +TODAY) / 864e5);
     if (n < 0) return { over: true, t: s.end + ' · просрочено на ' + -n + ' ' + pl(-n) };
     return { over: false, t: s.end + ' · ' + (n ? 'через ' + n + ' ' + pl(n) : 'сегодня') };
   }
-  /** срок для карточки: «до 05.10 · 5 дней» (оранжевый — 3 дня и меньше; последний день — «до 30.09» красным; просрочено — красным), «Без срока», «Пройден 18.09.2026» */
+  /** срок для карточки: «до 05.10 · 5 дней» / «Без срока» / дата прохождения */
   due(s: Survey): { t: string; tone: '' | 'warn' | 'dg' } {
-    if (s.status === 'Завершен') return { t: 'Пройден ' + (s.doneAt ?? s.end), tone: '' };
+    if (s.status === 'Пройден') return { t: s.doneAt ?? s.end, tone: '' };
     if (!s.end) return { t: 'Без срока', tone: '' };
     const n = Math.round((+toDate(s.end) - +TODAY) / 864e5), dm = s.end.slice(0, 5);
     if (n < 0) return { t: 'Просрочено с ' + dm, tone: 'dg' };
-    // последний день — датой и красным
     if (n === 0) return { t: 'до ' + dm, tone: 'dg' };
     return { t: 'до ' + dm + ' · ' + n + ' ' + pl(n), tone: n <= 3 ? 'warn' : '' };
   }
-  /** прогресс: ответы и процент — «В работе» (просрочен — красным) и «Завершен» (все ответы, зеленым); порог теста не показываем */
+  /** progress bar только у «В процессе» (просрочен — красным) */
   progress(s: Survey): { pct: number; value: string; caption: string; tone: '' | 'ok' | 'dg' } | null {
-    if (s.status === 'В работе') {
-      const pct = Math.round(((s.answered ?? 0) / s.questions) * 100);
-      return { pct, value: pct + '%', caption: `${s.answered} из ${s.questions}`, tone: this.endText(s).over ? 'dg' : '' };
-    }
-    if (s.status === 'Завершен') return { pct: 100, value: '100%', caption: `${s.questions} из ${s.questions}`, tone: 'ok' };
-    return null;
+    if (s.status !== 'В процессе') return null;
+    const pct = Math.round(((s.answered ?? 0) / s.questions) * 100);
+    return { pct, value: pct + '%', caption: `${s.answered} из ${s.questions}`, tone: this.endText(s).over ? 'dg' : '' };
   }
   /** «12 вопросов» / «1 вопрос» / «3 вопроса» */
   questionsText(s: Survey): string {
@@ -99,7 +96,7 @@ export class SurveysState {
   }
   /** действие по опросу (подпись уведомления): перейти, продолжить, результаты */
   action(s: Survey): string {
-    return s.status === 'В работе' ? 'Продолжить' : s.status === 'Завершен' ? (s.kind === 'Тест' ? 'Результаты' : 'Мои ответы') : 'Перейти';
+    return s.status === 'В процессе' ? 'Продолжить' : s.status === 'Пройден' ? (s.kind === 'Тест' ? 'Результаты' : 'Мои ответы') : 'Перейти';
   }
   /** страница прохождения (у пройденного — просмотр ответов) */
   open(s: Survey): void {
