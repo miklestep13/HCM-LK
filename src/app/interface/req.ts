@@ -49,8 +49,6 @@ export interface Req {
   chan?: string;
   procEnd?: string;
   docs?: AttachFile[];
-  /** исходящие документы, уже добавленные ответственным до завершения обработки (секция «Исходящие») */
-  outDocs?: AttachFile[];
   /** «Дата с» и «Дата по» из формы (нет — дата создания и срок) */
   from?: string;
   to?: string;

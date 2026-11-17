@@ -134,11 +134,11 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
       @if (showMembers()) {
         <div class="c rqnmem" event-members title="Участники" [rows]="viewMembers()" [roles]="memberRoles" [cols]="memberCols" edit="none" paging="off"></div>
       }
-      <!-- документы: входящие / исходящие; при обработке — загрузка в исходящие (в т. ч. уже добавленные outDocs); иначе блок только если есть файлы -->
+      <!-- документы: входящие / исходящие; при обработке — пустые исходящие + зона загрузки; иначе блок только если есть файлы -->
       @if (processing()) {
         <div class="c rqndocs" app-rel-docs title="Документы" [incoming]="R.docs || []" [(outgoing)]="resDocs" editOut></div>
-      } @else if (R.docs?.length || R.res?.docs?.length || R.outDocs?.length) {
-        <div class="c rqndocs" app-rel-docs title="Документы" [incoming]="R.docs || []" [outgoing]="R.res?.docs || R.outDocs || []"></div>
+      } @else if (R.docs?.length || R.res?.docs?.length) {
+        <div class="c rqndocs" app-rel-docs title="Документы" [incoming]="R.docs || []" [outgoing]="R.res?.docs || []"></div>
       }
       <!-- результат обработки: плашка и комментарий (без загрузки файлов) -->
       @if (R.res) {
@@ -296,15 +296,14 @@ export class Reqnew {
     effect(() => {
       if (!this.rq() && !this.type()) this.nav.go('reqpick');
     });
-    // обработка: исходящие — уже добавленные outDocs (демо) или пусто; сбрасываем поля результата при смене заявки
+    // обработка: исходящие всегда пустые при входе; сбрасываем поля результата при смене заявки
     effect(() => {
-      const id = this.rq();
-      const r = this.req();
+      this.rq();
       this.resKind.set('');
       this.resText.set('');
       this.resReason.set('');
       this.resErr.set(false);
-      this.resDocs.set(id && r?.outDocs?.length ? r.outDocs.map((f) => ({ ...f })) : []);
+      this.resDocs.set([]);
     });
   }
 
@@ -378,7 +377,6 @@ export class Reqnew {
       st: refuse ? 'Отклонена' : 'Выполнена',
       closed: NOW_TEXT,
       due: undefined,
-      outDocs: undefined,
       res: {
         kind: this.resKind(),
         text: (refuse ? this.resReason() : this.resText()).trim(),
