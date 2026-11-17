@@ -59,7 +59,7 @@ const stageOf = (t: IprTask) => (t as AdaptTask).stage || ADAPT_STAGES[0];
               [mgr]="s.isMgr()"
               [rate]="s.att()[r.i]"
               [cm]="(s.comments()[r.i] || []).length"
-              runIcon="doneCircle"
+              runIcon="checkSquare"
               runTitle="Завершить задачу"
               [class.hidden]="!r.ok"
               (act)="act.emit($event)"

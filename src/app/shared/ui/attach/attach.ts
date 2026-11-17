@@ -3,7 +3,7 @@ import { AttachFile } from '../../../interface/attach';
 import { Icon } from '../icon/icon';
 import { ToastService } from '../toast/toast.service';
 import { AttachPreviewService } from './attach-preview.service';
-import { attachKind, attachSize, todayDmy } from './attach.utils';
+import { attachKind, attachSize, nowDmyHm } from './attach.utils';
 
 /**
  * Прикрепленные файлы (.attl): карточка — плитка типа, имя, «размер · кто загрузил», справа действия; клик — предпросмотр.
@@ -49,7 +49,7 @@ import { attachKind, attachSize, todayDmy } from './attach.utils';
                 @if (f.st === 'load') {
                   <app-icon name="wand" />Загружаем…
                 } @else {
-                  {{ size(f.size) }}{{ f.by ? ' · ' + f.by : ' · загружен ' + f.date }}
+                  {{ size(f.size) }}{{ f.by ? ' · ' + f.by : '' }}{{ f.date ? ' · ' + f.date : '' }}
                 }
               </small></span
             >
@@ -123,7 +123,7 @@ export class Attach {
       const f: AttachFile = { id: 'f' + Date.now() + Math.random().toString(36).slice(2, 6), name: file.name, size: file.size, st: 'load', url: URL.createObjectURL(file) };
       add.push(f);
       setTimeout(
-        () => this.files.update((l) => l.map((x) => (x.id === f.id ? { ...x, st: 'ok', date: todayDmy() } : x))),
+        () => this.files.update((l) => l.map((x) => (x.id === f.id ? { ...x, st: 'ok', date: nowDmyHm() } : x))),
         1400 + Math.min(2600, file.size / 2000),
       );
     }
