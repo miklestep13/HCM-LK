@@ -27,7 +27,7 @@ const SORT_KEYS: Record<string, (s: Survey) => string | number> = {
 };
 
 /**
- * «Компания → Опросы»: вкладки «Активные / Пройденные», поиск и фильтры (статус, автор, срок), сортировка,
+ * «Компания → Опросы»: вкладки «Активные / Пройденные», поиск и фильтры (статус, срок), сортировка,
  * вид «Карточки / Таблица» (запоминается в браузере, как в «Заданиях»).
  */
 @Injectable({ providedIn: 'root' })
@@ -36,23 +36,21 @@ export class SurveysState {
   readonly tab = signal<'act' | 'done'>('act');
   readonly q = signal('');
   readonly status = signal('');
-  readonly author = signal('');
   readonly end = signal<DateRange>(EMPTY_RANGE);
   readonly opened = signal(false);
   readonly sort = signal<{ k: string; dir: number }>({ k: 'end', dir: 1 });
   readonly view = signal<ViewMode>(this.load());
 
   readonly all = SURVEYS;
-  readonly authors = [...new Set(SURVEYS.map((s) => s.author))].sort();
   readonly count = computed(() => ({ act: SURVEYS.filter((s) => s.status !== 'Завершен').length, done: SURVEYS.filter((s) => s.status === 'Завершен').length }));
   /** список вкладки после поиска и фильтров */
   /** постранично (таблица и карточки): <app-pager [p]="s.pg" /> */
   readonly pg = paginate(() => this.rows());
   readonly rows = computed(() => {
-    const q = this.q().trim().toLowerCase(), st = this.status(), a = this.author(), r = this.end(), done = this.tab() === 'done';
+    const q = this.q().trim().toLowerCase(), st = this.status(), r = this.end(), done = this.tab() === 'done';
     const f = SORT_KEYS[this.sort().k] ?? SORT_KEYS['end'], dir = this.sort().dir;
     return SURVEYS.filter((s) => (s.status === 'Завершен') === done)
-      .filter((s) => (!st || s.status === st) && (!a || s.author === a) && (!s.end || inRange(r, s.end)) && (!q || s.title.toLowerCase().includes(q)))
+      .filter((s) => (!st || s.status === st) && (!s.end || inRange(r, s.end)) && (!q || s.title.toLowerCase().includes(q)))
       .sort((x, y) => (f(x) < f(y) ? -dir : f(x) > f(y) ? dir : 0));
   });
   readonly total = computed(() => (this.tab() === 'done' ? this.count().done : this.count().act));
