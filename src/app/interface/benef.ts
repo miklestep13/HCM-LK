@@ -75,4 +75,8 @@ export interface BenefOffer {
   body: { h: string; p: string }[];
   cover?: string;
   files: AttachFile[];
+  /** лайки / просмотры / комментарии — как у новости; нет — демо-значения на карточке */
+  lk?: number;
+  vw?: number;
+  cm?: number;
 }

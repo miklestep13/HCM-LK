@@ -1,4 +1,4 @@
-/* Карточка льготы: раскладка новости, сайдбар без картинок, материалы перед комментариями */
+/* Карточка льготы — стили как у #pg-newscard (two73 / nart / nbody / ncsim) */
 .pg-benefcard .two73 {
   display: grid;
   grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
@@ -10,6 +10,18 @@
     grid-template-columns: 1fr;
   }
 }
+.pg-benefcard .colL,
+.pg-benefcard .colR {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+/* шапка статьи: автор слева, «Подать заявку» справа */
+.pg-benefcard .nart {
+  padding-top: 20px;
+}
 .pg-benefcard .nartp {
   display: flex;
   align-items: center;
@@ -20,103 +32,167 @@
   margin-bottom: 16px;
   border-bottom: 1px solid var(--stroke);
 }
+.pg-benefcard .nartp .npau,
+.pg-benefcard .nartp .btn {
+  margin: 0;
+}
 .pg-benefcard .nartp .npau {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 0;
+  gap: 10px;
 }
-.pg-benefcard .nartp .npau .av {
+.pg-benefcard .nartp .npav {
+  font: var(--q-font-ui-headline-3);
   width: 40px;
   height: 40px;
-  border-radius: 8px;
-}
-.pg-benefcard .av.avco {
+  flex: none;
+  border-radius: 10px;
   display: grid;
   place-items: center;
-  background: var(--blue-bg);
-  color: var(--blue);
-  font: var(--q-font-ui-headline-3);
+  background: var(--blue);
+  color: var(--white);
+}
+.pg-benefcard .nartp .npau .i {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 .pg-benefcard .nartp .npau b {
-  display: block;
-  font: var(--q-font-ui-body-2);
+  font: var(--q-font-ui-headline-4);
   color: var(--t1);
 }
-.pg-benefcard .kbdt {
+.pg-benefcard .nartp .npau time {
   font: var(--q-font-ui-description-1);
   color: var(--t3);
+  margin-top: 2px;
 }
-.pg-benefcard .tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.pg-benefcard .tag {
-  font: var(--q-font-ui-description-1);
-  color: var(--t3);
-  background: var(--surface-2);
-  border-radius: 6px;
-  padding: 2px 8px;
-}
-.pg-benefcard .nctt {
-  font: 700 28px/36px var(--q-font-family);
+
+.pg-benefcard .nart .nctt {
+  font: 700 28px / 36px var(--q-font-family);
   color: var(--black);
   margin: 0;
 }
-.pg-benefcard .bflead {
+
+.pg-benefcard .nbody {
+  padding: 18px 0 4px;
+}
+.pg-benefcard .nbody p {
   font: var(--q-font-ui-body-1);
   color: var(--t2);
-  margin: 12px 0 0;
+  margin: 0 0 12px;
 }
-.pg-benefcard .nart h4 {
-  font: var(--q-font-ui-headline-3);
-  color: var(--t1);
-  margin: 20px 0 8px;
+.pg-benefcard .nbody h4 {
+  font: var(--q-font-article-headline-3);
+  color: var(--black);
+  margin: 16px 0 8px;
 }
-.pg-benefcard .nart p {
-  font: var(--q-font-ui-body-1);
-  color: var(--t2);
-  margin: 0 0 8px;
+.pg-benefcard .nbody figure {
+  margin: 18px 0;
 }
-.pg-benefcard .bfcover {
-  margin-top: 20px;
+.pg-benefcard .nbody img {
+  width: 100%;
   border-radius: 12px;
-  overflow: hidden;
-  background: var(--surface-2);
-}
-.pg-benefcard .bfcover img {
   display: block;
-  width: 100%;
-  height: auto;
-  vertical-align: top;
 }
-.pg-benefcard .bfmore {
+
+.pg-benefcard .nart .narth {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--stroke);
+  border-bottom: none;
 }
-.pg-benefcard .bfmi {
+.pg-benefcard .nart .narth .nfs {
+  flex: 1;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-  width: 100%;
-  padding: 12px;
-  border: 0;
-  border-radius: 10px;
-  background: transparent;
-  text-align: left;
-  cursor: pointer;
+  justify-content: space-between;
+  gap: 12px;
 }
-.pg-benefcard .bfmi:hover {
-  background: var(--raised);
-}
-.pg-benefcard .bfmi b {
-  font: var(--q-font-ui-body-1);
-  color: var(--t1);
-}
-.pg-benefcard .bfmi small {
+.pg-benefcard .nfs > span {
   font: var(--q-font-ui-description-1);
+  display: flex;
+  align-items: center;
+  gap: 5px;
   color: var(--t3);
+}
+.pg-benefcard .nfs svg {
+  width: 14px;
+  height: 14px;
+}
+.pg-benefcard .lkb {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  background: none;
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--t3);
+}
+.pg-benefcard .lkb svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.15s;
+}
+.pg-benefcard .lkb:hover {
+  background: var(--dg-bg);
+  color: var(--red);
+}
+.pg-benefcard .lkb.on {
+  color: var(--red);
+}
+.pg-benefcard .lkb.on svg {
+  fill: var(--red);
+  color: var(--red);
+}
+
+/* «Другие льготы» — как .cofeed.ncsim у похожих новостей, без картинок */
+.pg-benefcard .c.cofeed,
+.pg-benefcard .cb.cofeed {
+  padding: 0;
+}
+.pg-benefcard .cofeed .nfeed {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 4px 24px 24px;
+}
+.pg-benefcard .cofeed .npost {
+  background: none;
+  border-radius: 0;
+  border-bottom: none;
+  padding: 0;
+}
+.pg-benefcard .cofeed .npost + .npost {
+  border-top: 1px solid var(--stroke);
+  margin-top: 12px;
+  padding-top: 20px;
+}
+.pg-benefcard .cofeed .npost .npau {
+  margin-bottom: 12px;
+}
+.pg-benefcard .cofeed .npost .npt {
+  margin-bottom: 8px;
+  font: var(--q-font-ui-headline-4);
+}
+.pg-benefcard .cofeed .npost .nphub {
+  margin-bottom: 4px;
+}
+.pg-benefcard .cofeed .npost .npf {
+  margin: 0 -10px;
+  padding: 6px 0 0;
+  border-top: none;
+}
+.pg-benefcard .cofeed .npost .npf .npb {
+  font: var(--q-font-ui-description-1);
+  gap: 6px;
+}
+.pg-benefcard .ncsim .npimg {
+  display: none;
 }
