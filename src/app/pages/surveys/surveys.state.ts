@@ -27,7 +27,7 @@ const SORT_KEYS: Record<string, (s: Survey) => string | number> = {
 };
 
 /**
- * «Компания → Опросы»: вкладки «Активные / Пройденные», поиск и фильтры (тип, статус, автор, срок), сортировка,
+ * «Компания → Опросы»: вкладки «Активные / Пройденные», поиск и фильтры (статус, автор, срок), сортировка,
  * вид «Карточки / Таблица» (запоминается в браузере, как в «Заданиях»).
  */
 @Injectable({ providedIn: 'root' })
@@ -35,7 +35,6 @@ export class SurveysState {
   private readonly nav = inject(NavService);
   readonly tab = signal<'act' | 'done'>('act');
   readonly q = signal('');
-  readonly kind = signal('');
   readonly status = signal('');
   readonly author = signal('');
   readonly end = signal<DateRange>(EMPTY_RANGE);
@@ -50,10 +49,10 @@ export class SurveysState {
   /** постранично (таблица и карточки): <app-pager [p]="s.pg" /> */
   readonly pg = paginate(() => this.rows());
   readonly rows = computed(() => {
-    const q = this.q().trim().toLowerCase(), k = this.kind(), st = this.status(), a = this.author(), r = this.end(), done = this.tab() === 'done';
+    const q = this.q().trim().toLowerCase(), st = this.status(), a = this.author(), r = this.end(), done = this.tab() === 'done';
     const f = SORT_KEYS[this.sort().k] ?? SORT_KEYS['end'], dir = this.sort().dir;
     return SURVEYS.filter((s) => (s.status === 'Завершен') === done)
-      .filter((s) => (!k || s.kind === k) && (!st || s.status === st) && (!a || s.author === a) && (!s.end || inRange(r, s.end)) && (!q || s.title.toLowerCase().includes(q)))
+      .filter((s) => (!st || s.status === st) && (!a || s.author === a) && (!s.end || inRange(r, s.end)) && (!q || s.title.toLowerCase().includes(q)))
       .sort((x, y) => (f(x) < f(y) ? -dir : f(x) > f(y) ? dir : 0));
   });
   readonly total = computed(() => (this.tab() === 'done' ? this.count().done : this.count().act));
