@@ -17,7 +17,7 @@ const NOW_TEXT = '30.09.2026 12:00';
 /**
  * Таблица заявок (колонки включаются кнопкой настройки в строке поиска): чек-бокс и «Выбрать все», №, тип заявки, код, состояние (без этапа), автор, ответственный за этап, дата и время создания,
  * дата с, дата по (срок открытой — красным, если прошел), дата завершения обработки, порядковый номер, подразделение, описание (2 строки),
- * документы (скрепка и число);
+ * документы (скрепка у заголовка колонки, в ячейке — число файлов);
  * справа: «Обработать», если я ответственный за открытую заявку; карандаш — только если я автор; «⋯» — действия по вкладке.
  * Над таблицей при выборе строк — панель массовых действий. Клик по строке — просмотр заявки (pages/reqnew, только чтение).
  */
@@ -46,8 +46,8 @@ const NOW_TEXT = '30.09.2026 12:00';
             @for (c of cols(); track c[0]) {
               <th [style.width.px]="c[2] || null" [class.num]="c[3] === 'num'" [class.rqdc]="c[3] === 'rqdc'">
                 <span class="thh"
-                  >{{ c[1]
-                  }}<button class="sortb mts" [class.on]="s.sort().k === c[0]" title="Сортировать" [style.transform]="s.sort().k === c[0] && s.sort().dir < 0 ? 'scaleY(-1)' : null" (click)="s.sortBy(c[0])">
+                  >@if (c[0] === 'docs') {<span class="rqhd">{{ c[1] }}<span class="rqhdclip" aria-hidden="true"><app-icon name="clip" /></span></span>} @else {{{ c[1] }}}
+                  <button class="sortb mts" [class.on]="s.sort().k === c[0]" title="Сортировать" [style.transform]="s.sort().k === c[0] && s.sort().dir < 0 ? 'scaleY(-1)' : null" (click)="s.sortBy(c[0])">
                     <svg viewBox="0 0 12 12" fill="none"><path d="M3.6 9.4V2.6M1.9 4.3 3.6 2.6l1.7 1.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /><path d="M8.4 2.6v6.8M6.7 7.7l1.7 1.7 1.7-1.7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" /></svg></button
                 ></span>
               </th>
@@ -118,10 +118,10 @@ const NOW_TEXT = '30.09.2026 12:00';
                     <td><span class="rqinfo" [class.gr]="!r.info" [title]="r.info || ''">{{ r.info || '—' }}</span></td>
                   }
                   @case ('docs') {
-                    <!-- документы: индикатор — скрепка, если к заявке приложены документы; нет — прочерк -->
+                    <!-- скрепка — в заголовке колонки; в ячейке число файлов или прочерк -->
                     <td class="rqdc">
-                      @if (r.docs?.length) {
-                        <span class="rqdocs" title="Есть документы" aria-label="Есть документы"><app-icon name="clip" /></span>
+                      @if (r.docs?.length; as n) {
+                        {{ n }}
                       } @else {
                         <span class="gr">—</span>
                       }
@@ -133,8 +133,8 @@ const NOW_TEXT = '30.09.2026 12:00';
               <td class="tact">
                 <span class="acts">
                   @if (mine(r.resp) && !s.final(r)) {
-                    <!-- я ответственный за открытую заявку — «Обработать» вместо карандаша (открывает заявку на согласование / доработку) -->
-                    <button class="actb" title="Обработать" aria-label="Обработать заявку" (click)="$event.stopPropagation(); open(r)"><app-icon name="checkSquare" /></button>
+                    <!-- я ответственный — «Обработать»: форма результата и исходящие; клик по строке — только просмотр -->
+                    <button class="actb" title="Обработать" aria-label="Обработать заявку" (click)="$event.stopPropagation(); process(r)"><app-icon name="checkSquare" /></button>
                   } @else if (mine(r.ini)) {
                     <!-- карандаш — только у своих заявок (я автор) -->
                     <button class="actb" title="Редактировать" aria-label="Редактировать заявку" (click)="$event.stopPropagation(); open(r)"><app-icon name="edit" /></button>
@@ -293,8 +293,12 @@ export class ReqTable {
     }
   }
 
-  /** просмотр заявки — та же форма, что «Новая заявка», только для чтения (pages/reqnew, ?rq=) */
+  /** просмотр заявки — только чтение: без действий внизу и без формы «Результат обработки» */
   protected open(r: Req): void {
     this.nav.go('reqnew', { rq: r.id });
+  }
+  /** обработка ответственным — форма результата, исходящие документы и «Завершить обработку» */
+  protected process(r: Req): void {
+    this.nav.go('reqnew', { rq: r.id, proc: '1' });
   }
 }

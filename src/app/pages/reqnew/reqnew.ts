@@ -33,9 +33,10 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
  * Просмотр (параметр rq — номер) — как форма добавления: тип и номер заголовком, статус; автор и ответственный; ниже отдельным блоком «Параметры заявки» — поля «подпись / значение» в тех же 4 колонках;
  * в шапке — параметры заявки (даты, канал, подразделение, описание) без отдельного заголовка;
  * ниже — «Участники» (widgets/event-members: колонки «Участник» и «Роль»; автор, заявитель и ответственный — из заявки);
- * ниже — «Документы» (widgets/rel-docs: секции «Входящие» / «Исходящие») и «Результат обработки» (reqnew-result: плашка и комментарий; файлы решения — в исходящих);
- * ответственный заполняет вид результата, комментарий (при отказе — причину) и исходящие документы; когда решение есть — итог как в бланке аттестации.
- * Комментариев к заявке нет. Внизу — действия.
+ * ниже — «Документы» (widgets/rel-docs: секции «Входящие» / «Исходящие»); у завершенной — «Результат обработки» (плашка и комментарий; файлы — в исходящих).
+ * Клик по строке списка — только просмотр (без действий внизу и без формы результата, даже если я ответственный).
+ * Кнопка «Обработать» (?proc=1) — форма результата, загрузка исходящих и «Завершить обработку».
+ * Комментариев к заявке нет.
  */
 @Component({
   selector: 'app-reqnew',
@@ -133,11 +134,11 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
       @if (showMembers()) {
         <div class="c rqnmem" event-members title="Участники" [rows]="viewMembers()" [roles]="memberRoles" [cols]="memberCols" edit="none" paging="off"></div>
       }
-      <!-- документы: входящие / исходящие; при обработке — загрузка в исходящие; иначе блок только если есть файлы -->
+      <!-- документы: входящие / исходящие; при обработке — загрузка в исходящие (в т. ч. уже добавленные outDocs); иначе блок только если есть файлы -->
       @if (processing()) {
         <div class="c rqndocs" app-rel-docs title="Документы" [incoming]="R.docs || []" [(outgoing)]="resDocs" editOut></div>
-      } @else if (R.docs?.length || R.res?.docs?.length) {
-        <div class="c rqndocs" app-rel-docs title="Документы" [incoming]="R.docs || []" [outgoing]="R.res?.docs || []"></div>
+      } @else if (R.docs?.length || R.res?.docs?.length || R.outDocs?.length) {
+        <div class="c rqndocs" app-rel-docs title="Документы" [incoming]="R.docs || []" [outgoing]="R.res?.docs || R.outDocs || []"></div>
       }
       <!-- результат обработки: плашка и комментарий (без загрузки файлов) -->
       @if (R.res) {
@@ -170,6 +171,8 @@ export class Reqnew {
   readonly type = input('');
   /** номер просматриваемой заявки */
   readonly rq = input('');
+  /** «1» — режим обработки ответственным (кнопка «Обработать»); клик по строке — без этого, только просмотр */
+  readonly proc = input('');
   protected readonly s = inject(ReqState);
   private readonly nav = inject(NavService);
   protected readonly toast = inject(ToastService);
@@ -257,10 +260,10 @@ export class Reqnew {
     if (m.length === 1 && m[0].roles.length === 1 && m[0].roles[0] === 'Автор') return false;
     return true;
   });
-  /** я — ответственный за обработку открытой заявки (не автор): вместо комментариев — форма «Результат обработки» */
+  /** режим обработки: только по «Обработать» (proc=1); клик по строке — просмотр без формы результата и без действий */
   protected readonly processing = computed(() => {
     const r = this.req();
-    return !!r && !this.s.final(r) && r.resp?.av === 'me' && r.ini.av !== 'me' && !r.res;
+    return this.proc() === '1' && !!r && !this.s.final(r) && r.resp?.av === 'me' && r.ini.av !== 'me' && !r.res;
   });
   /** просмотр: поля в порядке формы добавления (без кода и наименования), пустые не показываем; w — ширина (rqn2 — две колонки, rqnfull — вся строка) */
   protected readonly fields = computed((): { l: string; v: string; w?: string }[] => {
@@ -277,15 +280,12 @@ export class Reqnew {
     ].filter((f) => !!f.v);
   });
 
-  /** действия внизу просмотра — по вкладке и статусу */
+  /** действия внизу — только в режиме обработки («Завершить») или у завершенной («Повторить»); обычный просмотр — без кнопок */
   protected readonly acts = computed((): Act[] => {
     const r = this.req();
     if (!r) return [];
-    if (this.s.final(r)) return REQ_TYPES.includes(r.n) ? [['repeat', 'Повторить заявку', 'raised']] : [];
-    // ответственный: результат — в блоке «Результат обработки» (отказ — вид «Отказано» и причина)
     if (this.processing()) return [['finish', 'Завершить обработку', 'pri']];
-    if (r.st === 'На доработке') return [['recall', 'Отозвать', 'dng'], ['resend', 'Отправить повторно', 'pri']];
-    if (r.tab === 'watch') return [['unwatch', 'Перестать наблюдать', 'raised']];
+    if (this.s.final(r)) return REQ_TYPES.includes(r.n) ? [['repeat', 'Повторить заявку', 'raised']] : [];
     return [];
   });
 
@@ -295,6 +295,16 @@ export class Reqnew {
     effect(() => this.title.setTitle((this.rq() ? 'Просмотр заявки' : this.type() || 'Добавление заявки') + ' · Q.HCM'));
     effect(() => {
       if (!this.rq() && !this.type()) this.nav.go('reqpick');
+    });
+    // обработка: исходящие — уже добавленные outDocs (демо) или пусто; сбрасываем поля результата при смене заявки
+    effect(() => {
+      const id = this.rq();
+      const r = this.req();
+      this.resKind.set('');
+      this.resText.set('');
+      this.resReason.set('');
+      this.resErr.set(false);
+      this.resDocs.set(id && r?.outDocs?.length ? r.outDocs.map((f) => ({ ...f })) : []);
     });
   }
 
@@ -368,6 +378,7 @@ export class Reqnew {
       st: refuse ? 'Отклонена' : 'Выполнена',
       closed: NOW_TEXT,
       due: undefined,
+      outDocs: undefined,
       res: {
         kind: this.resKind(),
         text: (refuse ? this.resReason() : this.resText()).trim(),

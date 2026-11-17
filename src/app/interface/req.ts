@@ -49,6 +49,8 @@ export interface Req {
   chan?: string;
   procEnd?: string;
   docs?: AttachFile[];
+  /** исходящие документы, уже добавленные ответственным до завершения обработки (секция «Исходящие») */
+  outDocs?: AttachFile[];
   /** «Дата с» и «Дата по» из формы (нет — дата создания и срок) */
   from?: string;
   to?: string;
@@ -69,12 +71,12 @@ export interface ReqRes {
   by?: string;
 }
 
-/** Быстрая заявка над списком: иконка, название, подсказка, группа каталога */
-export interface ReqQuick {
+/** Тип в каталоге «Добавление заявки»: иконка, название, краткое описание, группа */
+export interface ReqPick {
   icon: string;
   n: string;
   d: string;
-  grp: string;
+  cat: string;
 }
 
 /** поле формы «Добавление заявки», которое зависит от типа заявки (номер, дата создания и состояние есть всегда) */
