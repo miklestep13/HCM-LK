@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal, untracked, ViewEncapsulation } from '@angular/core';
 import { learnPlayKind } from '../../../core/demo/learn-store.service';
 import { NavService } from '../../../core/navigation/nav.service';
-import { LEARN_COURSE_INFO, LEARN_PASS, LEARN_TASK_FILES } from '../../../data/learn-course.data';
+import { LEARN_COURSE_INFO, LEARN_PASS, LEARN_TASK_FILES, LEARN_TRY } from '../../../data/learn-course.data';
 import { KB_ARTICLES, KB_TYPES } from '../../../data/kb.data';
 import { PlayerPart, playerParts } from '../../../data/learn-player.data';
 import { Attach } from '../../../shared/ui/attach/attach';
@@ -43,7 +43,13 @@ const TYPE: Record<string, string> = { text: 'Модуль', test: 'Тест', t
     } @else if (s.cur(); as b) {
       <div class="plhd">
         <h2>{{ b.t }}</h2>
-        <span class="bmeta"><app-icon name="clock" />{{ b.m }} · {{ type[playKind(b.k)] }}</span>
+        <span class="bmeta">
+          @if (playKind(b.k) === 'test') {
+            <span title="Проходной процент"><app-icon name="cup" />{{ pass }}%</span>
+            <span title="Количество попыток"><app-icon name="refresh" />{{ tryLabel }}</span>
+          }
+          <span><app-icon name="clock" />{{ b.m }} · {{ type[playKind(b.k)] }}</span>
+        </span>
       </div>
       <p class="pld">{{ b.d }}</p>
       <div class="plbody">
@@ -288,6 +294,13 @@ export class PlayerMain {
   protected readonly type = TYPE;
   protected readonly playKind = learnPlayKind;
   protected readonly pass = LEARN_PASS;
+  /** «N попытка/попытки/попыток» — настройки тестирования */
+  protected readonly tryLabel = (() => {
+    const n = LEARN_TRY;
+    const m = n % 10, t = n % 100;
+    const w = m === 1 && t !== 11 ? 'попытка' : m >= 2 && m <= 4 && (t < 10 || t > 20) ? 'попытки' : 'попыток';
+    return n + ' ' + w;
+  })();
   protected readonly taskFiles = LEARN_TASK_FILES;
   protected readonly kbType = KB_TYPES;
   protected readonly max = Math.max;

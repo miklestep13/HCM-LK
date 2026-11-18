@@ -255,13 +255,23 @@
 }
 :where(.pg-pass) .plhd .bmeta {
   font: var(--q-font-ui-body-2);
+  color: var(--t2);
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px 14px;
+}
+:where(.pg-pass) .plhd .bmeta > span {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
 }
 :where(.pg-pass) .plhd .bmeta svg {
   width: 14px;
   height: 14px;
+  flex-shrink: 0;
 }
 :where(.pg-pass) .plbody {
   display: flex;
