@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, effect, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewEncapsulation, afterRenderEffect, computed, effect, inject, input, signal, untracked, viewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NavService } from '../../core/navigation/nav.service';
 import { ME_PHOTO } from '../../data/people.data';
@@ -34,10 +34,11 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
  * Новая: форма-страница, только «Создать» (без «Отменить»); параметр адреса type — тип (каталог, «Повторить заявку»).
  * Просмотр (параметр rq — номер) — как форма добавления: тип и номер заголовком, статус; автор и ответственный; ниже отдельным блоком «Параметры заявки» — поля «подпись / значение» в тех же 4 колонках;
  * в шапке — параметры заявки (даты, канал, подразделение, описание) без отдельного заголовка;
+ * длинное описание — обрезка после 4 строк с градиентом и ссылкой «Показать больше» / «Свернуть».
  * ниже — «Участники» (widgets/event-members: колонки «Участник» и «Роль»; автор, заявитель и ответственный — из заявки);
  * ниже — «Документы» (widgets/rel-docs: секции «Входящие» / «Исходящие»); у завершенной — «Результат обработки» (плашка и комментарий; файлы — в исходящих).
  * Клик по строке списка — только просмотр (без действий внизу и без формы результата, даже если я ответственный).
- * Кнопка «Обработать» (?proc=1) — форма результата, загрузка исходящих и split-кнопка «Согласовать».
+ * Кнопка «Обработать» (?proc=1) — заголовок «Обработка заявки», форма результата, загрузка исходящих и split-кнопка «Согласовать».
  * В просмотре и обработке «Участники» и «Документы» свернуты по умолчанию (шеврон слева).
  * Комментариев к заявке нет.
  */
@@ -46,7 +47,7 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
   imports: [PageHead, Field, Select, DateField, RelDocs, EventMembers, ReqnewResult, Icon, Float],
   template: `
     @let R = req();
-    <app-page-head [title]="R ? 'Просмотр заявки' : (type() || 'Добавление заявки')" [backTo]="R ? 'req' : 'reqpick'" [backLabel]="R ? 'К заявкам' : 'К выбору типа'" />
+    <app-page-head [title]="pageTitle()" [backTo]="R ? 'req' : 'reqpick'" [backLabel]="R ? 'К заявкам' : 'К выбору типа'" />
     @if (R) {
       <div class="c rqnf rqnview">
         <!-- просмотр: название (тип) · номер и статус; участники (как в шапке ИПР); даты; дополнительная информация -->
@@ -57,7 +58,21 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
         </div>
         <div class="rqngrid rqnvgrid">
           @for (f of fields(); track f.l) {
-            <div [class]="'rqnkv ' + (f.w || '')"><span class="l">{{ f.l }}</span>{{ f.v }}</div>
+            @if (f.l === 'Описание') {
+              <div class="rqnkv rqnfull rqndesc">
+                <span class="l">{{ f.l }}</span>
+                <div class="rqndtxt" #dsc [class.clamp]="descMore()" [class.open]="descOpen()">
+                  @for (p of descParts(); track $index) {
+                    <p>{{ p }}</p>
+                  }
+                </div>
+                @if (descMore()) {
+                  <button type="button" class="lnk rqndmore" [attr.aria-expanded]="descOpen()" (click)="toggleDesc()">{{ descOpen() ? 'Свернуть' : 'Показать больше' }}</button>
+                }
+              </div>
+            } @else {
+              <div [class]="'rqnkv ' + (f.w || '')"><span class="l">{{ f.l }}</span>{{ f.v }}</div>
+            }
           }
         </div>
       </div>
@@ -284,6 +299,11 @@ export class Reqnew {
     const r = this.req();
     return this.proc() === '1' && !!r && !this.s.final(r) && r.resp?.av === 'me' && r.ini.av !== 'me' && !r.res;
   });
+  /** заголовок страницы: обработка / просмотр / добавление */
+  protected readonly pageTitle = computed(() => {
+    if (!this.req()) return this.type() || 'Добавление заявки';
+    return this.processing() ? 'Обработка заявки' : 'Просмотр заявки';
+  });
   /** просмотр: поля в порядке формы добавления (без кода и наименования), пустые не показываем; w — ширина (rqn2 — две колонки, rqnfull — вся строка) */
   protected readonly fields = computed((): { l: string; v: string; w?: string }[] => {
     const r = this.req();
@@ -298,6 +318,17 @@ export class Reqnew {
       { l: 'Описание', v: r.info || '', w: 'rqnfull' },
     ].filter((f) => !!f.v);
   });
+  /** абзацы описания (пустые строки — разделитель) */
+  protected readonly descParts = computed(() =>
+    (this.req()?.info || '')
+      .split(/\n\n+/)
+      .map((p) => p.trim())
+      .filter(Boolean),
+  );
+  /** длинное описание — обрезка после 4 строк + «Показать больше» */
+  private readonly dsc = viewChild<ElementRef<HTMLElement>>('dsc');
+  protected readonly descMore = signal(false);
+  protected readonly descOpen = signal(false);
 
   /** действия внизу — у завершенной «Повторить»; обработка — split-кнопка «Согласовать» (не через acts) */
   protected readonly acts = computed((): Act[] => {
@@ -312,7 +343,7 @@ export class Reqnew {
   private readonly title = inject(Title);
   constructor() {
     // вкладка браузера: просмотр или добавление
-    effect(() => this.title.setTitle((this.rq() ? 'Просмотр заявки' : this.type() || 'Добавление заявки') + ' · Q.HCM'));
+    effect(() => this.title.setTitle(this.pageTitle() + ' · Q.HCM'));
     effect(() => {
       if (!this.rq() && !this.type()) this.nav.go('reqpick');
     });
@@ -325,6 +356,44 @@ export class Reqnew {
       this.resErr.set(false);
       this.resDocs.set([]);
     });
+    // при смене заявки / режима — свернуть описание и заново измерить высоту
+    afterRenderEffect(() => {
+      this.rq();
+      this.proc();
+      this.descParts();
+      this.dsc();
+      untracked(() => {
+        this.descOpen.set(false);
+        this.descMore.set(false);
+      });
+      requestAnimationFrame(() => this.measureDesc());
+    });
+  }
+
+  /** нужно ли «Показать больше»: текст выше 4 строк */
+  private measureDesc(): void {
+    const el = this.dsc()?.nativeElement;
+    if (!el) {
+      this.descMore.set(false);
+      return;
+    }
+    el.style.maxHeight = '';
+    const lh = parseFloat(getComputedStyle(el.querySelector('p') || el).lineHeight) || 22;
+    if (el.scrollHeight > lh * 4 + 4) {
+      this.descMore.set(true);
+      if (!this.descOpen()) el.style.maxHeight = lh * 4 + 'px';
+    } else {
+      this.descMore.set(false);
+    }
+  }
+
+  protected toggleDesc(): void {
+    const el = this.dsc()?.nativeElement;
+    if (!el) return;
+    const open = !this.descOpen();
+    this.descOpen.set(open);
+    const lh = parseFloat(getComputedStyle(el.querySelector('p') || el).lineHeight) || 22;
+    el.style.maxHeight = open ? '' : lh * 4 + 'px';
   }
 
 

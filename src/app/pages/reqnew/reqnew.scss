@@ -79,6 +79,41 @@
 .pg-reqnew .rqnkv .gr {
   color: var(--t3);
 }
+/* длинное описание: 4 строки + градиент + «Показать больше» / «Свернуть» */
+.pg-reqnew .rqndesc {
+  white-space: normal;
+}
+.pg-reqnew .rqndtxt p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin: 0;
+}
+.pg-reqnew .rqndtxt p + p {
+  margin-top: 8px;
+}
+.pg-reqnew .rqndtxt.clamp {
+  overflow: hidden;
+  position: relative;
+}
+.pg-reqnew .rqndtxt.clamp:not(.open)::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 24px;
+  background: linear-gradient(transparent, var(--white));
+}
+.pg-reqnew .lnk.rqndmore {
+  display: block;
+  font: var(--q-font-ui-headline-4);
+  margin-top: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--blue);
+  cursor: pointer;
+}
 /* комментарии — отдельный блок над действиями */
 .pg-reqnew .rqncm {
   margin-top: 16px;
