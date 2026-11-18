@@ -34,7 +34,7 @@
 :where(.pg-pass) .secth {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   padding: 12px;
   background: var(--s1);
 }
@@ -151,11 +151,10 @@
   background: none;
   color: var(--black);
   padding: 0;
-  /* одна колонка с номерами модулей 1.1 */
-  flex: 0 0 28px;
-  width: 28px;
-  min-width: 28px;
-  text-align: center;
+  /* вровень с номерами модулей — по левому краю */
+  flex: 0 0 auto;
+  min-width: 14px;
+  text-align: left;
   font-variant-numeric: tabular-nums;
 }
 :where(.pg-pass) .secth > .bmeta {
@@ -466,24 +465,23 @@
 .pg-pass.pg-pass .pltoc .plrow{
   cursor:pointer;
   align-items:center;
-  /* одинаковый зазор: номер/статус · иконка типа · название */
-  gap:8px;
+  /* зазор номер · тип · название — плотнее у цифры */
+  gap:4px;
   padding:8px 12px;
 }
 .pg-pass.pg-pass .pltoc .plrow.on{background:var(--blue-bg)}
 .pg-pass.pg-pass .pltoc .plrow:hover b{color:var(--blue)}
-/* колонка номера / иконки прохождения — вровень с номером раздела (.secn), контент по центру */
+/* номер / статус — по левому краю, ширина по содержимому (без пустоты до иконки типа) */
 .pg-pass.pg-pass .pltoc .plnum{
   font:var(--q-font-ui-description-1);
   color:var(--t3);
   font-variant-numeric:tabular-nums;
-  flex:0 0 28px;
-  width:28px;
-  min-width:28px;
+  flex:0 0 auto;
+  min-width:14px;
   display:inline-flex;
   align-items:center;
-  justify-content:center;
-  text-align:center;
+  justify-content:flex-start;
+  text-align:left;
 }
 .pg-pass.pg-pass .pltoc .plnum .pli{
   display:inline-flex;
