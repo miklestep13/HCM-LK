@@ -7,6 +7,7 @@ export type PlayerPart =
   | { k: 'video'; title: string; dur?: string; cover?: string }
   | { k: 'pdf'; name: string; title: string }
   | { k: 'files'; title: string; files: { id: string; name: string; size: number; st: 'ok'; date: string }[] }
+  | { k: 'heading'; title: string }
   | { k: 'kb'; art: string }
   | {
       k: 'q';
@@ -45,6 +46,7 @@ export const LEARN_PLAYER_PARTS: Record<string, PlayerPart[]> = {
         { id: 'pf2', name: 'Тарифы.xlsx', size: 88_000, st: 'ok', date: '01.09.2026' },
       ],
     },
+    { k: 'heading', title: 'Статьи для ознакомления' },
     { k: 'kb', art: 'k1' },
     { k: 'kb', art: 'k15' },
   ],

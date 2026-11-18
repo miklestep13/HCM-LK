@@ -2,11 +2,15 @@
 .plmain .plparts {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 0;
 }
 .plmain .plparts .bltext {
   font: var(--q-font-ui-body-2);
   color: var(--t1);
+}
+.plmain .plparts .bltext + .bltext,
+.plmain .plparts :is(.blimg, .plvid, .plpdf, .plfiles, .blkb) + .bltext {
+  margin-top: 16px;
 }
 .plmain .plparts .bltext :is(p, ul, ol) {
   margin: 0 0 10px;
@@ -29,10 +33,30 @@
 .plmain .plparts .blttl {
   font: var(--q-font-ui-headline-4);
   color: var(--black);
-  margin-bottom: 10px;
+}
+/* заголовок секции + список файлов — плотно */
+.plmain .plparts .plfiles {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/* картинка, видео, документ, вложения, статьи БЗ — отступ сверху 24 */
+.plmain .plparts :is(.blimg, .plvid, .plpdf, .plfiles, .blkb) {
+  margin-top: 24px;
+}
+.plmain .plparts .blttl.plsec {
+  margin-top: 24px;
+}
+.plmain .plparts .blttl.plsec + .blkb {
+  margin-top: 10px;
+}
+.plmain .plparts > :first-child {
+  margin-top: 0;
 }
 .plmain .plparts .blimg {
-  margin: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
 }
 .plmain .plparts .blimg img {
   display: block;

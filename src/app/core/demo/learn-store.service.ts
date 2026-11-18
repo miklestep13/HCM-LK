@@ -63,9 +63,19 @@ export interface LearnFlatBlock {
   k: string;
   x?: string;
 }
+/** название без префикса типа («Тест:», «Задание 1:») — иконка в структуре уже говорит о виде */
+export const learnTitle = (b: LearnBlock): string => {
+  const typ = learnType(b);
+  let t = b[0];
+  if (typ === 'test') t = t.replace(/^(Тест|Проверка знаний):\s+/i, '');
+  else if (typ === 'task') t = t.replace(/^(Задание(?:\s+\d+)?|Практика|Кейс):\s+/i, '');
+  else if (typ === 'poll') t = t.replace(/^(Опрос|Анкета):\s+/i, '');
+  else t = t.replace(/^Видео:\s+/i, '');
+  return t ? t[0].toUpperCase() + t.slice(1) : t;
+};
 /** все модули курса подряд (lfBlocks) */
 export const learnBlocks = (id: string): LearnFlatBlock[] =>
-  (LEARN_COURSE_INFO[id]?.s || []).flatMap((sec, si) => sec[1].map((b) => ({ sec: sec[0], si, t: b[0], d: b[1], m: b[2], k: learnType(b), x: b[4] })));
+  (LEARN_COURSE_INFO[id]?.s || []).flatMap((sec, si) => sec[1].map((b) => ({ sec: sec[0], si, t: learnTitle(b), d: b[1], m: b[2], k: learnType(b), x: b[4] })));
 /** «15 мин» / «1 ч 30 мин» / «11:00–11:40» → минуты */
 export const learnMin = (t: string): number => {
   const r = /(\d+):(\d+)\s*[–-]\s*(\d+):(\d+)/.exec(t);

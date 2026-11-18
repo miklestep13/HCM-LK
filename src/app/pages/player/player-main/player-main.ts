@@ -74,10 +74,15 @@ const TYPE: Record<string, string> = { video: 'Видео', text: 'Модуль'
                   </div>
                 }
                 @case ('files') {
-                  @if (p.title) {
-                    <div class="blttl">{{ p.title }}</div>
-                  }
-                  <app-attach [files]="p.files" />
+                  <div class="plfiles">
+                    @if (p.title) {
+                      <div class="blttl">{{ p.title }}</div>
+                    }
+                    <app-attach [files]="p.files" />
+                  </div>
+                }
+                @case ('heading') {
+                  <div class="blttl plsec">{{ p.title }}</div>
                 }
                 @case ('kb') {
                   @let a = article(p.art);
