@@ -14,7 +14,7 @@ import { ReqState } from './req.state';
 /**
  * «Мой кабинет → Заявки» (перенесено из прототипа pg-req, таблица собрана по примерам рынка):
  * «Добавить» справа от заголовка открывает каталог типов (reqpick); вкладки «Мои заявки / Требуют действия» со счетчиками;
- * поиск по номеру или типу; фильтры по колонкам: тип заявки, автор, ответственный (фото и должность в списке), дата создания, состояние, дата окончания.
+ * поиск по номеру или типу; фильтры по колонкам: тип заявки, состояние, автор, ответственный (фото и должность в списке), дата создания, дата завершения.
  * Тип выбирается в каталоге (reqpick), форма — pages/reqnew. Карточка заявки пока в старом прототипе (rqcard).
  */
 @Component({
@@ -35,11 +35,11 @@ import { ReqState } from './req.state';
         <!-- настройка колонок таблицы — перед кнопкой фильтра: список всех колонок с отметками и «Все» -->
         <button ftLead app-table-settings [columns]="s.colNames" [(hidden)]="s.hidden" all></button>
         <app-select label="Тип заявки" allLabel="Все" [options]="cats" [(value)]="s.cat" />
+        <app-select label="Состояние" allLabel="Все" [options]="statuses" [(value)]="s.status" />
         <app-multi-select label="Автор" [options]="authorOpts()" [meta]="people()" [(value)]="s.authors" />
         <app-multi-select label="Ответственный" [options]="respOpts()" [meta]="people()" [(value)]="s.resps" />
         <app-date-range label="Дата создания" [(value)]="s.created" />
-        <app-select label="Состояние" allLabel="Все" [options]="statuses" [(value)]="s.status" />
-        <app-date-range label="Дата окончания" [(value)]="s.ended" />
+        <app-date-range label="Дата завершения" [(value)]="s.ended" />
       </app-filter-bar>
       <div class="cb" style="padding-top: 4px" req-table></div>
     </div>

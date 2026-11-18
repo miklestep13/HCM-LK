@@ -1,7 +1,10 @@
-<!-- шапка: название и число участников сразу после него; справа — «Добавить» (без фильтров) и настройки ⚙ -->
-<div class="ch">
+<!-- шапка: при fold — шеврон слева, название и счетчик (как «Цели»); справа — «Добавить» и настройки ⚙ -->
+<div class="ch" [title]="fold() ? (cold() ? 'Развернуть' : 'Свернуть') : null" (click)="onHead($event)">
+  @if (fold()) {
+    <span class="actb cfar"><app-icon name="chevSm" /></span>
+  }
   <h3>{{ title() }}</h3>
-  <span class="pntc">{{ rows().length }}</span>
+  <span class="chip">{{ rows().length }}</span>
   <span class="evmhr">
     @if (mColSet() && !mFilters()) {
       <!-- без шапки фильтров настройка столбцов — в шапке карточки -->
@@ -15,6 +18,7 @@
     }
   </span>
 </div>
+@if (!cold()) {
 <div class="cb">
   @if (mFilters()) {
     <app-filter-bar placeholder="Поиск по ФИО, должности или подразделению" [(query)]="q" [(opened)]="fOpen">
@@ -270,6 +274,7 @@
     <app-pager [p]="pg" />
   }
 </div>
+}
 
 @if (pick(); as k) {
   <!-- список выбора участника: поиск, фото, ФИО, должность -->

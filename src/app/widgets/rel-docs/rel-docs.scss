@@ -1,4 +1,13 @@
 /* «Связанные документы»: заголовок, ниже файлы или зона загрузки; секции «Входящие» / «Исходящие» */
+.w-reldocs .ch {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+.w-reldocs .ch > h3 {
+  flex: 0 0 auto;
+}
 .w-reldocs .rdempty {
   font: var(--q-font-ui-body-2);
   color: var(--t3);

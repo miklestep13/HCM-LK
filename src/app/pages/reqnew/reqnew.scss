@@ -166,3 +166,20 @@
 .pg-reqnew .rqnres {
   margin-top: 16px;
 }
+
+/* split-кнопка «Согласовать» (как в ИПР / адаптации) */
+.pg-reqnew .sbtn {
+  display: inline-flex;
+}
+.pg-reqnew .sbtn .btn {
+  border-radius: 8px 0 0 8px;
+}
+.pg-reqnew .sbtn .sbar {
+  border-radius: 0 8px 8px 0;
+  padding: 0 10px;
+  box-shadow: inset 1px 0 0 color-mix(in srgb, var(--q-button-primary-text) 35%, transparent);
+}
+.pg-reqnew .sbtn .sbar svg {
+  width: 12px;
+  height: 12px;
+}
