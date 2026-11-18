@@ -231,75 +231,6 @@
   border-bottom-color: var(--blue);
 }
 
-/* быстрые заявки (как .qbar прототипа) */
-.pg-req .qbar {
-  background: var(--q-content-background);
-  border-radius: 12px;
-  padding: 18px;
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-.pg-req .qa {
-  flex: 1;
-  min-width: 0;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 12px;
-  border-radius: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-align: left;
-  font-family: var(--q-font-family);
-}
-.pg-req .qa:hover {
-  background: var(--q-content-background-alt);
-}
-.pg-req .qa .ic {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  background: var(--raised);
-  color: var(--blue);
-}
-.pg-req .qa .ic svg {
-  width: 18px;
-  height: 18px;
-}
-.pg-req .qa .cnt {
-  min-width: 0;
-}
-.pg-req .qa .cnt b {
-  font: var(--q-font-ui-headline-4);
-  display: block;
-  color: var(--black);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.pg-req .qa .cnt small {
-  font: var(--q-font-ui-description-1);
-  display: block;
-  color: var(--grey);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-@media (max-width: 900px) {
-  .pg-req .qbar {
-    flex-wrap: wrap;
-  }
-  .pg-req .qa {
-    flex: 1 1 40%;
-  }
-}
-
 /* сегмент «Открытые / Завершенные / Все» в строке поиска */
 .pg-req .rqseg {
   align-self: center;
@@ -432,25 +363,25 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-/* документы: скрепка и число */
-.pg-req .rqtbl .rqdocs {
+/* скрепка сразу после слова «Документы», как значок у имени: 4 px, 14 px, без подложки */
+.pg-req .rqtbl .rqhd {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: var(--blue-bg);
+  gap: 4px;
+  min-width: 0;
+}
+.pg-req .rqtbl .rqhdclip {
+  display: inline-flex;
+  flex: none;
   color: var(--blue);
 }
-/* «Документы» — индикатор по центру колонки */
+.pg-req .rqtbl .rqhdclip app-icon,
+.pg-req .rqtbl .rqhdclip svg {
+  width: 14px;
+  height: 14px;
+}
 .pg-req .rqtbl :is(th, td).rqdc {
   text-align: center;
-}
-.pg-req .rqtbl .rqdocs app-icon,
-.pg-req .rqtbl .rqdocs svg {
-  width: 16px;
-  height: 16px;
 }
 .pg-req .rqtbl .rqwho > span {
   min-width: 0;

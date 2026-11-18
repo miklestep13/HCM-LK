@@ -11,7 +11,7 @@ export interface Survey {
   start: string;
   end: string;
   status: SurveyStatus;
-  /** вопросов всего и отвечено (для «В работе») */
+  /** вопросов всего и отвечено (для «В процессе») */
   questions: number;
   answered?: number;
   /** примерное время прохождения, минут */
@@ -27,7 +27,7 @@ export interface Survey {
   doneAt?: string;
 }
 
-export type SurveyStatus = 'Ожидание' | 'Доступен' | 'В работе' | 'Завершен';
+export type SurveyStatus = 'Назначен' | 'В процессе' | 'Пройден';
 
 /** тип вопроса анкеты (как в Google Forms, Typeform, Qualtrics, Culture Amp) */
 export type SurveyQType =

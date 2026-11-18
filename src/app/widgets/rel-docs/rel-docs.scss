@@ -1,5 +1,27 @@
-/* «Связанные документы»: заголовок, ниже файлы или зона загрузки */
+/* «Связанные документы»: заголовок, ниже файлы или зона загрузки; секции «Входящие» / «Исходящие» */
+.w-reldocs .ch {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+.w-reldocs .ch > h3 {
+  flex: 0 0 auto;
+}
 .w-reldocs .rdempty {
   font: var(--q-font-ui-body-2);
   color: var(--t3);
+}
+.w-reldocs .rdsec h4 {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+.w-reldocs .rdsec2 {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--q-content-border-secondary);
 }

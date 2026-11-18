@@ -24,6 +24,7 @@ export const ANGULAR_PAGES: Record<string, string> = {
   survey: '/survey',
   polls: '/polls',
   req: '/req',
+  reqpick: '/reqpick',
   reqnew: '/reqnew',
   reqtypes: '/reqtypes',
   reqtypenew: '/reqtypenew',
@@ -53,4 +54,6 @@ export const ANGULAR_PAGES: Record<string, string> = {
   ctcomp: '/ctcomp',
   career: '/career',
   docs: '/docs',
+  benef: '/benef',
+  benefcard: '/benefcard',
 };

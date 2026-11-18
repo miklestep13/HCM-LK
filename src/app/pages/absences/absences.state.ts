@@ -1,7 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { AbsenceStore, absDate } from '../../core/demo/absence-store.service';
 import { ABS_HIDDEN_DEFAULT, ABS_KINDS, ABS_KIND_GROUP } from '../../data/absence.data';
-import { AbsEntry, AbsPerson } from '../../interface/absence';
+import { AbsEntry, AbsKind, AbsPerson } from '../../interface/absence';
 import { DateRange, TODAY } from '../../shared/ui/date-range/date-range';
 
 /** Состояние страницы «График отсутствий»: вид (дни / год), период, поиск и фильтры, открытая карточка, чей график смотрит руководитель */
@@ -26,6 +26,10 @@ export class AbsencesState {
   toggleTeam(dep: string): void {
     this.teamClosed.update((x) => { const n = new Set(x); n.has(dep) ? n.delete(dep) : n.add(dep); return n; });
   }
+  /** сайдбар заявки на отсутствие и заявка, которую меняют */
+  readonly planOpen = signal(false);
+  readonly editing = signal<AbsEntry | null>(null);
+  readonly planKind = signal<AbsKind>('vac');
   /** карточка отсутствия */
   readonly entry = signal<{ p: AbsPerson; x: AbsEntry; mine: boolean } | null>(null);
   /** руководитель смотрит график сотрудника: статистика наверху — его; null — свой */

@@ -5,6 +5,7 @@ export interface AttachFile {
   /** байты */
   size: number;
   st: 'load' | 'ok';
+  /** когда добавлен: «дд.мм.гггг» или «дд.мм.гггг чч:мм» */
   date?: string;
   /** кто загрузил */
   by?: string;

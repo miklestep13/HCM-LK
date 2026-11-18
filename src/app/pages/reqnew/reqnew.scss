@@ -79,6 +79,43 @@
 .pg-reqnew .rqnkv .gr {
   color: var(--t3);
 }
+/* длинное описание под названием / мета: ограничение ширины, 4 строки + градиент; отступ сверху 12 */
+.pg-reqnew .rqnview .rqndesc {
+  white-space: normal;
+  max-width: 700px;
+  margin-top: 12px;
+}
+.pg-reqnew .rqndtxt p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin: 0;
+}
+.pg-reqnew .rqndtxt p + p {
+  margin-top: 8px;
+}
+.pg-reqnew .rqndtxt.clamp {
+  overflow: hidden;
+  position: relative;
+}
+.pg-reqnew .rqndtxt.clamp:not(.open)::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 24px;
+  background: linear-gradient(transparent, var(--white));
+}
+.pg-reqnew .lnk.rqndmore {
+  display: block;
+  font: var(--q-font-ui-headline-4);
+  margin-top: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--blue);
+  cursor: pointer;
+}
 /* комментарии — отдельный блок над действиями */
 .pg-reqnew .rqncm {
   margin-top: 16px;
@@ -148,12 +185,45 @@
   row-gap: 20px;
 }
 
-/* просмотр: шапка заканчивается автором и ответственным; «Параметры заявки» — отдельный блок ниже */
+/* просмотр: параметры сразу под названием, без отдельного заголовка */
+.pg-reqnew .rqnview .rqnvgrid {
+  margin-top: 20px;
+}
+/* демо «Компактная»: плотно слева (не space-between), 12px один серый; 4 в ряд; зазор 8; после «:» — 4; после названия — 12 */
+.pg-reqnew .rqnview .rqnmeta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+  align-items: flex-start;
+}
+.pg-reqnew .rqnview .rqnmeta-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: baseline;
+  gap: 8px;
+  width: auto;
+  max-width: 100%;
+}
+.pg-reqnew .rqnview .rqnmi {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: baseline;
+  white-space: nowrap;
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-reqnew .rqnview .rqnmi .k {
+  margin-right: 4px;
+}
+.pg-reqnew .rqnview .rqnmi .v {
+  font: inherit;
+  color: inherit;
+  font-weight: inherit;
+}
 .pg-reqnew .rqnview .rqnppl {
   margin-bottom: 0;
-}
-.pg-reqnew .rqnpar {
-  margin-top: 16px;
 }
 
 /* поля выбранного типа — отдельной карточкой под типом заявки */
@@ -161,23 +231,25 @@
   margin-top: 16px;
 }
 
-/* участники (виджет «Участники события»), маршрут обработки и результат обработки — отдельными блоками */
+/* участники и результат обработки — отдельными блоками */
 .pg-reqnew .rqnmem,
-.pg-reqnew .rqnproc,
 .pg-reqnew .rqnres {
   margin-top: 16px;
 }
-/* маршрут обработки — скрыть шапку виджета (заголовок уже в .ch), убрать отступы виджета */
-.pg-reqnew .rqnproc .w-proc .wpsh {
-  display: none;
+
+/* split-кнопка «Согласовать» (как в ИПР / адаптации) */
+.pg-reqnew .sbtn {
+  display: inline-flex;
 }
-.pg-reqnew .rqnproc .w-proc {
-  margin: 0;
+.pg-reqnew .sbtn .btn {
+  border-radius: 8px 0 0 8px;
 }
-/* затухание использует цвет фона карточки */
-.pg-reqnew .rqnproc .wpsv::before {
-  background: linear-gradient(to right, var(--q-content-background), transparent);
+.pg-reqnew .sbtn .sbar {
+  border-radius: 0 8px 8px 0;
+  padding: 0 10px;
+  box-shadow: inset 1px 0 0 color-mix(in srgb, var(--q-button-primary-text) 35%, transparent);
 }
-.pg-reqnew .rqnproc .wpsv::after {
-  background: linear-gradient(to left, var(--q-content-background), transparent);
+.pg-reqnew .sbtn .sbar svg {
+  width: 12px;
+  height: 12px;
 }

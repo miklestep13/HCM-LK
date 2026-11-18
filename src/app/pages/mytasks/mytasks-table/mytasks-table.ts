@@ -47,7 +47,10 @@ import { MytasksState } from '../mytasks.state';
             <td>Иванов П. С.</td>
             <td><span class="bdg" [class]="tone[t.status]">{{ t.status }}</span></td>
             <td class="tact">
-              <button class="actb dots" title="Действия" aria-label="Действия" [class.on]="menu()?.t === t" (click)="toggle(t, $event)"><app-icon name="dots" /></button>
+              <span class="acts">
+                <button class="actb" title="Выполнить" aria-label="Выполнить задание" (click)="$event.stopPropagation(); open.emit(t)"><app-icon name="checkSquare" /></button>
+                <button class="actb dots" title="Действия" aria-label="Действия" [class.on]="menu()?.t === t" (click)="toggle(t, $event)"><app-icon name="dots" /></button>
+              </span>
             </td>
           </tr>
         } @empty {

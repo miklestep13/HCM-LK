@@ -13,3 +13,9 @@ export function todayDmy(): string {
     z = (n: number) => String(n).padStart(2, '0');
   return z(d.getDate()) + '.' + z(d.getMonth() + 1) + '.' + d.getFullYear();
 }
+/** сейчас: «27.10.2026 14:35» — дата и время добавления файла */
+export function nowDmyHm(): string {
+  const d = new Date(),
+    z = (n: number) => String(n).padStart(2, '0');
+  return z(d.getDate()) + '.' + z(d.getMonth() + 1) + '.' + d.getFullYear() + ' ' + z(d.getHours()) + ':' + z(d.getMinutes());
+}

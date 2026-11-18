@@ -12,9 +12,9 @@ const VIEWS: { value: SurveyView; label: string }[] = [
 ];
 
 const STATES: { value: SurveyStatus; label: string }[] = [
-  { value: 'Доступен', label: 'Не начат' },
-  { value: 'В работе', label: 'В работе' },
-  { value: 'Завершен', label: 'Пройден (просмотр)' },
+  { value: 'Назначен', label: 'Назначен' },
+  { value: 'В процессе', label: 'В процессе' },
+  { value: 'Пройден', label: 'Пройден (просмотр)' },
 ];
 
 /**
@@ -49,7 +49,7 @@ export class Survey {
       untracked(() => this.s.open(id));
     });
     effect((onCleanup) => {
-      onCleanup(this.dev.register({ id: 'surveyState', label: 'Состояние опроса', options: STATES, value: devValue<SurveyStatus>(() => this.s.survey().status === 'Ожидание' ? 'Доступен' : this.s.survey().status, (v) => this.s.demo(v)) },
+      onCleanup(this.dev.register({ id: 'surveyState', label: 'Состояние опроса', options: STATES, value: devValue<SurveyStatus>(() => this.s.survey().status, (v) => this.s.demo(v)) },
         { id: 'surveyView', label: 'Вид прохождения', options: VIEWS, value: devValue<SurveyView>(() => this.s.view(), (v) => this.s.setView(v)) }));
     });
   }

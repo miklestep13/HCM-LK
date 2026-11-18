@@ -1,0 +1,199 @@
+/* Карточка льготы — стили как у #pg-newscard (two73 / nart / nbody / ncsim) */
+.pg-benefcard .two73 {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 1100px) {
+  .pg-benefcard .two73 {
+    grid-template-columns: 1fr;
+  }
+}
+.pg-benefcard .colL,
+.pg-benefcard .colR {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+/* шапка статьи: автор слева, «Подать заявку» справа */
+.pg-benefcard .nart {
+  padding-top: 20px;
+}
+.pg-benefcard .nartp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-benefcard .nartp .npau,
+.pg-benefcard .nartp .btn {
+  margin: 0;
+}
+.pg-benefcard .nartp .npau {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pg-benefcard .nartp .npav {
+  font: var(--q-font-ui-headline-3);
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--blue);
+  color: var(--white);
+}
+.pg-benefcard .nartp .npau .i {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.pg-benefcard .nartp .npau b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-benefcard .nartp .npau time {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 2px;
+}
+
+.pg-benefcard .nart .nctt {
+  font: 700 28px / 36px var(--q-font-family);
+  color: var(--black);
+  margin: 0;
+}
+
+.pg-benefcard .nbody {
+  padding: 18px 0 4px;
+}
+.pg-benefcard .nbody p {
+  font: var(--q-font-ui-body-1);
+  color: var(--t2);
+  margin: 0 0 12px;
+}
+.pg-benefcard .nbody h4 {
+  font: var(--q-font-article-headline-3);
+  color: var(--black);
+  margin: 16px 0 8px;
+}
+.pg-benefcard .nbody figure {
+  margin: 18px 0;
+}
+.pg-benefcard .nbody img {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+}
+
+.pg-benefcard .nart .narth {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--stroke);
+  border-bottom: none;
+}
+.pg-benefcard .nart .narth .nfs {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.pg-benefcard .nfs > span {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--t3);
+}
+.pg-benefcard .nfs svg {
+  width: 14px;
+  height: 14px;
+}
+.pg-benefcard .lkb {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  background: none;
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--t3);
+}
+.pg-benefcard .lkb svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.15s;
+}
+.pg-benefcard .lkb:hover {
+  background: var(--dg-bg);
+  color: var(--red);
+}
+.pg-benefcard .lkb.on {
+  color: var(--red);
+}
+.pg-benefcard .lkb.on svg {
+  fill: var(--red);
+  color: var(--red);
+}
+
+/* «Другие льготы» — как .cofeed.ncsim у похожих новостей, без обложек.
+   Отступы только у .cb (как в newscard): у .nfeed своего padding нет, иначе двойной сдвиг. */
+.pg-benefcard .cofeed .nfeed {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+}
+.pg-benefcard .cofeed .npost {
+  background: none;
+  border-radius: 0;
+  border-bottom: none;
+  padding: 0;
+}
+.pg-benefcard .cofeed .npost + .npost {
+  border-top: 1px solid var(--stroke);
+  margin-top: 12px;
+  padding-top: 20px;
+}
+.pg-benefcard .cofeed .npost .npau {
+  margin-bottom: 12px;
+}
+.pg-benefcard .cofeed .npost .npt {
+  margin-bottom: 8px;
+  font: var(--q-font-ui-headline-4);
+}
+.pg-benefcard .ncsim .npt {
+  font: var(--q-font-ui-headline-4);
+}
+.pg-benefcard .cofeed .npost .nphub {
+  margin-bottom: 4px;
+}
+.pg-benefcard .cofeed .npost .npf {
+  margin: 0 -10px;
+  padding: 6px 0 0;
+  border-top: none;
+}
+.pg-benefcard .cofeed .npost .npf .npb,
+.pg-benefcard .ncsim .npost .npf .npb {
+  font: var(--q-font-ui-description-1);
+  gap: 6px;
+}
+.pg-benefcard .ncsim .npimg {
+  display: none;
+}

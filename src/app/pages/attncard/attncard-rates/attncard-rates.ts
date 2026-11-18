@@ -106,7 +106,7 @@ import { avFor, isLetter, rateMethod } from '../attncard.utils';
                 <td>
                   <span class="acts">
                     @if (a.st === 'todo' || (d && s.own(a))) {
-                      <button class="actb" [title]="d ? 'Изменить оценку' : 'Оценить'" (click)="$event.stopPropagation(); rate.set(a)"><app-icon name="edit" /></button>
+                      <button class="actb" [title]="d ? 'Изменить оценку' : 'Оценить'" (click)="$event.stopPropagation(); rate.set(a)"><app-icon name="checkSquare" /></button>
                     }
                   </span>
                 </td>

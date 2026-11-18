@@ -38,17 +38,19 @@ export const learnType = (b: LearnBlock): string => {
   const t = b[0];
   return (
     b[3] ||
-    (/тест|провер|итоговая оценка/i.test(t)
-      ? 'test'
-      : /задани|кейс|практик|проект|защита|постановка задачи|разбор/i.test(t)
-        ? 'task'
-        : /регламент|памятк|шаблон|документ|чек-лист|требовани|норматив/i.test(t)
-          ? 'pdf'
-          : /обзор|карта|структура|схема/i.test(t)
-            ? 'pres'
-            : /основ|введение|что такое|типы|принцип|понятия|термин/i.test(t)
-              ? 'text'
-              : 'video')
+    (/опрос|обратн|анкет|feedback/i.test(t)
+      ? 'poll'
+      : /тест|провер|итоговая оценка/i.test(t)
+        ? 'test'
+        : /задани|кейс|практик|проект|защита|постановка задачи|разбор/i.test(t)
+          ? 'task'
+          : /регламент|памятк|шаблон|документ|чек-лист|требовани|норматив/i.test(t)
+            ? 'pdf'
+            : /обзор|карта|структура|схема/i.test(t)
+              ? 'pres'
+              : /основ|введение|что такое|типы|принцип|понятия|термин/i.test(t)
+                ? 'text'
+                : 'video')
   );
 };
 /** блок плеера: раздел, название, описание, длительность, тип, текст */
@@ -61,9 +63,19 @@ export interface LearnFlatBlock {
   k: string;
   x?: string;
 }
+/** название без префикса типа («Тест:», «Задание 1:») — иконка в структуре уже говорит о виде */
+export const learnTitle = (b: LearnBlock): string => {
+  const typ = learnType(b);
+  let t = b[0];
+  if (typ === 'test') t = t.replace(/^(Тест|Проверка знаний):\s+/i, '');
+  else if (typ === 'task') t = t.replace(/^(Задание(?:\s+\d+)?|Практика|Кейс):\s+/i, '');
+  else if (typ === 'poll') t = t.replace(/^(Опрос|Анкета):\s+/i, '');
+  else t = t.replace(/^Видео:\s+/i, '');
+  return t ? t[0].toUpperCase() + t.slice(1) : t;
+};
 /** все модули курса подряд (lfBlocks) */
 export const learnBlocks = (id: string): LearnFlatBlock[] =>
-  (LEARN_COURSE_INFO[id]?.s || []).flatMap((sec, si) => sec[1].map((b) => ({ sec: sec[0], si, t: b[0], d: b[1], m: b[2], k: learnType(b), x: b[4] })));
+  (LEARN_COURSE_INFO[id]?.s || []).flatMap((sec, si) => sec[1].map((b) => ({ sec: sec[0], si, t: learnTitle(b), d: b[1], m: b[2], k: learnType(b), x: b[4] })));
 /** «15 мин» / «1 ч 30 мин» / «11:00–11:40» → минуты */
 export const learnMin = (t: string): number => {
   const r = /(\d+):(\d+)\s*[–-]\s*(\d+):(\d+)/.exec(t);
@@ -72,14 +84,18 @@ export const learnMin = (t: string): number => {
   return (h ? +h[1] * 60 : 0) + (m ? +m[1] : 0);
 };
 export const learnDur = (n: number): string => (n >= 60 ? Math.floor(n / 60) + ' ч' + (n % 60 ? ' ' + (n % 60) + ' мин' : '') : n + ' мин');
-/** иконка и подпись типа блока (конструктор курса) */
+/** вид модуля при прохождении: только модуль / задание / тест / опрос (видео, документ и пр. — модуль) */
+export const learnPlayKind = (k: string): 'text' | 'task' | 'test' | 'poll' =>
+  k === 'task' || k === 'test' || k === 'poll' ? k : 'text';
+/** иконка и подпись типа блока; в плеере — через learnPlayKind */
 export const LEARN_MICO: Record<string, [string, string]> = {
   video: ['mMedia', 'Медиа-файл'],
-  text: ['mText', 'Текст'],
+  text: ['mText', 'Модуль'],
   pres: ['mPres', 'Презентация'],
   pdf: ['mDoc', 'Документ'],
-  test: ['mQuiz', 'Тестирование'],
+  test: ['mQuiz', 'Тест'],
   task: ['mTask', 'Задание'],
+  poll: ['poll', 'Опрос'],
   kb: ['mKb', 'Статья из БЗ'],
 };
 /** прохождение курса в плеере: модули просмотрены, тест не сдан, задание на проверке */

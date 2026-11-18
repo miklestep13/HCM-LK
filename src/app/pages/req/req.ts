@@ -8,24 +8,22 @@ import { FilterBar } from '../../shared/ui/filter-bar/filter-bar';
 import { PageHead } from '../../shared/ui/page-head/page-head';
 import { MultiSelect, MultiSelectMeta } from '../../shared/ui/multi-select/multi-select';
 import { Select } from '../../shared/ui/select/select';
-import { ReqQuick } from './req-quick/req-quick';
 import { ReqTable } from './req-table/req-table';
 import { ReqState } from './req.state';
 
 /**
  * «Мой кабинет → Заявки» (перенесено из прототипа pg-req, таблица собрана по примерам рынка):
- * «Добавить» справа от заголовка — каталог заявок; быстрые заявки; вкладки «Мои заявки / Требуют действия / Наблюдаю» со счетчиками;
- * поиск по номеру или типу; фильтры по колонкам: тип заявки, автор, ответственный (фото и должность в списке), дата создания, состояние, дата окончания.
- * «Добавить» — форма «Добавление заявки» (pages/reqnew); карточка заявки пока в старом прототипе (rqcard).
+ * «Добавить» справа от заголовка открывает каталог типов (reqpick); вкладки «Мои заявки / Требуют действия» со счетчиками;
+ * поиск по номеру или типу; фильтры по колонкам: тип заявки, состояние, автор, ответственный (фото и должность в списке), дата создания, дата завершения.
+ * Тип выбирается в каталоге (reqpick), форма — pages/reqnew. Карточка заявки пока в старом прототипе (rqcard).
  */
 @Component({
   selector: 'app-req',
-  imports: [PageHead, FilterBar, Select, MultiSelect, DateRangeField, ReqQuick, ReqTable, TableSettings],
+  imports: [PageHead, FilterBar, Select, MultiSelect, DateRangeField, ReqTable, TableSettings],
   template: `
     <app-page-head title="Заявки" [noBack]="true">
-      <button class="btn pri" (click)="nav.go('reqnew')">Добавить</button>
+      <button class="btn pri" (click)="nav.go('reqpick')">Добавить</button>
     </app-page-head>
-    <div req-quick></div>
     <div class="c full">
       <div class="svtabs">
         @for (t of tabs; track t[0]) {
@@ -37,11 +35,11 @@ import { ReqState } from './req.state';
         <!-- настройка колонок таблицы — перед кнопкой фильтра: список всех колонок с отметками и «Все» -->
         <button ftLead app-table-settings [columns]="s.colNames" [(hidden)]="s.hidden" all></button>
         <app-select label="Тип заявки" allLabel="Все" [options]="cats" [(value)]="s.cat" />
+        <app-select label="Состояние" allLabel="Все" [options]="statuses" [(value)]="s.status" />
         <app-multi-select label="Автор" [options]="authorOpts()" [meta]="people()" [(value)]="s.authors" />
         <app-multi-select label="Ответственный" [options]="respOpts()" [meta]="people()" [(value)]="s.resps" />
         <app-date-range label="Дата создания" [(value)]="s.created" />
-        <app-select label="Состояние" allLabel="Все" [options]="statuses" [(value)]="s.status" />
-        <app-date-range label="Дата окончания" [(value)]="s.ended" />
+        <app-date-range label="Дата завершения" [(value)]="s.ended" />
       </app-filter-bar>
       <div class="cb" style="padding-top: 4px" req-table></div>
     </div>

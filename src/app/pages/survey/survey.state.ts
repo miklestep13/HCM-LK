@@ -8,7 +8,7 @@ export type SurveyView = 'narrow' | 'nine';
 /**
  * Прохождение опроса: опрос из списка, анкета (блоки и вопросы), ответы, проверка обязательных.
  * Все вопросы — на одной странице друг под другом; «Завершить» проверяет обязательные.
- * Демо: «В работе» — первые 7 ответов заполнены, «Завершен» — все ответы, только просмотр.
+ * Демо: «В процессе» — первые 7 ответов заполнены, «Пройден» — все ответы, только просмотр.
  * Состояние живет вместе со страницей (providers страницы).
  */
 @Injectable()
@@ -45,7 +45,7 @@ export class SurveyPassState {
   get num(): Record<string, number> {
     return this.nums();
   }
-  readonly ro = computed(() => this.survey().status === 'Завершен');
+  readonly ro = computed(() => this.survey().status === 'Пройден');
   readonly answeredN = computed(() => this.questions.filter((q) => this.filled(q)).length);
   readonly requiredN = computed(() => this.questions.filter((q) => q.required).length);
   readonly missing = computed(() => this.questions.filter((q) => q.required && !this.filled(q)));
@@ -67,11 +67,11 @@ export class SurveyPassState {
   /** dev-панель: тот же опрос в другом состоянии — без ответов, начат (7 ответов), пройден */
   demo(st: SurveyStatus): void {
     const s = this.survey();
-    this.fill({ ...s, status: st, doneAt: st === 'Завершен' ? s.doneAt || '29.09.2026' : undefined });
+    this.fill({ ...s, status: st, doneAt: st === 'Пройден' ? s.doneAt || '29.09.2026' : undefined });
   }
   private fill(s: Survey): void {
     this.survey.set(s);
-    const ids = s.status === 'Завершен' ? this.questions.map((q) => q.id) : s.status === 'В работе' ? this.questions.slice(0, 7).map((q) => q.id) : [];
+    const ids = s.status === 'Пройден' ? this.questions.map((q) => q.id) : s.status === 'В процессе' ? this.questions.slice(0, 7).map((q) => q.id) : [];
     this.answers.set(Object.fromEntries(ids.map((k, i) => [k, this.nine() ? SURVEY_NINE_DEMO[i % SURVEY_NINE_DEMO.length] : SURVEY_DEMO_ANSWERS[k]])));
     this.other.set({});
     this.comments.set(this.nine() && ids.length ? { [ids[0]]: 'Сроки по задачам срывались в III квартале — нужна поддержка с планированием.' } : {});

@@ -62,6 +62,7 @@ export const NAV_TABS: NavTab[] = [
       },
       { title: 'Роль', page: 'ctrole', hidden: true },
       { title: 'Компетенция', page: 'ctcomp', hidden: true },
+      {
         title: 'Опросы',
         page: 'surveys',
       },
@@ -178,16 +179,6 @@ export const NAV_TABS: NavTab[] = [
       {
         title: 'Доходы и льготы',
         page: 'benef',
-      },
-    ],
-  },
-  {
-    title: 'Управление сотрудниками',
-    page: 'team9',
-    items: [
-      {
-        title: 'Матрица 9-box',
-        page: 'team9',
       },
     ],
   },
