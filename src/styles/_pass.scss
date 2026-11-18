@@ -489,13 +489,17 @@
   display:inline-flex;
 }
 .pg-pass.pg-pass .pltoc .plnum .pli svg{
-  width:16px;
-  height:16px;
+  width:14px;
+  height:14px;
 }
 .pg-pass.pg-pass .pltoc .cico{
-  flex:0 0 16px;
-  width:16px;
+  flex:0 0 14px;
+  width:14px;
   justify-content:center;
+}
+.pg-pass.pg-pass .pltoc .cico svg{
+  width:14px;
+  height:14px;
 }
 /* название — максимум 2 строки, полное — в title */
 .pg-pass.pg-pass .pltoc .pltn{
