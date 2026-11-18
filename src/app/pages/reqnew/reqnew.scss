@@ -79,10 +79,11 @@
 .pg-reqnew .rqnkv .gr {
   color: var(--t3);
 }
-/* длинное описание: ограничение ширины для чтения, 4 строки + градиент + «Показать больше» / «Свернуть» */
-.pg-reqnew .rqndesc {
+/* длинное описание под названием / мета: ограничение ширины, 4 строки + градиент; отступ сверху 12 */
+.pg-reqnew .rqnview .rqndesc {
   white-space: normal;
   max-width: 700px;
+  margin-top: 12px;
 }
 .pg-reqnew .rqndtxt p {
   font: var(--q-font-ui-body-2);
@@ -187,6 +188,39 @@
 /* просмотр: параметры сразу под названием, без отдельного заголовка */
 .pg-reqnew .rqnview .rqnvgrid {
   margin-top: 20px;
+}
+/* демо «Компактная»: плотно слева (не space-between), 12px один серый; 4 в ряд; зазор 8; после «:» — 4; после названия — 12 */
+.pg-reqnew .rqnview .rqnmeta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+  align-items: flex-start;
+}
+.pg-reqnew .rqnview .rqnmeta-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: baseline;
+  gap: 8px;
+  width: auto;
+  max-width: 100%;
+}
+.pg-reqnew .rqnview .rqnmi {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: baseline;
+  white-space: nowrap;
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-reqnew .rqnview .rqnmi .k {
+  margin-right: 4px;
+}
+.pg-reqnew .rqnview .rqnmi .v {
+  font: inherit;
+  color: inherit;
+  font-weight: inherit;
 }
 .pg-reqnew .rqnview .rqnppl {
   margin-bottom: 0;

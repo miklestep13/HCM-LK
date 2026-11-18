@@ -1,0 +1,185 @@
+/* стек блоков модуля в плеере — как в конструкторе (.bld), без панели редактора */
+.plmain .plparts {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.plmain .plparts .bltext {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.plmain .plparts .bltext + .bltext,
+.plmain .plparts :is(.blimg, .plvid, .plpdf, .plfiles, .blkb) + .bltext {
+  margin-top: 16px;
+}
+.plmain .plparts .bltext :is(p, ul, ol) {
+  margin: 0 0 10px;
+}
+.plmain .plparts .bltext :is(ul, ol) {
+  padding-left: 22px;
+}
+.plmain .plparts .bltext li + li {
+  margin-top: 4px;
+}
+.plmain .plparts .bltext > :last-child {
+  margin-bottom: 0;
+}
+.plmain .plparts .bltext.note {
+  background: var(--blue-bg);
+  border-left: 3px solid var(--blue);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.plmain .plparts .blttl {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+/* заголовок секции + список файлов — плотно */
+.plmain .plparts .plfiles {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/* картинка, видео, документ, вложения, статьи БЗ — отступ сверху 24 */
+.plmain .plparts :is(.blimg, .plvid, .plpdf, .plfiles, .blkb) {
+  margin-top: 24px;
+}
+.plmain .plparts .blttl.plsec {
+  margin-top: 24px;
+}
+.plmain .plparts .blttl.plsec + .blkb {
+  margin-top: 10px;
+}
+.plmain .plparts > :first-child {
+  margin-top: 0;
+}
+.plmain .plparts .blimg {
+  margin-right: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+}
+.plmain .plparts .blimg img {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.plmain .plparts .blimg figcaption {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  margin-top: 8px;
+  text-align: center;
+}
+.plmain .plparts .blkb {
+  display: flex;
+  gap: 16px;
+  padding: 12px;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+}
+.plmain .plparts .blkbi {
+  width: 160px;
+  min-height: 100px;
+  border-radius: 8px;
+  background: center / cover no-repeat;
+  flex: none;
+}
+.plmain .plparts .blkb > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+}
+.plmain .plparts .blkb small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.plmain .plparts .blkb small svg {
+  width: 12px;
+  height: 12px;
+}
+.plmain .plparts .blkb b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+}
+.plmain .plparts .blkb p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.plmain .plparts .blkb .lnk {
+  margin-top: 4px;
+}
+
+/* вопросы опроса / теста — как #/survey?sv=s3 (svnarrow): бейдж, заголовок, поле на всю ширину, кроме «Да / Нет» */
+.plmain .plparts .sq {
+  display: block;
+  padding: 24px 0;
+  scroll-margin-top: 90px;
+}
+.plmain .plparts .sqn {
+  font: var(--q-font-ui-description-1);
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--s2);
+  color: var(--t2);
+}
+.plmain .plparts .sq.done .sqn {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.plmain .plparts .sqt {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin-top: 10px;
+}
+.plmain .plparts .sqreq {
+  color: var(--dg-ac);
+  margin-left: 4px;
+}
+.plmain .plparts .sqd {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  margin-top: 4px;
+}
+.plmain .plparts .sqa {
+  margin-top: 16px;
+}
+/* ответы на всю ширину колонки, кроме «Да / Нет» (.sqyn) */
+.plmain .plparts .sqa :is(.choice, .rank, .slider, .sqin, .sqsel, .sqdt, .sqta) {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+}
+.plmain .plparts .sqa .scale:not(.sqyn),
+.plmain .plparts .sqa app-rating,
+.plmain .plparts .sqa app-attach {
+  display: block;
+  width: 100%;
+}
+.plmain .plparts .sqa .scale:not(.sqyn) .sclb {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+}
+.plmain .plparts .sqta {
+  min-height: 108px;
+  display: block;
+}
+.plmain .plparts .sqcm {
+  display: block;
+  width: 100%;
+  max-width: none;
+  min-height: 64px;
+  margin-top: 12px;
+}

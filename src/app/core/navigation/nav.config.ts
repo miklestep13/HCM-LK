@@ -183,16 +183,6 @@ export const NAV_TABS: NavTab[] = [
     ],
   },
   {
-    title: 'Управление сотрудниками',
-    page: 'team9',
-    items: [
-      {
-        title: 'Матрица 9-box',
-        page: 'team9',
-      },
-    ],
-  },
-  {
     title: 'Управление персоналом',
     page: 'recruit',
     items: [
