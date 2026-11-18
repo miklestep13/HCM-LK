@@ -69,13 +69,8 @@ function monthsOf(a: string, b: string): string[] {
               <div class="slipdoc">
                 <div class="sliphead">
                   <div class="sliphead-l">
-                    <div class="slipwho">
-                      <span>Сотрудник:</span>
-                      <div>
-                        <b>{{ s.name }}</b>
-                        <div class="sliprole">{{ s.role }}</div>
-                      </div>
-                    </div>
+                    <div><span>Сотрудник:</span><b>{{ s.name }}</b></div>
+                    <div><span>Должность:</span><b>{{ s.role }}</b></div>
                     <div><span>Организация:</span><b>{{ s.org }}</b></div>
                     <div><span>Подразделение:</span><b>{{ s.unit }}</b></div>
                   </div>
