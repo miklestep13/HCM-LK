@@ -62,6 +62,7 @@ export const NAV_TABS: NavTab[] = [
       },
       { title: 'Роль', page: 'ctrole', hidden: true },
       { title: 'Компетенция', page: 'ctcomp', hidden: true },
+      {
         title: 'Опросы',
         page: 'surveys',
       },

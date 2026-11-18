@@ -1,0 +1,359 @@
+/* «Доходы и льготы»: период листка и кафетерий строками, как виджет статей */
+.pg-benef .bfrow {
+  margin-bottom: 8px;
+}
+.pg-benef .bfrow > .btn {
+  margin-left: auto;
+}
+/* те же плашки, что в панели фильтров: 12px, ширина по тексту, значение не обрезается */
+.pg-benef .bfrow .fsel.ft2fs {
+  width: max-content;
+  max-width: none;
+  flex: 0 0 auto;
+}
+.pg-benef .bfrow .fsel.ft2fs > :is(.ft2lab, .fsv),
+.pg-benef .bfrow .fsel.ft2fs.is-empty > :is(.ft2lab, .fsv) {
+  font: var(--q-font-ui-description-1);
+}
+.pg-benef .bfrow .fsel.ft2fs > .fsv {
+  flex: 0 0 auto;
+  overflow: visible;
+}
+.pg-benef .empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  text-align: center;
+}
+.pg-benef .wipi {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+}
+.pg-benef .wipi app-icon,
+.pg-benef .wipi svg {
+  width: 26px;
+  height: 26px;
+}
+.pg-benef .empty b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+.pg-benef .empty small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+  max-width: 420px;
+}
+.pg-benef .tbl {
+  width: 100%;
+  border-collapse: collapse;
+}
+.pg-benef .tbl th {
+  font: var(--q-font-ui-headline-4);
+  text-align: left;
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+  white-space: nowrap;
+}
+.pg-benef .tbl td {
+  font: var(--q-font-ui-body-2);
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--stroke);
+  vertical-align: middle;
+}
+.pg-benef .tbl tr:last-child td {
+  border-bottom: none;
+}
+.pg-benef .tbl td b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-benef .tbl .gr {
+  color: var(--t3);
+}
+.pg-benef .slips {
+  margin-top: 8px;
+}
+.pg-benef .slipacc + .slipacc {
+  border-top: 1px solid var(--q-content-border-secondary);
+}
+/* свернутый последний месяц не забирает еще и нижний отступ карточки */
+.pg-benef .slipacc:last-child:not(.open) {
+  margin-bottom: -24px;
+}
+.pg-benef .slipach {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 0;
+  cursor: pointer;
+}
+.pg-benef .slipach .actb {
+  flex: none;
+  margin: -3px -4px 0 -6px;
+}
+.pg-benef .slipach .actb svg {
+  width: 12px;
+  height: 12px;
+  transition: transform 0.16s;
+  transform: rotate(-90deg);
+}
+.pg-benef .slipacc.open .slipach .actb svg {
+  transform: none;
+}
+.pg-benef .slipacct {
+  flex: 1;
+  min-width: 0;
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+.pg-benef .slipacc .slipdoc {
+  padding-bottom: 0;
+}
+/* между листками: после дохода есть воздух, у последнего месяца отступ карточки не раздуваем */
+.pg-benef .slipacc:not(:last-child) .slipdoc {
+  padding-bottom: 16px;
+}
+.pg-benef .slipkpis {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.pg-benef .slipkpis .rst {
+  background: var(--s1);
+  border-radius: 10px;
+  padding: 14px 16px;
+  min-width: 0;
+}
+.pg-benef .slipkpis .l {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-benef .slipkpis .v {
+  font: var(--q-font-ui-headline-3);
+  color: var(--black);
+  margin-top: 4px;
+}
+.pg-benef .slipcols {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+.pg-benef .slipt {
+  width: 100%;
+}
+.pg-benef .slipt :is(th, td).num {
+  white-space: nowrap;
+  width: 1%;
+}
+.pg-benef .slipt td {
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-benef .slipt .gr {
+  margin-left: 8px;
+  color: var(--t3);
+}
+.pg-benef .slipwhen {
+  margin-top: 2px;
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+}
+.pg-benef .slipg td {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  background: none;
+  padding-top: 8px;
+}
+.pg-benef .slipt tr.slipg:not(:first-child) td {
+  padding-top: 20px;
+}
+/* шапка бланка: слева подпись 14, справа значение 14 жирным;
+   «К выплате» / «Оклад» — у нижнего края шапки, сразу над таблицей */
+.pg-benef .sliphead {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 4px 48px;
+  margin-bottom: 8px;
+  align-items: end;
+}
+.pg-benef .sliphead-l,
+.pg-benef .sliphead-r {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.pg-benef .sliphead-r {
+  align-items: flex-end;
+  justify-self: end;
+}
+.pg-benef .sliphead :is(.sliphead-l, .sliphead-r) > div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  gap: 8px;
+}
+.pg-benef .sliphead span {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+}
+.pg-benef .sliphead b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-benef .sliptax {
+  margin-top: 12px;
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.pg-benef .sliptax b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-benef .slipcopy {
+  width: 100%;
+  border: 1px solid var(--stroke);
+}
+.pg-benef .slipcopy :is(th, td) {
+  border: 1px solid var(--stroke);
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: middle;
+}
+.pg-benef .slipcopy tr:last-child td {
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-benef .slipcopy th.mid {
+  text-align: center;
+}
+.pg-benef .slipcopy td.nw {
+  white-space: nowrap;
+}
+.pg-benef .slipcopy :is(th, td).num {
+  text-align: right;
+  white-space: nowrap;
+}
+.pg-benef .slipcopy :is(th, td).sum {
+  min-width: 16ch;
+}
+.pg-benef .slipcopy td.gl {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-benef .slipsum {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.pg-benef .slipfoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 32px;
+  margin-top: 0;
+  padding: 16px 12px;
+  border: 1px solid var(--stroke);
+  border-top: 0;
+}
+.pg-benef .slipfoot span {
+  font: var(--q-font-ui-body-2);
+  color: var(--t2);
+}
+.pg-benef .slipfoot b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+@media (max-width: 1100px) {
+  .pg-benef .slipkpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pg-benef .slipcols {
+    grid-template-columns: 1fr;
+  }
+}
+.pg-benef .thh {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+.pg-benef .thh svg {
+  width: 12px;
+  height: 12px;
+  color: var(--t4);
+}
+.pg-benef .thh.on,
+.pg-benef .thh.on svg {
+  color: var(--blue);
+}
+.pg-benef .bfcafe {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 24px;
+  padding-top: 4px;
+}
+.pg-benef .bfi {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 12px 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  min-width: 0;
+}
+.pg-benef .bfem {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  font: var(--q-font-ui-headline-2);
+  background: var(--q-base-50);
+}
+.pg-benef .bfi .i {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pg-benef .bft {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.pg-benef .bfi:hover .bft {
+  color: var(--blue);
+}
+.pg-benef .bfd {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+@media (max-width: 1100px) {
+  .pg-benef .bfcafe {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 700px) {
+  .pg-benef .bfcafe {
+    grid-template-columns: 1fr;
+  }
+}
