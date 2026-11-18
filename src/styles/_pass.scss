@@ -34,8 +34,8 @@
 :where(.pg-pass) .secth {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 13px 16px;
+  gap: 8px;
+  padding: 12px;
   background: var(--s1);
 }
 :where(.pg-pass) .secth b {
@@ -150,8 +150,13 @@
   font: var(--q-font-ui-headline-4);
   background: none;
   color: var(--black);
-  padding: 0px;
-  min-width: 14px;
+  padding: 0;
+  /* одна колонка с номерами модулей 1.1 */
+  flex: 0 0 28px;
+  width: 28px;
+  min-width: 28px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
 }
 :where(.pg-pass) .secth > .bmeta {
   margin-left: auto;
@@ -170,9 +175,26 @@
   height: 14px;
 }
 :where(.pg-pass) .cblk .cbi {
+  /* колонка номера / прогресса — одна ось, иконка прогресса по центру как цифры */
+  flex: 0 0 20px;
+  width: 20px;
+  min-width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+:where(.pg-pass) .cblk .cico {
   flex: 0 0 auto;
-  min-width: 14px;
-  text-align: left;
+  display: inline-flex;
+  color: var(--t3);
+}
+:where(.pg-pass) .cblk .cico svg {
+  width: 16px;
+  height: 16px;
+}
+:where(.pg-pass) .cblk.plrow.on .cico {
+  color: var(--blue);
 }
 :where(.pg-pass) .plgrid {
   display: grid;
@@ -184,8 +206,6 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  position: sticky;
-  top: 72px; /* под шапкой сайта */
 }
 :where(.pg-pass) .pltitle {
   font: var(--q-font-ui-headline-3);
@@ -208,11 +228,31 @@
 :where(.pg-pass) .pli.dg {
   color: var(--dg);
 }
+/* контент справа в плеере — sticky (не в конструкторе: .bldcv иначе сжимает .bldmt) */
 :where(.pg-pass) .c.full.plmain {
   padding: 24px;
   display: flex;
   flex-direction: column;
-  min-width: 0px;
+  min-width: 0;
+}
+:where(.pg-pass) .c.full.plmain:not(.bldcv) {
+  position: sticky;
+  top: 72px; /* под шапкой сайта */
+  height: calc(100vh - 88px);
+  max-height: calc(100vh - 88px);
+  min-height: 0; /* перебиваем .c.full min-height — иначе кнопки уезжают за экран */
+  overflow: hidden;
+}
+/* скролл только у тела; .plnav всегда внизу карточки */
+:where(.pg-pass) .c.full.plmain:not(.bldcv) > .plscroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+:where(.pg-pass) .c.full.plmain:not(.bldcv) > .plnav {
+  flex: 0 0 auto;
+  margin-top: 0;
+  padding-top: 16px;
 }
 :where(.pg-pass) .plhd {
   display: flex;
@@ -228,13 +268,17 @@
 }
 :where(.pg-pass) .plhd .bmeta {
   font: var(--q-font-ui-body-2);
+  color: var(--t2);
   display: inline-flex;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 6px;
 }
 :where(.pg-pass) .plhd .bmeta svg {
   width: 14px;
   height: 14px;
+  flex-shrink: 0;
 }
 :where(.pg-pass) .plbody {
   display: flex;
@@ -438,10 +482,55 @@
 
 /* содержание курса (#plToc прототипа) */
 .pg-pass.pg-pass .pltoc .sect:last-child{margin-bottom:0}
-.pg-pass.pg-pass .pltoc .plrow{cursor:pointer;align-items:center;padding:10px 16px}
+.pg-pass.pg-pass .pltoc .plrow{
+  cursor:pointer;
+  align-items:center;
+  /* везде 8: номер/статус · иконка типа · название */
+  gap:8px;
+  padding:8px 12px;
+}
 .pg-pass.pg-pass .pltoc .plrow.on{background:var(--blue-bg)}
 .pg-pass.pg-pass .pltoc .plrow:hover b{color:var(--blue)}
-.pg-pass.pg-pass .pltoc .cbi{display:flex;align-items:center;min-width:16px}
+/* колонка номера / иконки прохождения — вровень с номером раздела (.secn) */
+.pg-pass.pg-pass .pltoc .plnum{
+  font:var(--q-font-ui-description-1);
+  color:var(--t3);
+  font-variant-numeric:tabular-nums;
+  flex:0 0 28px;
+  width:28px;
+  min-width:28px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.pg-pass.pg-pass .pltoc .plnum .pli{
+  display:inline-flex;
+}
+.pg-pass.pg-pass .pltoc .plnum .pli svg{
+  width:14px;
+  height:14px;
+}
+.pg-pass.pg-pass .pltoc .cico{
+  flex:0 0 14px;
+  width:14px;
+  justify-content:center;
+}
+.pg-pass.pg-pass .pltoc .cico svg{
+  width:14px;
+  height:14px;
+}
+/* название — максимум 2 строки, полное — в title */
+.pg-pass.pg-pass .pltoc .pltn{
+  flex:1 1 0;
+  min-width:0;
+}
+.pg-pass.pg-pass .pltoc .pltn b{
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
 
 /* прикрепленные файлы задания */
 :where(.pg-pass) .tkfiles{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
@@ -463,8 +552,15 @@
   :where(.pg-pass) .plgrid {
     grid-template-columns: minmax(0, 1fr);
   }
-  :where(.pg-pass) .plside {
+  :where(.pg-pass) .c.full.plmain:not(.bldcv) {
     position: static;
+    height: auto;
+    max-height: none;
+    min-height: calc(-172px + 100vh);
+    overflow: visible;
+  }
+  :where(.pg-pass) .c.full.plmain:not(.bldcv) > .plscroll {
+    overflow: visible;
   }
 }
 

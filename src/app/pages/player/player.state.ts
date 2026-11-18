@@ -31,10 +31,10 @@ export class PlayerState {
     fn(x);
     this.store.setPlay(this.id(), { done: [...x.done].sort((a, b) => a - b), fail: [...x.fail], review: [...x.review] });
   }
-  /** переход дальше засчитывает просмотр теории; тест и задание — только результатом */
+  /** переход дальше засчитывает просмотр теории; тест, задание и опрос — только результатом */
   seen(k: number): void {
     const b = this.blocks()[k];
-    if (b.k !== 'test' && b.k !== 'task') this.patch((s) => s.done.add(k));
+    if (b.k !== 'test' && b.k !== 'task' && b.k !== 'poll') this.patch((s) => s.done.add(k));
   }
   finish(): void {
     this.patch((s) => this.blocks().forEach((_, k) => !s.fail.has(k) && !s.review.has(k) && s.done.add(k)));
