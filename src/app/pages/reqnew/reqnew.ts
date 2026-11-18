@@ -102,8 +102,8 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
               <app-field class="dis" label="Номер" filled>
                 <input class="fin" disabled [value]="no()" />
               </app-field>
-              <app-field class="dis" label="Дата и время создания" filled>
-                <input class="fin" disabled [value]="now" />
+              <app-field class="dis" label="Дата создания" filled>
+                <input class="fin" disabled [value]="nowDate" />
               </app-field>
               <app-field class="rqn2" label="Состояние" filled>
                 <app-select [options]="statuses" [value]="st()" (valueChange)="st.set($event)" />
@@ -226,15 +226,15 @@ export class Reqnew implements OnDestroy {
   protected readonly s = inject(ReqState);
   private readonly nav = inject(NavService);
   protected readonly toast = inject(ToastService);
-  /** демо: обычная сетка параметров (4 колонки) или компактная шапка (3 в ряд под названием) */
-  protected readonly headLayout = signal<'default' | 'compact'>('default');
+  /** демо: компактная шапка по умолчанию; обычная — сетка параметров в 4 колонки */
+  protected readonly headLayout = signal<'default' | 'compact'>('compact');
   protected readonly compactHead = computed(() => this.headLayout() === 'compact');
   private readonly offDev = inject(DevPanelService).register({
     id: 'reqHead',
     label: 'Шапка заявки',
     options: [
-      { value: 'default', label: 'Обычная' },
       { value: 'compact', label: 'Компактная' },
+      { value: 'default', label: 'Обычная' },
     ],
     value: this.headLayout,
   });
@@ -270,8 +270,9 @@ export class Reqnew implements OnDestroy {
   protected readonly resErr = signal(false);
   protected readonly dep = signal('');
   protected readonly deps = REQ_DEPS;
-  /** дата и время создания — текущие (заблокировано) */
+  /** дата и время создания — текущие (заблокировано); в форме показываем только дату */
   protected readonly now = NOW_TEXT;
+  protected readonly nowDate = NOW_TEXT.split(' ')[0];
   protected readonly err = signal(false);
   /** просматриваемая заявка (с правками из действий) */
   protected readonly req = computed(() => (this.rq() ? this.s.all().find((r) => r.id === this.rq()) ?? null : null));
@@ -337,11 +338,11 @@ export class Reqnew implements OnDestroy {
     const r = this.req();
     if (!r) return [];
     return [
-      { l: 'Дата и время создания', v: r.created },
+      { l: 'Дата создания', v: (r.created || '').split(/\s+/)[0] || r.created },
       { l: 'Дата с', v: reqFrom(r) },
       { l: 'Дата по', v: reqTo(r) },
       { l: 'Дата завершения обработки', v: reqProc(r) },
-      { l: 'Тип канала поступления', v: r.chan || '' },
+      { l: 'Канал поступления', v: r.chan || '' },
       { l: 'Подразделение', v: r.dep || '', w: 'rqn2' },
     ].filter((f) => !!f.v);
   });

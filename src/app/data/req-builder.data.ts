@@ -26,9 +26,9 @@ export const RQ_BLOCK_KINDS: RqBlockKind[] = [
       F('from', 'Дата с', 'date', { req: true }),
       F('to', 'Дата по', 'date'),
       F('procEnd', 'Дата завершения обработки', 'date'),
-      F('chan', 'Тип канала поступления', 'select', { opts: REQ_CHANNELS }),
+      F('chan', 'Канал поступления', 'select', { opts: REQ_CHANNELS }),
       F('dep', 'Подразделение', 'select', { opts: REQ_DEPS, w: 100 }),
-      F('text', 'Описание', 'textarea', { req: true }),
+      F('text', 'Текст обращения', 'textarea', { req: true }),
     ],
   },
   {
