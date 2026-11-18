@@ -79,10 +79,11 @@
 .pg-reqnew .rqnkv .gr {
   color: var(--t3);
 }
-/* длинное описание: ограничение ширины для чтения, 4 строки + градиент + «Показать больше» / «Свернуть» */
-.pg-reqnew .rqndesc {
+/* длинное описание под названием: ограничение ширины для чтения, 4 строки + градиент + «Показать больше» / «Свернуть» */
+.pg-reqnew .rqnview .rqndesc {
   white-space: normal;
   max-width: 700px;
+  margin-top: 20px;
 }
 .pg-reqnew .rqndtxt p {
   font: var(--q-font-ui-body-2);

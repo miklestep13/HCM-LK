@@ -33,8 +33,8 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
  * Карточка полей (4 колонки): номер и дата создания — автоматически, заблокированы; состояние; поля типа — подписи и обязательность из настройки. Автор — текущий сотрудник.
  * Новая: форма-страница, только «Создать» (без «Отменить»); параметр адреса type — тип (каталог, «Повторить заявку»).
  * Просмотр (параметр rq — номер) — как форма добавления: тип и номер заголовком, статус; автор и ответственный; ниже отдельным блоком «Параметры заявки» — поля «подпись / значение» в тех же 4 колонках;
- * в шапке — параметры заявки (даты, канал, подразделение, описание) без отдельного заголовка;
- * длинное описание — обрезка после 4 строк с градиентом и ссылкой «Показать больше» / «Свернуть».
+ * в шапке — сразу под названием и статусом «Описание» (обрезка после 4 строк с градиентом и «Показать больше» / «Свернуть», max-width 700);
+ * ниже — параметры заявки (даты, канал, подразделение) без отдельного заголовка;
  * ниже — «Участники» (widgets/event-members: колонки «Участник» и «Роль»; автор, заявитель и ответственный — из заявки);
  * ниже — «Документы» (widgets/rel-docs: секции «Входящие» / «Исходящие»); у завершенной — «Результат обработки» (плашка и комментарий; файлы — в исходящих).
  * Клик по строке списка — только просмотр (без действий внизу и без формы результата, даже если я ответственный).
@@ -56,23 +56,23 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
           <h2>{{ R.n }} · {{ R.id }}</h2>
           <span class="bdg" [class]="tone[R.st]">{{ R.st }}</span>
         </div>
+        <!-- описание — сразу под названием и статусом, не в сетке параметров -->
+        @if (R.info) {
+          <div class="rqnkv rqndesc">
+            <span class="l">Описание</span>
+            <div class="rqndtxt" #dsc [class.clamp]="descMore()" [class.open]="descOpen()">
+              @for (p of descParts(); track $index) {
+                <p>{{ p }}</p>
+              }
+            </div>
+            @if (descMore()) {
+              <button type="button" class="lnk rqndmore" [attr.aria-expanded]="descOpen()" (click)="toggleDesc()">{{ descOpen() ? 'Свернуть' : 'Показать больше' }}</button>
+            }
+          </div>
+        }
         <div class="rqngrid rqnvgrid">
           @for (f of fields(); track f.l) {
-            @if (f.l === 'Описание') {
-              <div class="rqnkv rqnfull rqndesc">
-                <span class="l">{{ f.l }}</span>
-                <div class="rqndtxt" #dsc [class.clamp]="descMore()" [class.open]="descOpen()">
-                  @for (p of descParts(); track $index) {
-                    <p>{{ p }}</p>
-                  }
-                </div>
-                @if (descMore()) {
-                  <button type="button" class="lnk rqndmore" [attr.aria-expanded]="descOpen()" (click)="toggleDesc()">{{ descOpen() ? 'Свернуть' : 'Показать больше' }}</button>
-                }
-              </div>
-            } @else {
-              <div [class]="'rqnkv ' + (f.w || '')"><span class="l">{{ f.l }}</span>{{ f.v }}</div>
-            }
+            <div [class]="'rqnkv ' + (f.w || '')"><span class="l">{{ f.l }}</span>{{ f.v }}</div>
           }
         </div>
       </div>
@@ -304,7 +304,7 @@ export class Reqnew {
     if (!this.req()) return this.type() || 'Добавление заявки';
     return this.processing() ? 'Обработка заявки' : 'Просмотр заявки';
   });
-  /** просмотр: поля в порядке формы добавления (без кода и наименования), пустые не показываем; w — ширина (rqn2 — две колонки, rqnfull — вся строка) */
+  /** просмотр: параметры под описанием (без кода, наименования и описания), пустые не показываем; w — ширина (rqn2 — две колонки) */
   protected readonly fields = computed((): { l: string; v: string; w?: string }[] => {
     const r = this.req();
     if (!r) return [];
@@ -315,7 +315,6 @@ export class Reqnew {
       { l: 'Дата завершения обработки', v: reqProc(r) },
       { l: 'Тип канала поступления', v: r.chan || '' },
       { l: 'Подразделение', v: r.dep || '', w: 'rqn2' },
-      { l: 'Описание', v: r.info || '', w: 'rqnfull' },
     ].filter((f) => !!f.v);
   });
   /** абзацы описания (пустые строки — разделитель) */
