@@ -84,13 +84,16 @@ export const learnMin = (t: string): number => {
   return (h ? +h[1] * 60 : 0) + (m ? +m[1] : 0);
 };
 export const learnDur = (n: number): string => (n >= 60 ? Math.floor(n / 60) + ' ч' + (n % 60 ? ' ' + (n % 60) + ' мин' : '') : n + ' мин');
-/** иконка и подпись типа блока (конструктор курса) */
+/** вид модуля при прохождении: только модуль / задание / тест / опрос (видео, документ и пр. — модуль) */
+export const learnPlayKind = (k: string): 'text' | 'task' | 'test' | 'poll' =>
+  k === 'task' || k === 'test' || k === 'poll' ? k : 'text';
+/** иконка и подпись типа блока; в плеере — через learnPlayKind */
 export const LEARN_MICO: Record<string, [string, string]> = {
   video: ['mMedia', 'Медиа-файл'],
   text: ['mText', 'Модуль'],
   pres: ['mPres', 'Презентация'],
   pdf: ['mDoc', 'Документ'],
-  test: ['mQuiz', 'Тестирование'],
+  test: ['mQuiz', 'Тест'],
   task: ['mTask', 'Задание'],
   poll: ['poll', 'Опрос'],
   kb: ['mKb', 'Статья из БЗ'],

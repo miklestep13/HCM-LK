@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import { LEARN_MICO, learnDur, learnMin, learnTitle, learnType } from '../../../core/demo/learn-store.service';
+import { LEARN_MICO, learnDur, learnMin, learnPlayKind, learnTitle, learnType } from '../../../core/demo/learn-store.service';
 import { NavService } from '../../../core/navigation/nav.service';
 import { LEARN_COURSE_INFO } from '../../../data/learn-course.data';
 import { LEARN_PROGRAMS } from '../../../data/learn.data';
@@ -88,7 +88,7 @@ export class PlayerSide {
     return (LEARN_COURSE_INFO[this.s.id()]?.s || []).map((sec) => {
       const rows = sec[1].map((b) => {
         const k = n++;
-        const typ = learnType(b);
+        const typ = learnPlayKind(learnType(b));
         const state = st.done.includes(k) ? 'done' : st.fail.includes(k) ? 'fail' : st.review.includes(k) ? 'review' : k === this.s.i() ? 'cur' : '';
         const title = learnTitle(b);
         return { k, t: title, m: b[2], state, kind: LEARN_MICO[typ] || LEARN_MICO['text'], show: !v || (title + b[0] + b[2] + (k + 1)).toLowerCase().includes(v) };

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal, untracked, ViewEncapsulation } from '@angular/core';
+import { learnPlayKind } from '../../../core/demo/learn-store.service';
 import { NavService } from '../../../core/navigation/nav.service';
 import { LEARN_COURSE_INFO, LEARN_PASS, LEARN_TASK_FILES } from '../../../data/learn-course.data';
 import { KB_ARTICLES, KB_TYPES } from '../../../data/kb.data';
@@ -10,7 +11,8 @@ import { Scale } from '../../../shared/ui/scale/scale';
 import { ToastService } from '../../../shared/ui/toast/toast.service';
 import { PlayerState } from '../player.state';
 
-const TYPE: Record<string, string> = { video: 'Видео', text: 'Модуль', pres: 'Презентация', pdf: 'Документ', test: 'Тест', task: 'Задание', poll: 'Опрос' };
+/** подписи видов при прохождении — только четыре */
+const TYPE: Record<string, string> = { text: 'Модуль', test: 'Тест', task: 'Задание', poll: 'Опрос' };
 
 /**
  * Модуль курса: заголовок, длительность и тип, описание, содержимое по типу (видео, текст, презентация, документ, тест, задание),
@@ -41,7 +43,7 @@ const TYPE: Record<string, string> = { video: 'Видео', text: 'Модуль'
     } @else if (s.cur(); as b) {
       <div class="plhd">
         <h2>{{ b.t }}</h2>
-        <span class="bmeta"><app-icon name="clock" />{{ b.m }} · {{ type[b.k] }}</span>
+        <span class="bmeta"><app-icon name="clock" />{{ b.m }} · {{ type[playKind(b.k)] }}</span>
       </div>
       <p class="pld">{{ b.d }}</p>
       <div class="plbody">
@@ -294,6 +296,7 @@ export class PlayerMain {
   private readonly nav = inject(NavService);
   readonly lt = input('');
   protected readonly type = TYPE;
+  protected readonly playKind = learnPlayKind;
   protected readonly pass = LEARN_PASS;
   protected readonly taskFiles = LEARN_TASK_FILES;
   protected readonly kbType = KB_TYPES;
