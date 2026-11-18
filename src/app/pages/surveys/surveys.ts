@@ -43,7 +43,6 @@ import { SurveysState } from './surveys.state';
     </div>
     @if (s.view() === 'cards') {
       <div class="vgrid" surveys-cards></div>
-      <app-pager class="mtccnt" [p]="s.pg" />
     }
   `,
   styleUrl: './surveys.scss',

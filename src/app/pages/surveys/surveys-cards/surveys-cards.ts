@@ -14,7 +14,7 @@ import { SurveysState } from '../surveys.state';
   selector: '[surveys-cards]',
   imports: [Progress, Icon],
   template: `
-    @for (x of s.pg.view(); track x.id) {
+    @for (x of s.rows(); track x.id) {
       @let d = s.due(x);
       <div class="vcard svc" tabindex="0" role="link" [attr.aria-label]="x.title" (click)="s.open(x)" (keydown.enter)="s.open(x)">
         <div class="svhd">

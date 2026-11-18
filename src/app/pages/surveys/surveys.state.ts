@@ -45,7 +45,7 @@ export class SurveysState {
   readonly all = SURVEYS;
   readonly count = computed(() => ({ act: SURVEYS.filter((s) => s.status !== 'Пройден').length, done: SURVEYS.filter((s) => s.status === 'Пройден').length }));
   /** список вкладки после поиска и фильтров */
-  /** постранично (таблица и карточки): <app-pager [p]="s.pg" /> */
+  /** постранично только таблица: <app-pager [p]="s.pg" />; карточки показывают весь список */
   readonly pg = paginate(() => this.rows());
   readonly rows = computed(() => {
     const q = this.q().trim().toLowerCase(), st = this.status(), r = this.end(), done = this.tab() === 'done';
