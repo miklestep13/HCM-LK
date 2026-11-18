@@ -79,11 +79,11 @@
 .pg-reqnew .rqnkv .gr {
   color: var(--t3);
 }
-/* длинное описание под названием: ограничение ширины для чтения, 4 строки + градиент + «Показать больше» / «Свернуть» */
+/* длинное описание под названием / мета: ограничение ширины, 4 строки + градиент; отступ сверху 8 (плотнее) */
 .pg-reqnew .rqnview .rqndesc {
   white-space: normal;
   max-width: 700px;
-  margin-top: 20px;
+  margin-top: 8px;
 }
 .pg-reqnew .rqndtxt p {
   font: var(--q-font-ui-body-2);
@@ -189,7 +189,7 @@
 .pg-reqnew .rqnview .rqnvgrid {
   margin-top: 20px;
 }
-/* демо «Компактная»: плотно слева (не space-between), 12px один серый; 3 в ряд; зазор 8; после «:» — 4 */
+/* демо «Компактная»: плотно слева (не space-between), 12px один серый; 4 в ряд; зазор 8; после «:» — 4 */
 .pg-reqnew .rqnview .rqnmeta {
   display: flex;
   flex-direction: column;
