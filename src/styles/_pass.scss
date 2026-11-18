@@ -34,7 +34,7 @@
 :where(.pg-pass) .secth {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   padding: 12px;
   background: var(--s1);
 }
@@ -151,10 +151,11 @@
   background: none;
   color: var(--black);
   padding: 0;
-  /* вровень с номерами модулей — по левому краю */
-  flex: 0 0 auto;
-  min-width: 14px;
-  text-align: left;
+  /* одна колонка с номерами модулей 1.1 */
+  flex: 0 0 28px;
+  width: 28px;
+  min-width: 28px;
+  text-align: center;
   font-variant-numeric: tabular-nums;
 }
 :where(.pg-pass) .secth > .bmeta {
