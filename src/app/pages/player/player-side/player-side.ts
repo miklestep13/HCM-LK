@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal, untracked } from '@angular/core';
 import { LEARN_MICO, learnDur, learnMin, learnPlayKind, learnTitle, learnType } from '../../../core/demo/learn-store.service';
 import { NavService } from '../../../core/navigation/nav.service';
 import { LEARN_COURSE_INFO } from '../../../data/learn-course.data';
@@ -55,7 +55,7 @@ import { PlayerState } from '../player.state';
                       <span class="pli cur" title="В процессе"><app-icon name="pliCur" /></span>
                     }
                     @default {
-                      {{ b.k + 1 }}
+                      {{ b.num }}
                     }
                   }
                 </div>
@@ -79,28 +79,47 @@ export class PlayerSide {
   readonly prog = input('');
   readonly lt = input('');
   protected readonly q = signal('');
+  /** свернутые разделы: открыт только тот, где текущий модуль */
   protected readonly closed = signal(new Set<number>());
   protected readonly progName = computed(() => LEARN_PROGRAMS[this.prog()]?.t || '');
   protected readonly pct = computed(() => (this.s.blocks().length ? Math.round((this.s.st().done.length / this.s.blocks().length) * 100) : 0));
   protected readonly secs = computed(() => {
     const st = this.s.st(), v = this.q().trim().toLowerCase();
     let n = 0;
-    return (LEARN_COURSE_INFO[this.s.id()]?.s || []).map((sec) => {
-      const rows = sec[1].map((b) => {
+    return (LEARN_COURSE_INFO[this.s.id()]?.s || []).map((sec, si) => {
+      const rows = sec[1].map((b, bi) => {
         const k = n++;
         const typ = learnPlayKind(learnType(b));
         const state = st.done.includes(k) ? 'done' : st.fail.includes(k) ? 'fail' : st.review.includes(k) ? 'review' : k === this.s.i() ? 'cur' : '';
         const title = learnTitle(b);
-        return { k, t: title, m: b[2], state, kind: LEARN_MICO[typ] || LEARN_MICO['text'], show: !v || (title + b[0] + b[2] + (k + 1)).toLowerCase().includes(v) };
+        const num = si + 1 + '.' + (bi + 1);
+        return { k, t: title, m: b[2], state, kind: LEARN_MICO[typ] || LEARN_MICO['text'], num, show: !v || (title + b[0] + b[2] + num).toLowerCase().includes(v) };
       });
       return { t: sec[0], dur: learnDur(sec[1].reduce((a, x) => a + learnMin(x[2]), 0)), rows, show: !v || rows.some((r) => r.show) || sec[0].toLowerCase().includes(v) };
     });
   });
+
+  constructor() {
+    // при смене модуля / курса — открыта только группа текущего модуля
+    effect(() => {
+      const n = (LEARN_COURSE_INFO[this.s.id()]?.s || []).length;
+      const cur = this.s.cur()?.si ?? 0;
+      untracked(() => {
+        const set = new Set<number>();
+        for (let k = 0; k < n; k++) if (k !== cur) set.add(k);
+        this.closed.set(set);
+      });
+    });
+  }
+
+  /** вручную: открыть только этот раздел или свернуть его */
   protected flip(i: number): void {
+    const n = (LEARN_COURSE_INFO[this.s.id()]?.s || []).length;
     this.closed.update((s) => {
-      const n = new Set(s);
-      n.has(i) ? n.delete(i) : n.add(i);
-      return n;
+      const next = new Set<number>();
+      for (let k = 0; k < n; k++) next.add(k);
+      if (s.has(i)) next.delete(i);
+      return next;
     });
   }
 }

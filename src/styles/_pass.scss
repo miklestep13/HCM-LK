@@ -201,8 +201,6 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  position: sticky;
-  top: 72px; /* под шапкой сайта */
 }
 :where(.pg-pass) .pltitle {
   font: var(--q-font-ui-headline-3);
@@ -225,11 +223,16 @@
 :where(.pg-pass) .pli.dg {
   color: var(--dg);
 }
+/* контент справа — sticky: структуру слева можно листать, модуль остаётся в зоне видимости */
 :where(.pg-pass) .c.full.plmain {
   padding: 24px;
   display: flex;
   flex-direction: column;
-  min-width: 0px;
+  min-width: 0;
+  position: sticky;
+  top: 72px; /* под шапкой сайта */
+  max-height: calc(100vh - 88px);
+  overflow-y: auto;
 }
 :where(.pg-pass) .plhd {
   display: flex;
@@ -458,7 +461,8 @@
 .pg-pass.pg-pass .pltoc .plrow{cursor:pointer;align-items:center;padding:10px 16px}
 .pg-pass.pg-pass .pltoc .plrow.on{background:var(--blue-bg)}
 .pg-pass.pg-pass .pltoc .plrow:hover b{color:var(--blue)}
-.pg-pass.pg-pass .pltoc .cbi{display:flex;align-items:center;justify-content:center;width:20px;min-width:20px;flex:0 0 20px}
+/* номер модуля в группе: 1.1, 12.3 — шире, чем одна цифра */
+.pg-pass.pg-pass .pltoc .cbi{display:flex;align-items:center;justify-content:center;width:32px;min-width:32px;flex:0 0 32px;font:var(--q-font-ui-description-1);color:var(--t3)}
 
 /* прикрепленные файлы задания */
 :where(.pg-pass) .tkfiles{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
@@ -480,8 +484,10 @@
   :where(.pg-pass) .plgrid {
     grid-template-columns: minmax(0, 1fr);
   }
-  :where(.pg-pass) .plside {
+  :where(.pg-pass) .c.full.plmain {
     position: static;
+    max-height: none;
+    overflow: visible;
   }
 }
 
