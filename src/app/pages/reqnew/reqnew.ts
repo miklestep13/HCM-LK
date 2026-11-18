@@ -151,6 +151,7 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
       }
       @if (processing()) {
         <div class="c rqnact">
+          <button class="btn raised" type="button" (click)="cancelProcess()">Отмена</button>
           <span class="sbtn">
             <button class="btn pri" (click)="decide('approve', R)">Согласовать</button>
             <button class="btn pri sbar" aria-label="Другие действия" (click)="toggleMenu($event)"><app-icon name="chevSm" /></button>
@@ -388,6 +389,12 @@ export class Reqnew {
     e.stopPropagation();
     const el = e.currentTarget as HTMLElement;
     this.menu.set(this.menu() ? null : el);
+  }
+
+  /** «Отмена» в обработке — назад к списку без сохранения результата */
+  protected cancelProcess(): void {
+    this.menu.set(null);
+    this.nav.go('req');
   }
 
   /** split-кнопка: «Согласовать» / «Отказать» / «Уточнить у автора» */
