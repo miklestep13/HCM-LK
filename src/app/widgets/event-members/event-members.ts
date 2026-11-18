@@ -89,11 +89,12 @@ const dk = (d?: string) => (d ? d.split('.').reverse().join('') : '');
  * вес, %; дата начала и окончания участия; описание; статус «Действует / Не действует» (по датам, в правке — можно задать вручную);
  * справа — действия (без заголовка). Любую колонку можно отключить: cols.
  *   <div class="c" event-members [(rows)]="list" [pool]="people" [types] [roles]
- *        edit="all | row | none" filters addAt="bottom | toolbar" paging="pages | lazy | off" [cols]="['member', 'role', 'from', 'status']" configurable></div>
+ *        edit="all | row | none" filters addAt="bottom | toolbar" paging="pages | lazy | off" fold [cols]="['member', 'role', 'from', 'status']" configurable></div>
  *   edit     — 'all': все строки сразу полями; 'row': строки текстом, ✎ открывает одну строку, новая — одна строка с «Сохранить / Отменить»;
  *   filters  — шапка с поиском и фильтрами (app-filter-bar), без него — только таблица;
  *   addAt    — 'bottom': ссылка «+ Добавить участника» под таблицей (новая строка внизу); 'toolbar': «Добавить» в строке поиска (новая строка наверху);
  *   paging   — 'pages': пагинация под таблицей (pageSize на странице); 'lazy': показываем pageSize, остальное догружается при прокрутке до конца; 'off': все строки, без пагинации;
+ *   fold     — шеврон слева от заголовка (свернуть / развернуть), счетчик — chip; collapsed — свернут по умолчанию;
  *   configurable — справа в шапке кнопка ⚙: все настройки можно переключить на месте (для показа).
  * Выбор участника — как в формах: поле с фото, ФИО и должностью, список с поиском и вкладками вида: сотрудники, подразделения, команды, компании.
  * who — что показывать у участника кроме ФИО: 'av' (фото), 'pos' (должность), 'dep' (подразделение); любое можно отключить.
@@ -104,7 +105,12 @@ const dk = (d?: string) => (d ? d.split('.').reverse().join('') : '');
   templateUrl: './event-members.html',
   styleUrl: './event-members.scss',
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'w-evm', '(document:click)': 'outside($event)' },
+  host: {
+    class: 'w-evm',
+    '[class.cfold]': 'fold()',
+    '[class.cold]': 'cold()',
+    '(document:click)': 'outside($event)',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EventMembers {
@@ -118,6 +124,10 @@ export class EventMembers {
   readonly filters = input(false, { transform: booleanAttribute });
   readonly addAt = input<EvAddAt>('bottom');
   readonly paging = input<EvPaging>('pages');
+  /** сворачиваемый блок: шеврон слева от заголовка */
+  readonly fold = input(false, { transform: booleanAttribute });
+  /** свернут по умолчанию (только при fold) */
+  readonly collapsed = input(false, { transform: booleanAttribute });
   readonly cols = input<EvCol[]>(ALL_COLS);
   /** у участника, кроме ФИО: фото, должность, подразделение (любое можно отключить) */
   readonly who = input<EvWho[]>(['av', 'pos', 'dep']);
@@ -142,6 +152,8 @@ export class EventMembers {
   protected readonly mWho = linkedSignal(() => this.who());
   protected readonly mRole = linkedSignal(() => this.roleMode());
   protected readonly mColSet = linkedSignal(() => this.colSettings());
+  /** свернут — только при fold; без fold тело всегда открыто */
+  protected readonly cold = linkedSignal(() => this.fold() && this.collapsed());
   protected readonly cfgOpen = signal<HTMLElement | null>(null);
   protected readonly cfg = {
     edits: EDITS.map((x) => x[1]),
@@ -197,6 +209,12 @@ export class EventMembers {
   protected toggleCfg(e: MouseEvent): void {
     e.stopPropagation();
     this.cfgOpen.set(this.cfgOpen() ? null : (e.currentTarget as HTMLElement));
+  }
+  /** клик по шапке сворачивает только в режиме fold; кнопки справа не трогаем */
+  protected onHead(e: MouseEvent): void {
+    if (!this.fold()) return;
+    if ((e.target as HTMLElement).closest('.evmhr, button, a')) return;
+    this.cold.update((v) => !v);
   }
 
   protected readonly statuses = STATUSES;

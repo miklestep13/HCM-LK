@@ -79,6 +79,42 @@
 .pg-reqnew .rqnkv .gr {
   color: var(--t3);
 }
+/* длинное описание: ограничение ширины для чтения, 4 строки + градиент + «Показать больше» / «Свернуть» */
+.pg-reqnew .rqndesc {
+  white-space: normal;
+  max-width: 700px;
+}
+.pg-reqnew .rqndtxt p {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  margin: 0;
+}
+.pg-reqnew .rqndtxt p + p {
+  margin-top: 8px;
+}
+.pg-reqnew .rqndtxt.clamp {
+  overflow: hidden;
+  position: relative;
+}
+.pg-reqnew .rqndtxt.clamp:not(.open)::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 24px;
+  background: linear-gradient(transparent, var(--white));
+}
+.pg-reqnew .lnk.rqndmore {
+  display: block;
+  font: var(--q-font-ui-headline-4);
+  margin-top: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--blue);
+  cursor: pointer;
+}
 /* комментарии — отдельный блок над действиями */
 .pg-reqnew .rqncm {
   margin-top: 16px;
@@ -165,4 +201,21 @@
 .pg-reqnew .rqnmem,
 .pg-reqnew .rqnres {
   margin-top: 16px;
+}
+
+/* split-кнопка «Согласовать» (как в ИПР / адаптации) */
+.pg-reqnew .sbtn {
+  display: inline-flex;
+}
+.pg-reqnew .sbtn .btn {
+  border-radius: 8px 0 0 8px;
+}
+.pg-reqnew .sbtn .sbar {
+  border-radius: 0 8px 8px 0;
+  padding: 0 10px;
+  box-shadow: inset 1px 0 0 color-mix(in srgb, var(--q-button-primary-text) 35%, transparent);
+}
+.pg-reqnew .sbtn .sbar svg {
+  width: 12px;
+  height: 12px;
 }

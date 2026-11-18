@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, effect, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewEncapsulation, afterRenderEffect, computed, effect, inject, input, signal, untracked, viewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NavService } from '../../core/navigation/nav.service';
 import { ME_PHOTO } from '../../data/people.data';
@@ -8,6 +8,8 @@ import { EvCol, EvMember } from '../../interface/member';
 import { Req, ReqFieldKey, ReqFormField, ReqPerson } from '../../interface/req';
 import { DateField } from '../../shared/ui/date-field/date-field';
 import { Field } from '../../shared/ui/field/field';
+import { Float } from '../../shared/ui/float/float';
+import { Icon } from '../../shared/ui/icon/icon';
 import { PageHead } from '../../shared/ui/page-head/page-head';
 import { Select } from '../../shared/ui/select/select';
 import { ToastService } from '../../shared/ui/toast/toast.service';
@@ -32,18 +34,20 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
  * Новая: форма-страница, только «Создать» (без «Отменить»); параметр адреса type — тип (каталог, «Повторить заявку»).
  * Просмотр (параметр rq — номер) — как форма добавления: тип и номер заголовком, статус; автор и ответственный; ниже отдельным блоком «Параметры заявки» — поля «подпись / значение» в тех же 4 колонках;
  * в шапке — параметры заявки (даты, канал, подразделение, описание) без отдельного заголовка;
+ * длинное описание — обрезка после 4 строк с градиентом и ссылкой «Показать больше» / «Свернуть».
  * ниже — «Участники» (widgets/event-members: колонки «Участник» и «Роль»; автор, заявитель и ответственный — из заявки);
  * ниже — «Документы» (widgets/rel-docs: секции «Входящие» / «Исходящие»); у завершенной — «Результат обработки» (плашка и комментарий; файлы — в исходящих).
  * Клик по строке списка — только просмотр (без действий внизу и без формы результата, даже если я ответственный).
- * Кнопка «Обработать» (?proc=1) — форма результата, загрузка исходящих и «Завершить обработку».
+ * Кнопка «Обработать» (?proc=1) — заголовок «Обработка заявки», форма результата, загрузка исходящих и split-кнопка «Согласовать».
+ * В просмотре и обработке «Участники» и «Документы» свернуты по умолчанию (шеврон слева).
  * Комментариев к заявке нет.
  */
 @Component({
   selector: 'app-reqnew',
-  imports: [PageHead, Field, Select, DateField, RelDocs, EventMembers, ReqnewResult],
+  imports: [PageHead, Field, Select, DateField, RelDocs, EventMembers, ReqnewResult, Icon, Float],
   template: `
     @let R = req();
-    <app-page-head [title]="R ? 'Просмотр заявки' : (type() || 'Добавление заявки')" [backTo]="R ? 'req' : 'reqpick'" [backLabel]="R ? 'К заявкам' : 'К выбору типа'" />
+    <app-page-head [title]="pageTitle()" [backTo]="R ? 'req' : 'reqpick'" [backLabel]="R ? 'К заявкам' : 'К выбору типа'" />
     @if (R) {
       <div class="c rqnf rqnview">
         <!-- просмотр: название (тип) · номер и статус; участники (как в шапке ИПР); даты; дополнительная информация -->
@@ -54,7 +58,21 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
         </div>
         <div class="rqngrid rqnvgrid">
           @for (f of fields(); track f.l) {
-            <div [class]="'rqnkv ' + (f.w || '')"><span class="l">{{ f.l }}</span>{{ f.v }}</div>
+            @if (f.l === 'Описание') {
+              <div class="rqnkv rqnfull rqndesc">
+                <span class="l">{{ f.l }}</span>
+                <div class="rqndtxt" #dsc [class.clamp]="descMore()" [class.open]="descOpen()">
+                  @for (p of descParts(); track $index) {
+                    <p>{{ p }}</p>
+                  }
+                </div>
+                @if (descMore()) {
+                  <button type="button" class="lnk rqndmore" [attr.aria-expanded]="descOpen()" (click)="toggleDesc()">{{ descOpen() ? 'Свернуть' : 'Показать больше' }}</button>
+                }
+              </div>
+            } @else {
+              <div [class]="'rqnkv ' + (f.w || '')"><span class="l">{{ f.l }}</span>{{ f.v }}</div>
+            }
           }
         </div>
       </div>
@@ -130,23 +148,31 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
       }
     }
     @if (R) {
-      <!-- участники: скрываем, если в списке только автор -->
+      <!-- участники: скрываем, если в списке только автор; в просмотре и обработке — свернуты -->
       @if (showMembers()) {
-        <div class="c rqnmem" event-members title="Участники" [rows]="viewMembers()" [roles]="memberRoles" [cols]="memberCols" edit="none" paging="off"></div>
+        <div class="c rqnmem" event-members title="Участники" [rows]="viewMembers()" [roles]="memberRoles" [cols]="memberCols" edit="none" paging="off" fold collapsed></div>
       }
       <!-- документы: входящие / исходящие; при обработке — пустые исходящие + зона загрузки; иначе блок только если есть файлы -->
       @if (processing()) {
-        <div class="c rqndocs" app-rel-docs title="Документы" [incoming]="R.docs || []" [(outgoing)]="resDocs" editOut></div>
+        <div class="c rqndocs" app-rel-docs title="Документы" [incoming]="R.docs || []" [(outgoing)]="resDocs" editOut fold collapsed></div>
       } @else if (R.docs?.length || R.res?.docs?.length) {
-        <div class="c rqndocs" app-rel-docs title="Документы" [incoming]="R.docs || []" [outgoing]="R.res?.docs || []"></div>
+        <div class="c rqndocs" app-rel-docs title="Документы" [incoming]="R.docs || []" [outgoing]="R.res?.docs || []" fold collapsed></div>
       }
-      <!-- результат обработки: плашка и комментарий (без загрузки файлов) -->
+      <!-- результат обработки: плашка и комментарий (без загрузки файлов и без выбора вида) -->
       @if (R.res) {
         <div class="c rqnres" reqnew-result [res]="R.res"></div>
       } @else if (processing()) {
         <div class="c rqnres" reqnew-result edit [(kind)]="resKind" [(text)]="resText" [(reason)]="resReason" [err]="resErr()"></div>
       }
-      @if (acts().length) {
+      @if (processing()) {
+        <div class="c rqnact">
+          <button class="btn raised" type="button" (click)="cancelProcess()">Отмена</button>
+          <span class="sbtn">
+            <button class="btn pri" (click)="decide('approve', R)">Согласовать</button>
+            <button class="btn pri sbar" aria-label="Другие действия" (click)="toggleMenu($event)"><app-icon name="chevSm" /></button>
+          </span>
+        </div>
+      } @else if (acts().length) {
         <div class="c rqnact">
           @for (a of acts(); track a[0]) {
             <button class="btn" [class]="'btn ' + a[2]" (click)="act(a[0], R)">{{ a[1] }}</button>
@@ -160,10 +186,18 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
       }
       <div class="c rqnact"><button class="btn pri" (click)="create()">Создать</button></div>
     }
+    @if (menu(); as m) {
+      <div class="fpop selpop" [appFloat]="m" (click)="$event.stopPropagation()">
+        <div class="folist">
+          <div class="foi" (click)="decide('reject', req()!)">Отказать</div>
+          <div class="foi" (click)="decide('clarify', req()!)">Уточнить у автора</div>
+        </div>
+      </div>
+    }
   `,
   styleUrl: './reqnew.scss',
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'pg pg-reqnew' },
+  host: { class: 'pg pg-reqnew', '(document:click)': 'menu.set(null)' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Reqnew {
@@ -265,6 +299,11 @@ export class Reqnew {
     const r = this.req();
     return this.proc() === '1' && !!r && !this.s.final(r) && r.resp?.av === 'me' && r.ini.av !== 'me' && !r.res;
   });
+  /** заголовок страницы: обработка / просмотр / добавление */
+  protected readonly pageTitle = computed(() => {
+    if (!this.req()) return this.type() || 'Добавление заявки';
+    return this.processing() ? 'Обработка заявки' : 'Просмотр заявки';
+  });
   /** просмотр: поля в порядке формы добавления (без кода и наименования), пустые не показываем; w — ширина (rqn2 — две колонки, rqnfull — вся строка) */
   protected readonly fields = computed((): { l: string; v: string; w?: string }[] => {
     const r = this.req();
@@ -279,20 +318,32 @@ export class Reqnew {
       { l: 'Описание', v: r.info || '', w: 'rqnfull' },
     ].filter((f) => !!f.v);
   });
+  /** абзацы описания (пустые строки — разделитель) */
+  protected readonly descParts = computed(() =>
+    (this.req()?.info || '')
+      .split(/\n\n+/)
+      .map((p) => p.trim())
+      .filter(Boolean),
+  );
+  /** длинное описание — обрезка после 4 строк + «Показать больше» */
+  private readonly dsc = viewChild<ElementRef<HTMLElement>>('dsc');
+  protected readonly descMore = signal(false);
+  protected readonly descOpen = signal(false);
 
-  /** действия внизу — только в режиме обработки («Завершить») или у завершенной («Повторить»); обычный просмотр — без кнопок */
+  /** действия внизу — у завершенной «Повторить»; обработка — split-кнопка «Согласовать» (не через acts) */
   protected readonly acts = computed((): Act[] => {
     const r = this.req();
-    if (!r) return [];
-    if (this.processing()) return [['finish', 'Завершить обработку', 'pri']];
+    if (!r || this.processing()) return [];
     if (this.s.final(r)) return REQ_TYPES.includes(r.n) ? [['repeat', 'Повторить заявку', 'raised']] : [];
     return [];
   });
+  /** меню split-кнопки «Согласовать» */
+  protected readonly menu = signal<HTMLElement | null>(null);
 
   private readonly title = inject(Title);
   constructor() {
     // вкладка браузера: просмотр или добавление
-    effect(() => this.title.setTitle((this.rq() ? 'Просмотр заявки' : this.type() || 'Добавление заявки') + ' · Q.HCM'));
+    effect(() => this.title.setTitle(this.pageTitle() + ' · Q.HCM'));
     effect(() => {
       if (!this.rq() && !this.type()) this.nav.go('reqpick');
     });
@@ -305,6 +356,44 @@ export class Reqnew {
       this.resErr.set(false);
       this.resDocs.set([]);
     });
+    // при смене заявки / режима — свернуть описание и заново измерить высоту
+    afterRenderEffect(() => {
+      this.rq();
+      this.proc();
+      this.descParts();
+      this.dsc();
+      untracked(() => {
+        this.descOpen.set(false);
+        this.descMore.set(false);
+      });
+      requestAnimationFrame(() => this.measureDesc());
+    });
+  }
+
+  /** нужно ли «Показать больше»: текст выше 4 строк */
+  private measureDesc(): void {
+    const el = this.dsc()?.nativeElement;
+    if (!el) {
+      this.descMore.set(false);
+      return;
+    }
+    el.style.maxHeight = '';
+    const lh = parseFloat(getComputedStyle(el.querySelector('p') || el).lineHeight) || 22;
+    if (el.scrollHeight > lh * 4 + 4) {
+      this.descMore.set(true);
+      if (!this.descOpen()) el.style.maxHeight = lh * 4 + 'px';
+    } else {
+      this.descMore.set(false);
+    }
+  }
+
+  protected toggleDesc(): void {
+    const el = this.dsc()?.nativeElement;
+    if (!el) return;
+    const open = !this.descOpen();
+    this.descOpen.set(open);
+    const lh = parseFloat(getComputedStyle(el.querySelector('p') || el).lineHeight) || 22;
+    el.style.maxHeight = open ? '' : lh * 4 + 'px';
   }
 
 
@@ -357,7 +446,7 @@ export class Reqnew {
       case 'repeat':
         return this.nav.go('reqnew', { type: r.n });
       case 'finish':
-        return this.finish(r);
+        return this.finish(r, 'Выполнено');
     }
   }
   private done(title: string, text: string): void {
@@ -365,12 +454,36 @@ export class Reqnew {
     this.nav.go('req');
   }
 
-  /** «Завершить обработку»: вид результата обязателен, при отказе — и причина; заявка выполнена или отклонена, блок показывает решение */
-  private finish(r: Req): void {
-    const refuse = this.resKind() === REQ_RES_REFUSE;
-    if (!this.resKind() || (refuse && !this.resReason().trim())) {
+  protected toggleMenu(e: MouseEvent): void {
+    e.stopPropagation();
+    const el = e.currentTarget as HTMLElement;
+    this.menu.set(this.menu() ? null : el);
+  }
+
+  /** «Отмена» в обработке — назад к списку без сохранения результата */
+  protected cancelProcess(): void {
+    this.menu.set(null);
+    this.nav.go('req');
+  }
+
+  /** split-кнопка: «Согласовать» / «Отказать» / «Уточнить у автора» */
+  protected decide(a: 'approve' | 'reject' | 'clarify', r: Req): void {
+    this.menu.set(null);
+    if (a === 'clarify') return this.act('back', r);
+    if (a === 'approve') {
+      this.resKind.set('Выполнено');
+      return this.finish(r, 'Выполнено');
+    }
+    this.resKind.set(REQ_RES_REFUSE);
+    return this.finish(r, REQ_RES_REFUSE);
+  }
+
+  /** завершение обработки: вид задает split-кнопка; при отказе нужна причина */
+  private finish(r: Req, kind: string): void {
+    const refuse = kind === REQ_RES_REFUSE;
+    if (refuse && !this.resReason().trim()) {
       this.resErr.set(true);
-      return this.toast.show('Заполните результат обработки', !this.resKind() ? 'Выберите вид результата обработки.' : 'Укажите причину отказа.');
+      return this.toast.show('Укажите причину отказа', 'Заполните поле «Причина отказа» в результате обработки.');
     }
     if (attachBusy(this.resDocs())) return this.toast.show('Документы загружаются', 'Дождитесь окончания загрузки файлов.');
     this.s.patch([r.id], {
@@ -378,14 +491,14 @@ export class Reqnew {
       closed: NOW_TEXT,
       due: undefined,
       res: {
-        kind: this.resKind(),
+        kind,
         text: (refuse ? this.resReason() : this.resText()).trim(),
         docs: this.resDocs().length ? this.resDocs().map((f) => ({ ...f, by: f.by || 'Иванов П. С.' })) : undefined,
         date: NOW_TEXT.split(' ')[0],
         by: 'Иванов П. С.',
       },
     });
-    this.toast.show('Обработка завершена', 'Заявка ' + r.id + ' — ' + (refuse ? 'отказ' : this.resKind().toLowerCase()) + '. Автор получит уведомление.');
+    this.toast.show('Обработка завершена', 'Заявка ' + r.id + ' — ' + (refuse ? 'отказ' : kind.toLowerCase()) + '. Автор получит уведомление.');
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   }
 }

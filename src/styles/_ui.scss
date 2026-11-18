@@ -875,6 +875,10 @@ table td.tact .acts > * {
 .c.cfold > .ch h3 {
   flex: 1 1 0%;
 }
+/* счетчик сразу после названия (шеврон | заголовок | chip), не у правого края */
+.c.cfold > .ch h3:has(+ .chip) {
+  flex: 0 0 auto;
+}
 .c.cfold > .ch .cfar {
   width: 24px;
   height: 24px;

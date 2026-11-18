@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, booleanAttribute, input, model } from '@angular/core';
-import { REQ_RES_KINDS, REQ_RES_REFUSE } from '../../../data/req.data';
+import { REQ_RES_REFUSE } from '../../../data/req.data';
 import { ReqRes } from '../../../interface/req';
 import { Field } from '../../../shared/ui/field/field';
 import { Icon } from '../../../shared/ui/icon/icon';
-import { Select } from '../../../shared/ui/select/select';
 
 /** вид результата → цвет плашки и значок (как решение в «Итоге» бланка аттестации) */
 const TONE: Record<string, [string, string]> = {
@@ -14,15 +13,16 @@ const TONE: Record<string, [string, string]> = {
 
 /**
  * «Результат обработки» — блок просмотра заявки:
- *   без решения (ответственный — я): «Вид результата обработки», «Комментарий»; при «Отказано» — «Причина отказа»;
+ *   без решения (ответственный — я): «Комментарий»; при отказе — «Причина отказа»;
  *   с решением: плашка в цвете решения (вид, дата и кто), комментарий или причина отказа.
+ *   Вид результата задается split-кнопкой на странице («Согласовать» / «Отказать»), не полем здесь.
  *   Документы — только в общем виджете «Документы» (исходящие), здесь загрузки нет.
  *   <div class="c" reqnew-result [res]="r.res" />
  *   <div class="c" reqnew-result edit [(kind)] [(text)] [(reason)] [err] />
  */
 @Component({
   selector: '[reqnew-result]',
-  imports: [Field, Select, Icon],
+  imports: [Field, Icon],
   template: `
     <div class="ch"><h3>Результат обработки</h3></div>
     <div class="cb">
@@ -43,9 +43,6 @@ const TONE: Record<string, [string, string]> = {
         }
       } @else if (edit()) {
         <div class="rqrgrid">
-          <app-field class="rqrfull" label="Вид результата обработки" required [filled]="!!kind()" [error]="err() && !kind()">
-            <app-select [options]="kinds" placeholder="Выберите результат" [value]="kind()" (valueChange)="kind.set($event)" />
-          </app-field>
           <app-field class="rqrfull" label="Комментарий" [filled]="!!text()">
             <textarea class="fta" rows="3" [value]="text()" (input)="text.set($any($event.target).value)"></textarea>
           </app-field>
@@ -73,7 +70,6 @@ export class ReqnewResult {
   readonly reason = model('');
   /** подсветить незаполненные обязательные */
   readonly err = input(false);
-  protected readonly kinds = REQ_RES_KINDS;
   protected refuse(k: string): boolean {
     return k === REQ_RES_REFUSE;
   }
