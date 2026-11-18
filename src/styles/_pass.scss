@@ -34,7 +34,7 @@
 :where(.pg-pass) .secth {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   padding: 12px;
   background: var(--s1);
 }
@@ -467,7 +467,7 @@
   cursor:pointer;
   align-items:center;
   /* одинаковый зазор: номер/статус · иконка типа · название */
-  gap:8px;
+  gap:4px;
   padding:8px 12px;
 }
 .pg-pass.pg-pass .pltoc .plrow.on{background:var(--blue-bg)}
