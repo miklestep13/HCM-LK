@@ -25,30 +25,32 @@ const TYPE: Record<string, string> = { text: 'Модуль', test: 'Тест', t
   styleUrl: './player-main.scss',
   template: `
     @if (s.finished()) {
-      <div class="lfres ok">
-        <app-icon name="pliOk" /><b>Курс завершен</b
-        ><span>Пройдено {{ s.st().done.length }} из {{ s.blocks().length }} модулей. Курс отмечен как завершенный в «Моем обучении».</span>
-      </div>
-      <div class="plfb">
-        <h3>Оставьте отзыв о курсе</h3>
-        <p class="pld">Ваш комментарий увидят следующие ученики — так им проще решить, подходит ли курс.</p>
-        <div class="lfstars">
-          @for (k of [1, 2, 3, 4, 5]; track k) {
-            <span [class.on]="k <= stars()" (click)="stars.set(k)">★</span>
-          }
+      <div class="plscroll">
+        <div class="lfres ok">
+          <app-icon name="pliOk" /><b>Курс завершен</b
+          ><span>Пройдено {{ s.st().done.length }} из {{ s.blocks().length }} модулей. Курс отмечен как завершенный в «Моем обучении».</span>
         </div>
-        <textarea class="fta" rows="4" placeholder="Что было полезно, чего не хватило" [value]="fb()" (input)="fb.set($any($event.target).value)"></textarea>
-        <div class="plnav"><button class="btn raised" (click)="later()">Позже</button><button class="btn pri" (click)="sendFb()">Отправить отзыв</button></div>
+        <div class="plfb">
+          <h3>Оставьте отзыв о курсе</h3>
+          <p class="pld">Ваш комментарий увидят следующие ученики — так им проще решить, подходит ли курс.</p>
+          <div class="lfstars">
+            @for (k of [1, 2, 3, 4, 5]; track k) {
+              <span [class.on]="k <= stars()" (click)="stars.set(k)">★</span>
+            }
+          </div>
+          <textarea class="fta" rows="4" placeholder="Что было полезно, чего не хватило" [value]="fb()" (input)="fb.set($any($event.target).value)"></textarea>
+        </div>
       </div>
+      <div class="plnav"><button class="btn raised" (click)="later()">Позже</button><button class="btn pri" (click)="sendFb()">Отправить отзыв</button></div>
     } @else if (s.cur(); as b) {
+      <div class="plscroll">
       <div class="plhd">
         <h2>{{ b.t }}</h2>
         <span class="bmeta">
           @if (playKind(b.k) === 'test') {
-            <span title="Проходной процент"><app-icon name="cup" />{{ pass }}%</span>
-            <span title="Количество попыток"><app-icon name="refresh" />{{ tryLabel }}</span>
+            <app-icon name="cup" />{{ pass }}% · <app-icon name="refresh" />{{ tryLabel }} ·
           }
-          <span><app-icon name="clock" />{{ b.m }} · {{ type[playKind(b.k)] }}</span>
+          <app-icon name="clock" />{{ b.m }} · {{ type[playKind(b.k)] }}
         </span>
       </div>
       <p class="pld">{{ b.d }}</p>
@@ -271,6 +273,7 @@ const TYPE: Record<string, string> = { text: 'Модуль', test: 'Тест', t
             }
           }
         }
+      </div>
       </div>
       <div class="plnav">
         <button class="btn raised" [disabled]="!s.i()" (click)="s.i.set(s.i() - 1)">Предыдущий модуль</button>

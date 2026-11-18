@@ -238,8 +238,21 @@
 :where(.pg-pass) .c.full.plmain:not(.bldcv) {
   position: sticky;
   top: 72px; /* под шапкой сайта */
+  height: calc(100vh - 88px);
   max-height: calc(100vh - 88px);
+  min-height: 0; /* перебиваем .c.full min-height — иначе кнопки уезжают за экран */
+  overflow: hidden;
+}
+/* скролл только у тела; .plnav всегда внизу карточки */
+:where(.pg-pass) .c.full.plmain:not(.bldcv) > .plscroll {
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
+}
+:where(.pg-pass) .c.full.plmain:not(.bldcv) > .plnav {
+  flex: 0 0 auto;
+  margin-top: 0;
+  padding-top: 16px;
 }
 :where(.pg-pass) .plhd {
   display: flex;
@@ -260,13 +273,7 @@
   align-items: center;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 6px 14px;
-}
-:where(.pg-pass) .plhd .bmeta > span {
-  display: inline-flex;
-  align-items: center;
   gap: 6px;
-  white-space: nowrap;
 }
 :where(.pg-pass) .plhd .bmeta svg {
   width: 14px;
@@ -547,7 +554,12 @@
   }
   :where(.pg-pass) .c.full.plmain:not(.bldcv) {
     position: static;
+    height: auto;
     max-height: none;
+    min-height: calc(-172px + 100vh);
+    overflow: visible;
+  }
+  :where(.pg-pass) .c.full.plmain:not(.bldcv) > .plscroll {
     overflow: visible;
   }
 }

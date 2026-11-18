@@ -20,7 +20,7 @@ export const LEARN_POS: Record<string, number> = {"c1": 1, "c2": 4, "c3": 6, "c8
 /** заведомо незасчитанные модули (демо) */
 export const LEARN_FAIL: Record<string, number[]> = {"c2": [2]};
 /** попыток теста по умолчанию и проходной порог, % */
-export const LEARN_TRY = 2;
+export const LEARN_TRY = 3;
 export const LEARN_PASS = 80;
 /** демо-файлы задания в плеере */
 export const LEARN_TASK_FILES: [string, string][] = [
