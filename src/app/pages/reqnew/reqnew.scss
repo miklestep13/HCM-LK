@@ -189,29 +189,38 @@
 .pg-reqnew .rqnview .rqnvgrid {
   margin-top: 20px;
 }
-/* демо «Компактная»: «Параметр: значение» — 3 в ряд, зазор 8; после «:» до значения — 4 */
+/* демо «Компактная»: плотно слева (не space-between), 12px один серый; 3 в ряд; зазор 8; после «:» — 4 */
 .pg-reqnew .rqnview .rqnmeta {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: 8px;
-  row-gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   margin-top: 8px;
+  align-items: flex-start;
+}
+.pg-reqnew .rqnview .rqnmeta-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: baseline;
+  gap: 8px;
+  width: auto;
+  max-width: 100%;
 }
 .pg-reqnew .rqnview .rqnmi {
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-flex;
+  flex: 0 0 auto;
   align-items: baseline;
-  min-width: 0;
-  font: var(--q-font-ui-body-2);
-  color: var(--t1);
+  white-space: nowrap;
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
 }
 .pg-reqnew .rqnview .rqnmi .k {
-  color: var(--t3);
   margin-right: 4px;
 }
 .pg-reqnew .rqnview .rqnmi .v {
-  color: var(--t1);
-  min-width: 0;
+  font: inherit;
+  color: inherit;
+  font-weight: inherit;
 }
 .pg-reqnew .rqnview .rqnppl {
   margin-bottom: 0;
