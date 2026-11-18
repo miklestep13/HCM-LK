@@ -34,7 +34,7 @@
 :where(.pg-pass) .secth {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   padding: 12px;
   background: var(--s1);
 }
@@ -150,8 +150,13 @@
   font: var(--q-font-ui-headline-4);
   background: none;
   color: var(--black);
-  padding: 0px;
-  min-width: 14px;
+  padding: 0;
+  /* одна колонка с номерами модулей 1.1 — выравнивание влево */
+  flex: 0 0 28px;
+  width: 28px;
+  min-width: 28px;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
 }
 :where(.pg-pass) .secth > .bmeta {
   margin-left: auto;
@@ -466,24 +471,20 @@
 }
 .pg-pass.pg-pass .pltoc .plrow.on{background:var(--blue-bg)}
 .pg-pass.pg-pass .pltoc .plrow:hover b{color:var(--blue)}
-/* номер 1.1 + слот статуса + иконка типа — в одном ряду */
+/* колонка номера / иконки прохождения — вровень с номером раздела (.secn) */
 .pg-pass.pg-pass .pltoc .plnum{
   font:var(--q-font-ui-description-1);
   color:var(--t3);
   font-variant-numeric:tabular-nums;
   flex:0 0 28px;
   width:28px;
-  text-align:right;
-}
-.pg-pass.pg-pass .pltoc .pliwrap{
-  flex:0 0 16px;
-  width:16px;
-  height:16px;
+  min-width:28px;
   display:inline-flex;
   align-items:center;
-  justify-content:center;
+  justify-content:flex-start;
+  text-align:left;
 }
-.pg-pass.pg-pass .pltoc .pliwrap .pli svg{
+.pg-pass.pg-pass .pltoc .plnum .pli svg{
   width:16px;
   height:16px;
 }

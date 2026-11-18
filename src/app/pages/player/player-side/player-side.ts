@@ -40,9 +40,8 @@ import { PlayerState } from '../player.state';
             </div>
             @for (b of sec.rows; track b.k) {
               <div class="cblk plrow" [class.on]="b.k === s.i()" [class.hidden]="!b.show" (click)="s.i.set(b.k)">
-                <!-- номер и статус в одном ряду, затем иконка типа -->
-                <span class="plnum">{{ b.num }}</span>
-                <span class="pliwrap">
+                <!-- номер или иконка прохождения — одна колонка; рядом иконка типа -->
+                <span class="plnum">
                   @switch (b.state) {
                     @case ('done') {
                       <span class="pli ok" title="Просмотрено"><app-icon name="pliOk" /></span>
@@ -55,6 +54,9 @@ import { PlayerState } from '../player.state';
                     }
                     @case ('cur') {
                       <span class="pli cur" title="В процессе"><app-icon name="pliCur" /></span>
+                    }
+                    @default {
+                      {{ b.num }}
                     }
                   }
                 </span>
