@@ -10,7 +10,7 @@ import { Scale } from '../../../shared/ui/scale/scale';
 import { ToastService } from '../../../shared/ui/toast/toast.service';
 import { PlayerState } from '../player.state';
 
-const TYPE: Record<string, string> = { video: 'Видео', text: 'Текст', pres: 'Презентация', pdf: 'Документ', test: 'Тест', task: 'Задание', poll: 'Опрос' };
+const TYPE: Record<string, string> = { video: 'Видео', text: 'Модуль', pres: 'Презентация', pdf: 'Документ', test: 'Тест', task: 'Задание', poll: 'Опрос' };
 
 /**
  * Модуль курса: заголовок, длительность и тип, описание, содержимое по типу (видео, текст, презентация, документ, тест, задание),

@@ -77,7 +77,7 @@ export const learnDur = (n: number): string => (n >= 60 ? Math.floor(n / 60) + '
 /** иконка и подпись типа блока (конструктор курса) */
 export const LEARN_MICO: Record<string, [string, string]> = {
   video: ['mMedia', 'Медиа-файл'],
-  text: ['mText', 'Текст'],
+  text: ['mText', 'Модуль'],
   pres: ['mPres', 'Презентация'],
   pdf: ['mDoc', 'Документ'],
   test: ['mQuiz', 'Тестирование'],

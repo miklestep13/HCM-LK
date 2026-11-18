@@ -96,14 +96,11 @@
   margin-top: 4px;
 }
 
-/* вопросы опроса / теста — как на странице прохождения опроса */
+/* вопросы опроса / теста — как #/survey?sv=s3 (svnarrow): бейдж, заголовок, поле на всю ширину, кроме «Да / Нет» */
 .plmain .plparts .sq {
   display: block;
-  padding: 8px 0;
+  padding: 24px 0;
   scroll-margin-top: 90px;
-}
-.plmain .plparts .sq + .sq {
-  padding-top: 24px;
 }
 .plmain .plparts .sqn {
   font: var(--q-font-ui-description-1);
@@ -134,11 +131,31 @@
 .plmain .plparts .sqa {
   margin-top: 16px;
 }
-.plmain .plparts .sqta {
-  min-height: 108px;
+/* ответы на всю ширину колонки, кроме «Да / Нет» (.sqyn) */
+.plmain .plparts .sqa :is(.choice, .rank, .slider, .sqin, .sqsel, .sqdt, .sqta) {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+}
+.plmain .plparts .sqa .scale:not(.sqyn),
+.plmain .plparts .sqa app-rating,
+.plmain .plparts .sqa app-attach {
+  display: block;
   width: 100%;
 }
+.plmain .plparts .sqa .scale:not(.sqyn) .sclb {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+}
+.plmain .plparts .sqta {
+  min-height: 108px;
+  display: block;
+}
 .plmain .plparts .sqcm {
-  margin-top: 12px;
+  display: block;
   width: 100%;
+  max-width: none;
+  min-height: 64px;
+  margin-top: 12px;
 }
