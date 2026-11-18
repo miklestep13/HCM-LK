@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import { learnDur, learnMin } from '../../../core/demo/learn-store.service';
+import { LEARN_MICO, learnDur, learnMin, learnType } from '../../../core/demo/learn-store.service';
 import { NavService } from '../../../core/navigation/nav.service';
 import { LEARN_COURSE_INFO } from '../../../data/learn-course.data';
 import { LEARN_PROGRAMS } from '../../../data/learn.data';
@@ -34,8 +34,9 @@ import { PlayerState } from '../player.state';
       <div class="cb pltoc" style="padding-top: 0">
         @for (sec of secs(); track $index; let si = $index) {
           <div class="sect" [class.closed]="closed().has(si)" [class.hidden]="!sec.show">
-            <div class="secth" (click)="flip(si)">
-              <span class="secn">{{ si + 1 }}</span><b>{{ sec.t }}</b><span class="bmeta">{{ sec.dur }}</span><span class="accar"><app-icon name="chevSm" /></span>
+            <!-- шапка раздела как в конструкторе: номер · название · шеврон -->
+            <div class="secth" data-acc (click)="flip(si)">
+              <span class="secn">{{ si + 1 }}</span><b>{{ sec.t }}</b><span class="accar"><app-icon name="chevSm" /></span>
             </div>
             @for (b of sec.rows; track b.k) {
               <div class="cblk plrow" [class.on]="b.k === s.i()" [class.hidden]="!b.show" (click)="s.i.set(b.k)">
@@ -58,6 +59,7 @@ import { PlayerState } from '../player.state';
                     }
                   }
                 </div>
+                <span class="cico" [title]="b.kind[1]"><app-icon [name]="b.kind[0]" /></span>
                 <div><b>{{ b.t }}</b></div>
                 <span class="bmeta">{{ b.m }}</span>
               </div>
@@ -86,10 +88,11 @@ export class PlayerSide {
     return (LEARN_COURSE_INFO[this.s.id()]?.s || []).map((sec) => {
       const rows = sec[1].map((b) => {
         const k = n++;
+        const typ = learnType(b);
         const state = st.done.includes(k) ? 'done' : st.fail.includes(k) ? 'fail' : st.review.includes(k) ? 'review' : k === this.s.i() ? 'cur' : '';
-        return { k, t: b[0], m: b[2], state, show: !v || (b[0] + b[2] + (k + 1)).toLowerCase().includes(v) };
+        return { k, t: b[0], m: b[2], state, kind: LEARN_MICO[typ] || LEARN_MICO['text'], show: !v || (b[0] + b[2] + (k + 1)).toLowerCase().includes(v) };
       });
-      return { t: sec[0], dur: learnDur(sec[1].reduce((a, b) => a + learnMin(b[2]), 0)), rows, show: !v || rows.some((r) => r.show) || sec[0].toLowerCase().includes(v) };
+      return { t: sec[0], dur: learnDur(sec[1].reduce((a, x) => a + learnMin(x[2]), 0)), rows, show: !v || rows.some((r) => r.show) || sec[0].toLowerCase().includes(v) };
     });
   });
   protected flip(i: number): void {

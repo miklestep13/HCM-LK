@@ -29,7 +29,12 @@
 }
 .sqv :is(.sqin, .sqsel, .sqdt) {
   width: 100%;
-  max-width: 420px;
+  max-width: none;
+}
+/* ответы choice — на всю ширину колонки (как прохождение опроса в узком виде) */
+.sqv .sqa > .choice {
+  width: 100%;
+  max-width: none;
 }
 .sqv :is(.sqin, .sqdt) {
   display: block;
@@ -100,7 +105,8 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  max-width: 560px;
+  width: 100%;
+  max-width: none;
 }
 .sqv .sqeo {
   display: flex;
@@ -303,7 +309,7 @@
 .sqv .sqcm {
   display: block;
   width: 100%;
-  max-width: 560px;
+  max-width: none;
   margin-top: 12px;
 }
 
@@ -346,7 +352,7 @@
 .sqv .sqeh.rk {
   color: var(--t3);
   margin: 0 0 10px;
-  max-width: 560px;
+  max-width: none;
 }
 
 /* конструктор: подсказка в поле ответа — пишется в самом поле, серым, как ее увидит сотрудник */

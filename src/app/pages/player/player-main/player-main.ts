@@ -5,7 +5,7 @@ import { Icon } from '../../../shared/ui/icon/icon';
 import { ToastService } from '../../../shared/ui/toast/toast.service';
 import { PlayerState } from '../player.state';
 
-const TYPE: Record<string, string> = { video: 'Видео', text: 'Текст', pres: 'Презентация', pdf: 'Документ', test: 'Тест', task: 'Задание' };
+const TYPE: Record<string, string> = { video: 'Видео', text: 'Текст', pres: 'Презентация', pdf: 'Документ', test: 'Тест', task: 'Задание', poll: 'Опрос' };
 
 /**
  * Модуль курса: заголовок, длительность и тип, описание, содержимое по типу (видео, текст, презентация, документ, тест, задание),
@@ -127,6 +127,23 @@ const TYPE: Record<string, string> = { video: 'Видео', text: 'Текст', 
               <div class="plnav" style="margin-top: 0"><button class="btn pri" [disabled]="!files().length" (click)="send()">Отправить на проверку</button></div>
             }
           }
+          @case ('poll') {
+            @if (s.st().done.includes(s.i())) {
+              <div class="lfres ok inl"><app-icon name="pliOk" /><b>Ответы отправлены</b><span>Спасибо — обратная связь поможет улучшить курс.</span></div>
+            } @else {
+              <p class="pld">Короткий опрос по модулю. Ответы анонимные и используются только для улучшения курса.</p>
+              <div class="plq">
+                <b>Насколько понятен материал?</b>
+                <div class="lfstars">
+                  @for (k of [1, 2, 3, 4, 5]; track k) {
+                    <span [class.on]="k <= stars()" (click)="stars.set(k)">★</span>
+                  }
+                </div>
+              </div>
+              <textarea class="fta" rows="3" placeholder="Что было самым полезным?" [value]="fb()" (input)="fb.set($any($event.target).value)"></textarea>
+              <div class="plnav" style="margin-top: 12px"><button class="btn pri" [disabled]="!stars()" (click)="sendPoll()">Отправить</button></div>
+            }
+          }
         }
       </div>
       <div class="plnav">
@@ -173,6 +190,8 @@ export class PlayerMain {
         this.page.set(1);
         this.answers.set({});
         this.files.set([]);
+        this.stars.set(0);
+        this.fb.set('');
       });
     });
   }
@@ -217,5 +236,17 @@ export class PlayerMain {
     this.s.store.comments.update((c) => [['avme', 'Иванов Павел Сергеевич', 'сегодня', v, txt], ...c]);
     this.toast.show('Спасибо', 'Отзыв появится в комментариях к курсу.');
     this.nav.go('dev', { lt: 'my' });
+  }
+  /** опрос в плеере: засчитываем блок без запуска страницы опросов */
+  protected sendPoll(): void {
+    if (!this.stars()) return;
+    const k = this.s.i();
+    this.s.patch((x) => {
+      x.fail.delete(k);
+      x.done.add(k);
+    });
+    this.toast.show('Спасибо', 'Обратная связь по модулю отправлена.');
+    this.stars.set(0);
+    this.fb.set('');
   }
 }
