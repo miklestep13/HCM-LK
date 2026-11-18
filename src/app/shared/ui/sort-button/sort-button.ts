@@ -40,7 +40,8 @@ import {
     }
   `,
   host: {
-    class: 'ib3 ic',
+    /* квадрат 36×36, как кнопка-иконка рядом с фильтром; не .ic — там паддинг под шеврон */
+    class: 'ib3 sq',
     type: 'button',
     '[attr.title]': 'title()',
     '[attr.aria-label]': 'title()',

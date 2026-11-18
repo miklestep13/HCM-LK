@@ -2115,11 +2115,11 @@ input[type='number']::-webkit-outer-spin-button {
   display: none !important;
 }
 
-/* сортировка: только иконка ⇅, список вариантов — по левому краю */
-.ftrow > .ib3.ic svg.srti,
-.ib3.ic > svg.srti {
-  width: 14px;
-  height: 14px;
+/* сортировка: квадрат 36×36, иконка 16 как у фильтра; список вариантов — по левому краю */
+.ftrow > .ib3.sq svg.srti,
+.ib3.sq > svg.srti {
+  width: 16px;
+  height: 16px;
 }
 .fpop.srtpop {
   text-align: left;
