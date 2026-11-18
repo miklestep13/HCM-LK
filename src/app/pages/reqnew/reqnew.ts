@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewEncapsulation, afterRenderEffect, computed, effect, inject, input, signal, untracked, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, ViewEncapsulation, afterRenderEffect, computed, effect, inject, input, signal, untracked, viewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { DevPanelService } from '../../core/layout/dev-panel/dev-panel.service';
 import { NavService } from '../../core/navigation/nav.service';
 import { ME_PHOTO } from '../../data/people.data';
 import { COMM_POOL } from '../../data/comm.data';
@@ -34,7 +35,8 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
  * Новая: форма-страница, только «Создать» (без «Отменить»); параметр адреса type — тип (каталог, «Повторить заявку»).
  * Просмотр (параметр rq — номер) — как форма добавления: тип и номер заголовком, статус; автор и ответственный; ниже отдельным блоком «Параметры заявки» — поля «подпись / значение» в тех же 4 колонках;
  * в шапке — сразу под названием и статусом текст описания без серой подписи «Описание» (обрезка после 4 строк с градиентом и «Показать больше» / «Свернуть», max-width 700);
- * ниже — параметры заявки (даты, канал, подразделение) без отдельного заголовка;
+ * ниже — параметры заявки (даты, канал, подразделение) без отдельного заголовка: по умолчанию сетка из 4 колонок;
+ * демо «Шапка заявки → Компактная» — те же параметры под названием по 3 в ряд (без смены участников / документов / результата / футера);
  * ниже — «Участники» (widgets/event-members: колонки «Участник» и «Роль»; автор, заявитель и ответственный — из заявки);
  * ниже — «Документы» (widgets/rel-docs: секции «Входящие» / «Исходящие»); у завершенной — «Результат обработки» (плашка и комментарий; файлы — в исходящих).
  * Клик по строке списка — только просмотр (без действий внизу и без формы результата, даже если я ответственный).
@@ -69,9 +71,10 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
             }
           </div>
         }
-        <div class="rqngrid rqnvgrid">
+        <!-- параметры: обычная сетка 4 колонки; демо «Компактная» — 3 в ряд под названием -->
+        <div class="rqngrid rqnvgrid" [class.rqn3]="compactHead()">
           @for (f of fields(); track f.l) {
-            <div [class]="'rqnkv ' + (f.w || '')"><span class="l">{{ f.l }}</span>{{ f.v }}</div>
+            <div [class]="'rqnkv ' + (compactHead() ? '' : f.w || '')"><span class="l">{{ f.l }}</span>{{ f.v }}</div>
           }
         </div>
       </div>
@@ -199,7 +202,7 @@ type Act = [string, string, 'pri' | 'raised' | 'dng'];
   host: { class: 'pg pg-reqnew', '(document:click)': 'menu.set(null)' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Reqnew {
+export class Reqnew implements OnDestroy {
   /** тип из адреса (быстрая заявка, «Повторить заявку») */
   readonly type = input('');
   /** номер просматриваемой заявки */
@@ -209,6 +212,18 @@ export class Reqnew {
   protected readonly s = inject(ReqState);
   private readonly nav = inject(NavService);
   protected readonly toast = inject(ToastService);
+  /** демо: обычная сетка параметров (4 колонки) или компактная шапка (3 в ряд под названием) */
+  protected readonly headLayout = signal<'default' | 'compact'>('default');
+  protected readonly compactHead = computed(() => this.headLayout() === 'compact');
+  private readonly offDev = inject(DevPanelService).register({
+    id: 'reqHead',
+    label: 'Шапка заявки',
+    options: [
+      { value: 'default', label: 'Обычная' },
+      { value: 'compact', label: 'Компактная' },
+    ],
+    value: this.headLayout,
+  });
   protected readonly tone = REQ_STATUS_TONE;
   protected readonly me = ME_PHOTO;
   /** у новой заявки — начальные статусы */
@@ -339,6 +354,9 @@ export class Reqnew {
   protected readonly menu = signal<HTMLElement | null>(null);
 
   private readonly title = inject(Title);
+  ngOnDestroy(): void {
+    this.offDev();
+  }
   constructor() {
     // вкладка браузера: просмотр или добавление
     effect(() => this.title.setTitle(this.pageTitle() + ' · Q.HCM'));

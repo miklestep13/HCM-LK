@@ -189,6 +189,11 @@
 .pg-reqnew .rqnview .rqnvgrid {
   margin-top: 20px;
 }
+/* демо «Компактная»: параметры под названием по 3 в ряд */
+.pg-reqnew .rqnview .rqnvgrid.rqn3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 24px;
+}
 .pg-reqnew .rqnview .rqnppl {
   margin-bottom: 0;
 }
