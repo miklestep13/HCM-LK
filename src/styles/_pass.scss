@@ -34,8 +34,8 @@
 :where(.pg-pass) .secth {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 13px 16px;
+  gap: 8px;
+  padding: 12px;
   background: var(--s1);
 }
 :where(.pg-pass) .secth b {
@@ -458,11 +458,46 @@
 
 /* содержание курса (#plToc прототипа) */
 .pg-pass.pg-pass .pltoc .sect:last-child{margin-bottom:0}
-.pg-pass.pg-pass .pltoc .plrow{cursor:pointer;align-items:center;padding:10px 16px}
+.pg-pass.pg-pass .pltoc .plrow{
+  cursor:pointer;
+  align-items:center;
+  gap:6px;
+  padding:8px 12px;
+}
 .pg-pass.pg-pass .pltoc .plrow.on{background:var(--blue-bg)}
 .pg-pass.pg-pass .pltoc .plrow:hover b{color:var(--blue)}
-/* номер модуля в группе: 1.1, 12.3 — шире, чем одна цифра */
-.pg-pass.pg-pass .pltoc .cbi{display:flex;align-items:center;justify-content:center;width:32px;min-width:32px;flex:0 0 32px;font:var(--q-font-ui-description-1);color:var(--t3)}
+/* номер 1.1 + слот статуса + иконка типа — в одном ряду */
+.pg-pass.pg-pass .pltoc .plnum{
+  font:var(--q-font-ui-description-1);
+  color:var(--t3);
+  font-variant-numeric:tabular-nums;
+  flex:0 0 28px;
+  width:28px;
+  text-align:right;
+}
+.pg-pass.pg-pass .pltoc .pliwrap{
+  flex:0 0 16px;
+  width:16px;
+  height:16px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.pg-pass.pg-pass .pltoc .pliwrap .pli svg{
+  width:16px;
+  height:16px;
+}
+/* название — максимум 2 строки, полное — в title */
+.pg-pass.pg-pass .pltoc .pltn{
+  flex:1 1 0;
+  min-width:0;
+}
+.pg-pass.pg-pass .pltoc .pltn b{
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
 
 /* прикрепленные файлы задания */
 :where(.pg-pass) .tkfiles{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
