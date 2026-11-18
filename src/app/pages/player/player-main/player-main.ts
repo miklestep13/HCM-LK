@@ -139,24 +139,16 @@ const TYPE: Record<string, string> = { text: 'Модуль', test: 'Тест', t
               }
             }
           </div>
-          @if ((b.k === 'poll' || b.k === 'test') && !s.st().done.includes(s.i())) {
-            @if (b.k === 'test' && s.st().fail.includes(s.i()) && !s.store.tries(s.id())) {
-              <div class="lfres dg inl" style="margin-top: 16px">
-                <app-icon name="pliFail" /><b>Неудачная попытка</b
-                ><span>Порог {{ pass }}% не набран. Попытки исчерпаны — обратитесь к администратору обучения.</span>
-              </div>
+          @if (b.k === 'test' && !s.st().done.includes(s.i()) && s.st().fail.includes(s.i())) {
+            <div class="lfres dg inl" style="margin-top: 16px">
+              <app-icon name="pliFail" /><b>Неудачная попытка</b
+              ><span
+                >Порог {{ pass }}% не набран. {{ s.store.tries(s.id()) ? 'Осталось попыток: ' + s.store.tries(s.id()) + '.' : 'Попытки исчерпаны — обратитесь к администратору обучения.' }}</span
+              >
+            </div>
+            @if (!s.store.tries(s.id())) {
               <div class="plnav" style="margin-top: 12px">
                 <button class="btn raised" (click)="toast.show('Администратор обучения', 'Запрос на дополнительную попытку отправлен в отдел обучения.')">Связаться с администратором</button>
-              </div>
-            } @else {
-              @if (b.k === 'test' && s.st().fail.includes(s.i())) {
-                <div class="lfres dg inl" style="margin-top: 16px">
-                  <app-icon name="pliFail" /><b>Неудачная попытка</b
-                  ><span>Порог {{ pass }}% не набран. Осталось попыток: {{ s.store.tries(s.id()) }}.</span>
-                </div>
-              }
-              <div class="plnav" style="margin-top: 16px">
-                <button class="btn pri" (click)="b.k === 'test' ? checkParts() : sendPartsPoll()">{{ b.k === 'test' ? 'Проверить' : 'Отправить' }}</button>
               </div>
             }
           }
@@ -221,7 +213,6 @@ const TYPE: Record<string, string> = { text: 'Модуль', test: 'Тест', t
                       }
                     </div>
                   }
-                  <div class="plnav" style="margin-top: 0"><button class="btn pri" (click)="check()">Проверить</button></div>
                 }
               }
             }
@@ -270,7 +261,6 @@ const TYPE: Record<string, string> = { text: 'Модуль', test: 'Тест', t
                   </div>
                 </div>
                 <textarea class="fta" rows="3" placeholder="Что было самым полезным?" [value]="fb()" (input)="fb.set($any($event.target).value)"></textarea>
-                <div class="plnav" style="margin-top: 12px"><button class="btn pri" [disabled]="!stars()" (click)="sendPoll()">Отправить</button></div>
               }
             }
           }
@@ -354,54 +344,6 @@ export class PlayerMain {
   protected answer(qi: number, i: number): void {
     this.answers.update((a) => ({ ...a, [qi]: i }));
   }
-  protected check(): void {
-    const Q = this.quiz(), A = this.answers(), k = this.s.i(), id = this.s.id();
-    if (Object.keys(A).length < Q.length) return this.toast.show('Тест', 'Ответьте на все вопросы.');
-    const ok = Q.filter((b, qi) => A[qi] === b.si).length;
-    if (Math.round((ok / Q.length) * 100) >= LEARN_PASS) {
-      this.s.patch((x) => {
-        x.fail.delete(k);
-        x.done.add(k);
-      });
-      this.toast.show('Тест сдан', ok + ' из ' + Q.length + ' — модуль засчитан.');
-    } else {
-      this.s.patch((x) => x.fail.add(k));
-      this.s.store.attempts.update((a) => ({ ...a, [id]: Math.max(0, this.s.store.tries(id) - 1) }));
-      this.toast.show('Тест не сдан', ok + ' из ' + Q.length + ' — порог ' + LEARN_PASS + '% не набран.');
-    }
-    this.answers.set({});
-  }
-  /** тест с вопросами из LEARN_PLAYER_PARTS — демо: засчитываем при всех ответах */
-  protected checkParts(): void {
-    const qs = this.parts().filter((p): p is Extract<PlayerPart, { k: 'q' }> => p.k === 'q');
-    const miss = qs.filter((q) => q.req && !this.filled(q.id));
-    if (miss.length) return this.toast.show('Тест', 'Ответьте на все обязательные вопросы.');
-    const k = this.s.i(), id = this.s.id();
-    // демо: два и более ответа — сдан; иначе — неудача (чтобы показать оба состояния)
-    const ok = qs.length && qs.every((q) => this.filled(q.id));
-    if (ok) {
-      this.s.patch((x) => {
-        x.fail.delete(k);
-        x.done.add(k);
-      });
-      this.toast.show('Тест сдан', 'Порог ' + LEARN_PASS + '% набран, модуль засчитан.');
-    } else {
-      this.s.patch((x) => x.fail.add(k));
-      this.s.store.attempts.update((a) => ({ ...a, [id]: Math.max(0, this.s.store.tries(id) - 1) }));
-      this.toast.show('Тест не сдан', 'Порог ' + LEARN_PASS + '% не набран.');
-    }
-  }
-  protected sendPartsPoll(): void {
-    const qs = this.parts().filter((p): p is Extract<PlayerPart, { k: 'q' }> => p.k === 'q');
-    const miss = qs.filter((q) => q.req && !this.filled(q.id));
-    if (miss.length) return this.toast.show('Опрос', 'Ответьте на все обязательные вопросы.');
-    const k = this.s.i();
-    this.s.patch((x) => {
-      x.fail.delete(k);
-      x.done.add(k);
-    });
-    this.toast.show('Спасибо', 'Обратная связь по модулю отправлена.');
-  }
   protected removeFile(i: number): void {
     this.files.update((l) => l.filter((_, k) => k !== i));
   }
@@ -422,17 +364,5 @@ export class PlayerMain {
     this.s.store.comments.update((c) => [['avme', 'Иванов Павел Сергеевич', 'сегодня', v, txt], ...c]);
     this.toast.show('Спасибо', 'Отзыв появится в комментариях к курсу.');
     this.nav.go('dev', { lt: 'my' });
-  }
-  /** опрос в плеере: засчитываем блок без запуска страницы опросов */
-  protected sendPoll(): void {
-    if (!this.stars()) return;
-    const k = this.s.i();
-    this.s.patch((x) => {
-      x.fail.delete(k);
-      x.done.add(k);
-    });
-    this.toast.show('Спасибо', 'Обратная связь по модулю отправлена.');
-    this.stars.set(0);
-    this.fb.set('');
   }
 }

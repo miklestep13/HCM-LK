@@ -228,12 +228,14 @@
 :where(.pg-pass) .pli.dg {
   color: var(--dg);
 }
-/* контент справа — sticky: структуру слева можно листать, модуль остаётся в зоне видимости */
+/* контент справа в плеере — sticky (не в конструкторе: .bldcv иначе сжимает .bldmt) */
 :where(.pg-pass) .c.full.plmain {
   padding: 24px;
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+:where(.pg-pass) .c.full.plmain:not(.bldcv) {
   position: sticky;
   top: 72px; /* под шапкой сайта */
   max-height: calc(100vh - 88px);
@@ -466,24 +468,24 @@
 .pg-pass.pg-pass .pltoc .plrow{
   cursor:pointer;
   align-items:center;
-  /* зазоры задаём по отдельности у .plnum / .cico — не общий gap */
-  gap:0;
+  /* везде 8: номер/статус · иконка типа · название */
+  gap:8px;
   padding:8px 12px;
 }
 .pg-pass.pg-pass .pltoc .plrow.on{background:var(--blue-bg)}
 .pg-pass.pg-pass .pltoc .plrow:hover b{color:var(--blue)}
-/* номер / статус — слева; до иконки типа 4px */
+/* колонка номера / иконки прохождения — вровень с номером раздела (.secn) */
 .pg-pass.pg-pass .pltoc .plnum{
   font:var(--q-font-ui-description-1);
   color:var(--t3);
   font-variant-numeric:tabular-nums;
-  flex:0 0 auto;
-  min-width:14px;
+  flex:0 0 28px;
+  width:28px;
+  min-width:28px;
   display:inline-flex;
   align-items:center;
-  justify-content:flex-start;
-  text-align:left;
-  margin-right:4px;
+  justify-content:center;
+  text-align:center;
 }
 .pg-pass.pg-pass .pltoc .plnum .pli{
   display:inline-flex;
@@ -492,12 +494,10 @@
   width:14px;
   height:14px;
 }
-/* иконка типа; до названия 8px */
 .pg-pass.pg-pass .pltoc .cico{
   flex:0 0 14px;
   width:14px;
   justify-content:center;
-  margin-right:8px;
 }
 .pg-pass.pg-pass .pltoc .cico svg{
   width:14px;
@@ -535,7 +535,7 @@
   :where(.pg-pass) .plgrid {
     grid-template-columns: minmax(0, 1fr);
   }
-  :where(.pg-pass) .c.full.plmain {
+  :where(.pg-pass) .c.full.plmain:not(.bldcv) {
     position: static;
     max-height: none;
     overflow: visible;
