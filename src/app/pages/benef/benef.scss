@@ -199,6 +199,14 @@
   align-items: baseline;
   gap: 8px;
 }
+.pg-benef .sliphead .slipwho {
+  align-items: flex-start;
+}
+.pg-benef .sliphead .sliprole {
+  margin-top: 2px;
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
 .pg-benef .sliphead span {
   font: var(--q-font-ui-body-2);
   color: var(--t2);

@@ -11,10 +11,10 @@ export const BENEF_PERIODS: BenefPeriod[] = [
   { name: 'Последние 12 месяцев', a: '20251001', b: '20260930' },
 ];
 
-/** формат суммы бланка: «190 000,00» */
+/** формат суммы бланка: «190 000,00 ₽» */
 export function slipAmt(n: number): string {
   const [a, b] = Math.abs(n).toFixed(2).split('.');
-  return (n < 0 ? '−' : '') + a.replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0') + ',' + b;
+  return (n < 0 ? '−' : '') + a.replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0') + ',' + b + '\u00a0₽';
 }
 
 export const PAY_SLIP: PaySlip = {
