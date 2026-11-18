@@ -70,12 +70,12 @@ function monthsOf(a: string, b: string): string[] {
                 <div class="sliphead">
                   <div class="sliphead-l">
                     <div><span>Сотрудник:</span><b>{{ s.name }}</b></div>
+                    <div><span>Должность:</span><b>{{ s.role }}</b></div>
                     <div><span>Организация:</span><b>{{ s.org }}</b></div>
                     <div><span>Подразделение:</span><b>{{ s.unit }}</b></div>
                   </div>
                   <div class="sliphead-r">
                     <div><span>К выплате:</span><b>{{ form.debtEnd }}</b></div>
-                    <div><span>Должность:</span><b>{{ s.role }}</b></div>
                     <div><span>Оклад (тариф):</span><b>{{ tariff() }}</b></div>
                   </div>
                 </div>
@@ -159,11 +159,11 @@ export class BenefSlip {
   private hold = false;
 
   protected tariff(): string {
-    return fmt(this.s.tariff);
+    return fmt(this.s.tariff).replace(/ /g, '\u00a0') + '\u00a0₽';
   }
   protected tax(): string {
     const [a, b] = this.s.taxable.toFixed(2).split('.');
-    return fmt(+a) + ',' + b;
+    return fmt(+a).replace(/ /g, '\u00a0') + ',' + b + '\u00a0₽';
   }
   protected months(): string[] {
     const a = this.range().a;

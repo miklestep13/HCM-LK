@@ -176,13 +176,14 @@
 .pg-benef .slipt tr.slipg:not(:first-child) td {
   padding-top: 20px;
 }
-/* шапка бланка: слева подпись 14, справа значение 14 жирным */
+/* шапка бланка: слева подпись 14, справа значение 14 жирным;
+   «К выплате» / «Оклад» — у нижнего края шапки, сразу над таблицей */
 .pg-benef .sliphead {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   gap: 4px 48px;
-  margin-bottom: 16px;
-  align-items: start;
+  margin-bottom: 8px;
+  align-items: end;
 }
 .pg-benef .sliphead-l,
 .pg-benef .sliphead-r {
@@ -192,6 +193,7 @@
 }
 .pg-benef .sliphead-r {
   align-items: flex-end;
+  justify-self: end;
 }
 .pg-benef .sliphead :is(.sliphead-l, .sliphead-r) > div {
   display: flex;
