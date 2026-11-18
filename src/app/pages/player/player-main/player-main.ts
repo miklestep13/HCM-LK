@@ -1,7 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal, untracked } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal, untracked, ViewEncapsulation } from '@angular/core';
 import { NavService } from '../../../core/navigation/nav.service';
 import { LEARN_COURSE_INFO, LEARN_PASS, LEARN_TASK_FILES } from '../../../data/learn-course.data';
+import { KB_ARTICLES, KB_TYPES } from '../../../data/kb.data';
+import { PlayerPart, playerParts } from '../../../data/learn-player.data';
+import { Attach } from '../../../shared/ui/attach/attach';
+import { Choice } from '../../../shared/ui/choice/choice';
 import { Icon } from '../../../shared/ui/icon/icon';
+import { Scale } from '../../../shared/ui/scale/scale';
 import { ToastService } from '../../../shared/ui/toast/toast.service';
 import { PlayerState } from '../player.state';
 
@@ -10,10 +15,12 @@ const TYPE: Record<string, string> = { video: 'Видео', text: 'Текст', 
 /**
  * Модуль курса: заголовок, длительность и тип, описание, содержимое по типу (видео, текст, презентация, документ, тест, задание),
  * переход к предыдущему / следующему модулю или «Завершить». После завершения — итог и отзыв о курсе.
+ * Если у модуля есть LEARN_PLAYER_PARTS — рендерим стек блоков (текст, медиа, файлы, БЗ, вопросы опроса/теста).
  */
 @Component({
   selector: '[player-main]',
-  imports: [Icon],
+  imports: [Icon, Attach, Choice, Scale],
+  styleUrl: './player-main.scss',
   template: `
     @if (s.finished()) {
       <div class="lfres ok">
@@ -38,110 +45,226 @@ const TYPE: Record<string, string> = { video: 'Видео', text: 'Текст', 
       </div>
       <p class="pld">{{ b.d }}</p>
       <div class="plbody">
-        @switch (b.k) {
-          @case ('video') {
-            <div class="plvid" [style.background-image]="img() ? 'url(' + img() + ')' : null">
-              <span class="plvp"><app-icon name="playFill" /></span><span class="plvm">Видеоурок · {{ b.m }}</span>
-            </div>
-          }
-          @case ('text') {
-            <div class="pltext" [innerHTML]="b.x || '<p>' + b.d + '</p>'"></div>
-          }
-          @case ('pres') {
-            <div class="plpres">
-              <div class="plslide"><small>Слайд {{ page() }}</small><b>{{ b.t }}</b><span>{{ b.d }}</span></div>
-              <div class="pltb">
-                <button class="ib3" title="Назад" (click)="page.set(max(1, page() - 1))"><app-icon name="backArrow" /></button><span>{{ page() }} / 12</span
-                ><button class="ib3 flip" title="Вперед" (click)="page.set(min(12, page() + 1))"><app-icon name="backArrow" /></button>
-              </div>
-            </div>
-          }
-          @case ('pdf') {
-            <div class="plpdf">
-              <div class="pltb top">
-                <span><app-icon name="tkFile" />{{ b.t }}.pdf</span><span class="plpg">страница {{ page() }} из 8</span
-                ><button class="ib3" title="Назад" (click)="page.set(max(1, page() - 1))"><app-icon name="backArrow" /></button
-                ><button class="ib3 flip" title="Вперед" (click)="page.set(min(8, page() + 1))"><app-icon name="backArrow" /></button>
-              </div>
-              <div class="plpage"><b>{{ b.t }}</b><i></i><i></i><i class="s"></i><i></i><i></i><i></i><i class="s"></i><i></i><i></i></div>
-            </div>
-          }
-          @case ('test') {
-            @if (s.st().done.includes(s.i())) {
-              <div class="lfres ok inl"><app-icon name="pliOk" /><b>Тест сдан</b><span>Порог {{ pass }}% набран, модуль засчитан.</span></div>
-            } @else {
-              @let failed = s.st().fail.includes(s.i());
-              @let left = s.store.tries(s.id());
-              @if (failed) {
-                <div class="lfres dg inl">
-                  <app-icon name="pliFail" /><b>Неудачная попытка</b
-                  ><span>Порог {{ pass }}% не набран. {{ left ? 'Осталось попыток: ' + left + '.' : 'Попытки исчерпаны — обратитесь к администратору обучения.' }}</span>
-                </div>
-              }
-              @if (failed && !left) {
-                <div class="plnav" style="margin-top: 0">
-                  <button class="btn raised" (click)="toast.show('Администратор обучения', 'Запрос на дополнительную попытку отправлен в отдел обучения.')">Связаться с администратором</button>
-                </div>
-              } @else {
-                <p class="pld">3 вопроса, проходной порог {{ pass }}%. Осталось попыток: {{ left }}.</p>
-                @for (q of quiz(); track $index; let qi = $index) {
-                  <div class="plq">
-                    <b>{{ qi + 1 }}. К какому разделу курса относится тема «{{ q.t }}»?</b>
-                    @for (sec of sections(); track $index; let i = $index) {
-                      <label class="plo"><input type="radio" [name]="'q' + qi" [checked]="answers()[qi] === i" (change)="answer(qi, i)" /><span>{{ sec }}</span></label>
+        @if (parts().length) {
+          <div class="plparts">
+            @for (p of parts(); track $index) {
+              @switch (p.k) {
+                @case ('text') {
+                  <div class="bltext" [class.note]="p.note" [innerHTML]="p.html"></div>
+                }
+                @case ('image') {
+                  <figure class="blimg">
+                    <img [src]="p.src" alt="" />
+                    @if (p.title) {
+                      <figcaption>{{ p.title }}</figcaption>
+                    }
+                  </figure>
+                }
+                @case ('video') {
+                  <div class="plvid" [style.background-image]="p.cover ? 'url(' + p.cover + ')' : null">
+                    <span class="plvp"><app-icon name="playFill" /></span><span class="plvm">{{ p.title }}{{ p.dur ? ' · ' + p.dur : '' }}</span>
+                  </div>
+                }
+                @case ('pdf') {
+                  <div class="plpdf">
+                    <div class="pltb top">
+                      <span><app-icon name="tkFile" />{{ p.name }}</span><span class="plpg">страница 1 из 8</span>
+                    </div>
+                    <div class="plpage"><b>{{ p.title }}</b><i></i><i></i><i class="s"></i><i></i><i></i><i></i><i class="s"></i><i></i></div>
+                  </div>
+                }
+                @case ('files') {
+                  @if (p.title) {
+                    <div class="blttl">{{ p.title }}</div>
+                  }
+                  <app-attach [files]="p.files" />
+                }
+                @case ('kb') {
+                  @let a = article(p.art);
+                  @if (a) {
+                    <div class="blkb">
+                      @if (a.cover) {
+                        <span class="blkbi" [style.background-image]="'url(' + a.cover + ')'"></span>
+                      }
+                      <div>
+                        <small><app-icon name="mKb" />База знаний · {{ kbType[a.type] }}</small>
+                        <b>{{ a.title }}</b>
+                        <p>{{ a.excerpt }}</p>
+                        <span class="lnk">Читать статью</span>
+                      </div>
+                    </div>
+                  }
+                }
+                @case ('q') {
+                  <div class="sq" [class.done]="filled(p.id)">
+                    <span class="sqn">Вопрос {{ qNum(p.id) }}</span>
+                    <div class="sqt">{{ p.n }}@if (p.req) {<span class="sqreq" title="Обязательный вопрос">*</span>}</div>
+                    @if (p.d) {
+                      <div class="sqd">{{ p.d }}</div>
+                    }
+                    <div class="sqa">
+                      @switch (p.t) {
+                        @case ('one') {
+                          <app-choice [options]="p.opts!" [value]="$any(ans()[p.id])" (valueChange)="setAns(p.id, $event)" />
+                        }
+                        @case ('many') {
+                          <app-choice multi [options]="p.opts!" [value]="$any(ans()[p.id]) ?? []" (valueChange)="setAns(p.id, $event)" />
+                        }
+                        @case ('yesno') {
+                          <app-scale class="sqyn" [items]="p.opts || ['Да', 'Нет']" [value]="$any(ans()[p.id]) ?? null" (valueChange)="setAns(p.id, $event)" />
+                        }
+                        @case ('scale') {
+                          <app-scale [from]="1" [to]="5" [minLabel]="p.lo || ''" [maxLabel]="p.hi || ''" [value]="$any(ans()[p.id]) ?? null" (valueChange)="setAns(p.id, $event)" />
+                        }
+                        @case ('nps') {
+                          <app-scale nps [from]="0" [to]="10" [minLabel]="p.lo || ''" [maxLabel]="p.hi || ''" [value]="$any(ans()[p.id]) ?? null" (valueChange)="setAns(p.id, $event)" />
+                        }
+                        @case ('long') {
+                          <textarea class="fta sqta" rows="4" placeholder="Ваш ответ" [value]="$any(ans()[p.id]) || ''" (input)="setAns(p.id, $any($event.target).value)"></textarea>
+                        }
+                      }
+                    </div>
+                    @if (p.cm) {
+                      <textarea class="fta sqcm" rows="2" placeholder="Комментарий к оценке (необязательно)" [value]="cm()[p.id] || ''" (input)="setCm(p.id, $any($event.target).value)"></textarea>
                     }
                   </div>
                 }
-                <div class="plnav" style="margin-top: 0"><button class="btn pri" (click)="check()">Проверить</button></div>
               }
             }
-          }
-          @case ('task') {
-            @if (s.st().done.includes(s.i())) {
-              <div class="lfres ok inl"><app-icon name="pliOk" /><b>Задание засчитано</b><span>Куратор проверил работу, модуль пройден.</span></div>
-            } @else if (s.st().review.includes(s.i())) {
-              <div class="lfres warn inl">
-                <app-icon name="clock" /><b>На проверке</b><span>Куратор проверит задание в течение трех рабочих дней, результат придет уведомлением.</span>
+          </div>
+          @if ((b.k === 'poll' || b.k === 'test') && !s.st().done.includes(s.i())) {
+            @if (b.k === 'test' && s.st().fail.includes(s.i()) && !s.store.tries(s.id())) {
+              <div class="lfres dg inl" style="margin-top: 16px">
+                <app-icon name="pliFail" /><b>Неудачная попытка</b
+                ><span>Порог {{ pass }}% не набран. Попытки исчерпаны — обратитесь к администратору обучения.</span>
+              </div>
+              <div class="plnav" style="margin-top: 12px">
+                <button class="btn raised" (click)="toast.show('Администратор обучения', 'Запрос на дополнительную попытку отправлен в отдел обучения.')">Связаться с администратором</button>
               </div>
             } @else {
-              @if (s.st().fail.includes(s.i())) {
-                <div class="lfres dg inl">
-                  <app-icon name="pliFail" /><b>Задание не засчитано</b
-                  ><span>Комментарий куратора: не хватает проверки лимитов по 115-ФЗ, доработайте расчет и отправьте заново.</span>
+              @if (b.k === 'test' && s.st().fail.includes(s.i())) {
+                <div class="lfres dg inl" style="margin-top: 16px">
+                  <app-icon name="pliFail" /><b>Неудачная попытка</b
+                  ><span>Порог {{ pass }}% не набран. Осталось попыток: {{ s.store.tries(s.id()) }}.</span>
                 </div>
               }
-              <p class="pld">Выполните задание по материалам раздела и прикрепите файлы с результатом — куратор проверит и засчитает модуль.</p>
-              <div class="pltask">
-                <div class="pldrop" (click)="files.set([...files(), taskFiles[files().length % taskFiles.length]])">
-                  <app-icon name="uploadBig" /><b>Перетащите файлы сюда или <u>выберите на компьютере</u></b><small>PDF, DOCX, XLSX, PNG или JPG · до 20 МБ каждый</small>
-                </div>
-                <div class="tkfiles">
-                  @for (f of files(); track $index; let i = $index) {
-                    <span class="tkfile"
-                      ><span class="tkfi"><app-icon name="tkFile" /></span><span class="tkfn"><b>{{ f[0] }}</b><small>{{ f[1] }}</small></span
-                      ><span class="tkfx" title="Убрать" (click)="removeFile(i)"><app-icon name="close" /></span
-                    ></span>
-                  }
-                </div>
+              <div class="plnav" style="margin-top: 16px">
+                <button class="btn pri" (click)="b.k === 'test' ? checkParts() : sendPartsPoll()">{{ b.k === 'test' ? 'Проверить' : 'Отправить' }}</button>
               </div>
-              <div class="plnav" style="margin-top: 0"><button class="btn pri" [disabled]="!files().length" (click)="send()">Отправить на проверку</button></div>
             }
           }
-          @case ('poll') {
-            @if (s.st().done.includes(s.i())) {
-              <div class="lfres ok inl"><app-icon name="pliOk" /><b>Ответы отправлены</b><span>Спасибо — обратная связь поможет улучшить курс.</span></div>
-            } @else {
-              <p class="pld">Короткий опрос по модулю. Ответы анонимные и используются только для улучшения курса.</p>
-              <div class="plq">
-                <b>Насколько понятен материал?</b>
-                <div class="lfstars">
-                  @for (k of [1, 2, 3, 4, 5]; track k) {
-                    <span [class.on]="k <= stars()" (click)="stars.set(k)">★</span>
-                  }
+          @if ((b.k === 'poll' || b.k === 'test') && s.st().done.includes(s.i())) {
+            <div class="lfres ok inl" style="margin-top: 16px">
+              <app-icon name="pliOk" /><b>{{ b.k === 'test' ? 'Тест сдан' : 'Ответы отправлены' }}</b
+              ><span>{{ b.k === 'test' ? 'Порог ' + pass + '% набран, модуль засчитан.' : 'Спасибо — обратная связь поможет улучшить курс.' }}</span>
+            </div>
+          }
+        } @else {
+          @switch (b.k) {
+            @case ('video') {
+              <div class="plvid" [style.background-image]="img() ? 'url(' + img() + ')' : null">
+                <span class="plvp"><app-icon name="playFill" /></span><span class="plvm">Видеоурок · {{ b.m }}</span>
+              </div>
+            }
+            @case ('text') {
+              <div class="pltext" [innerHTML]="b.x || '<p>' + b.d + '</p>'"></div>
+            }
+            @case ('pres') {
+              <div class="plpres">
+                <div class="plslide"><small>Слайд {{ page() }}</small><b>{{ b.t }}</b><span>{{ b.d }}</span></div>
+                <div class="pltb">
+                  <button class="ib3" title="Назад" (click)="page.set(max(1, page() - 1))"><app-icon name="backArrow" /></button><span>{{ page() }} / 12</span
+                  ><button class="ib3 flip" title="Вперед" (click)="page.set(min(12, page() + 1))"><app-icon name="backArrow" /></button>
                 </div>
               </div>
-              <textarea class="fta" rows="3" placeholder="Что было самым полезным?" [value]="fb()" (input)="fb.set($any($event.target).value)"></textarea>
-              <div class="plnav" style="margin-top: 12px"><button class="btn pri" [disabled]="!stars()" (click)="sendPoll()">Отправить</button></div>
+            }
+            @case ('pdf') {
+              <div class="plpdf">
+                <div class="pltb top">
+                  <span><app-icon name="tkFile" />{{ b.t }}.pdf</span><span class="plpg">страница {{ page() }} из 8</span
+                  ><button class="ib3" title="Назад" (click)="page.set(max(1, page() - 1))"><app-icon name="backArrow" /></button
+                  ><button class="ib3 flip" title="Вперед" (click)="page.set(min(8, page() + 1))"><app-icon name="backArrow" /></button>
+                </div>
+                <div class="plpage"><b>{{ b.t }}</b><i></i><i></i><i class="s"></i><i></i><i></i><i></i><i class="s"></i><i></i><i></i></div>
+              </div>
+            }
+            @case ('test') {
+              @if (s.st().done.includes(s.i())) {
+                <div class="lfres ok inl"><app-icon name="pliOk" /><b>Тест сдан</b><span>Порог {{ pass }}% набран, модуль засчитан.</span></div>
+              } @else {
+                @let failed = s.st().fail.includes(s.i());
+                @let left = s.store.tries(s.id());
+                @if (failed) {
+                  <div class="lfres dg inl">
+                    <app-icon name="pliFail" /><b>Неудачная попытка</b
+                    ><span>Порог {{ pass }}% не набран. {{ left ? 'Осталось попыток: ' + left + '.' : 'Попытки исчерпаны — обратитесь к администратору обучения.' }}</span>
+                  </div>
+                }
+                @if (failed && !left) {
+                  <div class="plnav" style="margin-top: 0">
+                    <button class="btn raised" (click)="toast.show('Администратор обучения', 'Запрос на дополнительную попытку отправлен в отдел обучения.')">Связаться с администратором</button>
+                  </div>
+                } @else {
+                  <p class="pld">3 вопроса, проходной порог {{ pass }}%. Осталось попыток: {{ left }}.</p>
+                  @for (q of quiz(); track $index; let qi = $index) {
+                    <div class="plq">
+                      <b>{{ qi + 1 }}. К какому разделу курса относится тема «{{ q.t }}»?</b>
+                      @for (sec of sections(); track $index; let i = $index) {
+                        <label class="plo"><input type="radio" [name]="'q' + qi" [checked]="answers()[qi] === i" (change)="answer(qi, i)" /><span>{{ sec }}</span></label>
+                      }
+                    </div>
+                  }
+                  <div class="plnav" style="margin-top: 0"><button class="btn pri" (click)="check()">Проверить</button></div>
+                }
+              }
+            }
+            @case ('task') {
+              @if (s.st().done.includes(s.i())) {
+                <div class="lfres ok inl"><app-icon name="pliOk" /><b>Задание засчитано</b><span>Куратор проверил работу, модуль пройден.</span></div>
+              } @else if (s.st().review.includes(s.i())) {
+                <div class="lfres warn inl">
+                  <app-icon name="clock" /><b>На проверке</b><span>Куратор проверит задание в течение трех рабочих дней, результат придет уведомлением.</span>
+                </div>
+              } @else {
+                @if (s.st().fail.includes(s.i())) {
+                  <div class="lfres dg inl">
+                    <app-icon name="pliFail" /><b>Задание не засчитано</b
+                    ><span>Комментарий куратора: не хватает проверки лимитов по 115-ФЗ, доработайте расчет и отправьте заново.</span>
+                  </div>
+                }
+                <p class="pld">Выполните задание по материалам раздела и прикрепите файлы с результатом — куратор проверит и засчитает модуль.</p>
+                <div class="pltask">
+                  <div class="pldrop" (click)="files.set([...files(), taskFiles[files().length % taskFiles.length]])">
+                    <app-icon name="uploadBig" /><b>Перетащите файлы сюда или <u>выберите на компьютере</u></b><small>PDF, DOCX, XLSX, PNG или JPG · до 20 МБ каждый</small>
+                  </div>
+                  <div class="tkfiles">
+                    @for (f of files(); track $index; let i = $index) {
+                      <span class="tkfile"
+                        ><span class="tkfi"><app-icon name="tkFile" /></span><span class="tkfn"><b>{{ f[0] }}</b><small>{{ f[1] }}</small></span
+                        ><span class="tkfx" title="Убрать" (click)="removeFile(i)"><app-icon name="close" /></span
+                      ></span>
+                    }
+                  </div>
+                </div>
+                <div class="plnav" style="margin-top: 0"><button class="btn pri" [disabled]="!files().length" (click)="send()">Отправить на проверку</button></div>
+              }
+            }
+            @case ('poll') {
+              @if (s.st().done.includes(s.i())) {
+                <div class="lfres ok inl"><app-icon name="pliOk" /><b>Ответы отправлены</b><span>Спасибо — обратная связь поможет улучшить курс.</span></div>
+              } @else {
+                <p class="pld">Короткий опрос по модулю. Ответы анонимные и используются только для улучшения курса.</p>
+                <div class="plq">
+                  <b>Насколько понятен материал?</b>
+                  <div class="lfstars">
+                    @for (k of [1, 2, 3, 4, 5]; track k) {
+                      <span [class.on]="k <= stars()" (click)="stars.set(k)">★</span>
+                    }
+                  </div>
+                </div>
+                <textarea class="fta" rows="3" placeholder="Что было самым полезным?" [value]="fb()" (input)="fb.set($any($event.target).value)"></textarea>
+                <div class="plnav" style="margin-top: 12px"><button class="btn pri" [disabled]="!stars()" (click)="sendPoll()">Отправить</button></div>
+              }
             }
           }
         }
@@ -157,6 +280,7 @@ const TYPE: Record<string, string> = { video: 'Видео', text: 'Текст', 
     }
   `,
   host: { class: 'c full plmain' },
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlayerMain {
@@ -167,15 +291,20 @@ export class PlayerMain {
   protected readonly type = TYPE;
   protected readonly pass = LEARN_PASS;
   protected readonly taskFiles = LEARN_TASK_FILES;
+  protected readonly kbType = KB_TYPES;
   protected readonly max = Math.max;
   protected readonly min = Math.min;
   protected readonly page = signal(1);
   protected readonly answers = signal<Record<number, number>>({});
+  protected readonly ans = signal<Record<string, unknown>>({});
+  protected readonly cm = signal<Record<string, string>>({});
   protected readonly files = signal<[string, string][]>([]);
   protected readonly stars = signal(0);
   protected readonly fb = signal('');
   protected readonly img = computed(() => this.s.store.imgOf('crs', this.s.id()));
   protected readonly sections = computed(() => (LEARN_COURSE_INFO[this.s.id()]?.s || []).map((x) => x[0]));
+  protected readonly parts = computed(() => playerParts(this.s.id(), this.s.i()));
+  protected readonly qIds = computed(() => this.parts().filter((p): p is Extract<PlayerPart, { k: 'q' }> => p.k === 'q').map((p) => p.id));
   /** 3 вопроса по структуре курса: первый, средний и последний модуль теории */
   protected readonly quiz = computed(() => {
     const B = this.s.blocks().filter((b) => b.k !== 'test' && b.k !== 'task');
@@ -189,6 +318,8 @@ export class PlayerMain {
       untracked(() => {
         this.page.set(1);
         this.answers.set({});
+        this.ans.set({});
+        this.cm.set({});
         this.files.set([]);
         this.stars.set(0);
         this.fb.set('');
@@ -196,6 +327,22 @@ export class PlayerMain {
     });
   }
 
+  protected article(id: string) {
+    return KB_ARTICLES.find((x) => x.id === id) ?? null;
+  }
+  protected qNum(id: string): number {
+    return this.qIds().indexOf(id) + 1;
+  }
+  protected filled(id: string): boolean {
+    const v = this.ans()[id];
+    return v != null && v !== '' && !(Array.isArray(v) && !v.length);
+  }
+  protected setAns(id: string, v: unknown): void {
+    this.ans.update((a) => ({ ...a, [id]: v }));
+  }
+  protected setCm(id: string, v: string): void {
+    this.cm.update((a) => ({ ...a, [id]: v }));
+  }
   protected answer(qi: number, i: number): void {
     this.answers.update((a) => ({ ...a, [qi]: i }));
   }
@@ -215,6 +362,37 @@ export class PlayerMain {
       this.toast.show('Тест не сдан', ok + ' из ' + Q.length + ' — порог ' + LEARN_PASS + '% не набран.');
     }
     this.answers.set({});
+  }
+  /** тест с вопросами из LEARN_PLAYER_PARTS — демо: засчитываем при всех ответах */
+  protected checkParts(): void {
+    const qs = this.parts().filter((p): p is Extract<PlayerPart, { k: 'q' }> => p.k === 'q');
+    const miss = qs.filter((q) => q.req && !this.filled(q.id));
+    if (miss.length) return this.toast.show('Тест', 'Ответьте на все обязательные вопросы.');
+    const k = this.s.i(), id = this.s.id();
+    // демо: два и более ответа — сдан; иначе — неудача (чтобы показать оба состояния)
+    const ok = qs.length && qs.every((q) => this.filled(q.id));
+    if (ok) {
+      this.s.patch((x) => {
+        x.fail.delete(k);
+        x.done.add(k);
+      });
+      this.toast.show('Тест сдан', 'Порог ' + LEARN_PASS + '% набран, модуль засчитан.');
+    } else {
+      this.s.patch((x) => x.fail.add(k));
+      this.s.store.attempts.update((a) => ({ ...a, [id]: Math.max(0, this.s.store.tries(id) - 1) }));
+      this.toast.show('Тест не сдан', 'Порог ' + LEARN_PASS + '% не набран.');
+    }
+  }
+  protected sendPartsPoll(): void {
+    const qs = this.parts().filter((p): p is Extract<PlayerPart, { k: 'q' }> => p.k === 'q');
+    const miss = qs.filter((q) => q.req && !this.filled(q.id));
+    if (miss.length) return this.toast.show('Опрос', 'Ответьте на все обязательные вопросы.');
+    const k = this.s.i();
+    this.s.patch((x) => {
+      x.fail.delete(k);
+      x.done.add(k);
+    });
+    this.toast.show('Спасибо', 'Обратная связь по модулю отправлена.');
   }
   protected removeFile(i: number): void {
     this.files.update((l) => l.filter((_, k) => k !== i));
