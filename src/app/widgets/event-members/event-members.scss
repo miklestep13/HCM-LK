@@ -56,6 +56,9 @@
   border-bottom: 1px solid var(--stroke);
   vertical-align: middle;
 }
+.w-evm .evmt tbody tr:last-child > td {
+  border-bottom: 0;
+}
 .w-evm .evmt tr.evmon td {
   background: var(--hv);
 }
