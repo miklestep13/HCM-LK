@@ -2,6 +2,7 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { ME_MENU, NAV_TABS, NavItem } from './nav.config';
+import { careerPack } from '../career-pack';
 import { ANGULAR_PAGES } from './pages';
 
 /**
@@ -41,14 +42,15 @@ export class NavService {
 
   go(page: string, attrs?: Record<string, string>): void {
     const route = ANGULAR_PAGES[page];
+    const query = careerPack() ? { export: 'career', ...attrs } : attrs;
     if (route) {
       // параметры меню (например, раздел обучения lt=cat) — в адрес страницы
-      this.router.navigateByUrl(this.router.createUrlTree([route], { queryParams: attrs && Object.keys(attrs).length ? attrs : undefined }));
+      this.router.navigateByUrl(this.router.createUrlTree([route], { queryParams: query && Object.keys(query).length ? query : undefined }));
       window.scrollTo(0, 0);
       return;
     }
     this.router.navigate(['/legacy', page], {
-      queryParams: attrs && Object.keys(attrs).length ? attrs : undefined,
+      queryParams: query && Object.keys(query).length ? query : undefined,
     });
   }
 

@@ -17,7 +17,8 @@ import { Icon } from '../../shared/ui/icon/icon';
 /**
  * Пост ленты новостей: автор → дата → обложка → заголовок → лид → теги → лайки/комментарии/просмотры.
  * Используется в «Компания → Обзор» (лента) и в разделе «Новости».
- * compact — короткий вид («Похожие новости»): заголовок h4, без лида.
+ * compact — короткий вид («Похожие новости»): заголовок h4, без лида, обложка ниже.
+ * plain — без шапки автора. Если передан by, шапка сотрудника остается (например, «Лица компании»).
  * admin — у автора кнопка «⋮» с действиями «Редактировать» и «Удалить».
  * by — автор-сотрудник вместо компании (лента сообщества): ФИО и портрет (класс .av или фото).
  * Своя обложка (например, рисунок сообщества) — <div npCover class="npimg">…</div> внутри тега.
@@ -31,6 +32,7 @@ import { Icon } from '../../shared/ui/icon/icon';
   host: {
     class: 'npost',
     '[class.nocov]': '!post().img',
+    '[class.cmp]': 'compact()',
     '(click)': 'open.emit(post().id)',
     '(document:click)': 'menu.set(null)',
   },
@@ -39,6 +41,8 @@ import { Icon } from '../../shared/ui/icon/icon';
 export class NewsPost {
   readonly post = input.required<NewsPostData>();
   readonly compact = input(false);
+  /** без шапки «компания / автор» */
+  readonly plain = input(false);
   readonly admin = input(false);
   readonly by = input<{ name: string; av: string; photo?: string } | null>(null);
   /** клик по посту или по «Комментарии» — открыть новость */

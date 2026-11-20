@@ -5,10 +5,14 @@ import { CpCondition, CpReqRow, CpScenario, CpStep } from '../../interface/caree
 
 /**
  * Карьерный трек сотрудника: сценарий демо, выбранная ступень дорожной карты, уровни и запросы на подтверждение.
- * Строки требований (компетенции и условия перехода) считаются из матрицы роли и уровней сотрудника.
+ * Матрица грейдов — общий стандарт должности. Факт, даты присвоения и статусы курсов — показатели сотрудника.
  */
 @Injectable({ providedIn: 'root' })
 export class CareerStore {
+  /** кто смотрит страницу: сотрудник видит свой трек, HR — карточку стандарта после создания */
+  readonly viewer = signal<'emp' | 'hr'>('emp');
+  /** грейд, открытый в карточке стандарта */
+  readonly standardGrade = signal('Специалист');
   /** сценарий dev-панели */
   readonly scenario = signal<CpScenario>('closed');
   /** грейд, требования к которому открыты в дорожной карте; пусто — следующий */
@@ -85,9 +89,43 @@ export class CareerStore {
   gap(grade: string): number {
     return this.rowsOf(grade).filter((r) => r.status === 'Не хватает' || r.status === 'Не оценен').length;
   }
-  /** число способов развития по компетенциям грейда */
+  /** сколько компетенций стандарта закрыто на освоенном грейде */
+  closedCount(grade: string): number {
+    return this.rowsOf(grade).length;
+  }
+  /** число способов развития, которые нужны для перехода на этот грейд */
   waysCount(grade: string): number {
-    return this.rowsOf(grade).reduce((n, r) => n + (CP_WAYS[r.comp]?.length || 0), 0);
+    return this.rowsOf(grade).reduce((n, r) => n + (CP_WAYS[r.comp]?.filter((w) => w.grades.includes(grade)).length || 0), 0);
+  }
+  /**
+   * Уровень, присвоенный на освоенном грейде.
+   * На прошлых грейдах — уровень стандарта того грейда. На текущем — личная оценка, она может быть выше минимума.
+   */
+  assignedLevel(grade: string, comp: string): string {
+    const row = CT_ROLE.comps.find((c) => c.name === comp);
+    if (!row) return '';
+    const gi = CT_GRADES.indexOf(grade);
+    const need = row.levels[gi] || '';
+    if (gi < CT_GRADES.indexOf(this.myGrade())) return need;
+    if (this.noAssess()) return need;
+    const cur = this.factOf(row.levels, comp);
+    if (!cur || !need) return cur || need;
+    return CT_LEVELS.indexOf(cur) >= CT_LEVELS.indexOf(need) ? cur : need;
+  }
+  /** Дата присвоения. На текущем грейде — из оценки, на прошлых — внутри периода ступени. */
+  assignedDate(grade: string, comp: string): string {
+    const step = this.steps().find((s) => s.grade === grade);
+    const start = this.periodStart(step?.period || '');
+    let date = start ? this.dayIn(start, comp) : '';
+    if (grade === this.myGrade() && !this.noAssess()) {
+      const src = this.myLevel(comp)?.source || '';
+      const found = src.match(/(\d{2}\.\d{2}\.\d{4})/);
+      if (found) date = found[1];
+      else if (/2025/.test(src)) date = this.dayIn('12.2025', comp);
+      else if (!date) date = this.dayIn('12.2025', comp);
+    }
+    if (start && date && this.dateBefore(date, start)) date = this.dayIn(start, comp);
+    return date;
   }
 
   /** открыть требования ступени (следующий грейд — по умолчанию) */
@@ -111,6 +149,23 @@ export class CareerStore {
   /** текущий уровень сотрудника по компетенции */
   level(comp: string): string {
     return this.myLevel(comp)?.level || '';
+  }
+
+  private periodStart(period: string): string {
+    const raw = period.replace(/^с\s+/, '').split(' — ')[0].trim();
+    return /^\d{2}\.\d{4}$/.test(raw) ? raw : '';
+  }
+  private dayIn(mmYYYY: string, comp: string): string {
+    const [mm, yyyy] = mmYYYY.split('.');
+    if (!mm || !yyyy) return '';
+    const day = 8 + (comp.length % 17);
+    return String(day).padStart(2, '0') + '.' + mm + '.' + yyyy;
+  }
+  private dateBefore(ddmmyyyy: string, mmYYYY: string): boolean {
+    const parts = ddmmyyyy.split('.').map(Number);
+    const start = mmYYYY.split('.').map(Number);
+    if (parts.length < 3 || start.length < 2) return false;
+    return parts[2] < start[1] || (parts[2] === start[1] && parts[1] < start[0]);
   }
 
   private myLevel(comp: string) {
@@ -153,7 +208,16 @@ export class CareerStore {
               ? 'Достигнут'
               : 'Не хватает';
         return { id: ctCompId(c.name), comp: c.name, group: c.group, cur, need, status, source, hasLearn: !!CP_LEARN[c.name]?.length, request };
-      });
+      })
+      .sort((a, b) => this.pullRank(a.status) - this.pullRank(b.status));
+  }
+
+  /** Сверху компетенции, которые еще не дотягивают до требования: их и надо подтянуть. */
+  private pullRank(status: CpReqRow['status']): number {
+    if (status === 'Не хватает') return 0;
+    if (status === 'Не оценен') return 1;
+    if (status === 'На подтверждении') return 2;
+    return 3;
   }
 
   private condsOf(grade: string): CpCondition[] {

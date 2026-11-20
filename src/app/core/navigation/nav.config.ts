@@ -146,7 +146,7 @@ export const NAV_TABS: NavTab[] = [
         page: 'a360',
       },
       {
-        title: 'Карьера',
+        title: 'Карьерный трек',
         page: 'career',
       },
       {
@@ -318,6 +318,15 @@ export const NAV_TABS: NavTab[] = [
       {
         title: 'Калибровка',
         page: 'calib',
+      },
+      {
+        title: 'Профили должностей',
+        page: 'careers',
+      },
+      {
+        title: 'Карточка должности',
+        page: 'careerhr',
+        hidden: true,
       },
       {
         title: 'Матрица 9-box',

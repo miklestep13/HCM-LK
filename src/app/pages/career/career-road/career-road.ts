@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
 import { CareerStore } from '../../../core/demo/career-store.service';
-import { CP_MOVED, CP_ROLE } from '../../../data/career-path.data';
+import { CP_POSITION_DESC, CP_ROLE } from '../../../data/career-path.data';
 import { CpStep } from '../../../interface/career-path';
 import { Icon } from '../../../shared/ui/icon/icon';
 
@@ -12,7 +12,12 @@ import { Icon } from '../../../shared/ui/icon/icon';
   selector: '[career-road]',
   imports: [Icon],
   template: `
-    <div class="ch"><h3>Возможности развития. Должность «{{ role }}».</h3></div>
+    <div class="ch cphead">
+      <div class="cphead-tx">
+        <h3>{{ role }}</h3>
+        <p class="cppos">{{ desc }}</p>
+      </div>
+    </div>
     <div class="cb">
       <ol class="cproad">
         @for (st of s.steps(); track st.grade; let i = $index, last = $last) {
@@ -30,7 +35,16 @@ import { Icon } from '../../../shared/ui/icon/icon';
               </span>
               <span class="cptxt">
                 <b>{{ st.grade }}</b>
-                <small>{{ caption(st) }}</small>
+                <small>
+                  @if (st.state === 'done') {
+                    @if (st.period) {
+                      {{ st.period }}<br />
+                    }
+                    Присвоено компетенций: {{ s.closedCount(st.grade) }}
+                  } @else {
+                    {{ gapCaption(st) }}
+                  }
+                </small>
               </span>
             </button>
           </li>
@@ -49,10 +63,10 @@ import { Icon } from '../../../shared/ui/icon/icon';
 export class CareerRoad {
   protected readonly s = inject(CareerStore);
   protected readonly role = CP_ROLE;
+  protected readonly desc = CP_POSITION_DESC;
 
-  /** подпись ступени: история освоенного грейда или сколько компетенций осталось развить */
-  protected caption(st: CpStep): string {
-    if (st.state === 'done') return st.period + (st.place ? ' · ' + st.place : '');
+  /** подпись еще не освоенного грейда: сколько компетенций осталось */
+  protected gapCaption(st: CpStep): string {
     const n = this.s.gap(st.grade);
     return n ? 'Развить компетенций: ' + n : 'Компетенции закрыты';
   }
@@ -67,8 +81,7 @@ export class CareerRoad {
 
   protected note(): string {
     const s = this.s.scenario();
-    if (s === 'moved') return CP_MOVED.title + '. ' + CP_MOVED.text;
-    if (s === 'top') return 'Вы на верхнем грейде роли «' + CP_ROLE + '». Следующего грейда в этой роли нет.';
+    if (s === 'top') return 'Вы на верхнем грейде должности «' + CP_ROLE + '». Следующего грейда в этой должности нет.';
     if (!this.s.transition()) return 'Перехода к следующему грейду нет: нет ИПР и нет плана. Соединитель серый, пока план не запрошен.';
     return '';
   }

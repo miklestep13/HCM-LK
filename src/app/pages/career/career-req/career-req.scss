@@ -57,29 +57,32 @@
   max-width: 820px;
 }
 .career-req .cpkpi {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   margin-top: 16px;
-}
-.career-req .cpkpi .rst {
-  padding: 14px 16px;
-  border-radius: 10px;
-  background: var(--q-content-background-disabled);
 }
 .career-req .cpkpi .l {
   font: var(--q-font-ui-description-1);
-  color: var(--q-base-500);
+  color: var(--t3);
+  display: block;
+  margin-bottom: 6px;
 }
 .career-req .cpkpi .v {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+}
+.career-req > .ch h3 {
   font: var(--q-font-ui-headline-3);
-  color: var(--q-content-text);
-  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .career-req .cpsect h4 {
   font: var(--q-font-ui-headline-3);
   color: var(--q-content-text);
-  margin: 0 0 8px;
+  margin: 0;
+  white-space: nowrap;
 }
 .career-req .cpcomp {
   display: flex;
@@ -111,8 +114,18 @@
   color: var(--q-content-text);
   display: block;
 }
-.career-req .cpcomp:hover b {
+.career-req button.cpcomp:hover b {
   color: var(--blue);
+}
+.career-req span.cpcomp {
+  cursor: default;
+}
+/* Размер S: строка способа развития, 28 px — на одной высоте с плотным рядом */
+.career-req .cpxcard .prow > .btn.s {
+  flex: none;
+  height: 28px;
+  padding: 0 var(--q-spacing-3);
+  font: var(--q-font-ui-button-m);
 }
 .career-req .cpcomp small {
   font: var(--q-font-ui-description-1);
@@ -186,10 +199,22 @@
   flex: 1 1 auto;
   min-width: 0;
 }
-.career-req .cpxcard .prow b {
+.career-req .cpxcard .prow b,
+.career-req .cpxcard .prow .cpway {
   font: var(--q-font-ui-headline-4);
   color: var(--t1);
   display: block;
+}
+.career-req .cpxcard .prow .cpway {
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+.career-req .cpxcard .prow .cpway:hover {
+  color: var(--blue);
 }
 .career-req .cpxcard .prm {
   font: var(--q-font-ui-description-1);
@@ -275,18 +300,20 @@
 .career-req .cpsh {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
+  gap: 8px;
+  flex-wrap: nowrap;
+  min-height: 22px;
   margin-bottom: 8px;
 }
 .career-req .cpsh h4 {
+  flex: 0 0 auto;
   font: var(--q-font-ui-headline-3);
   color: var(--q-content-text);
   margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  white-space: nowrap;
+}
+.career-req .cpsh .chip {
+  margin-right: auto;
 }
 .career-req .cphint {
   display: flex;
@@ -304,10 +331,9 @@
   margin-top: 1px;
 }
 
-/* таблица на всю карточку: отступы 24px добираем отрицательным полем секции */
+/* таблица в теле карточки: поле 24px уже у .cb, как у таблицы «Заданий» */
 .career-req .tw {
   overflow-x: auto;
-  margin: 0 -24px;
 }
 .career-req .tbl {
   width: 100%;
@@ -330,14 +356,6 @@
   color: var(--t1);
   padding: 14px 12px;
   border-bottom: 1px solid var(--stroke);
-}
-.career-req .ctt th:first-child,
-.career-req .ctt td:first-child {
-  padding-left: 24px;
-}
-.career-req .ctt th:last-child,
-.career-req .ctt td:last-child {
-  padding-right: 24px;
 }
 .career-req .ctt tbody tr:last-child td {
   border-bottom: 0;

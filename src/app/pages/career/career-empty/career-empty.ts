@@ -3,7 +3,7 @@ import { NavService } from '../../../core/navigation/nav.service';
 import { CP_EMPTY, CP_ROLE } from '../../../data/career-path.data';
 import { Icon } from '../../../shared/ui/icon/icon';
 
-/** Пустое состояние трека: роль не описана, трек не опубликован, верхний грейд — карточка с пояснением и переходом */
+/** Пустое состояние трека: должность не описана, трек не опубликован, верхний грейд — карточка с пояснением и переходом */
 @Component({
   selector: 'app-career-empty',
   imports: [Icon],
@@ -15,10 +15,9 @@ import { Icon } from '../../../shared/ui/icon/icon';
         <p>{{ text().text }}</p>
         <div class="cpebtns">
           @if (kind() === 'top') {
-            <button type="button" class="btn raised" (click)="nav.go('ctrack', { ct: 'roles' })">Смежные роли</button>
-            <button type="button" class="btn raised" (click)="nav.go('ctrole', { id: 'r1' })">Профиль роли</button>
+            <button type="button" class="btn raised" (click)="nav.go('ctrack', { ct: 'roles' })">Смежные должности</button>
           } @else if (kind() === 'unpublished') {
-            <button type="button" class="btn raised" (click)="nav.go('ctrack', { ct: 'roles' })">Справочник ролей</button>
+            <button type="button" class="btn raised" (click)="nav.go('ctrack', { ct: 'roles' })">Справочник должностей</button>
           } @else {
             <button type="button" class="btn raised" (click)="nav.go('prof')">Мой профиль</button>
           }

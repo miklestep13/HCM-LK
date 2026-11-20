@@ -65,10 +65,9 @@
 .q-kpi__foot{display:flex;align-items:center;gap:var(--q-spacing-1)}
 .q-kpi__foot>.q-kpi__sub{flex:1 1 auto;min-width:0}
 
-/* Индикатор изменения: символ → число, gap 2, символ на базовой линии числа.
-   В шкале ui-* нет стиля 600 12/16 (в Figma текст без стиля) — берем ui-button-s-xs и строку 16 до решения (см. spec §5). */
+/* Индикатор изменения: символ → число, gap 2, символ на базовой линии числа. */
 .q-kpi__delta{flex:none;display:inline-flex;align-items:baseline;gap:2px;
-  font:var(--q-font-ui-button-s-xs);line-height:16px;color:var(--q-kpi-accent);white-space:nowrap}
+  font:var(--q-font-ui-description-1-bold);color:var(--q-kpi-accent);white-space:nowrap}
 .q-kpi__delta::before{content:"";flex:none;width:10px;background:currentColor}
 .q-kpi__delta--up::before  {height:9px;clip-path:polygon(50% 0,100% 100%,0 100%)}
 .q-kpi__delta--down::before{height:9px;clip-path:polygon(0 0,100% 0,50% 100%)}

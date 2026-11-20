@@ -15,15 +15,12 @@
 .pg-career .cpcols .cM {
   gap: 16px;
 }
+.pg-career .w-evm .evmt :is(th, td).evmc-d {
+  width: 168px;
+  min-width: 168px;
+}
 .pg-career .cpcols .cM > .career-empty .cpempty {
   padding: 32px 24px;
-}
-/* кнопка «Профиль роли» в шапке страницы — как у ИПР: белая, при наведении голубая */
-.pg-career > .pf-top .btn.raised {
-  background: var(--q-content-background);
-}
-.pg-career > .pf-top .btn.raised:hover {
-  background: var(--blue-bg);
 }
 @media (max-width: 1100px) {
   .pg-career .cpcols {
