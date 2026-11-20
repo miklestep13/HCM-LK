@@ -131,8 +131,9 @@
   padding-left: 12px;
   padding-right: 12px;
 }
+/* как отступ перед «Условия отбора» (32px) — блоки не прилипают друг к другу */
 .pg-coursenew .cnwave .c.cnwevm {
-  margin: 16px 0 0;
+  margin: 32px 0 0;
   background: none;
   box-shadow: none;
   border: none;
