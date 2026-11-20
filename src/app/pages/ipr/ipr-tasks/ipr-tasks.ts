@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, computed, inject, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, booleanAttribute, computed, inject, input, output, signal } from '@angular/core';
 import { IprStore, iprSortTasks, iprTaskSt } from '../../../core/demo/ipr-store.service';
 import { LEARN_COURSES } from '../../../data/learn.data';
 import { IprTask } from '../../../interface/ipr';
@@ -52,6 +52,7 @@ const uniq = (a: string[]) => [...new Set(a)].filter(Boolean).sort((x, y) => x.l
               [editable]="s.editable()"
               [open]="s.open().has(r.i)"
               [mgr]="s.isMgr()"
+              [canRun]="canRun()"
               [rate]="s.att()[r.i]"
               [cm]="(s.comments()[r.i] || []).length"
               [class.hidden]="!r.ok"
@@ -74,6 +75,8 @@ const uniq = (a: string[]) => [...new Set(a)].filter(Boolean).sort((x, y) => x.l
 export class IprTasks {
   protected readonly s = inject(IprStore);
   private readonly el = inject(ElementRef<HTMLElement>);
+  /** кнопка выполнения задачи на карточке (на ИПР HR выключается) */
+  readonly canRun = input(true, { transform: booleanAttribute });
   readonly add = output<void>();
   readonly act = output<IprTaskAct>();
 
