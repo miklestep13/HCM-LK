@@ -2,13 +2,13 @@
 .aud {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 }
 /* группа: без рамки; когда групп несколько — заголовок «Группа N» и полоса слева */
 .aud .audg {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 16px;
 }
 .aud .audg.many {
   padding-left: 16px;
@@ -84,7 +84,7 @@
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
-  padding-top: 8px;
+  padding-top: 16px;
   border-top: 1px solid var(--stroke);
 }
 .aud .audsum {
