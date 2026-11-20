@@ -1,22 +1,22 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, effect, inject } from '@angular/core';
 import { DevPanelService, devValue } from '../../core/layout/dev-panel/dev-panel.service';
 import { COURSE_STEPS } from '../../data/coursenew.data';
-import { Icon } from '../../shared/ui/icon/icon';
 import { PageHead } from '../../shared/ui/page-head/page-head';
 import { Stepper } from '../../shared/ui/stepper/stepper';
 import { Builder } from '../../widgets/builder/builder';
 import { CoursenewInfo } from './coursenew-info/coursenew-info';
 import { CoursenewState } from './coursenew.state';
+import { CoursenewWaves } from './coursenew-waves/coursenew-waves';
 
 /**
  * «Управление персоналом → Обучение → Добавить курс» (перенесено из старого прототипа, pg-coursenew), как форма опроса:
- * степпер «Общая информация → Структура → Автоматическое назначение → Участники»; структура — общий конструктор материалов
+ * степпер «Общая информация → Структура → Процедуры назначения»; структура — общий конструктор материалов
  * (widgets/builder: раздел → модуль → блоки, справа настройки, «Предпросмотр»). Внизу — «Назад», «Далее», на последнем шаге «Сохранить»
- * (форма-страница — без «Отменить»). Демо в dev-панели: пустой курс или пример.
+ * (форма-страница — без «Отменить»). Демо в dev-панели: пустой курс (по умолчанию), пример или все виды модулей.
  */
 @Component({
   selector: 'app-coursenew',
-  imports: [PageHead, Stepper, Icon, Builder, CoursenewInfo],
+  imports: [PageHead, Stepper, Builder, CoursenewInfo, CoursenewWaves],
   providers: [CoursenewState],
   template: `
     <app-page-head title="Добавление курса" backTo="learn" backLabel="К каталогу курсов" />
@@ -28,16 +28,8 @@ import { CoursenewState } from './coursenew.state';
       @case (1) {
         <div app-builder [material]="s.mat()"></div>
       }
-      @default {
-        <div class="c">
-          <div class="cb">
-            <div class="empty cnwip">
-              <div class="wipi"><app-icon [name]="s.step() === 2 ? 'refresh' : 'group'" /></div>
-              <b>{{ steps[s.step()] }}</b>
-              <small>{{ s.step() === 2 ? 'Правила автоматического назначения курса появятся после согласования состава вкладки' : 'Списки назначенных сотрудников и групп появятся после согласования состава вкладки' }}</small>
-            </div>
-          </div>
-        </div>
+      @case (2) {
+        <div coursenew-waves></div>
       }
     }
     <div class="c ipisl">
@@ -63,7 +55,7 @@ export class Coursenew {
   private readonly dev = inject(DevPanelService);
   protected readonly steps = COURSE_STEPS;
   constructor() {
-    this.s.load('all');
+    this.s.load('empty');
     effect((onCleanup) => {
       onCleanup(
         this.dev.register({
