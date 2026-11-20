@@ -129,6 +129,8 @@ export class IprTaskCard {
   readonly runIcon = input('checkSquare');
   /** подпись этой кнопки */
   readonly runTitle = input('Выполнение задачи');
+  /** показывать кнопку выполнения задачи (на ИПР HR — нет) */
+  readonly canRun = input(true, { transform: booleanAttribute });
   readonly act = output<IprTaskAct>();
 
   protected readonly rates = IPR_RATES;
@@ -136,7 +138,7 @@ export class IprTaskCard {
   protected readonly st = computed(() => iprTaskSt(this.task()));
   protected readonly over = computed(() => !this.task().done && this.st() !== 'В работе');
   protected readonly showStatus = computed(() => !['Черновик', 'Предложено'].includes(this.status()));
-  protected readonly run = computed(() => this.status() === 'Утверждено');
+  protected readonly run = computed(() => this.canRun() && this.status() === 'Утверждено');
   protected readonly rateInfo = computed(() => IPR_RATES.find((r) => r.k === this.rate()));
   protected readonly mats = computed(() => {
     const t = this.task();

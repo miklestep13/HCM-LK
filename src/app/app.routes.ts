@@ -233,6 +233,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/ipr/ipr').then((m) => m.Ipr),
   },
   {
+    path: 'iprhr',
+    title: 'ИПР · Q.HCM',
+    loadComponent: () => import('./pages/iprhr/iprhr').then((m) => m.Iprhr),
+  },
+  {
     path: 'adaptation',
     title: 'Адаптация · Q.HCM',
     loadComponent: () => import('./pages/adapt/adapt').then((m) => m.Adapt),
