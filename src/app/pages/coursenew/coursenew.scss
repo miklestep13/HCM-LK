@@ -155,9 +155,13 @@
 .pg-coursenew .cnwave .c.cnwevm > .ch h3 {
   font: var(--q-font-ui-headline-4);
 }
-/* !important — перебиваем общий .c > .ch ~ .cb:last-child { padding-bottom: 24px } */
-.pg-coursenew .cnwave .c.cnwevm > .cb {
+/* у вложенной таблицы участников свой .cb не должен добавлять 24px снизу поверх карточки процедуры */
+.pg-coursenew .cnwave .c.cnwevm > .ch ~ .cb:last-child {
   padding: 0 !important;
+}
+/* низ карточки процедуры = боковые 24px */
+.pg-coursenew .c.cnwave > .ch ~ .cb:last-child {
+  padding-bottom: 24px !important;
 }
 .pg-coursenew .cnwadd {
   width: 100%;
