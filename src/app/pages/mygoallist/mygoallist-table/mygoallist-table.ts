@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, booleanAttribute, computed, inject, input, signal } from '@angular/core';
 import { DemoState } from '../../../core/demo/demo-state.service';
 import { GoalsStore, goalFinal, goalForm, goalLevel, goalNum, goalResult, goalType, goalUnit } from '../../../core/demo/goals-store.service';
 import { NavService } from '../../../core/navigation/nav.service';
@@ -31,7 +31,7 @@ const STATUS_TONE: Record<string, string> = Object.fromEntries(GOAL_STAGES.map((
  * Блок «Список целей»: вкладки, поиск и таблица с горизонтальным скроллом.
  * «По цели» — дерево компания → подразделение → индивидуальная, «По сотруднику» — группы по сотрудникам.
  * Статус и действия моих текущих целей зависят от этапа карты целей (dev-панель «Демо»).
- * Просмотр, оценка и редактирование цели пока открываются в старом прототипе.
+ * [hr] — реестр HR («Цели»): клик по строке открывает /mygoalview?hr=1.
  */
 @Component({
   selector: '[mygoallist-table]',
@@ -41,6 +41,8 @@ const STATUS_TONE: Record<string, string> = Object.fromEntries(GOAL_STAGES.map((
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MygoallistTable {
+  /** реестр HR: просмотр с ?hr=1, «Назад» к /goals */
+  readonly hr = input(false, { transform: booleanAttribute });
   private readonly demo = inject(DemoState);
   private readonly nav = inject(NavService);
   protected readonly short = shortFio;
@@ -147,7 +149,14 @@ export class MygoallistTable {
     });
   }
   protected open(g: GoalListRow, mode: 'view' | 'edit' = 'view'): void {
-    this.nav.go('mygoalview', { gl: g.id, mode, ev: this.demo.goalStage() });
+    const q: Record<string, string> = { gl: g.id, mode, ev: this.demo.goalStage() };
+    if (this.hr()) q['hr'] = '1';
+    this.nav.go('mygoalview', q);
+  }
+  /** клик по строке (не по кнопкам / шеврону / чекбоксу) — открыть цель */
+  protected rowOpen(e: MouseEvent, g: GoalListRow): void {
+    if ((e.target as HTMLElement).closest('button,a,input,label,.ckb')) return;
+    this.open(g);
   }
   protected edit(g: GoalListRow): void {
     this.nav.go('mygoalnew', { edit: g.id, ev: this.demo.goalStage() });

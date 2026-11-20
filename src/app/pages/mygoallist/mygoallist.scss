@@ -159,6 +159,12 @@
 .pg-mygoallist .glltbl td {
   vertical-align: middle;
 }
+.pg-mygoallist .glltbl tr.gtrow {
+  cursor: pointer;
+}
+.pg-mygoallist .glltbl tr.gtrow:hover td {
+  background: var(--q-base-25, var(--page));
+}
 .pg-mygoallist .glltn {
   font: var(--q-font-ui-headline-4);
   text-align: left;

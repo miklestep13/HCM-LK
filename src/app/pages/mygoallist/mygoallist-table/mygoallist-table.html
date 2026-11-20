@@ -63,7 +63,7 @@
 <ng-template #row let-r>
   @let g = r.g;
   @let st = status(g);
-  <tr class="gtrow" [class.gllctx]="!g.mine" [class.dim]="r.dim">
+  <tr class="gtrow" [class.gllctx]="!g.mine" [class.dim]="r.dim" (click)="rowOpen($event, g)">
     <td class="gllname">
       <div class="gtc" [style.padding-left.px]="r.lv * 28">
         @if (r.kids) {

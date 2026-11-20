@@ -73,6 +73,8 @@ export class NavService {
     // просмотр бланка из HR — подсвечиваем «Бланки аттестации», не «Бланк аттестации» в «Мой кабинет»
     if (page === 'attn' && hrBlank) return true;
     if (page === 'attncard' && hrBlank) return false;
+    // просмотр цели из HR — подсвечиваем «Цели»
+    if (page === 'goals' && this.page() === 'mygoalview' && this.params()['hr'] === '1') return true;
     if (!page || page !== this.page()) return false;
     if (!attrs) return true;
     const p = this.params();

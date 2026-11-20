@@ -27,8 +27,8 @@ export class Header {
   /** активная вкладка — та, в меню которой есть текущая страница */
   protected readonly activeTab = computed(() => {
     const p = this.nav.page();
-    // бланк из HR-реестра (?hr=1) — «Управление персоналом», не «Мой кабинет»
-    if (p === 'attncard' && this.nav.params()['hr'] === '1') return 'Управление персоналом';
+    // бланк / цель из HR (?hr=1) — «Управление персоналом», не «Мой кабинет»
+    if ((p === 'attncard' || p === 'mygoalview') && this.nav.params()['hr'] === '1') return 'Управление персоналом';
     const has = (items: NavItem[]): boolean =>
       items.some((i) => i.page === p || (i.children ? has(i.children) : false));
     return this.tabs.find((t) => t.page === p || has(t.items))?.title ?? '';
