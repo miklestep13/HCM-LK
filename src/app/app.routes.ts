@@ -243,6 +243,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/mygoalview/mygoalview').then((m) => m.Mygoalview),
   },
   {
+    path: 'goals',
+    title: 'Цели · Q.HCM',
+    loadComponent: () => import('./pages/goals/goals').then((m) => m.Goals),
+  },
+  {
     path: 'mygoalnew',
     title: 'Цель · Q.HCM',
     loadComponent: () => import('./pages/mygoalnew/mygoalnew').then((m) => m.Mygoalnew),

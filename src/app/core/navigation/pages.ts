@@ -45,6 +45,7 @@ export const ANGULAR_PAGES: Record<string, string> = {
   ipr: '/ipr',
   adaptation: '/adaptation',
   mygoalview: '/mygoalview',
+  goals: '/goals',
   mygoalnew: '/mygoalnew',
   course: '/course',
   program: '/program',
