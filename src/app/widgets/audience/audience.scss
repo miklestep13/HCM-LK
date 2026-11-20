@@ -75,6 +75,7 @@
 }
 .aud .lnkadd {
   align-self: flex-start;
+  margin-top: 0;
 }
 /* низ: «+ группа» и итог «Подходит N из M» */
 .aud .audfoot {
@@ -87,6 +88,7 @@
   border-top: 1px solid var(--stroke);
 }
 .aud .audsum {
+  margin-left: auto;
   font: var(--q-font-ui-body-2);
   color: var(--t3);
   display: inline-flex;

@@ -14,18 +14,13 @@ import { CoursenewState } from '../coursenew.state';
 /**
  * Шаг «Процедуры назначения»: курс назначается волнами. Каждая процедура — скрываемая карточка (шеврон слева, в шапке — дата
  * и число участников, корзина справа, если процедур больше одной): название, дата и время назначения, дата и время окончания;
- * «Условия отбора» (widgets/audience) и таблица участников (widgets/event-members: колонки «Сотрудник» и «Роль»).
+ * «Условия отбора» (widgets/audience, без групп «или») и таблица участников (widgets/event-members: колонки «Сотрудник» и «Роль»).
  * Внизу — «Добавить процедуру».
  */
 @Component({
   selector: '[coursenew-waves]',
   imports: [Field, DateField, Suggest, Icon, Audience, EventMembers],
   template: `
-    <div class="c cnwhint">
-      <div class="cb">
-        <p class="svchint">Процедура — волна назначения курса: в дату назначения курс получат ее участники. Добавьте несколько процедур, чтобы сразу запланировать повторные волны или разные группы сотрудников.</p>
-      </div>
-    </div>
     @for (w of s.waves(); track w.id; let i = $index) {
       @let open = s.openWave() === w.id;
       <div class="c cfold cnwave" [class.cold]="!open">
@@ -68,8 +63,8 @@ import { CoursenewState } from '../coursenew.state';
               </app-field>
             </div>
             <h4 class="cnwsub">Условия отбора</h4>
-            <p class="svchint">Курс получат сотрудники, которые подходят под условия. В условии можно выбрать несколько значений — подойдет любое; условия в группе работают через «и», группы — через «или».</p>
-            <div app-audience [groups]="w.rules" (groupsChange)="s.setWave(w, { rules: $event })" [pool]="s.pool"></div>
+            <p class="cnwhint">Курс получат сотрудники, которые подходят под условия. В условии можно выбрать несколько значений — подойдет любое; условия работают через «и».</p>
+            <div app-audience [groups]="w.rules" (groupsChange)="s.setWave(w, { rules: $event })" [pool]="s.pool" [orGroups]="false"></div>
             <div
               class="c cnwevm"
               event-members

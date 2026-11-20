@@ -437,3 +437,40 @@
 .w-evm .evmsh.on svg {
   color: var(--blue);
 }
+/* пустой список: иконка в голубом квадрате + заголовок + описание */
+.w-evm .evmempty > td {
+  height: auto;
+  padding: 24px 12px;
+  border-bottom: 0;
+}
+.w-evm .empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 24px;
+  text-align: center;
+}
+.w-evm .wipi {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+}
+.w-evm .wipi app-icon,
+.w-evm .wipi svg {
+  width: 26px;
+  height: 26px;
+}
+.w-evm .empty b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+.w-evm .empty small {
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  max-width: 360px;
+}

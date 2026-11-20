@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, booleanAttribute, computed, input, model } from '@angular/core';
 import { AUD_FIELDS, AUD_OPS, audAny, audCond, audGroup, audMatch, audReady } from '../../data/audience.data';
 import { AudCond, AudGroup } from '../../interface/audience';
 import { Member } from '../../interface/member';
@@ -11,7 +11,7 @@ import { Select } from '../../shared/ui/select/select';
  * Условия отбора участников — опрос, курс, мероприятие, новость, любая рассылка:
  *   <div app-audience [(groups)]="rules" [pool]="employees"></div>
  * Условие: поле → «Включает / Исключает» → несколько значений чипами (подходит любое из них: два подразделения — сотрудники обоих).
- * Условия в группе — через «и», группы — через «или» («+ Добавить группу условий»). Внизу — сколько сотрудников подходит.
+ * Условия в группе — через «и», группы — через «или» («+ Добавить группу условий»; выключается `[orGroups]="false"`). Внизу — сколько сотрудников подходит.
  * Подбор — audMatch(pool, groups) из data/audience.data.ts.
  */
 @Component({
@@ -51,7 +51,9 @@ import { Select } from '../../shared/ui/select/select';
       </div>
     }
     <div class="audfoot">
-      <button class="lnk lnkadd" (click)="addGroup()"><app-icon name="plus" />Добавить группу условий (или)</button>
+      @if (orGroups()) {
+        <button class="lnk lnkadd" (click)="addGroup()"><app-icon name="plus" />Добавить группу условий (или)</button>
+      }
       <span class="audsum" [class.on]="any()"><app-icon name="group" />{{ summary() }}</span>
     </div>
   `,
@@ -64,6 +66,8 @@ export class Audience {
   readonly groups = model<AudGroup[]>([audGroup()]);
   /** все сотрудники, из которых подбираем */
   readonly pool = input<Member[]>([]);
+  /** можно ли добавлять группы условий через «или» (по умолчанию да) */
+  readonly orGroups = input(true, { transform: booleanAttribute });
   protected readonly fields = Object.keys(AUD_FIELDS);
   protected readonly opLabels = AUD_OPS.map((o) => o.label);
   protected readonly any = computed(() => audAny(this.groups()));

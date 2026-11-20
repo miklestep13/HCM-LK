@@ -250,8 +250,14 @@
               }
             </tr>
           } @empty {
-            <tr>
-              <td class="empty sm" [attr.colspan]="colCount()">Участников нет</td>
+            <tr class="evmempty">
+              <td [attr.colspan]="colCount()">
+                <div class="empty">
+                  <div class="wipi"><app-icon name="group" /></div>
+                  <b>Участников пока нет</b>
+                  <small>Добавьте условия отбора или участников вручную.</small>
+                </div>
+              </td>
             </tr>
           }
         </tbody>
@@ -270,7 +276,7 @@
   @if (canEdit() && mAdd() === 'bottom') {
     <button class="lnk lnkadd" [disabled]="!!edId()" (click)="add()"><app-icon name="plus" />Добавить участника</button>
   }
-  @if (mPaging() === 'pages' && pageSize()) {
+  @if (mPaging() === 'pages' && pageSize() && sorted().length > pageSize()) {
     <app-pager [p]="pg" />
   }
 </div>
