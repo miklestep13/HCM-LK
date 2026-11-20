@@ -1,4 +1,8 @@
-<app-header />
+@if (pack()) {
+  <app-career-pack-bar />
+} @else {
+  <app-header />
+}
 <main class="wrap" [class.hidden]="legacy.active()">
   <router-outlet />
 </main>

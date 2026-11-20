@@ -1,0 +1,300 @@
+/* Список карьерных треков. Таблица с полем 24, как тело карточки на «Заданиях»; сортировка ⇅, строка раскрывается. */
+
+.pg-careers .tw {
+  overflow-x: auto;
+  padding: 0 0 0 24px;
+}
+.pg-careers .tbl {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+}
+.pg-careers .ctt th.ctico,
+.pg-careers .ctt td.ctico {
+  width: 1%;
+  padding-right: 8px;
+}
+.pg-careers .ctt th.ctname,
+.pg-careers .ctt td.ctname {
+  padding-left: 0;
+}
+.pg-careers .ctt :is(th, td).tact {
+  width: 1%;
+  min-width: 0;
+  text-align: right;
+  background: var(--q-content-background);
+}
+.pg-careers .ctt th,
+.pg-careers .ctt td {
+  text-align: left;
+  vertical-align: middle;
+}
+.pg-careers .ctt th {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+  white-space: nowrap;
+}
+.pg-careers .thh {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-careers .sortb {
+  flex: 0 0 22px;
+  margin: 0;
+}
+.pg-careers .ctt td {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+.pg-careers .ctacts {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pg-careers .ctt .tact .actb {
+  color: var(--blue);
+}
+.pg-careers .ctt .tact .actb app-icon,
+.pg-careers .ctt .tact .actb svg {
+  width: 16px;
+  height: 16px;
+}
+.pg-careers .ctt .tact .actb.dg:hover {
+  background: var(--dg-bg);
+  color: var(--red);
+}
+.pg-careers .ctt tbody tr:last-child td {
+  border-bottom: 0;
+}
+.pg-careers .ctt .is-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.pg-careers .ctt th.is-num .thh {
+  width: 100%;
+  justify-content: flex-end;
+}
+.pg-careers .ctt th.is-num .thh > span {
+  text-align: right;
+}
+.pg-careers .ctt td b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+}
+.pg-careers .ctt th,
+.pg-careers .ctt td {
+  white-space: nowrap;
+}
+.pg-careers .sortb {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+}
+.pg-careers .sortb svg {
+  width: 12px;
+  height: 12px;
+}
+.pg-careers .sortb.on {
+  color: var(--blue);
+}
+.pg-careers .sortb.desc {
+  transform: scaleY(-1);
+}
+.pg-careers .sortb:hover {
+  background: var(--raised);
+}
+.pg-careers .ctchev {
+  width: 1%;
+  padding-right: 0;
+}
+.pg-careers .ctchev app-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+  color: var(--q-base-500);
+  transform: rotate(-90deg);
+  transition: transform 0.15s;
+}
+.pg-careers .ctchev.open app-icon {
+  transform: none;
+}
+.pg-careers .cpcomp {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+.pg-careers .cpcomp b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+  display: block;
+}
+.pg-careers .ctt tr.clk {
+  cursor: pointer;
+}
+.pg-careers .ctt tr.clk:hover td {
+  background: var(--hv);
+}
+.pg-careers .ctt tr.clk:hover td.tact {
+  background: var(--hv);
+}
+.pg-careers .cpcomp button {
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+.pg-careers .cpcomp button:hover b {
+  color: var(--blue);
+}
+.pg-careers tr:has(+ .cpxrow) > td {
+  border-bottom-color: transparent;
+}
+.pg-careers .cpxrow > td {
+  white-space: normal;
+  padding-top: 0;
+  background: none;
+}
+.pg-careers .cpx {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--s1);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 0 0 12px;
+  font: var(--q-font-ui-body-2);
+  color: var(--q-content-text);
+}
+.pg-careers .cpx p {
+  max-width: 730px;
+  margin: 0;
+}
+/* вариант 1: три значка 18px перед названием. Выключенный серый, присвоенный — бейдж vt (violet) */
+.pg-careers .ctdots {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pg-careers .ctdot {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background: var(--s1);
+  color: var(--t4);
+}
+.pg-careers .ctdot.on {
+  background: var(--q-badge-violet-bg);
+  color: var(--q-badge-violet-color);
+}
+.pg-careers .ctdot app-icon,
+.pg-careers .ctdot svg {
+  width: 14px;
+  height: 14px;
+}
+/* вариант 2: цветной кружок и подпись, в ячейке друг под другом */
+.pg-careers .ctt td.ctwords {
+  white-space: normal;
+}
+.pg-careers .ctlabs {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.pg-careers .ctlabs .bdg {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  padding: 0;
+  font: var(--q-font-ui-description-1);
+  color: var(--q-content-text);
+}
+.pg-careers .ctlabs .bdg i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+.pg-careers .ctlabs .bdg.info i {
+  background: var(--blue-bg);
+}
+.pg-careers .ctlabs .bdg.warn i {
+  background: var(--warn-bg);
+}
+.pg-careers .ctlabs .bdg.vt i {
+  background: var(--q-badge-violet-bg);
+}
+.pg-careers .ctnone td {
+  color: var(--q-base-500);
+  text-align: center;
+}
+.pg-careers .ctt th.stb,
+.pg-careers .ctt td.stb {
+  background: none;
+}
+.pg-careers .stb .bdg {
+  display: inline-flex;
+  justify-content: center;
+}
+/* лидер — как участник в таблице бланка: аватар 40, ФИО и должность под ним */
+.pg-careers .astper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pg-careers .astper .astav {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  flex: none;
+  background-size: cover;
+  background-position: center;
+}
+.pg-careers .astper img.astav {
+  object-fit: cover;
+  display: block;
+}
+.pg-careers .astper .cnm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pg-careers .astper .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+}
+.pg-careers .astper .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.pg-careers .pgr {
+  margin: 0 24px;
+  padding: 16px 0 24px;
+}

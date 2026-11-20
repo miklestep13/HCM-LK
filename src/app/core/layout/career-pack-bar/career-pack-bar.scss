@@ -1,0 +1,45 @@
+.cxport {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: var(--q-content-background);
+  border-bottom: 1px solid var(--stroke);
+  padding: 10px 20px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cxport .cxrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.cxport .cxrow > b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+  margin-right: 4px;
+}
+.cxport .cxl {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.cxport .seg {
+  flex-wrap: wrap;
+}
+.cxport .seg button {
+  font: var(--q-font-ui-description-1);
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+}
+.cxport .seg button.on {
+  background: var(--q-content-background);
+  color: var(--blue);
+}
+.cxport .seg button:hover {
+  color: var(--blue);
+}

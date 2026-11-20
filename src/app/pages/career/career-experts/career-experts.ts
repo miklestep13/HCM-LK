@@ -4,11 +4,11 @@ import { personAvatar } from '../../../data/avatar';
 import { CP_EXPERTS } from '../../../data/career-path.data';
 import { CpExpert } from '../../../interface/career-path';
 
-/** «Эксперты роли»: карточки как участники бланка аттестации — лидер и эксперт, тег снизу */
+/** «Лидеры и эксперты»: лидер и эксперты, тег снизу */
 @Component({
   selector: '[career-experts]',
   template: `
-    <div class="ch"><h3>Эксперты роли<span class="chip">{{ list.length }}</span></h3></div>
+    <div class="ch"><h3>Лидеры и эксперты<span class="chip">{{ list.length }}</span></h3></div>
     <div class="cb">
       @for (e of list; track e.name) {
         <div class="mem" (click)="nav.go('emp', { emp: e.name })">

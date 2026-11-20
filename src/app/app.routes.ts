@@ -293,6 +293,16 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/career/career').then((m) => m.Career),
   },
   {
+    path: 'careers',
+    title: 'Профили должностей · Q.HCM',
+    loadComponent: () => import('./pages/careers/careers').then((m) => m.Careers),
+  },
+  {
+    path: 'careerhr',
+    title: 'Карточка должности · Q.HCM',
+    loadComponent: () => import('./pages/career-card/career-card').then((m) => m.CareerCard),
+  },
+  {
     path: 'legacy/:page',
     title: 'Q.HCM',
     loadComponent: () => import('./pages/legacy-page/legacy-page').then((m) => m.LegacyPage),

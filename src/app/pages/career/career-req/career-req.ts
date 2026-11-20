@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, effect, inject, signal } from '@angular/core';
 import { CareerStore } from '../../../core/demo/career-store.service';
 import { NavService } from '../../../core/navigation/nav.service';
-import { CP_CRITERIA, CP_KPI, CP_WAYS, CP_WAY_TONE } from '../../../data/career-path.data';
+import { CP_CRITERIA, CP_KPI, CP_WAYS, CP_WAY_TONE, ctWayFacts } from '../../../data/career-path.data';
 import { CT_ROLE } from '../../../data/career-track.data';
 import { CpWay } from '../../../interface/career-path';
 import { Icon } from '../../../shared/ui/icon/icon';
@@ -9,8 +9,8 @@ import { ToastService } from '../../../shared/ui/toast/toast.service';
 import { CtLevel } from '../../ctrack/ct-level';
 
 /**
- * Требования выбранного грейда: описание, три показателя и таблица компетенций.
- * Строка раскрывается: критерии уровня и способы развития. Кнопка «Запросить ИПР» — справа в шапке.
+ * Требования выбранного грейда: описание, опыт и образование, таблица компетенций.
+ * Строка раскрывается: критерии уровня и способы развития.
  */
 @Component({
   selector: '[career-req]',
@@ -18,16 +18,13 @@ import { CtLevel } from '../../ctrack/ct-level';
   template: `
     <div class="ch">
       <h3>Требования грейда «{{ s.grade() }}»</h3>
-      @if (s.developing()) {
-        <button type="button" class="btn raised" (click)="ask()">Запросить ИПР</button>
-      }
     </div>
     <div class="cb">
       @if (showBanner()) {
         <div class="cpbnr" role="status">
           <app-icon name="info" />
           <div>
-            <b>Ваши компетенции уже соответствуют роли</b>
+            <b>Ваши компетенции уже соответствуют требованиям должности</b>
             <p>Вы можете запросить повышение, если у компании есть ставка или потребность.</p>
           </div>
           <button type="button" class="cpbnr-x" aria-label="Закрыть" (click)="bannerOff.set(true)">
@@ -41,48 +38,62 @@ import { CtLevel } from '../../ctrack/ct-level';
       <div class="cpkpi">
         <div class="rst"><div class="l">Опыт</div><div class="v">{{ kpi().exp }}</div></div>
         <div class="rst"><div class="l">Образование</div><div class="v">{{ kpi().edu }}</div></div>
-        <div class="rst"><div class="l">Способы развития</div><div class="v">{{ s.waysCount(s.grade()) }}</div></div>
       </div>
 
       <div class="cpsect">
-        <h4>Требуемые компетенции</h4>
+        <div class="cpsh">
+          <h4>Компетенции</h4>
+          <span class="chip">{{ s.rows().length }}</span>
+        </div>
         <div class="tw">
           <table class="tbl ctt cpt">
             <thead>
               <tr>
                 <th>Компетенция</th>
-                <th>Факт</th>
-                <th>Требуется</th>
+                @if (s.developing()) {
+                  <th>Факт</th>
+                  <th>Требуется</th>
+                } @else {
+                  <th>Присвоены</th>
+                  <th>Дата присвоения</th>
+                }
               </tr>
             </thead>
             <tbody>
               @for (r of s.rows(); track r.comp) {
                 <tr>
                   <td>
-                    <button type="button" class="cpcomp" [class.open]="opened() === r.comp" [attr.aria-expanded]="opened() === r.comp" (click)="toggle(r.comp)">
+                    <button type="button" class="cpcomp" [class.open]="isOpen(r.comp)" [attr.aria-expanded]="isOpen(r.comp)" (click)="toggle(r.comp)">
                       <app-icon name="chevron" />
                       <span><b>{{ r.comp }}</b><small>{{ r.group }}</small></span>
                     </button>
                   </td>
-                  <td>
-                    @if (r.cur) {
-                      <span class="cplv"><ct-level [level]="r.cur" [comp]="r.comp" [grade]="s.myGrade()" /><small>{{ r.cur }}</small></span>
-                    } @else {
-                      <span class="ctna">Не оценен</span>
-                    }
-                  </td>
-                  <td>
-                    <span class="cplv"><ct-level [level]="r.need" [comp]="r.comp" [grade]="s.grade()" /><small>{{ r.need }}</small></span>
-                  </td>
+                  @if (s.developing()) {
+                    <td>
+                      @if (r.cur) {
+                        <span class="cplv"><ct-level [level]="r.cur" [comp]="r.comp" [grade]="s.myGrade()" /><small>{{ r.cur }}</small></span>
+                      } @else {
+                        <span class="ctna">Не оценен</span>
+                      }
+                    </td>
+                    <td>
+                      <span class="cplv"><ct-level [level]="r.need" [comp]="r.comp" [grade]="s.grade()" /><small>{{ r.need }}</small></span>
+                    </td>
+                  } @else {
+                    <td>
+                      <span class="cplv"><ct-level [level]="s.assignedLevel(s.grade(), r.comp)" [comp]="r.comp" [grade]="s.grade()" /><small>{{ s.assignedLevel(s.grade(), r.comp) }}</small></span>
+                    </td>
+                    <td>{{ s.assignedDate(s.grade(), r.comp) }}</td>
+                  }
                 </tr>
-                @if (opened() === r.comp) {
+                @if (isOpen(r.comp)) {
                   <tr class="cpxrow">
                     <td colspan="3">
                       <div class="cpx">
                         <div class="cpxk">
                           <b>Критерии</b>
                           <ul>
-                            @for (c of criteria; track c) {
+                            @for (c of criteria(); track c) {
                               <li>{{ c }}</li>
                             }
                           </ul>
@@ -95,14 +106,26 @@ import { CtLevel } from '../../ctrack/ct-level';
                                 <div class="prow">
                                   <span class="cico"><app-icon [name]="w.icon" /></span>
                                   <div>
-                                    <b>{{ w.title }}</b>
-                                    <div class="prm">
-                                      @for (m of w.meta; track m.text) {
-                                        <span [class.od]="m.warn"><app-icon [name]="m.icon" />{{ m.text }}</span>
-                                      }
-                                    </div>
+                                    @if (w.link) {
+                                      <button type="button" class="cpway" (click)="openWay(w)">{{ w.title }}</button>
+                                    } @else {
+                                      <b>{{ w.title }}</b>
+                                    }
+                                    @if (facts(w).length) {
+                                      <div class="prm">
+                                        @for (m of facts(w); track m.text) {
+                                          <span>@if (m.icon) { <app-icon [name]="m.icon" /> }{{ m.text }}</span>
+                                        }
+                                      </div>
+                                    }
                                   </div>
-                                  <span class="bdg" [class]="tone[w.status]">{{ w.status }}</span>
+                                  @if (isApplied(r.comp, w.title)) {
+                                    <span class="bdg" [class]="tone['Назначен']">Назначен</span>
+                                  } @else if (w.apply) {
+                                    <button type="button" class="btn raised s" (click)="apply(r.comp, w)">Подать заявку</button>
+                                  } @else if (w.status) {
+                                    <span class="bdg" [class]="tone[w.status]">{{ w.status }}</span>
+                                  }
                                 </div>
                               }
                             </div>
@@ -132,39 +155,56 @@ export class CareerReq {
   protected readonly tone = CP_WAY_TONE;
   /** баннер закрыт в этой сессии; при смене сценария снова показывается */
   protected readonly bannerOff = signal(false);
-  /** баннер только если в открытой таблице факт не ниже требования по каждой компетенции и повышение еще возможно */
-  protected readonly showBanner = computed(() => !this.bannerOff() && !!this.s.nextGrade() && this.s.rows().length > 0 && this.s.rows().every((r) => r.status === 'Достигнут'));
-  protected readonly criteria = CP_CRITERIA;
-  private readonly openedOn = signal({ grade: '', comp: '' });
+  /** баннер только на грейде, который еще впереди, и только если факт не ниже требования */
+  protected readonly showBanner = computed(() => !this.bannerOff() && this.s.developing() && !!this.s.nextGrade() && this.s.rows().length > 0 && this.s.rows().every((r) => r.status === 'Достигнут'));
+  private readonly openedOn = signal<{ grade: string; comps: string[] }>({ grade: '', comps: [] });
+  /** курсы, на которые в этой сессии подали заявку */
+  private readonly applied = signal<Record<string, true>>({});
 
   protected readonly gradeReq = computed(() => CT_ROLE.grades.find((g) => g.grade === this.s.grade()));
   protected readonly kpi = computed(() => CP_KPI[this.s.grade()] || { exp: '—', edu: '—' });
-  /** раскрытая компетенция сбрасывается при смене грейда */
-  protected readonly opened = computed(() => (this.openedOn().grade === this.s.grade() ? this.openedOn().comp : ''));
+  /** раскрытые компетенции текущего грейда; смена грейда прячет чужие, открытие одной не закрывает другие */
+  protected readonly opened = computed(() => (this.openedOn().grade === this.s.grade() ? this.openedOn().comps : []));
 
   constructor() {
     effect(() => {
       this.s.scenario();
       this.bannerOff.set(false);
+      this.applied.set({});
     });
   }
 
+  protected criteria(): string[] {
+    return CP_CRITERIA[this.s.grade()] || [];
+  }
+  protected isOpen(comp: string): boolean {
+    return this.opened().includes(comp);
+  }
   protected toggle(comp: string): void {
-    this.openedOn.set({ grade: this.s.grade(), comp: this.opened() === comp ? '' : comp });
+    const grade = this.s.grade();
+    const cur = this.openedOn().grade === grade ? this.openedOn().comps : [];
+    this.openedOn.set({ grade, comps: cur.includes(comp) ? cur.filter((c) => c !== comp) : [...cur, comp] });
   }
   protected ways(comp: string): CpWay[] {
-    return CP_WAYS[comp] || [];
+    return (CP_WAYS[comp] || []).filter((w) => w.grades.includes(this.s.grade()));
+  }
+  /** тип материала без иконки, длительность и грейд. Личный срок назначения сюда не входит */
+  protected facts(w: CpWay): { icon: string; text: string }[] {
+    return ctWayFacts(w, [this.s.grade()]);
+  }
+  protected isApplied(comp: string, title: string): boolean {
+    return !!this.applied()[comp + '|' + title];
+  }
+  protected apply(comp: string, w: CpWay): void {
+    this.applied.update((m) => ({ ...m, [comp + '|' + w.title]: true }));
+    this.toast.show('Заявка подана', 'Курс «' + w.title + '» поставлен в очередь на назначение.');
+  }
+  /** название материала открывает курс или статью базы знаний */
+  protected openWay(w: CpWay): void {
+    const link = w.link;
+    if (!link) return;
+    if (link.page === 'kb') this.nav.go('kb', { kbo: link.id });
+    else this.nav.go('course', link.ev ? { crs: link.id, kind: 'trn' } : { crs: link.id });
   }
 
-  /** без плана запрос включает синий шаг; если ИПР уже есть — открывает его */
-  protected ask(): void {
-    const grade = this.s.grade();
-    if (!this.s.transition()) {
-      this.s.askPlan();
-      this.toast.show('Запрос отправлен', 'Руководитель получит просьбу открыть ИПР на грейд «' + grade + '».');
-      return;
-    }
-    this.toast.show('ИПР уже есть', 'План развития открыт. Цель плана — грейд «' + grade + '».');
-    this.nav.go('ipr');
-  }
 }

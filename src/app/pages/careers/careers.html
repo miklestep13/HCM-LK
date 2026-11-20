@@ -1,0 +1,137 @@
+<app-page-head title="Профили должностей" [noBack]="true" />
+<div class="c">
+  <app-filter-bar placeholder="Поиск по должности и описанию" [(query)]="q" [(opened)]="opened">
+    <button ftLead app-table-settings [columns]="colNames" [(hidden)]="hidden" all></button>
+    <button ftAction class="btn pri" type="button" (click)="add()">Добавить</button>
+    <app-multi-select ftName="Лидер" label="Лидер" [options]="leaderOpts" [meta]="leaderMeta" [(value)]="leaders" />
+    <app-select ftName="Кол-во компетенций" label="Кол-во компетенций" allLabel="Все" [options]="compOpts()" [(value)]="comp" />
+    <app-select ftName="Кол-во сотрудников" label="Кол-во сотрудников" allLabel="Все" [options]="peopleOpts()" [(value)]="people" />
+    <app-date-range ftName="Дата действия с" label="Дата действия с" [(value)]="fromAt" />
+    <app-date-range ftName="Дата действия по" label="Дата действия по" [(value)]="toAt" />
+    <app-select ftName="Статус" label="Статус" allLabel="Все" [options]="statuses" [(value)]="status" />
+  </app-filter-bar>
+  <div class="tw">
+    <table class="tbl ctt">
+      <thead>
+        <tr>
+          <th class="ctchev"></th>
+          @for (c of cols; track c.k) {
+            @if (shown(c)) {
+              <th
+                [class.ctname]="c.k === 'name'"
+                [class.ctico]="c.k === 'ico'"
+                [class.ctwords]="c.k === 'words'"
+                [attr.aria-label]="c.k === 'ico' ? 'Признаки' : null"
+                [class.ctlead]="c.k === 'leader'"
+                [class.is-num]="c.num"
+                [class.stb]="c.stb"
+                [class.ctdt]="c.k === 'from' || c.k === 'to'"
+                [attr.aria-sort]="c.bare ? null : sort().k === c.k ? (sort().d > 0 ? 'ascending' : 'descending') : 'none'"
+              >
+                @if (!c.bare) {
+                  <span class="thh"><span>{{ c.t }}</span><button ct-sort [on]="sort().k === c.k" [desc]="sort().k === c.k && sort().d < 0" [label]="'Сортировать по столбцу «' + c.t + '»'" (pressed)="sortBy(c.k, $event)"></button></span>
+                }
+              </th>
+            }
+          }
+          <th class="tact"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of pg.view(); track r.id) {
+          <tr class="clk" [attr.aria-expanded]="isOpen(r.id)" (click)="toggle(r.id)">
+            <td class="ctchev" [class.open]="isOpen(r.id)"><app-icon name="chevron" /></td>
+            @for (c of cols; track c.k) {
+              @if (shown(c)) {
+                @switch (c.k) {
+                  @case ('ico') {
+                    <td class="ctico">
+                      <span class="ctdots">
+                        <span class="ctdot" [class.on]="r.kinds.includes('Основная')" appTip="Основная|Должность, которую сотрудник занимает как свою" aria-label="Основная"><app-icon name="roleMain" /></span>
+                        <span class="ctdot" [class.on]="r.kinds.includes('Дополнительная')" appTip="Дополнительная|Роль, которую можно совмещать с основной" aria-label="Дополнительная"><app-icon name="roleExtra" /></span>
+                        <span class="ctdot" [class.on]="r.noGrade" appTip="Без грейдов|Должность без лестницы грейдов: уровень один" aria-label="Без грейдов"><app-icon name="noGrade" /></span>
+                      </span>
+                    </td>
+                  }
+                  @case ('name') {
+                    <td class="ctname">
+                      <button type="button" class="cpcomp" (click)="openName(r, $event)"><b [title]="r.name">{{ r.name }}</b></button>
+                    </td>
+                  }
+                  @case ('words') {
+                    <td class="ctwords">
+                      <span class="ctlabs">
+                        @if (r.kinds.includes('Основная')) {
+                          <span class="bdg info"><i></i>Основная</span>
+                        }
+                        @if (r.kinds.includes('Дополнительная')) {
+                          <span class="bdg warn"><i></i>Дополнительная</span>
+                        }
+                        @if (r.noGrade) {
+                          <span class="bdg vt"><i></i>Без грейдов</span>
+                        }
+                        @if (!r.kinds.length && !r.noGrade) {
+                          —
+                        }
+                      </span>
+                    </td>
+                  }
+                  @case ('leader') {
+                    <td class="ctlead">
+                      @if (r.leader !== '—') {
+                        @if (av(r.leader); as a) {
+                          <span class="pcell2 astper">
+                            @if (a.photo) {
+                              <img class="av astav" [src]="a.photo" alt="" />
+                            } @else {
+                              <span class="av astav" [class]="a.cls"></span>
+                            }
+                            <span class="cnm"><b>{{ r.leader }}</b><small>{{ post(r.leader) }}</small></span>
+                          </span>
+                        }
+                      } @else {
+                        —
+                      }
+                    </td>
+                  }
+                  @case ('comps') {
+                    <td class="is-num">{{ r.comps }}</td>
+                  }
+                  @case ('people') {
+                    <td class="is-num">{{ r.people }}</td>
+                  }
+                  @case ('from') {
+                    <td class="ctdt">{{ r.from }}</td>
+                  }
+                  @case ('to') {
+                    <td class="ctdt">{{ r.to || '—' }}</td>
+                  }
+                  @case ('status') {
+                    <td class="stb"><span class="bdg" [class.ok]="r.status === 'Действует'">{{ r.status }}</span></td>
+                  }
+                }
+              }
+            }
+            <td class="tact" (click)="$event.stopPropagation()">
+              <span class="ctacts">
+                <button type="button" class="actb" appTip="Редактировать" aria-label="Редактировать" (click)="edit(r)"><app-icon name="edit" /></button>
+                <button type="button" class="actb" appTip="Создать по образцу" aria-label="Создать по образцу" (click)="copy(r)"><app-icon name="copy" /></button>
+                <button type="button" class="actb dg" appTip="Удалить" aria-label="Удалить" (click)="remove(r)"><app-icon name="trashSm" /></button>
+              </span>
+            </td>
+          </tr>
+          @if (isOpen(r.id)) {
+            <tr class="cpxrow">
+              <td [attr.colspan]="span()">
+                <div class="cpx"><p>{{ r.desc }}</p></div>
+              </td>
+            </tr>
+          }
+        } @empty {
+          <tr class="ctnone"><td [attr.colspan]="span()">Ничего не найдено</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <app-pager [p]="pg" />
+</div>

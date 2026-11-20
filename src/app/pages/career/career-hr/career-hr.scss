@@ -1,0 +1,632 @@
+/* Карточка должности HR. Острова — обычные div.c, как разделы ИПР. */
+app-career-hr.career-hr {
+  display: block;
+}
+.career-hr > .c + .c,
+.career-hr > .hrview + .c {
+  margin-top: 16px;
+}
+.career-hr > .hrview {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pg-careerhr .cpcols .cR,
+.pg-careerhr .cpcols .cM {
+  gap: 16px;
+}
+.pg-careerhr .w-evm .evmt :is(th, td).evmc-d {
+  width: 168px;
+  min-width: 168px;
+}
+@media (max-width: 1100px) {
+  .pg-careerhr .cpcols {
+    flex-direction: column;
+  }
+  .pg-careerhr .cpcols .cR {
+    width: 100%;
+  }
+}
+.career-hr .career-road .ch {
+  align-items: flex-start;
+}
+.career-hr .career-road .objacts {
+  flex: none;
+  margin-top: 2px;
+}
+.career-hr .cpnote {
+  font: var(--q-font-ui-body-2);
+  color: var(--q-base-500);
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.career-hr .cpnote .app-icon,
+.career-hr .cpnote svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  margin-top: 2px;
+}
+.career-hr > .c:not(.w-evm) {
+  overflow: visible;
+}
+
+/* форма: две колонки, в сайдбаре одна. Подпись внутри поля, высота 52 — из общих стилей .fld.flt */
+.career-hr .frm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.career-hr .drwb .frm {
+  grid-template-columns: 1fr;
+}
+.career-hr .fld.full {
+  grid-column: 1 / -1;
+}
+
+/* шапка объекта */
+.career-hr .hrtit {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.career-hr .hrtit h2 {
+  min-width: 0;
+  margin: 0;
+  font: var(--q-font-ui-headline-2);
+  color: var(--q-content-text);
+}
+.career-hr .hrsub {
+  margin-top: 8px;
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.career-hr .hrdesc {
+  margin: 12px 0 0;
+  max-width: 760px;
+  font: var(--q-font-ui-body-1);
+  color: var(--q-content-text);
+}
+.career-hr .hrdesc.clamp {
+  overflow: hidden;
+  position: relative;
+}
+.career-hr .hrdesc.clamp:not(.open)::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 24px;
+  background: linear-gradient(transparent, var(--q-content-background));
+}
+.career-hr .lnk.hrmore {
+  display: block;
+  margin-top: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: var(--q-font-ui-headline-4);
+  color: var(--blue);
+  cursor: pointer;
+}
+.career-hr .kpis {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+.career-hr .kpis.k2 {
+  grid-template-columns: 1fr 1fr;
+}
+.career-hr .rst {
+  background: var(--s1);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.career-hr .rst .l {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.career-hr .rst .v.txt {
+  margin-top: 4px;
+  font: var(--q-font-ui-headline-3);
+  color: var(--q-content-text);
+}
+.career-hr .cpkpi .rst {
+  background: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+/* грейды внутри своего острова */
+.career-hr .hrnote {
+  margin: 12px 0 0;
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.career-hr .hrgr {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+.career-hr .hrgr + .hrgr {
+  margin-top: 32px;
+}
+.career-hr .hrgr .kpis {
+  margin-top: 0;
+}
+.career-hr .hrgr > b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--q-content-text);
+}
+.career-hr .hrgr > p {
+  margin: 0;
+  font: var(--q-font-ui-body-1);
+  color: var(--q-content-text);
+}
+.career-hr .hrgr2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* пустое состояние — как в разделе компетенций ИПР */
+.career-hr-grades .empty,
+.career-hr-comps .empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 24px 8px;
+  text-align: center;
+}
+.career-hr-grades .wipi,
+.career-hr-comps .wipi {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+}
+.career-hr-grades .wipi svg,
+.career-hr-comps .wipi svg {
+  width: 26px;
+  height: 26px;
+}
+.career-hr-grades .empty b,
+.career-hr-comps .empty b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--q-content-text);
+}
+.career-hr-grades .empty small,
+.career-hr-comps .empty small {
+  max-width: 420px;
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+
+/* таблица на ширину острова, поиск в .ftbar уже на всю строку */
+.career-hr-comps .tw {
+  overflow-x: auto;
+  padding: 0 24px 24px;
+}
+.career-hr-comps .tbl {
+  width: 100%;
+  border-collapse: collapse;
+}
+.career-hr .ctt th,
+.career-hr .ctt td {
+  text-align: left;
+  vertical-align: middle;
+}
+.career-hr .ctt th {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+  white-space: nowrap;
+}
+.career-hr .ctt td {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+.career-hr .ctt tr:last-child td {
+  border-bottom: 0;
+}
+.career-hr-comps .tbl td b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.career-hr-comps td small {
+  display: block;
+  margin-top: 2px;
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+.career-hr-comps .clk {
+  cursor: pointer;
+}
+.career-hr-comps .clk:hover td {
+  background: var(--blue-bg);
+}
+.career-hr .ctna {
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-400);
+}
+.career-hr .hrlv {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: none;
+  padding: 4px;
+  margin: -4px;
+  border-radius: 8px;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+.career-hr .hrlv:hover {
+  background: var(--blue-bg);
+}
+.career-hr .hrlv .app-icon,
+.career-hr .hrlv svg {
+  width: 16px;
+  height: 16px;
+  color: var(--blue);
+  flex: none;
+}
+.career-hr .hrlv.on .app-icon {
+  transform: rotate(180deg);
+}
+.career-hr-comps .lvw {
+  display: inline-flex;
+  align-items: center;
+}
+.career-hr-comps .lvd {
+  display: inline-flex;
+  gap: 5px;
+}
+.career-hr-comps .lvd i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--track);
+  display: block;
+}
+.career-hr-comps .lvw.l1 .lvd i.l1 { background: var(--q-error-500); }
+.career-hr-comps .lvw.l2 .lvd i.l2 { background: var(--q-warning-500); }
+.career-hr-comps .lvw.l3 .lvd i.l3 { background: var(--q-success-500); }
+.career-hr-comps .lvw.l4 .lvd i.l4 { background: var(--q-primary-500); }
+
+/* остров действия внизу — только кнопка, как в ИПР */
+.career-hr > .c.hrisl {
+  padding: 16px 24px;
+}
+.career-hr .hrff,
+.career-hr .mdlf {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.career-hr .sbtn {
+  display: inline-flex;
+}
+.career-hr .sbtn .btn {
+  border-radius: 8px 0 0 8px;
+}
+.career-hr .sbtn .sbar {
+  border-radius: 0 8px 8px 0;
+  padding: 0 10px;
+  box-shadow: inset 1px 0 0 color-mix(in srgb, var(--q-button-primary-text) 35%, transparent);
+}
+.career-hr .sbtn .sbar svg {
+  width: 12px;
+  height: 12px;
+}
+/* окно «Добавить компетенции» — как в задаче ИПР */
+.career-hr .mdl.mdl-lg:has(.cpwrap) {
+  width: 960px;
+}
+.career-hr .mdl .cpss {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 4px;
+  font: var(--q-font-ui-body-2);
+}
+.career-hr .mdl .cpss > span {
+  margin-right: auto;
+}
+.career-hr .mdl .cpss small {
+  margin-left: 8px;
+  color: var(--t3);
+}
+.career-hr .mdl .tbl.iprc th,
+.career-hr .mdl .tbl.iprc td {
+  text-align: left;
+  vertical-align: middle;
+  white-space: normal;
+}
+.career-hr .mdl .tbl.iprc th {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+.career-hr .mdl .tbl.iprc td {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+.career-hr .mdl .tbl.iprc tr:last-child td {
+  border-bottom: 0;
+}
+.career-hr .mdl .tbl.iprc td b {
+  display: block;
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+.career-hr .mdl .tbl.iprc td.chk {
+  width: 38px;
+  padding-right: 0;
+}
+.career-hr .mdl .cpdone .ckb input:disabled + i {
+  opacity: 0.55;
+}
+.career-hr .mdl .cpwrap .tw {
+  padding: 0;
+}
+.career-hr .mdl .cppg {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--stroke);
+}
+.career-hr .mdl .cppg small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.career-hr .mdl .cppn {
+  display: flex;
+  gap: 4px;
+}
+.career-hr .mdl .cppb {
+  font: var(--q-font-ui-headline-4);
+  display: grid;
+  place-items: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--q-page-text-ui);
+  cursor: pointer;
+}
+.career-hr .mdl .cppb svg {
+  width: 12px;
+  height: 12px;
+}
+.career-hr .mdl .cppb:hover {
+  background: var(--hv);
+  color: var(--blue);
+}
+.career-hr .mdl .cppb.on {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+.career-hr .mdl .cppb:disabled {
+  opacity: 0.45;
+  cursor: default;
+  background: none;
+  color: var(--q-page-text-ui);
+}
+.career-hr .tact .ib {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--q-base-500);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.career-hr .tact .ib:hover {
+  background: var(--q-error-50);
+  color: var(--q-error-500);
+}
+.career-hr .tact .ib .app-icon,
+.career-hr .tact .ib svg {
+  width: 16px;
+  height: 16px;
+}
+@media (max-width: 900px) {
+  .career-hr .frm,
+  .career-hr .hrgr2,
+  .career-hr .kpis.k2 {
+    grid-template-columns: 1fr;
+  }
+}
+.career-hr .hrht {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.career-hr .hrgrh {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.career-hr .hrgrh > b {
+  font: var(--q-font-ui-headline-3);
+}
+.career-hr .hrgr .objacts {
+  flex: none;
+}
+.career-hr-comps tr.clk {
+  cursor: pointer;
+}
+.career-hr-comps .cpcomp {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.career-hr-comps .cpcomp .app-icon {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  margin-top: 2px;
+  color: var(--q-base-500);
+  transform: rotate(-90deg);
+  transition: transform 0.15s;
+}
+.career-hr-comps .cpcomp.open .app-icon {
+  transform: none;
+}
+.career-hr-comps .cpcomp b {
+  font: var(--q-font-ui-headline-4);
+}
+.career-hr-comps tr:has(+ .cpxrow) > td {
+  border-bottom-color: transparent;
+}
+.career-hr-comps .cpxrow > td {
+  white-space: normal;
+  padding-top: 0;
+}
+.career-hr-comps .cpx {
+  background: var(--s1);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 0 12px 12px;
+}
+.career-hr-comps .cpxk + .cpxk {
+  margin-top: 16px;
+}
+.career-hr-comps .cpxk b,
+.career-hr-comps .cpxw > b {
+  font: var(--q-font-ui-headline-4);
+  display: block;
+}
+.career-hr-comps .cpxk ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+.career-hr-comps .cpxk li {
+  font: var(--q-font-ui-body-2);
+  margin-top: 4px;
+}
+.career-hr-comps .cpxw {
+  margin-top: 16px;
+}
+.career-hr-comps .cpxcard {
+  margin-top: 8px;
+  background: var(--q-content-background);
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.career-hr-comps .cpxcard .prow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--stroke);
+}
+.career-hr-comps .cpxcard .prow:first-child {
+  border-top: 0;
+}
+.career-hr-comps .cpxcard .cico {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  color: var(--blue);
+  flex: none;
+}
+.career-hr-comps .cpxcard .cico .app-icon,
+.career-hr-comps .cpxcard .cico svg {
+  width: 16px;
+  height: 16px;
+}
+.career-hr-comps .cpxcard .prow > div {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.career-hr-comps .cpxcard .prow b {
+  font: var(--q-font-ui-headline-4);
+  display: block;
+}
+.career-hr-comps .cpxcard .prm {
+  font: var(--q-font-ui-description-1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 4px;
+  color: var(--t3);
+}
+.career-hr-comps .cpxcard .prm span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.career-hr-comps .cpxcard .prm .app-icon,
+.career-hr-comps .cpxcard .prm svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+.career-hr .mdl .c.cmbar {
+  background: none;
+  padding: 0;
+  margin-bottom: 8px;
+  box-shadow: none;
+}
+.career-hr .mdl.mdl-lg .c.cmbar.cmbar > .ftbar.ftbar {
+  padding: 0 !important;
+}
+.career-hr .mdl .iprc td small {
+  display: block;
+  margin-top: 4px;
+  color: var(--t3);
+  font: var(--q-font-ui-description-1);
+}
+.career-hr .mdl .cpdone {
+  color: var(--t3);
+}
+.career-hr .mdl .mdlb > .ipff {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  position: sticky;
+  bottom: -20px;
+  margin: 12px 0 -20px;
+  padding: 12px 0 20px;
+  background: var(--q-content-background);
+  border-top: 1px solid var(--stroke);
+}
+
+/* грейд — группа полей: заголовок и три поля, группы не слипаются */
+.career-hr-grades .hrgl {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.career-hr-grades .hrg h4 {
+  margin: 0 0 16px;
+  font: var(--q-font-ui-headline-3);
+  color: var(--q-content-text);
+}

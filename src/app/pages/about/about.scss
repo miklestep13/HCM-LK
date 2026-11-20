@@ -1,18 +1,274 @@
-/* Страница «О компании»: раскладка и общие правила (из прототипа). Стили блоков — в их папках. */
+/* Страница «О компании»: острова статей. Сетка — как каталог курсов, четыре колонки. */
 .pg-about {
   display: block;
 }
-.pg-about .two2 {
+.pg-about .ab-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.pg-about .ab-top {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+.pg-about .ab-top > .ab-ceo {
+  grid-column: span 3;
+}
+.pg-about .ab-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+.pg-about .npost .nphub,
+.pg-about .npost .npf {
+  display: none;
+}
+.pg-about .ab-hero.npost {
+  padding-bottom: 24px;
+}
+.pg-about .ab-hero .npt {
+  font: var(--q-font-ui-headline-1);
+}
+.pg-about .c .npost {
+  padding: 0;
+  background: transparent;
+}
+.pg-about .ab-ceo {
+  display: flex;
+  flex-direction: column;
+}
+.pg-about .ab-ceo > .cb {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.pg-about .ab-ceo .npost {
+  flex: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  align-items: start;
+  grid-template-rows: auto 1fr;
+  column-gap: 24px;
+  min-height: 0;
 }
-@media (max-width: 1100px) {
-  .pg-about .two2 {
-    grid-template-columns: 1fr;
+.pg-about .ab-ceo .npimg {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  position: relative;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  align-self: stretch;
+  overflow: hidden;
+}
+.pg-about .ab-ceo .npt {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0 0 8px;
+}
+.pg-about .ab-ceo .nplead {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0;
+}
+.pg-about .ab-ceo .npimg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: auto;
+  object-fit: cover;
+}
+.pg-about .ab-goal .npost .npimg img,
+.pg-about .ab-rail .npost .npimg img {
+  width: 100%;
+  height: auto;
+  max-height: none;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+.pg-about .ab-vals .npost .npimg {
+  position: relative;
+  aspect-ratio: 16 / 10;
+}
+.pg-about .ab-vals .npost .npimg img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  height: 62%;
+  max-height: none;
+  aspect-ratio: auto;
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+}
+.pg-about .ab-railh {
+  position: relative;
+}
+.pg-about .ab-rail {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.pg-about .ab-rail::-webkit-scrollbar {
+  display: none;
+}
+.pg-about .ab-rail > .npost {
+  flex: 0 0 calc((100% - 112px) / 4);
+  scroll-snap-align: start;
+}
+.pg-about .ab-arr {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
+  box-shadow: 0 4px 16px var(--q-base-transparent-300);
+}
+.pg-about .ab-arr-r {
+  right: 8px;
+}
+.pg-about .ab-arr-l {
+  left: 8px;
+}
+.pg.pg-about:not(.pg-home) .c.ab-scroll > .cb {
+  padding-right: 0;
+}
+.pg-about .ab-grid > .npost,
+.pg-about .ab-rail > .npost {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.pg-about .ab-vals > .npost {
+  height: 100%;
+}
+.pg-about .npost .npimg {
+  flex: none;
+}
+.pg-about .ab-hero .npimg img {
+  max-height: 360px;
+  aspect-ratio: 21 / 9;
+  object-fit: cover;
+  object-position: center;
+}
+.pg-about .ab-hero .nplead {
+  margin-bottom: 16px;
+}
+.pg-about .ab-banner {
+  position: relative;
+  height: 320px;
+}
+.pg-about .ab-banner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 12%;
+}
+.pg-about .ab-banner p {
+  position: absolute;
+  z-index: 1;
+  left: 24px;
+  right: 24px;
+  top: 36px;
+  margin: 0;
+  text-align: center;
+  font: var(--q-font-ui-headline-1);
+  color: var(--q-content-text);
+}
+.pg-about .ab-people {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  column-gap: 16px;
+  row-gap: 16px;
+}
+.pg-about .ab-person {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+.pg-about .ab-person__av {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  object-fit: cover;
+  background-size: cover;
+  background-position: center;
+  display: block;
+}
+.pg-about .ab-person__n {
+  margin-top: 8px;
+  font: var(--q-font-ui-headline-4);
+  color: var(--q-content-text);
+}
+.pg-about .ab-person__r {
+  margin-top: 4px;
+  font: var(--q-font-ui-description-1);
+  color: var(--q-base-500);
+}
+@media (max-width: 1200px) {
+  .pg-about .ab-grid,
+  .pg-about .ab-people {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .pg-about .ab-rail > .npost {
+    flex-basis: calc((100% - 88px) / 3);
   }
 }
-.pg-about .abtwo {
-  align-items: stretch;
+@media (max-width: 900px) {
+  .pg-about .ab-top {
+    grid-template-columns: 1fr;
+  }
+  .pg-about .ab-top > .ab-ceo,
+  .pg-about .ab-goal {
+    grid-column: span 1;
+  }
+  .pg-about .ab-grid,
+  .pg-about .ab-people {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pg-about .ab-rail > .npost {
+    flex-basis: calc((100% - 72px) / 2);
+  }
+}
+@media (max-width: 600px) {
+  .pg-about .ab-top,
+  .pg-about .ab-grid,
+  .pg-about .ab-people {
+    grid-template-columns: 1fr;
+  }
+  .pg-about .ab-top > .ab-ceo,
+  .pg-about .ab-goal {
+    grid-column: span 1;
+  }
+  .pg-about .ab-ceo .npost {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    row-gap: 16px;
+  }
+  .pg-about .ab-ceo .npimg,
+  .pg-about .ab-ceo .npt,
+  .pg-about .ab-ceo .nplead {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .pg-about .ab-ceo .npimg,
+  .pg-about .ab-ceo .npimg img {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+  .pg-about .ab-rail > .npost {
+    flex-basis: calc(100% - 24px);
+  }
 }

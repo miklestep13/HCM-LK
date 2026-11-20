@@ -13,7 +13,7 @@ import { ToastService } from '../../../shared/ui/toast/toast.service';
 
 /**
  * Сайдбар «Подтверждение уровня»: компетенция, уровень (по умолчанию — требуемый), что умеет сотрудник на этом уровне,
- * эксперт роли, пример из работы (обязательно) и файлы. После отправки строка переходит в «На подтверждении».
+ * эксперт должности, пример из работы (обязательно) и файлы. После отправки строка переходит в «На подтверждении».
  */
 @Component({
   selector: 'app-career-confirm',
@@ -61,7 +61,9 @@ export class CareerConfirm {
   private readonly toast = inject(ToastService);
 
   protected readonly levels = CT_LEVELS;
-  protected readonly experts = CP_EXPERTS.map((e) => shortFio(e.name) + (e.tag === 'Лидер' ? ' (лидер роли)' : ''));
+  /** уровень подтверждает лидер или эксперт должности, не ответственный за трек */
+  private readonly reviewers = CP_EXPERTS.filter((e) => e.tag === 'Лидер' || e.tag === 'Эксперт');
+  protected readonly experts = this.reviewers.map((e) => shortFio(e.name) + (e.tag === 'Лидер' ? ' (лидер должности)' : ''));
   /** уровень по умолчанию — требуемый на выбранном грейде */
   protected readonly level = linkedSignal(() => this.row().need);
   protected readonly expert = signal(this.experts[0]);
@@ -75,7 +77,7 @@ export class CareerConfirm {
       this.err.set(true);
       return;
     }
-    const expert = CP_EXPERTS[this.experts.indexOf(this.expert())]?.name || CP_EXPERTS[0].name;
+    const expert = this.reviewers[this.experts.indexOf(this.expert())]?.name || this.reviewers[0].name;
     this.s.request(this.row().comp, expert);
     this.toast.show('Запрос отправлен', shortFio(expert) + ' получит уведомление и подтвердит уровень «' + this.level() + '»');
     this.closed.emit();

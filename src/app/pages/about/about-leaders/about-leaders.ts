@@ -1,14 +1,26 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import { ABOUT_LEADERS } from '../../../data/about.data';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject } from '@angular/core';
+import { NavService } from '../../../core/navigation/nav.service';
+import { ABOUT_BOARD_WIDE } from '../../../data/about-articles.data';
+import { NewsPost } from '../../../widgets/news-post/news-post';
 
-/** Карточка «Руководство»: фото, ФИО и должность. Вставляется на место карточки атрибутом about-leaders. */
+/** «Слово генерального директора»: заголовок острова, внутри цитата. Фото и текст поровну. */
 @Component({
   selector: '[about-leaders]',
-  templateUrl: './about-leaders.html',
-  styleUrl: './about-leaders.scss',
+  imports: [NewsPost],
+  template: `
+    <div class="ch"><h3>Слово генерального директора</h3></div>
+    <div class="cb">
+      <app-news-post [post]="wide" [plain]="true" (open)="open($event)" />
+    </div>
+  `,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AboutLeaders {
-  protected readonly list = ABOUT_LEADERS;
+  private readonly nav = inject(NavService);
+  protected readonly wide = ABOUT_BOARD_WIDE;
+
+  protected open(id: string): void {
+    this.nav.go('newscard', { news: id });
+  }
 }
