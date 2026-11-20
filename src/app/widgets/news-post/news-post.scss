@@ -149,3 +149,10 @@
   width: 100%;
   height: 100%;
 }
+/* короткая карточка, как «Похожие новости»: заголовок меньше, обложка ниже */
+.npost.cmp .npt {
+  font: var(--q-font-ui-headline-4);
+}
+.npost.cmp .npimg img {
+  max-height: 150px;
+}

@@ -110,6 +110,10 @@
 
 :is(.pg-ctrack, .pg-ctrole, .pg-ctcomp) .tw {
   overflow-x: auto;
+  padding: 0 24px;
+}
+:is(.pg-ctrack, .pg-ctrole, .pg-ctcomp) .c > .tw:last-child {
+  padding-bottom: 24px;
 }
 :is(.pg-ctrack, .pg-ctrole, .pg-ctcomp) .tbl {
   width: 100%;
@@ -132,14 +136,6 @@
   color: var(--t1);
   padding: 16px 12px;
   border-bottom: 1px solid var(--stroke);
-}
-:is(.pg-ctrack, .pg-ctrole, .pg-ctcomp) .ctt th:first-child,
-:is(.pg-ctrack, .pg-ctrole, .pg-ctcomp) .ctt td:first-child {
-  padding-left: 24px;
-}
-:is(.pg-ctrack, .pg-ctrole, .pg-ctcomp) .ctt th:last-child,
-:is(.pg-ctrack, .pg-ctrole, .pg-ctcomp) .ctt td:last-child {
-  padding-right: 24px;
 }
 :is(.pg-ctrack, .pg-ctrole, .pg-ctcomp) .ctt tbody tr:last-child td {
   border-bottom: 0;

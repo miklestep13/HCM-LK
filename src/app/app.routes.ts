@@ -243,6 +243,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/adapt/adapt').then((m) => m.Adapt),
   },
   {
+    path: 'adapt',
+    title: 'Адаптации · Q.HCM',
+    data: { hr: true },
+    loadComponent: () => import('./pages/adapt/adapt').then((m) => m.Adapt),
+  },
+  {
     path: 'mygoalview',
     title: 'Просмотр цели · Q.HCM',
     loadComponent: () => import('./pages/mygoalview/mygoalview').then((m) => m.Mygoalview),
@@ -291,6 +297,16 @@ export const routes: Routes = [
     path: 'career',
     title: 'Карьерный трек · Q.HCM',
     loadComponent: () => import('./pages/career/career').then((m) => m.Career),
+  },
+  {
+    path: 'careers',
+    title: 'Профили должностей · Q.HCM',
+    loadComponent: () => import('./pages/careers/careers').then((m) => m.Careers),
+  },
+  {
+    path: 'careerhr',
+    title: 'Карточка должности · Q.HCM',
+    loadComponent: () => import('./pages/career-card/career-card').then((m) => m.CareerCard),
   },
   {
     path: 'legacy/:page',

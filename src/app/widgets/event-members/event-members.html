@@ -169,10 +169,10 @@
                   @if (E) {
                     @if (mRole() === 'single') {
                       <!-- одна роль — список -->
-                      <app-select [options]="roles()" placeholder="Выберите роль" [value]="C.roles[0] || ''" (valueChange)="set(r, { roles: [$event] })" />
+                      <app-select [options]="roles()" placeholder="Выберите роль" [value]="C.roles[0] || ''" (valueChange)="setRoles(r, [$event])" />
                     } @else {
                       <!-- ролей может быть несколько — чипами -->
-                      <app-chip-select [options]="roles()" placeholder="Выберите роли" [value]="C.roles" (valueChange)="set(r, { roles: $event })" />
+                      <app-chip-select [options]="roles()" placeholder="Выберите роли" [value]="C.roles" (valueChange)="setRoles(r, $event)" />
                     }
                   } @else {
                     <span class="evmroles">
@@ -319,6 +319,7 @@
     <app-select label="Кнопка добавления" [options]="cfg.adds" [value]="cfgAdd()" (valueChange)="setAdd($event)" />
     <app-select label="Длинный список" [options]="cfg.pagings" [value]="cfgPaging()" (valueChange)="setPaging($event)" />
     <app-select label="Роль" [options]="cfg.roleModes" [value]="cfgRole()" (valueChange)="setRole($event)" />
+    <app-multi-select label="Единственная роль" [options]="roles()" [value]="mSole()" (valueChange)="mSole.set($event)" />
     <app-multi-select label="Колонки" [options]="cfg.cols" [value]="cfgCols()" (valueChange)="setCols($event)" />
     <app-multi-select label="Участник" [options]="cfg.who" [value]="cfgWho()" (valueChange)="setWho($event)" />
   </div>

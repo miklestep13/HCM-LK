@@ -133,6 +133,8 @@ export class EventMembers {
   readonly who = input<EvWho[]>(['av', 'pos', 'dep']);
   readonly types = input<string[]>([]);
   readonly roles = input<string[]>([]);
+  /** роли, которые может занимать только один участник: при назначении снимаются с остальных */
+  readonly sole = input<string[]>([]);
   readonly pageSize = input(10);
   /** роль: несколько ('multi') или одна ('single') */
   readonly roleMode = input<EvRoleMode>('multi');
@@ -151,6 +153,7 @@ export class EventMembers {
   protected readonly mCols = linkedSignal(() => this.cols());
   protected readonly mWho = linkedSignal(() => this.who());
   protected readonly mRole = linkedSignal(() => this.roleMode());
+  protected readonly mSole = linkedSignal(() => this.sole());
   protected readonly mColSet = linkedSignal(() => this.colSettings());
   /** свернут — только при fold; без fold тело всегда открыто */
   protected readonly cold = linkedSignal(() => this.fold() && this.collapsed());
@@ -346,6 +349,19 @@ export class EventMembers {
   protected set(r: EvMember, patch: Partial<EvMember>): void {
     if (this.mEdit() === 'row') this.draft.update((d) => (d ? { ...d, ...patch } : d));
     else this.rows.update((l) => l.map((x) => (x.id === r.id ? { ...x, ...patch } : x)));
+  }
+  /** назначение ролей; роли из sole остаются только у этой строки */
+  protected setRoles(r: EvMember, roles: string[]): void {
+    const taken = roles.filter((x) => this.mSole().includes(x));
+    if (!taken.length || this.mEdit() === 'row') {
+      this.set(r, { roles });
+      return;
+    }
+    this.rows.update((l) => l.map((x) => {
+      if (x.id === r.id) return { ...x, roles };
+      const next = x.roles.filter((role) => !taken.includes(role));
+      return next.length === x.roles.length ? x : { ...x, roles: next };
+    }));
   }
   protected flip(r: EvMember, k: 'main'): void {
     if (!this.isEd(r)) return;

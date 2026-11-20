@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { careerPack } from '../../career-pack';
 import { DevPanelService } from './dev-panel.service';
 import { Seg } from '../../../shared/ui/seg/seg';
 
@@ -40,5 +41,5 @@ export class DevPanel {
   protected readonly svc = inject(DevPanelService);
   protected readonly open = signal(false);
   /** для скриншотов: в адресе есть noDemo (например, #/absences?noDemo=1) — кнопку «Демо» не показываем */
-  protected readonly hide = /[?&]noDemo\b/.test(location.href);
+  protected readonly hide = /[?&]noDemo\b/.test(location.href) || careerPack();
 }
