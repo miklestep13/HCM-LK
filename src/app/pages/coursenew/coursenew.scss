@@ -155,8 +155,9 @@
 .pg-coursenew .cnwave .c.cnwevm > .ch h3 {
   font: var(--q-font-ui-headline-4);
 }
+/* !important — перебиваем общий .c > .ch ~ .cb:last-child { padding-bottom: 24px } */
 .pg-coursenew .cnwave .c.cnwevm > .cb {
-  padding: 0;
+  padding: 0 !important;
 }
 .pg-coursenew .cnwadd {
   width: 100%;
