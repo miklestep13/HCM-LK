@@ -34,7 +34,7 @@ import { CoursenewState } from '../coursenew.state';
             </span>
           </div>
           @if (s.waves().length > 1) {
-            <button class="actb dg cnwdel" title="Удалить процедуру" (click)="$event.stopPropagation(); del(w)"><app-icon name="trash" /></button>
+            <button class="actb dg cnwdel" title="Удалить процедуру" (click)="$event.stopPropagation(); del(w)"><app-icon name="trashSm" /></button>
           }
         </div>
         @if (open) {
