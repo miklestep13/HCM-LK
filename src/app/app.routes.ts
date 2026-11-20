@@ -238,6 +238,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/adapt/adapt').then((m) => m.Adapt),
   },
   {
+    path: 'adapt',
+    title: 'Адаптации · Q.HCM',
+    data: { hr: true },
+    loadComponent: () => import('./pages/adapt/adapt').then((m) => m.Adapt),
+  },
+  {
     path: 'mygoalview',
     title: 'Просмотр цели · Q.HCM',
     loadComponent: () => import('./pages/mygoalview/mygoalview').then((m) => m.Mygoalview),

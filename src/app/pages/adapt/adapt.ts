@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, effect, inject, input, signal } from '@angular/core';
 import { IprDemoStatus, IprStore } from '../../core/demo/ipr-store.service';
 import { DevPanelService, devValue } from '../../core/layout/dev-panel/dev-panel.service';
 import { NavService } from '../../core/navigation/nav.service';
@@ -43,9 +43,10 @@ const STATUSES: { value: IprDemoStatus; label: string }[] = [
 ];
 
 /**
- * «Мой кабинет → Аттестация → Адаптация».
- * Под капотом тот же флоу, что у ИПР, со своим планом новичка.
- * Класс pg-ipr оставлен, чтобы карточки задач и компетенции взяли уже готовые стили виджетов.
+ * План адаптации новичка.
+ * «Мой кабинет → Аттестация → Адаптация» — вид сотрудника.
+ * «Управление персоналом → Аттестация → Адаптации» — вид руководителя (маршрут adapt, hr).
+ * Класс pg-ipr оставлен, чтобы карточки задач взяли уже готовые стили виджетов.
  */
 @Component({
   selector: 'app-adapt',
@@ -133,6 +134,8 @@ const STATUSES: { value: IprDemoStatus; label: string }[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Adapt {
+  /** страница руководителя в «Управлении персоналом»; в кабинете сотрудника роли нет */
+  readonly hr = input(false);
   protected readonly s = inject(AdaptStore);
   private readonly nav = inject(NavService);
   private readonly toast = inject(ToastService);
@@ -161,22 +164,11 @@ export class Adapt {
       : 'К сожалению, вы не выполнили все задания. Для уточнения вопросов обратитесь к руководителю.',
   );
   private readonly mgr = computed(() => shortFio(this.s.plan().mgr[0]));
-  private readonly showFill = computed(() => !this.s.none() && !this.s.creating());
 
   constructor() {
+    effect(() => this.s.arole.set(this.hr() ? 'mgr' : 'emp'));
     effect((onCleanup) => {
-      const c = [{ id: 'adaptStatus', label: 'Статус адаптации', options: STATUSES, value: devValue<IprDemoStatus>(() => this.s.demoStatus(), (v) => this.s.setDemo(v)) }];
-      if (this.showFill())
-        c.push({
-          id: 'adaptRole',
-          label: 'Роль',
-          options: [
-            { value: 'mgr', label: 'Руководитель' },
-            { value: 'emp', label: 'Сотрудник' },
-          ] as any,
-          value: this.s.arole as any,
-        });
-      onCleanup(this.dev.register(...c));
+      onCleanup(this.dev.register({ id: 'adaptStatus', label: 'Статус адаптации', options: STATUSES, value: devValue<IprDemoStatus>(() => this.s.demoStatus(), (v) => this.s.setDemo(v)) }));
     });
     effect(() => {
       this.s.st();
