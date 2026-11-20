@@ -880,7 +880,8 @@
 .mdlf {
   display: flex;
   justify-content: flex-end;
-  padding-top: 16px;
+  /* отступ между текстом / телом окна и рядом кнопок (confirm и app-modal) */
+  padding-top: 32px;
 }
 /* список «Столбцы таблицы» — внутри кнопки, поэтому выравнивание задаем явно; ширина 260, справа не выходит за окно */
 .fpop.plcolp {
