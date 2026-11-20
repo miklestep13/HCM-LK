@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, booleanAttribute, computed, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, afterNextRender, booleanAttribute, computed, effect, inject, input, output, signal, untracked, viewChild } from '@angular/core';
 import { goalAncestors, goalGroup, goalLevel, goalPeriodOf, goalState, goalType } from '../../../core/demo/goals-store.service';
 import { GOAL_LEVEL_BADGE, MAP_ME } from '../../../data/goals.data';
 import { roleWithGrade } from '../../../data/org.data';
 import { ME, ME_PHOTO } from '../../../data/people.data';
 import { MygoalviewState } from '../mygoalview.state';
 
-/** Шапка цели (как основные поля формы, только просмотр): название и статус, родительские цели крошками; описание; тип, уровень, группа; период, даты, вес. У руководителя (HR) — карточка сотрудника. */
+/** Шапка цели (как основные поля формы, только просмотр): название и статус, родительские цели крошками; описание без подписи (как Object Header — абзацы и «Читать все»); тип, уровень, группа; период, даты, вес. У руководителя (HR) — карточка сотрудника. */
 @Component({
   selector: '[mygoalview-head]',
   template: `
@@ -32,7 +32,16 @@ import { MygoalviewState } from '../mygoalview.state';
         </nav>
       }
       <div class="glvw">
-        <div class="glvkv"><span class="l">Описание</span>{{ g.d || g.krs[0]?.t || '—' }}</div>
+        @if (descPars().length) {
+          <div class="gldesc" #dsc [class.clamp]="descMore()" [class.open]="descOpen()">
+            @for (p of descPars(); track $index) {
+              <p>{{ p }}</p>
+            }
+          </div>
+          @if (descMore()) {
+            <button type="button" class="lnk gldmore" [attr.aria-expanded]="descOpen()" (click)="toggleDesc()">{{ descOpen() ? 'Свернуть' : 'Читать все' }}</button>
+          }
+        }
         <!-- та же сетка в 4 колонки, что у строки периода: тип над периодом, уровень над датой начала, группа над датой окончания -->
         <div class="glvrow glvr4">
           <div class="glvkv"><span class="l">Тип</span>{{ type() }}</div>
@@ -67,4 +76,49 @@ export class MygoalviewHead {
   protected readonly crumbs = computed(() => goalAncestors(this.s.goal()!, this.s.store.goals()));
   protected readonly group = computed(() => goalGroup(this.s.goal()!));
   protected readonly per = computed(() => goalPeriodOf(this.s.goal()));
+  /** абзацы описания — без подписи «Описание», отступы между абзацами */
+  protected readonly descPars = computed(() => {
+    const g = this.s.goal()!;
+    const raw = (g.d || g.krs[0]?.t || '').trim();
+    return raw ? raw.split(/\n+/).map((p) => p.trim()).filter(Boolean) : [];
+  });
+  protected readonly descMore = signal(false);
+  protected readonly descOpen = signal(false);
+  private readonly dsc = viewChild<ElementRef<HTMLElement>>('dsc');
+  private descMax = '';
+
+  constructor() {
+    afterNextRender(() => this.measureDesc());
+    effect(() => {
+      this.descPars();
+      untracked(() => {
+        this.descOpen.set(false);
+        requestAnimationFrame(() => this.measureDesc());
+      });
+    });
+  }
+
+  protected toggleDesc(): void {
+    const el = this.dsc()?.nativeElement;
+    if (!el) return;
+    const open = !this.descOpen();
+    this.descOpen.set(open);
+    el.style.maxHeight = open ? '' : this.descMax;
+  }
+
+  private measureDesc(): void {
+    const el = this.dsc()?.nativeElement;
+    if (!el) return this.descMore.set(false);
+    el.style.maxHeight = '';
+    const lh = parseFloat(getComputedStyle(el.querySelector('p') || el).lineHeight) || 22;
+    const max = lh * 4;
+    if (el.scrollHeight > max + 4) {
+      this.descMax = max + 'px';
+      el.style.maxHeight = this.descMax;
+      this.descMore.set(true);
+    } else {
+      this.descMax = '';
+      this.descMore.set(false);
+    }
+  }
 }

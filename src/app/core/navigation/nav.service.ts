@@ -69,6 +69,8 @@ export class NavService {
 
   /** пункт меню открыт сейчас: та же страница и те же параметры (у «Обучения» — раздел lt; без параметра — первый пункт) */
   isOn(page: string | undefined, attrs?: Record<string, string>): boolean {
+    // просмотр цели из HR — подсвечиваем «Цели»
+    if (page === 'goals' && this.page() === 'mygoalview' && this.params()['hr'] === '1') return true;
     if (!page || page !== this.page()) return false;
     if (!attrs) return true;
     const p = this.params();

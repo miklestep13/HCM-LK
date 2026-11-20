@@ -1,4 +1,4 @@
-import { Injectable, computed, inject } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { DemoState } from '../../core/demo/demo-state.service';
 import { GoalsStore, goalOrder } from '../../core/demo/goals-store.service';
 import { GOAL_COLORS } from '../../data/goals.data';
@@ -9,6 +9,8 @@ import { GoalStage } from '../../interface/goal';
 export class MygoalsState {
   readonly demo = inject(DemoState);
   readonly store = inject(GoalsStore);
+  /** HR-реестр «Цели»: просмотр цели открывается с ?hr=1, «Назад» — к этой карте */
+  readonly hr = signal(false);
   /** этап карты */
   readonly stage = computed<GoalStage>(() => this.demo.goalStage());
   /** можно добавлять, править и удалять цели, менять веса */

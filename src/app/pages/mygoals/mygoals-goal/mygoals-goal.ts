@@ -101,7 +101,9 @@ export class MygoalsGoal {
   protected readonly pop = signal<HTMLElement | null>(null);
 
   protected open(mode: 'view' | 'edit' = 'view'): void {
-    this.nav.go('mygoalview', { gl: this.goal().id, mode, ev: this.s.demo.goalStage() });
+    const q: Record<string, string> = { gl: this.goal().id, mode, ev: this.s.demo.goalStage() };
+    if (this.s.hr()) q['hr'] = '1';
+    this.nav.go('mygoalview', q);
   }
   protected edit(): void {
     this.nav.go('mygoalnew', { edit: this.goal().id, ev: this.s.demo.goalStage() });

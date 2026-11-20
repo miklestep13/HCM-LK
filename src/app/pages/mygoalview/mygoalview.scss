@@ -1213,3 +1213,69 @@
 .pg-mygoalview .glacl.hidden + .glmyf {
   margin-top: 0;
 }
+/* карточка сотрудника в шапке (руководитель / HR) */
+.pg-mygoalview .glemp {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0 20px; /* до описания — 20 */
+}
+.pg-mygoalview .glemp img {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex: none;
+}
+.pg-mygoalview .glemp .cnm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.pg-mygoalview .glemp .cnm b {
+  font: var(--q-font-ui-headline-3);
+}
+/* должность и подразделение — 12 */
+.pg-mygoalview .glemp .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+/* описание цели — 14, без подписи, абзацы через отступ, «Читать все» */
+.pg-mygoalview .gldesc {
+  font: var(--q-font-ui-body-2);
+  color: var(--t1);
+  max-width: 720px;
+}
+.pg-mygoalview .gldesc p {
+  margin: 0;
+}
+.pg-mygoalview .gldesc p + p {
+  margin-top: 8px;
+}
+.pg-mygoalview .gldesc.clamp {
+  overflow: hidden;
+  position: relative;
+}
+.pg-mygoalview .gldesc.clamp:not(.open)::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 24px;
+  background: linear-gradient(transparent, var(--q-content-background));
+}
+.pg-mygoalview .gldmore {
+  display: block;
+  width: fit-content;
+  align-self: flex-start;
+  text-align: left;
+  font: var(--q-font-ui-headline-4);
+  margin-top: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--blue);
+  cursor: pointer;
+}
