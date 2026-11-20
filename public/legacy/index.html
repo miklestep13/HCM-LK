@@ -31461,8 +31461,10 @@ mtBind = function(){ mtcEnsure(); return mtcBind0.apply(this, arguments); };
   var wrapGo = function(){
     var go0 = window.go;
     if(typeof go0 !== 'function' || go0.__hcm) return;
-    var g = function(p){
-      if(ready && !fromParent && NG.indexOf(p) >= 0){ post({type:'hcm:nav', page:p, state:stateOut()}); return; }
+    var g = function(p, attrs){
+      /* из реестра бланков (не из меню «Бланк аттестации») — Angular открывает с ?hr=1 */
+      if(p === 'attncard' && !window.AT_MY) attrs = Object.assign({}, attrs || {}, { hr: '1' });
+      if(ready && !fromParent && NG.indexOf(p) >= 0){ post({type:'hcm:nav', page:p, attrs: attrs || undefined, state:stateOut()}); return; }
       var r = go0.apply(this, arguments);
       if(ready && !fromParent) post({type:'hcm:at', page:p});
       return r;

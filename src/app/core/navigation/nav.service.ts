@@ -69,6 +69,10 @@ export class NavService {
 
   /** пункт меню открыт сейчас: та же страница и те же параметры (у «Обучения» — раздел lt; без параметра — первый пункт) */
   isOn(page: string | undefined, attrs?: Record<string, string>): boolean {
+    const hrBlank = this.page() === 'attncard' && this.params()['hr'] === '1';
+    // просмотр бланка из HR — подсвечиваем «Бланки аттестации», не «Бланк аттестации» в «Мой кабинет»
+    if (page === 'attn' && hrBlank) return true;
+    if (page === 'attncard' && hrBlank) return false;
     if (!page || page !== this.page()) return false;
     if (!attrs) return true;
     const p = this.params();
