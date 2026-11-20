@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, ViewEncapsulation, effect, inject, signal, untracked } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, ViewEncapsulation, computed, effect, inject, input, signal, untracked } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { AttestStore } from '../../core/demo/attest-store.service';
 import { DevPanelService, devValue } from '../../core/layout/dev-panel/dev-panel.service';
@@ -21,8 +21,8 @@ import { AttncardResult } from './attncard-result/attncard-result';
 import { pl } from './attncard.utils';
 
 /**
- * «Мой кабинет → Аттестация → Бланк аттестации»: шапка бланка; мероприятия, пройденные и требуемые оценки,
- * после решения комиссии — итог (и ИПР); справа — участники и документы.
+ * «Мой кабинет → Аттестация → Бланк аттестации» или просмотр из HR-списка «Бланки аттестации».
+ * Из списка (?hr=1) — роль руководителя, в шапке сотрудник, «Назад» к реестру.
  * Демо (dev-панель): этап бланка, роль, способ ввода значения оценки.
  */
 @Component({
@@ -41,8 +41,13 @@ import { pl } from './attncard.utils';
     AttncardPeopleTable,
   ],
   template: `
-    <app-page-head title="Бланк аттестации" />
-    <div class="c mb iphead atclean atfin" attncard-head></div>
+    <app-page-head
+      [title]="fromHr() ? 'Аттестация' : 'Бланк аттестации'"
+      [noBack]="!fromHr()"
+      [backTo]="fromHr() ? 'attn' : ''"
+      backLabel="К бланкам аттестации"
+    />
+    <div class="c mb iphead atclean atfin" attncard-head [fromHr]="fromHr()"></div>
     <!-- участники — таблицей на всю ширину (раскладка с участниками в правой колонке убрана) -->
     <div class="atfone">
       <div class="c astw atfppl afpplt" attncard-people-table (remove)="remove($event)"></div>
@@ -84,7 +89,16 @@ export class Attncard implements OnDestroy {
   private readonly confirm = inject(ConfirmService);
   private off: (() => void)[] = [];
 
+  /** из HR-реестра «Бланки аттестации» (?hr=1): вид руководителя, сотрудник в шапке */
+  readonly hr = input('');
+  protected readonly fromHr = computed(() => this.hr() === '1');
+
   constructor() {
+    // из HR — руководитель (сотрудник в шапке); из «Мой кабинет» — сотрудник
+    effect(() => {
+      const hr = this.fromHr();
+      untracked(() => this.s.role.set(hr ? 'mgr' : 'emp'));
+    });
     this.off.push(
       this.dev.register(
         { id: 'attStage', label: 'Состояние бланка', options: ATT_STAGES.map(([value, label]) => ({ value, label })), value: devValue<AttStage>(() => this.s.stage(), (v) => this.s.setStage(v)) },

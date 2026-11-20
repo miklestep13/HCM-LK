@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, booleanAttribute, computed, inject, input } from '@angular/core';
 import { AttestStore } from '../../../core/demo/attest-store.service';
 import { ATT_BLANK, ATT_STAGES } from '../../../data/attest.data';
 import { roleWithGrade } from '../../../data/org.data';
@@ -12,7 +12,7 @@ const DEC_LABEL: Record<string, string> = {
 };
 const DEC_TONE: Record<string, string> = { Пройдена: 'ok', 'Пройдена с условиями': 'warn', 'Не пройдена': 'dg', 'Превосходит ожидания': 'info' };
 
-/** Шапка бланка: номер, этап (после решения — два бейджа: «Завершен» и статус аттестации в цвете решения); у руководителя — карточка сотрудника (фото, ФИО, должность, подразделение, как в карте целей); период и кампания */
+/** Шапка бланка: номер, этап (после решения — два бейджа: «Завершен» и статус аттестации в цвете решения); у руководителя / из HR — карточка сотрудника (фото, ФИО, должность, подразделение, как в карте целей); период и кампания */
 @Component({
   selector: '[attncard-head]',
   template: `
@@ -27,7 +27,7 @@ const DEC_TONE: Record<string, string> = { Пройдена: 'ok', 'Пройде
           }
         </span>
       </div>
-      @if (s.role() === 'mgr') {
+      @if (showEmp()) {
         <div class="atemp">
           <img [src]="photo" alt="" />
           <span class="cnm"><b>{{ b.name }}</b><small>{{ role }}</small><small>Подразделение: {{ b.unit }}</small></span>
@@ -43,11 +43,14 @@ const DEC_TONE: Record<string, string> = { Пройдена: 'ok', 'Пройде
 })
 export class AttncardHead {
   protected readonly s = inject(AttestStore);
+  /** вход из HR-реестра — сотрудник в шапке даже если демо-роль сменили */
+  readonly fromHr = input(false, { transform: booleanAttribute });
   protected readonly b = ATT_BLANK;
   /** «Старший кредитный специалист» */
   protected readonly role = roleWithGrade(ATT_BLANK.role, ATT_BLANK.grade);
   /** фото сотрудника бланка (в демо — текущий пользователь) */
   protected readonly photo = ME_PHOTO;
+  protected readonly showEmp = computed(() => this.fromHr() || this.s.role() === 'mgr' || this.s.role() === 'hr');
   protected readonly done = computed(() => this.s.post() && this.s.stage() !== 'ipr');
   protected readonly stageName = computed(() => ATT_STAGES.find((x) => x[0] === this.s.stage())?.[1] ?? '');
   private readonly dec = computed(() => (this.s.stage() === 'iprok' ? 'Пройдена' : this.s.res().dec));
