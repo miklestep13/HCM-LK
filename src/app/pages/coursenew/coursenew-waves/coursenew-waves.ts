@@ -13,8 +13,8 @@ import { CoursenewState } from '../coursenew.state';
 
 /**
  * Шаг «Процедуры назначения»: курс назначается волнами. Каждая процедура — скрываемая карточка (шеврон слева, в шапке — дата
- * и число участников, корзина справа, если процедур больше одной): название, дата и время назначения, дата и время окончания;
- * «Условия отбора» (widgets/audience, без групп «или») и таблица участников (widgets/event-members: колонки «Сотрудник» и «Роль»).
+ * и число участников, корзина справа, если процедур больше одной); можно раскрыть несколько сразу. Внутри — название, даты,
+ * «Условия отбора» (widgets/audience, без групп «или») и таблица участников (widgets/event-members).
  * Внизу — «Добавить процедуру».
  */
 @Component({
@@ -22,9 +22,9 @@ import { CoursenewState } from '../coursenew.state';
   imports: [Field, DateField, Suggest, Icon, Audience, EventMembers],
   template: `
     @for (w of s.waves(); track w.id; let i = $index) {
-      @let open = s.openWave() === w.id;
+      @let open = s.isWaveOpen(w.id);
       <div class="c cfold cnwave" [class.cold]="!open">
-        <div class="ch" [title]="open ? 'Свернуть' : 'Развернуть'" (click)="s.openWave.set(open ? null : w.id)">
+        <div class="ch" [title]="open ? 'Свернуть' : 'Развернуть'" (click)="s.toggleWave(w.id)">
           <span class="actb cfar"><app-icon name="chevSm" /></span>
           <div class="cnwhd">
             <h3>{{ w.n || 'Процедура ' + (i + 1) }}</h3>

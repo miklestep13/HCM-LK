@@ -60,8 +60,8 @@ export class CoursenewState {
    * плюс добавленные вручную и минус убранные из подобранных.
    */
   readonly waves = signal<PollWave[]>([]);
-  /** раскрытая процедура (id) */
-  readonly openWave = signal<string | null>(null);
+  /** раскрытые процедуры (можно несколько сразу) */
+  readonly openWaves = signal<ReadonlySet<string>>(new Set());
   readonly roles = COURSE_ROLES;
   readonly pool = POOL;
   /** участники каждой процедуры (id → список) */
@@ -113,10 +113,11 @@ export class CoursenewState {
     if (k === 'empty') {
       const w = newWave(1, '');
       this.waves.set([w]);
-      this.openWave.set(w.id);
+      this.openWaves.set(new Set([w.id]));
     } else {
       this.waves.set(deep(COURSE_DEMO_WAVES));
-      this.openWave.set(this.waves()[0]?.id ?? null);
+      const first = this.waves()[0]?.id;
+      this.openWaves.set(first ? new Set([first]) : new Set());
     }
   }
   /** порядок просмотра хранится в материале — его же видит конструктор */
@@ -164,7 +165,7 @@ export class CoursenewState {
       const ws = this.waves();
       const w = ws.find((x) => !x.date || !this.waveCount(x) || (x.end && iso(x.end) < iso(x.date)));
       if (!ws.length || w) {
-        if (w) this.openWave.set(w.id);
+        if (w) this.openWave(w.id);
         this.bad.set(!w ? [] : !w.date ? ['wdate'] : !this.waveCount(w) ? [] : ['wend']);
         this.toast.show(
           'Проверьте форму',
@@ -215,15 +216,37 @@ export class CoursenewState {
       rows.map((r) => ({ n: r.n, pos: r.pos, dep: r.dep, av: r.av, role: r.roles[0] || COURSE_ROLES[0] })),
     );
   }
+  /** процедура раскрыта? */
+  isWaveOpen(id: string): boolean {
+    return this.openWaves().has(id);
+  }
+  /** раскрыть процедуру (другие не закрываются) */
+  openWave(id: string): void {
+    this.openWaves.update((s) => new Set(s).add(id));
+  }
+  /** свернуть / раскрыть; можно держать открытыми несколько */
+  toggleWave(id: string): void {
+    this.openWaves.update((s) => {
+      const n = new Set(s);
+      if (n.has(id)) n.delete(id);
+      else n.add(id);
+      return n;
+    });
+  }
   addWave(): void {
     const l = this.waves();
     const w = newWave(l.length + 1, l.length ? '' : this.start());
     this.waves.set([...l, w]);
-    this.openWave.set(w.id);
+    this.openWave(w.id);
   }
   delWave(w: PollWave): void {
     this.waves.update((l) => l.filter((v) => v.id !== w.id));
-    if (this.openWave() === w.id) this.openWave.set(null);
+    this.openWaves.update((s) => {
+      if (!s.has(w.id)) return s;
+      const n = new Set(s);
+      n.delete(w.id);
+      return n;
+    });
   }
 
   save(): void {
