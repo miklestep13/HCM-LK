@@ -1,4 +1,4 @@
-/* Форма курса: поля в две колонки, заглушки шагов, кнопки внизу — остров (как в форме опроса) */
+/* Форма курса: поля в две колонки, процедуры назначения, кнопки внизу — остров (как в форме опроса) */
 .pg-coursenew .c > .ch h3 {
   font: var(--q-font-ui-headline-3);
   color: var(--black);
@@ -20,9 +20,6 @@
   display: flex;
   justify-content: flex-end;
   gap: 8px;
-}
-.pg-coursenew .cnwip {
-  padding: 48px 24px;
 }
 /* настройки курса: тумблер «Все учебные материалы просмотрены» — подпись слева, тумблер справа */
 .pg-coursenew .swt.cnsw {
@@ -48,4 +45,125 @@
 }
 .pg-coursenew .cnsw i {
   margin-top: 2px;
+}
+/* шаг «Процедуры назначения»: карточки процедур (скрываемые), «Добавить процедуру» внизу */
+.pg-coursenew .c.cnwave + .c.cnwave {
+  margin-top: 16px;
+}
+.pg-coursenew .cnwave > .ch {
+  gap: 8px;
+}
+.pg-coursenew .cnwave > .ch h3 {
+  flex: 0 1 auto;
+}
+.pg-coursenew .cnwhd {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pg-coursenew .cnwmeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 0;
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-coursenew .cnwmeta > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-coursenew .cnwmeta app-icon {
+  width: 14px;
+  height: 14px;
+}
+/* корзины процедуры / условия / участников — одна вертикаль (как td.tact с отступом 12px) */
+.pg-coursenew .cnwave .cnwdel {
+  margin-left: auto;
+  margin-right: 12px;
+}
+.pg-coursenew .cnwave .aud .audrow {
+  grid-template-columns: minmax(0, 1fr) 180px minmax(0, 2fr) 44px;
+}
+.pg-coursenew .cnwave .aud .auddel {
+  justify-self: end;
+  margin-right: 12px;
+}
+.pg-coursenew .frm.cnwfrm {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.pg-coursenew .frm.cnwfrm > * {
+  min-width: 0;
+}
+/* время назначения / окончания: поле на всю ширину, шеврон справа (как в опросах) */
+.pg-coursenew .entm {
+  position: relative;
+  width: 100%;
+}
+.pg-coursenew .fld.flt > .entm > .fin {
+  width: 100%;
+  height: 52px;
+  padding-right: 36px;
+}
+.pg-coursenew .fld.flt.on > .entm > .fin {
+  padding-top: 20px;
+}
+.pg-coursenew .entm > app-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  margin-top: -8px;
+  width: 16px;
+  height: 16px;
+  color: var(--t3);
+  cursor: pointer;
+}
+.pg-coursenew .cnwsub {
+  font: var(--q-font-ui-headline-4);
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  margin: 32px 0 16px;
+}
+/* подсказка условий — на фоне страницы, 12px, без карточки */
+.pg-coursenew .cnwhint {
+  margin: -8px 0 16px;
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+.pg-coursenew .cnwave .w-members :is(.mbth, .mbtr) {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+/* как отступ перед «Условия отбора» (32px) — блоки не прилипают друг к другу */
+.pg-coursenew .cnwave .c.cnwevm {
+  margin: 32px 0 0;
+  background: none;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+}
+.pg-coursenew .cnwave .c.cnwevm > .ch {
+  padding: 0 0 16px;
+  min-height: 0;
+}
+.pg-coursenew .cnwave .c.cnwevm > .ch h3 {
+  font: var(--q-font-ui-headline-4);
+}
+/* у вложенной таблицы участников свой .cb не должен добавлять 24px снизу поверх карточки процедуры */
+.pg-coursenew .cnwave .c.cnwevm > .ch ~ .cb:last-child {
+  padding: 0 !important;
+}
+/* низ карточки процедуры = боковые 24px */
+.pg-coursenew .c.cnwave > .ch ~ .cb:last-child {
+  padding-bottom: 24px !important;
+}
+.pg-coursenew .cnwadd {
+  width: 100%;
+  margin-top: 16px;
 }

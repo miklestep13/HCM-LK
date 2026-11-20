@@ -2,13 +2,13 @@
 .aud {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 /* группа: без рамки; когда групп несколько — заголовок «Группа N» и полоса слева */
 .aud .audg {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 }
 .aud .audg.many {
   padding-left: 16px;
@@ -75,6 +75,7 @@
 }
 .aud .lnkadd {
   align-self: flex-start;
+  margin-top: 0;
 }
 /* низ: «+ группа» и итог «Подходит N из M» */
 .aud .audfoot {
@@ -83,10 +84,11 @@
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
-  padding-top: 12px;
+  padding-top: 16px;
   border-top: 1px solid var(--stroke);
 }
 .aud .audsum {
+  margin-left: auto;
   font: var(--q-font-ui-body-2);
   color: var(--t3);
   display: inline-flex;
