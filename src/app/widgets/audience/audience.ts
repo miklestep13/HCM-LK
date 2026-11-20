@@ -11,7 +11,8 @@ import { Select } from '../../shared/ui/select/select';
  * Условия отбора участников — опрос, курс, мероприятие, новость, любая рассылка:
  *   <div app-audience [(groups)]="rules" [pool]="employees"></div>
  * Условие: поле → «Включает / Исключает» → несколько значений чипами (подходит любое из них: два подразделения — сотрудники обоих).
- * Условия в группе — через «и», группы — через «или» («+ Добавить группу условий»; выключается `[orGroups]="false"`). Внизу — сколько сотрудников подходит.
+ * Условия в группе — через «и», группы — через «или» («+ Добавить группу условий»; выключается `[orGroups]="false"`).
+ * Внизу — сколько сотрудников подходит (`[showMatch]="false"` — без итога и разделителя).
  * Подбор — audMatch(pool, groups) из data/audience.data.ts.
  */
 @Component({
@@ -50,12 +51,16 @@ import { Select } from '../../shared/ui/select/select';
         <button class="lnk lnkadd" (click)="addCond(g)"><app-icon name="plus" />Добавить условие</button>
       </div>
     }
-    <div class="audfoot">
-      @if (orGroups()) {
-        <button class="lnk lnkadd" (click)="addGroup()"><app-icon name="plus" />Добавить группу условий (или)</button>
-      }
-      <span class="audsum" [class.on]="any()"><app-icon name="group" />{{ summary() }}</span>
-    </div>
+    @if (orGroups() || showMatch()) {
+      <div class="audfoot">
+        @if (orGroups()) {
+          <button class="lnk lnkadd" (click)="addGroup()"><app-icon name="plus" />Добавить группу условий (или)</button>
+        }
+        @if (showMatch()) {
+          <span class="audsum" [class.on]="any()"><app-icon name="group" />{{ matchText() }}</span>
+        }
+      </div>
+    }
   `,
   styleUrl: './audience.scss',
   encapsulation: ViewEncapsulation.None,
@@ -68,10 +73,12 @@ export class Audience {
   readonly pool = input<Member[]>([]);
   /** можно ли добавлять группы условий через «или» (по умолчанию да) */
   readonly orGroups = input(true, { transform: booleanAttribute });
+  /** итог «Подходит N из M» и разделитель над ним (по умолчанию да) */
+  readonly showMatch = input(true, { transform: booleanAttribute });
   protected readonly fields = Object.keys(AUD_FIELDS);
   protected readonly opLabels = AUD_OPS.map((o) => o.label);
   protected readonly any = computed(() => audAny(this.groups()));
-  protected readonly summary = computed(() => {
+  protected readonly matchText = computed(() => {
     if (!this.any()) return 'Условия не заданы — выберите поле и значения';
     const n = audMatch(this.pool(), this.groups()).length;
     return 'Подходит ' + this.ppl(n) + ' из ' + this.pool().length;

@@ -64,7 +64,7 @@ import { CoursenewState } from '../coursenew.state';
             </div>
             <h4 class="cnwsub">Условия отбора</h4>
             <p class="cnwhint">Курс получат сотрудники, которые подходят под условия. В условии можно выбрать несколько значений — подойдет любое; условия работают через «и».</p>
-            <div app-audience [groups]="w.rules" (groupsChange)="s.setWave(w, { rules: $event })" [pool]="s.pool" [orGroups]="false"></div>
+            <div app-audience [groups]="w.rules" (groupsChange)="s.setWave(w, { rules: $event })" [pool]="s.pool" [orGroups]="false" [showMatch]="false"></div>
             <div
               class="c cnwevm"
               event-members

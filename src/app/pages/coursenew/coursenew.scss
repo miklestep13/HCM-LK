@@ -138,9 +138,12 @@
   border: none;
   border-radius: 0;
 }
-/* заголовок «Участники» и счетчик не показываем — таблица сразу под условиями */
 .pg-coursenew .cnwave .c.cnwevm > .ch {
-  display: none;
+  padding: 0 0 16px;
+  min-height: 0;
+}
+.pg-coursenew .cnwave .c.cnwevm > .ch h3 {
+  font: var(--q-font-ui-headline-4);
 }
 .pg-coursenew .cnwave .c.cnwevm > .cb {
   padding: 0;
