@@ -28,7 +28,7 @@ import { Select } from '../../shared/ui/select/select';
           <div class="audgh">
             <b>Группа {{ gi + 1 }}</b>
             <span class="audgn">{{ countText(g) }}</span>
-            <button class="actb dg" title="Удалить группу" (click)="delGroup(gi)"><app-icon name="trashSm" /></button>
+            <button class="actb dg" title="Удалить группу" (click)="delGroup(gi)"><app-icon name="trash" /></button>
           </div>
         }
         @for (c of g.c; track $index; let ci = $index) {
@@ -45,7 +45,7 @@ import { Select } from '../../shared/ui/select/select';
             <app-field label="Значения" [filled]="c.v.length > 0" [class.dis]="!c.f">
               <app-chip-select [options]="vals(c.f)" [placeholder]="c.f ? 'Выберите одно или несколько' : 'Сначала выберите поле'" [value]="c.v" (valueChange)="setVals(c, $event)" />
             </app-field>
-            <button class="actb dg auddel" title="Удалить условие" (click)="delCond(gi, ci)"><app-icon name="trashSm" /></button>
+            <button class="actb dg auddel" title="Удалить условие" (click)="delCond(gi, ci)"><app-icon name="trash" /></button>
           </div>
         }
         <button class="lnk lnkadd" (click)="addCond(g)"><app-icon name="plus" />Добавить условие</button>

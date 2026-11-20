@@ -68,7 +68,7 @@
   flex-wrap: wrap;
   gap: 16px;
   margin: 0;
-  font: var(--q-font-ui-body-2);
+  font: var(--q-font-ui-description-1);
   color: var(--t3);
 }
 .pg-coursenew .cnwmeta > span {
@@ -77,11 +77,20 @@
   gap: 6px;
 }
 .pg-coursenew .cnwmeta app-icon {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
 }
+/* корзины процедуры / условия / участников — одна вертикаль (как td.tact с отступом 12px) */
 .pg-coursenew .cnwave .cnwdel {
   margin-left: auto;
+  margin-right: 12px;
+}
+.pg-coursenew .cnwave .aud .audrow {
+  grid-template-columns: minmax(0, 1fr) 180px minmax(0, 2fr) 44px;
+}
+.pg-coursenew .cnwave .aud .auddel {
+  justify-self: end;
+  margin-right: 12px;
 }
 .pg-coursenew .frm.cnwfrm {
   display: grid;
