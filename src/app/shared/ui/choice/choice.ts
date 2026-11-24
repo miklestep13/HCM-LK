@@ -1,25 +1,25 @@
 import { ChangeDetectionStrategy, Component, booleanAttribute, computed, input, model } from '@angular/core';
-import { Icon } from '../icon/icon';
 
 const OTHER = 'Другое';
 
 /**
- * Список вариантов: один ответ или несколько (multi) — строки-плашки без радио / чек-боксов;
- * выбранный — синяя рамка (у multi справа галочка). max — не больше N, other — «Другое» с полем ввода.
+ * Список вариантов: один ответ (радиокнопки) или несколько (чек-боксы, multi) — строки-плашки на всю ширину.
+ * max — не больше N вариантов (остальные блокируются), other — «Другое» с полем ввода (текст — otherText).
  *   <app-choice [options]="…" [(value)]="v" />  ·  <app-choice multi [max]="3" other [options]="…" [(value)]="arr" [(otherText)]="t" />
  */
 @Component({
   selector: 'app-choice',
-  imports: [Icon],
   template: `
     @for (o of all(); track o) {
       @let on = has(o);
-      <button type="button" class="cho" [class.on]="on" [class.dis]="!on && full()" [disabled]="!on && full()" (click)="pick(o)">
-        <span class="chot">{{ o }}</span>
-        @if (multi() && on) {
-          <app-icon class="chook" name="checkSm" />
+      <label class="cho" [class.on]="on" [class.dis]="!on && full()">
+        @if (multi()) {
+          <span class="ckb"><input type="checkbox" [checked]="on" [disabled]="!on && full()" (change)="flip(o)" /><i></i></span>
+        } @else {
+          <span class="rdb"><input type="radio" [name]="name" [checked]="on" (change)="value.set(o)" /><i></i></span>
         }
-      </button>
+        <span class="chot">{{ o }}</span>
+      </label>
       @if (o === OTHER && other() && on) {
         <input class="fin choin" placeholder="Ваш вариант" [value]="otherText()" (input)="otherText.set($any($event.target).value)" />
       }
@@ -39,6 +39,7 @@ export class Choice {
   readonly other = input(false, { transform: booleanAttribute });
   readonly otherText = model('');
   protected readonly OTHER = OTHER;
+  protected readonly name = 'cho' + Math.random().toString(36).slice(2, 8);
   protected readonly all = computed(() => (this.other() ? [...this.options(), OTHER] : this.options()));
   protected readonly picked = computed(() => {
     const v = this.value();
@@ -48,12 +49,8 @@ export class Choice {
   protected has(o: string): boolean {
     return this.picked().includes(o);
   }
-  protected pick(o: string): void {
-    if (this.multi()) {
-      const p = this.picked();
-      this.value.set(p.includes(o) ? p.filter((x) => x !== o) : [...p, o]);
-    } else {
-      this.value.set(this.value() === o ? null : o);
-    }
+  protected flip(o: string): void {
+    const p = this.picked();
+    this.value.set(p.includes(o) ? p.filter((x) => x !== o) : [...p, o]);
   }
 }

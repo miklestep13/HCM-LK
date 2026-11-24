@@ -86,10 +86,10 @@ import { Slider } from '../../../shared/ui/slider/slider';
                   <span class="sqern">{{ i + 1 }}</span>
                 } @else if (Q.t === 'drop') {
                   <span class="sqen">{{ i + 1 }}</span>
-                } @else if (correct() && Q.t !== 'yesno') {
-                  <!-- кружок / квадрат — только в тесте, чтобы отметить верный ответ -->
-                  <button class="sqemk" [class.multi]="Q.t === 'multi'" [class.ok]="Q.ok?.includes(i)"
-                    [title]="Q.ok?.includes(i) ? 'Верный ответ' : 'Отметить как верный'" (click)="toggleOk(i)"><app-icon name="checkSm" /></button>
+                } @else if (Q.t === 'single' || Q.t === 'multi') {
+                  <!-- кружок / квадрат — тип выбора; в тесте — отметить верный ответ -->
+                  <button class="sqemk" [class.multi]="Q.t === 'multi'" [class.ok]="correct() && Q.ok?.includes(i)" [disabled]="!correct()"
+                    [title]="correct() ? (Q.ok?.includes(i) ? 'Верный ответ' : 'Отметить как верный') : ''" (click)="toggleOk(i)"><app-icon name="checkSm" /></button>
                 }
                 <input class="bldin sqeoi" [placeholder]="'Вариант ' + (i + 1)" [value]="o" (input)="Q.opts[i] = $any($event.target).value; edited.emit()" />
                 @if (Q.t !== 'yesno') {
