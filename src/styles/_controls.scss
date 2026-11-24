@@ -2943,30 +2943,27 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 
-/* верхние вкладки формы (shared/ui/form-tabs): вместо степпера — горизонтальное меню на всю ширину.
-   Радиус как у карточек страницы (.c → 12px), не 16 у старого степпера. */
+/* верхние вкладки формы (shared/ui/form-tabs): сегменты как .ptabs / каталог обучения —
+   белая «таблетка», активный — мягкий голубой (--blue-bg), неактивный — приглушенный текст.
+   Отступ снизу не задаем — страницы формы (pollnew / coursenew) выравнивают промежутки через gap. */
 .formtabs {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
   gap: 4px;
-  padding: 12px 24px 0;
+  padding: 5px;
   background: var(--q-content-background);
   border-radius: 12px;
-  margin-bottom: 24px;
-  border-bottom: none;
-  box-shadow: inset 0 -1px 0 var(--stroke);
+  margin: 0;
 }
 .formtabs .ftab {
   font: var(--q-font-ui-headline-4);
-  padding: 8px 12px 12px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 8px;
   color: var(--q-page-text-ui);
   cursor: pointer;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
   user-select: none;
   background: none;
-  border-radius: 0;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -2976,16 +2973,15 @@ input[type='number']::-webkit-outer-spin-button {
   cursor: default;
   color: var(--t3);
 }
-.formtabs .ftab:not(:disabled):hover {
+.formtabs .ftab:not(:disabled):not(.on):hover {
   color: var(--blue);
 }
 .formtabs .ftab.open {
   color: var(--t1);
 }
 .formtabs .ftab.on {
+  background: var(--blue-bg);
   color: var(--blue);
-  border-bottom-color: var(--blue);
-  background: none;
 }
 
 /* степпер формы (shared/ui/stepper): номер в круге, название, линия между шагами */

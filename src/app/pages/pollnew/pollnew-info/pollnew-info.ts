@@ -7,7 +7,7 @@ import { NumInput } from '../../../shared/ui/num-input/num-input';
 import { Select } from '../../../shared/ui/select/select';
 import { PollnewState } from '../pollnew.state';
 
-/** Шаг «Общая информация» (без заголовка): наименование и описание; дата начала (обязательная, у нового — сегодня), дата окончания (необязательная), время прохождения в минутах, статус; у теста — проходной балл; внизу — «Сделать опрос анонимным». */
+/** Вкладка «Общая информация»: наименование и описание; даты, время прохождения, статус; у теста — проходной балл; анонимность. */
 @Component({
   selector: '[pollnew-info]',
   imports: [Field, Select, DateField, NumInput],
@@ -36,7 +36,6 @@ import { PollnewState } from '../pollnew.state';
           <app-num-input [min]="1" [max]="100" [value]="'' + s.pass()" (valueChange)="s.pass.set(+$event)" />
         </app-field>
       }
-      <!-- внизу формы — тумблер слева от подписи, 14 обычным -->
       <div class="fld full">
         <label class="swt pnanon"
           ><input type="checkbox" [checked]="s.anon()" (change)="s.anon.set($any($event.target).checked)" /><i></i

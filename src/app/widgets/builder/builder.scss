@@ -31,9 +31,16 @@
   gap: 16px;
   align-items: start;
 }
-/* без структуры слева — модуль на всю ширину (опрос: вопросы не уже, чем в предпросмотре) */
+/* без структуры слева — модуль на всю ширину колонки */
 .bld .bldgrid.notree {
   grid-template-columns: minmax(0, 1fr);
+}
+/* опрос: редактор — колонка 760 px по центру, как прохождение (#/survey?sv=s3 .svnarrow) и предпросмотр */
+.bld .bldgrid.narrow {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 .bld .bldtree {
   /* прилипают под шапкой сайта (как колонка «Новостей») */
@@ -1086,13 +1093,15 @@
   height: 26px;
 }
 
-/* ——— предпросмотр опроса: как страница прохождения, но на всю ширину — как редактор (без узкой колонки) ——— */
+/* ——— предпросмотр опроса: как #/survey?sv=s3 — шапка, вопросы и «Завершить» колонкой 760 px по центру ——— */
 .bld .bldsv {
   display: block;
 }
 .bld .bldsv > * {
-  max-width: none;
+  max-width: 760px;
   width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 /* ответы — на всю ширину колонки, кроме «Да / Нет» */
 .bld .bldsv .sqa :is(.choice, .rank, .slider, .sqin, .sqsel, .sqdt, .sqta) {

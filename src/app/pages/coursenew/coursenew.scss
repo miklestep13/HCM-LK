@@ -1,4 +1,13 @@
 /* Форма курса: поля в две колонки, процедуры назначения, кнопки внизу — остров (как в форме опроса) */
+/* равные промежутки: шапка → вкладки → контент → подвал */
+.pg-coursenew {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pg-coursenew > .pf-top {
+  margin-bottom: 0;
+}
 .pg-coursenew .c > .ch h3 {
   font: var(--q-font-ui-headline-3);
   color: var(--black);
@@ -14,7 +23,7 @@
 }
 .pg-coursenew .c.ipisl {
   padding: 16px 24px;
-  margin-top: 24px;
+  margin-top: 0;
 }
 .pg-coursenew .ipff {
   display: flex;
@@ -46,9 +55,10 @@
 .pg-coursenew .cnsw i {
   margin-top: 2px;
 }
-/* шаг «Процедуры назначения»: карточки процедур (скрываемые), «Добавить процедуру» внизу */
-.pg-coursenew .c.cnwave + .c.cnwave {
-  margin-top: 16px;
+/* вкладка «Процедуры назначения»: промежутки — от gap страницы */
+.pg-coursenew .c.cnwave + .c.cnwave,
+.pg-coursenew .cnwadd {
+  margin-top: 0;
 }
 .pg-coursenew .cnwave > .ch {
   gap: 8px;
@@ -165,5 +175,4 @@
 }
 .pg-coursenew .cnwadd {
   width: 100%;
-  margin-top: 16px;
 }
