@@ -144,4 +144,24 @@ export class AdaptStore extends IprStore {
     }));
     return null;
   }
+
+  /** демо формы шаблона: пустой или заполненный mock */
+  loadTplDemo(mode: 'empty' | 'filled'): void {
+    if (mode === 'empty') {
+      this.stages.set([]);
+      this.nextStage = '';
+      this.plan.update((p) => ({ ...p, tasks: [] }));
+      this.open.set(new Set());
+      this.att.set({});
+      this.comments.set({});
+      return;
+    }
+    this.stages.set(structuredClone(ADAPT_STAGE_LIST));
+    this.nextStage = ADAPT_STAGES[0];
+    this.plan.set(structuredClone(ADAPT_PLAN));
+    this.draftComps.set(structuredClone(ADAPT_PLAN.comps));
+    this.open.set(new Set());
+    this.att.set({});
+    this.comments.set({});
+  }
 }

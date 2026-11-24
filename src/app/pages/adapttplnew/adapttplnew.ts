@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, effect, inject, input, signal, untracked } from '@angular/core';
 import { IprStore } from '../../core/demo/ipr-store.service';
+import { DevPanelService, devValue } from '../../core/layout/dev-panel/dev-panel.service';
 import { NavService } from '../../core/navigation/nav.service';
 import { ConfirmService } from '../../shared/ui/confirm/confirm.service';
 import { PageHead } from '../../shared/ui/page-head/page-head';
+import { Seg } from '../../shared/ui/seg/seg';
 import { ToastService } from '../../shared/ui/toast/toast.service';
 import { IprTaskAct } from '../../widgets/ipr-task-card/ipr-task-card';
 import { AdaptGoals } from '../adapt/adapt-goals/adapt-goals';
@@ -13,21 +15,24 @@ import { AdaptTasks } from '../adapt/adapt-tasks/adapt-tasks';
 import { AdapttplnewInfo } from './adapttplnew-info/adapttplnew-info';
 import { AdapttplnewState } from './adapttplnew.state';
 
+type Demo = 'empty' | 'filled';
+
 /**
  * «Управление персоналом → Адаптация → Шаблоны плана адаптации → Добавить»
- * (pg-adapttplnew): основная информация без заголовка, задачи и цели — те же виджеты, что на #/adaptation;
- * внизу — «Отмена» и «Сохранить» (остров ipisl / ipff, как у pollnew / coursenew).
+ * (pg-adapttplnew): основная информация, задачи и цели; демо empty|filled (?demo=… / сегмент / панель «Демо»).
  */
 @Component({
   selector: 'app-adapttplnew',
-  imports: [PageHead, AdapttplnewInfo, AdaptTasks, AdaptGoals, AdaptTaskForm, AdaptStageForm],
+  imports: [PageHead, Seg, AdapttplnewInfo, AdaptTasks, AdaptGoals, AdaptTaskForm, AdaptStageForm],
   providers: [AdapttplnewState, AdaptStore, { provide: IprStore, useExisting: AdaptStore }],
   template: `
-    <app-page-head title="Добавление шаблона плана адаптации" backTo="adapttpl" backLabel="К шаблонам" />
+    <app-page-head title="Добавление шаблона плана адаптации" backTo="adapttpl" backLabel="К шаблонам">
+      <app-seg [options]="demoOpts" [value]="mode()" (valueChange)="setDemo($event)" />
+    </app-page-head>
     <div class="atn-body">
       <div adapttplnew-info></div>
       <div adapt-tasks (add)="taskForm.set(-1)" (editStage)="stageForm.set($event)" (act)="onTask($event)"></div>
-      <div adapt-goals></div>
+      <div adapt-goals [empty]="mode() === 'empty'"></div>
     </div>
     <div class="c ipisl">
       <div class="ipff">
@@ -48,19 +53,58 @@ import { AdapttplnewState } from './adapttplnew.state';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Adapttplnew {
+  /** параметр адреса: empty | filled (по умолчанию filled) */
+  readonly demo = input<string>('filled');
   protected readonly form = inject(AdapttplnewState);
   private readonly s = inject(AdaptStore);
   private readonly nav = inject(NavService);
   private readonly toast = inject(ToastService);
   private readonly confirm = inject(ConfirmService);
+  private readonly dev = inject(DevPanelService);
   protected readonly taskForm = signal<number | null>(null);
   protected readonly stageForm = signal<number | null>(null);
+  protected readonly mode = signal<Demo>('filled');
+  protected readonly demoOpts: { value: Demo; label: string }[] = [
+    { value: 'filled', label: 'Заполненный' },
+    { value: 'empty', label: 'Пустой' },
+  ];
 
   constructor() {
-    // шаблон правится как черновик — задачи можно добавлять и менять
-    this.s.status.set('Черновик');
     this.s.arole.set('mgr');
     this.s.none.set(false);
+    effect(() => {
+      const v: Demo = this.demo() === 'empty' ? 'empty' : 'filled';
+      untracked(() => this.apply(v));
+    });
+    effect((onCleanup) => {
+      onCleanup(
+        this.dev.register({
+          id: 'adapttplDemo',
+          label: 'Шаблон плана',
+          options: [
+            { value: 'filled', label: 'Заполненный' },
+            { value: 'empty', label: 'Пустой' },
+          ],
+          value: devValue<Demo>(
+            () => this.mode(),
+            (v) => this.setDemo(v),
+          ),
+        }),
+      );
+    });
+  }
+
+  /** сегмент или панель «Демо» — пишем в адрес, effect подхватит */
+  protected setDemo(v: Demo): void {
+    this.nav.go('adapttplnew', v === 'filled' ? {} : { demo: v });
+  }
+
+  private apply(v: Demo): void {
+    this.mode.set(v);
+    this.s.loadTplDemo(v);
+    this.s.status.set('Черновик');
+    this.taskForm.set(null);
+    this.stageForm.set(null);
   }
 
   protected async onTask(e: IprTaskAct): Promise<void> {

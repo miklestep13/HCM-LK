@@ -1292,8 +1292,8 @@
   width: 14px;
   height: 14px;
 }
-/* пустой список задач — как в реестрах */
-.pg-adapt .ipsect .empty {
+/* пустой список задач / целей — как в реестрах */
+.pg-adapt :is(.ipsect, .ad-goals) .empty {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1301,7 +1301,7 @@
   padding: 48px 24px;
   text-align: center;
 }
-.pg-adapt .ipsect .wipi {
+.pg-adapt :is(.ipsect, .ad-goals) .wipi {
   width: 56px;
   height: 56px;
   border-radius: 12px;
@@ -1310,19 +1310,22 @@
   display: grid;
   place-items: center;
 }
-.pg-adapt .ipsect .wipi app-icon,
-.pg-adapt .ipsect .wipi svg {
+.pg-adapt :is(.ipsect, .ad-goals) .wipi app-icon,
+.pg-adapt :is(.ipsect, .ad-goals) .wipi svg {
   width: 26px;
   height: 26px;
 }
-.pg-adapt .ipsect .empty b {
+.pg-adapt :is(.ipsect, .ad-goals) .empty b {
   font: var(--q-font-ui-headline-3);
   color: var(--t1);
 }
-.pg-adapt .ipsect .empty small {
+.pg-adapt :is(.ipsect, .ad-goals) .empty small {
   max-width: 420px;
   font: var(--q-font-ui-body-2);
   color: var(--t3);
+}
+.pg-adapt .ad-goals .empty {
+  padding: 32px 16px;
 }
 /* меньше зазор между поиском и карточками задач */
 .pg-adapt .ipsect > .ftbar {
