@@ -87,9 +87,18 @@ import { Slider } from '../../../shared/ui/slider/slider';
                 } @else if (Q.t === 'drop') {
                   <span class="sqen">{{ i + 1 }}</span>
                 } @else if (Q.t === 'single' || Q.t === 'multi') {
-                  <!-- кружок / квадрат — тип выбора; в тесте — отметить верный ответ -->
-                  <button class="sqemk" [class.multi]="Q.t === 'multi'" [class.ok]="correct() && Q.ok?.includes(i)" [disabled]="!correct()"
-                    [title]="correct() ? (Q.ok?.includes(i) ? 'Верный ответ' : 'Отметить как верный') : ''" (click)="toggleOk(i)"><app-icon name="checkSm" /></button>
+                  @if (correct()) {
+                    <!-- тест: кружок / квадрат отмечает верный ответ -->
+                    <button class="sqemk" [class.multi]="Q.t === 'multi'" [class.ok]="Q.ok?.includes(i)"
+                      [title]="Q.ok?.includes(i) ? 'Верный ответ' : 'Отметить как верный'" (click)="toggleOk(i)"><app-icon name="checkSm" /></button>
+                  } @else {
+                    <!-- опрос: те же маркеры, что у прохождения — радио / чек-бокс -->
+                    @if (Q.t === 'multi') {
+                      <span class="ckb sqemkvis" aria-hidden="true"><i></i></span>
+                    } @else {
+                      <span class="rdb sqemkvis" aria-hidden="true"><i></i></span>
+                    }
+                  }
                 }
                 <input class="bldin sqeoi" [placeholder]="'Вариант ' + (i + 1)" [value]="o" (input)="Q.opts[i] = $any($event.target).value; edited.emit()" />
                 @if (Q.t !== 'yesno') {
