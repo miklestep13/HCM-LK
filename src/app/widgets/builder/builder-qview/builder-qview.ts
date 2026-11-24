@@ -36,9 +36,6 @@ import { Slider } from '../../../shared/ui/slider/slider';
         <div class="sqd">{{ Q.d }}</div>
       }
     }
-    @if (Q.t === 'multi' && (Q.mn || Q.mx)) {
-      <div class="sqd">Выберите {{ Q.mn ? 'от ' + Q.mn + ' ' : '' }}{{ Q.mx ? 'до ' + Q.mx : '' }}</div>
-    }
     <div class="sqa">
       @if (edit() && inline.includes(Q.t)) {
         @if (Q.t === 'matrix') {
@@ -89,19 +86,16 @@ import { Slider } from '../../../shared/ui/slider/slider';
                   <span class="sqern">{{ i + 1 }}</span>
                 } @else if (Q.t === 'drop') {
                   <span class="sqen">{{ i + 1 }}</span>
-                } @else if (Q.t !== 'yesno') {
-                  <!-- у «Да / Нет» без кружков — как кнопки прохождения -->
-                  <button class="sqemk" [class.multi]="Q.t === 'multi'" [class.ok]="correct() && Q.ok?.includes(i)" [disabled]="!correct()"
-                    [title]="correct() ? (Q.ok?.includes(i) ? 'Верный ответ' : 'Отметить как верный') : ''" (click)="toggleOk(i)"><app-icon name="checkSm" /></button>
+                } @else if (correct() && Q.t !== 'yesno') {
+                  <!-- кружок / квадрат — только в тесте, чтобы отметить верный ответ -->
+                  <button class="sqemk" [class.multi]="Q.t === 'multi'" [class.ok]="Q.ok?.includes(i)"
+                    [title]="Q.ok?.includes(i) ? 'Верный ответ' : 'Отметить как верный'" (click)="toggleOk(i)"><app-icon name="checkSm" /></button>
                 }
                 <input class="bldin sqeoi" [placeholder]="'Вариант ' + (i + 1)" [value]="o" (input)="Q.opts[i] = $any($event.target).value; edited.emit()" />
                 @if (Q.t !== 'yesno') {
                   <button class="sqex" title="Удалить вариант" [disabled]="Q.opts.length < 3" (click)="del(Q.opts, i)"><app-icon name="trashSm" /></button>
                 }
               </div>
-            }
-            @if (Q.other && Q.t === 'multi') {
-              <div class="sqeo oth"><span class="sqemk multi"></span><span>Другое — сотрудник впишет свой ответ</span></div>
             }
           </div>
           @if (Q.t !== 'yesno') {
@@ -117,10 +111,10 @@ import { Slider } from '../../../shared/ui/slider/slider';
           <app-choice [options]="Q.opts" [value]="$any(v()[k])" (valueChange)="set(k, $event)" />
         }
         @case ('multi') {
-          <app-choice multi [max]="+Q.mx || 0" [other]="Q.other" [options]="Q.opts" [value]="$any(v()[k]) ?? []" (valueChange)="set(k, $event)" />
+          <app-choice multi [options]="Q.opts" [value]="$any(v()[k]) ?? []" (valueChange)="set(k, $event)" />
         }
         @case ('drop') {
-          <app-select class="sqsel" [options]="Q.opts" [search]="Q.srch" placeholder="Выберите вариант" [value]="$any(v()[k]) || ''" (valueChange)="set(k, $event)" />
+          <app-select class="sqsel" [options]="Q.opts" placeholder="Выберите вариант" [value]="$any(v()[k]) || ''" (valueChange)="set(k, $event)" />
         }
         @case ('yesno') {
           <app-scale [items]="Q.opts" [value]="$any(v()[k]) ?? null" (valueChange)="set(k, $event)" />
@@ -144,9 +138,9 @@ import { Slider } from '../../../shared/ui/slider/slider';
         @case ('short') {
           @if (edit()) {
             <!-- конструктор: подсказка правится прямо в поле (серым — как ее увидит сотрудник) -->
-            <input class="fin sqin sqph" title="Подсказка в поле" [placeholder]="'Подсказка в поле, например: ' + (shortPh[Q.fmt] || 'Ваш ответ')" [value]="Q.ph" (input)="Q.ph = $any($event.target).value; edited.emit()" />
+            <input class="fin sqin sqph" title="Подсказка в поле" placeholder="Подсказка в поле, например: Ваш ответ" [value]="Q.ph" (input)="Q.ph = $any($event.target).value; edited.emit()" />
           } @else {
-            <input class="fin sqin" [placeholder]="Q.ph || shortPh[Q.fmt] || 'Ваш ответ'" [attr.maxlength]="Q.max || null" />
+            <input class="fin sqin" [placeholder]="Q.ph || 'Ваш ответ'" />
           }
         }
         @case ('long') {
@@ -154,10 +148,7 @@ import { Slider } from '../../../shared/ui/slider/slider';
           @if (edit()) {
             <textarea class="fta sqta sqph" rows="4" title="Подсказка в поле" placeholder="Подсказка в поле, например: Ваш ответ" [value]="Q.ph" (input)="Q.ph = $any($event.target).value; edited.emit()"></textarea>
           } @else {
-            <textarea class="fta sqta" rows="4" [placeholder]="Q.ph || 'Ваш ответ'" [attr.maxlength]="Q.max || null" [value]="t" (input)="set(k, $any($event.target).value)"></textarea>
-          }
-          @if (Q.max) {
-            <small class="sqcnt">{{ t.length }} / {{ Q.max }}</small>
+            <textarea class="fta sqta" rows="4" [placeholder]="Q.ph || 'Ваш ответ'" [value]="t" (input)="set(k, $any($event.target).value)"></textarea>
           }
         }
         @case ('date') {
@@ -166,7 +157,7 @@ import { Slider } from '../../../shared/ui/slider/slider';
         @case ('file') {
           <app-attach edit [files]="$any(v()[k]) ?? []" (filesChange)="set(k, $event)" />
           @if (Q.ph || Q.max) {
-            <small class="sqcnt pvfh">{{ Q.ph }}{{ Q.max ? ' · до ' + Q.max + ' МБ' : '' }}</small>
+            <small class="sqcnt pvfh">{{ Q.ph || 'Любые форматы' }}{{ Q.max ? ', до ' + Q.max + ' МБ' : '' }}</small>
           }
         }
       }
@@ -208,7 +199,6 @@ export class BldQview {
     const q = this.q();
     return [q.t, q.scale, q.view, q.opts.join('|'), q.rows.join('|')].join('~');
   });
-  protected readonly shortPh: Record<string, string> = { Число: '0', Email: 'name@company.ru', Телефон: '+7 (___) ___-__-__', Дата: 'дд.мм.гггг' };
   protected readonly step = computed(() => {
     const span = (+this.q().mx || 100) - (+this.q().mn || 0);
     return span > 20 ? 5 : 1;

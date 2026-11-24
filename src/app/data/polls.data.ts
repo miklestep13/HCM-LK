@@ -50,6 +50,14 @@ export const POLL_SLIDER_SCALES: { id: string; label: string; mn: string; mx: st
 ];
 export const POLL_SHORT_FORMATS = ['Любой текст', 'Число', 'Email', 'Телефон', 'Дата'];
 
+/** вид загрузки файла: подпись в списке уже с форматами и лимитом; ph/max — для подсказки под зоной */
+export const POLL_FILE_KINDS: { id: string; label: string; ph: string; max: string }[] = [
+  { id: 'doc', label: 'Документ · PDF, DOCX, XLSX · до 10 МБ', ph: 'PDF, DOCX, XLSX', max: '10' },
+  { id: 'img', label: 'Изображение · JPG, PNG · до 5 МБ', ph: 'JPG, PNG', max: '5' },
+  { id: 'pres', label: 'Презентация · PPTX, PDF · до 20 МБ', ph: 'PPTX, PDF', max: '20' },
+  { id: 'any', label: 'Любой файл · до 20 МБ', ph: 'Любые форматы', max: '20' },
+];
+
 /** шкала согласия — столбцы матрицы по умолчанию */
 export const POLL_AGREE = ['Полностью не согласен', 'Скорее не согласен', 'Затрудняюсь ответить', 'Скорее согласен', 'Полностью согласен'];
 
@@ -60,12 +68,14 @@ export function newPollQuestion(t: PollQType, x: Partial<PollQuestion> = {}): Po
     lo: '', hi: '', ph: '', max: '', fmt: 'Любой текст', mn: '', mx: '', srch: false,
   };
   if (t === 'enps') Object.assign(q, { n: 'Насколько вероятно, что вы порекомендуете компанию как место работы друзьям или знакомым?' });
-  if (t === 'long') Object.assign(q, { ph: 'Ваш ответ', max: '1000' });
-  if (t === 'short') q.max = '200';
+  if (t === 'long') q.ph = 'Ваш ответ';
   if (t === 'yesno') q.opts = ['Да', 'Нет'];
   if (t === 'matrix') Object.assign(q, { rows: ['Утверждение 1', 'Утверждение 2', 'Утверждение 3'], opts: [...POLL_AGREE] });
   if (t === 'slider') Object.assign(q, { mn: '0', mx: '100', unit: '%', lo: '0 %', hi: '100 %' });
-  if (t === 'file') Object.assign(q, { ph: 'PDF, DOCX, XLSX, JPG, PNG', max: '10' });
+  if (t === 'file') {
+    const f = POLL_FILE_KINDS[0];
+    Object.assign(q, { fmt: f.id, ph: f.ph, max: f.max });
+  }
   return Object.assign(q, x);
 }
 const Q = (t: PollQType, n: string, x: Partial<PollQuestion> = {}) => newPollQuestion(t, { n, ...x });

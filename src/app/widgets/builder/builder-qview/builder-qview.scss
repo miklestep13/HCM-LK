@@ -145,16 +145,15 @@
   padding: 9px 12px;
   border-style: dashed;
 }
-/* «Да / Нет» — две кнопки в ряд без кружков, на всю ширину */
+/* «Да / Нет» — две компактные кнопки в ряд без кружков (не на всю ширину) */
 .sqv .sqe-yesno {
   flex-direction: row;
-  max-width: none;
-  width: 100%;
+  max-width: 420px;
+  width: auto;
 }
 .sqv .sqe-yesno .sqeo {
   flex: 1;
   justify-content: center;
-  padding: 8px 12px;
 }
 .sqv .sqe-yesno .sqeoi {
   text-align: center;
