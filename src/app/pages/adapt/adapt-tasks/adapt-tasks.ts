@@ -57,7 +57,7 @@ const stageOf = (t: IprTask) => (t as AdaptTask).stage || '';
         </span>
       }
       @if (s.editable()) {
-        <button class="btn raised ad-stadd" type="button" (click)="editStage.emit(-1)">Добавить этап</button>
+        <button class="btn raised ad-stadd" type="button" (click)="editStage.emit(-1)"><app-icon name="plus" />Добавить этап</button>
       }
     </div>
     <app-filter-bar placeholder="Поиск по задачам" [(query)]="q">
