@@ -1,6 +1,6 @@
 import { Poll, PollPerson, PollQType, PollQuestion, PollSection, PollStatus, PollTemplate, PollView, PollWave } from '../interface/poll';
 
-/** «Управление персоналом → Опросы» (из старого прототипа: POLLS, POLLTPL, PL_PPL, QTYPES, CAVAL) */
+/** «Управление персоналом → Опросы → Список опросов» (из старого прототипа: POLLS, POLLTPL, PL_PPL, QTYPES, CAVAL) */
 
 /** типы вопросов конструктора: порядок в меню «Добавить вопрос» и названия */
 export const POLL_QTYPES: PollQType[] = ['rating', 'single', 'multi', 'yesno', 'drop', 'rank', 'enps', 'slider', 'short', 'long', 'date', 'file'];
