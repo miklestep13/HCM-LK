@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, booleanAttribute, computed, input } from '@angular/core';
-import { ADAPT_FROM, ADAPT_GOALS, AdaptGoal, PROBATION_TO } from '../../../data/adapt.data';
+import { ADAPT_GOALS, AdaptGoal } from '../../../data/adapt.data';
 import { Icon } from '../../../shared/ui/icon/icon';
 
 /**
- * Испытательный срок на странице адаптации: шапка карты целей и список целей
+ * Испытательный срок на странице адаптации: заголовок и список целей
  * на одном белом фоне. empty — без целей (empty state), для демо формы шаблона.
  */
 @Component({
@@ -14,20 +14,6 @@ import { Icon } from '../../../shared/ui/icon/icon';
       <div class="ad-title">
         <h2>Цели на испытательный срок</h2>
         <span class="q-badge q-badge--info">Утверждено</span>
-      </div>
-      <div class="q-kpis" style="--n: 3">
-        <div class="q-kpi">
-          <div class="q-kpi__head"><span class="q-kpi__title">Оцениваемый период</span></div>
-          <div class="q-kpi__value">{{ from }} – {{ to }}</div>
-        </div>
-        <div class="q-kpi">
-          <div class="q-kpi__head"><span class="q-kpi__title">Общий вес</span></div>
-          <div class="q-kpi__value">{{ weight() }}%</div>
-        </div>
-        <div class="q-kpi">
-          <div class="q-kpi__head"><span class="q-kpi__title">Итоговая оценка</span></div>
-          <div class="q-kpi__value">—</div>
-        </div>
       </div>
     </div>
     <div class="ad-glist">
@@ -70,7 +56,4 @@ export class AdaptGoals {
   /** без целей — empty state (форма шаблона, демо empty) */
   readonly empty = input(false, { transform: booleanAttribute });
   protected readonly goals = computed<AdaptGoal[]>(() => (this.empty() ? [] : ADAPT_GOALS));
-  protected readonly from = ADAPT_FROM;
-  protected readonly to = PROBATION_TO;
-  protected readonly weight = computed(() => this.goals().reduce((s, g) => s + g.w, 0));
 }
