@@ -164,7 +164,7 @@ import { Slider } from '../../../shared/ui/slider/slider';
           <app-date-field class="sqdt" [value]="$any(v()[k]) || ''" (valueChange)="set(k, $event)" />
         }
         @case ('file') {
-          <app-attach edit [hint]="fileHint(Q)" [files]="$any(v()[k]) ?? []" (filesChange)="set(k, $event)" />
+          <app-attach edit [hint]="fileHint(Q)" [maxMb]="fileMax(Q)" [files]="$any(v()[k]) ?? []" (filesChange)="set(k, $event)" />
         }
       }
       }
@@ -203,7 +203,7 @@ export class BldQview {
   protected readonly key = computed(() => {
     this.ver();
     const q = this.q();
-    return [q.t, q.scale, q.view, q.opts.join('|'), q.rows.join('|')].join('~');
+    return [q.t, q.scale, q.view, q.opts.join('|'), q.rows.join('|'), q.ph, q.max, q.fmt].join('~');
   });
   protected readonly step = computed(() => {
     const span = (+this.q().mx || 100) - (+this.q().mn || 0);
@@ -212,7 +212,11 @@ export class BldQview {
   /** подпись внутри зоны загрузки: типы и лимит из «Тип загрузки» */
   protected fileHint(q: PollQuestion): string {
     const types = q.ph || 'Любые форматы';
-    return q.max ? types + ', до ' + q.max + ' МБ' : types;
+    const mb = this.fileMax(q);
+    return types + ', до ' + mb + ' МБ';
+  }
+  protected fileMax(q: PollQuestion): number {
+    return Math.max(1, +q.max || 10);
   }
   protected add(arr: string[]): void {
     arr.push('');

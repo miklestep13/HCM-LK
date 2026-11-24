@@ -75,7 +75,7 @@ export const SURVEY_FORM: SurveyForm = {
       questions: [
         { id: 'q12', type: 'text', title: 'Одним словом: какая у нас культура?', placeholder: 'Например, «открытая»' },
         { id: 'q13', type: 'long', title: 'Что нам стоит изменить в первую очередь?', max: 1000, placeholder: 'Напишите ответ' },
-        { id: 'q15', type: 'file', title: 'Приложите материалы к вашим предложениям', desc: 'Презентация, схема процесса или фото — до 10 МБ' },
+        { id: 'q15', type: 'file', title: 'Приложите материалы к вашим предложениям', desc: 'Презентация, схема процесса или фото — до 10 МБ', max: 10, placeholder: 'PDF, DOCX, PPTX, JPG или PNG' },
       ],
     },
   ],

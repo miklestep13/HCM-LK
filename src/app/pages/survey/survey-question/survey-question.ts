@@ -73,7 +73,7 @@ import { SurveyPassState } from '../survey.state';
           <app-date-field class="sqdt" [value]="$any(a()) || ''" (valueChange)="set($event)" />
         }
         @case ('file') {
-          <app-attach edit [files]="$any(a()) ?? []" (filesChange)="set($event)" />
+          <app-attach edit [hint]="fileHint(Q)" [maxMb]="Q.max || 10" [files]="$any(a()) ?? []" (filesChange)="set($event)" />
         }
       }
     </div>
@@ -94,5 +94,10 @@ export class SurveyQuestionBlock {
   protected readonly a = computed<SurveyAnswer | undefined>(() => this.s.answers()[this.q().id]);
   protected set(v: SurveyAnswer | null): void {
     this.s.set(this.q().id, v);
+  }
+  /** подсказка в зоне загрузки: форматы + лимит (как в описании вопроса) */
+  protected fileHint(q: SurveyQuestion): string {
+    const mb = q.max || 10;
+    return (q.placeholder || 'PDF, DOCX, PPTX, JPG или PNG') + ', до ' + mb + ' МБ';
   }
 }
