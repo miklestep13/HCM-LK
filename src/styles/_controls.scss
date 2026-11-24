@@ -2210,8 +2210,9 @@ input[type='number']::-webkit-outer-spin-button {
   padding: 0 10px 0 4px;
   box-shadow: none;
 }
-/* пустое числовое поле фильтра — «Все», как у селекта / периода */
+/* пустое числовое поле фильтра — «Все», 12px как у селекта / периода (не ui-body-2 у .fin::placeholder) */
 .ft2w.ft2in.is-empty > .fin::placeholder {
+  font: var(--q-font-ui-description-1);
   color: var(--q-content-text);
   opacity: 1;
 }
