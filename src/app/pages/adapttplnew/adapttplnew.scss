@@ -1,9 +1,13 @@
-/* форма добавления шаблона: отступы между блоками и остров кнопок */
+/* одинаковый зазор между основной информацией, задачами и целями */
 .pg-adapttplnew .atn-body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-top: 16px;
+}
+
+/* у целей класс .mt дает +16 — на форме шаблона зазор только от .atn-body */
+.pg-adapttplnew .atn-body .mt {
+  margin-top: 0;
 }
 
 .pg-adapttplnew .c.ipisl {

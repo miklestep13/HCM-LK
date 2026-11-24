@@ -15,9 +15,11 @@ import { AdaptStore } from '../adapt-store';
 type Chip = 'work' | 'over' | 'done';
 const uniq = (a: string[]) => [...new Set(a)].filter(Boolean).sort((x, y) => x.localeCompare(y, 'ru'));
 const stageOf = (t: IprTask) => (t as AdaptTask).stage || '';
+const rangeOn = (r: DateRange) => !!(r.from || r.to);
 
 /**
  * «Задачи» плана адаптации: карточки как у ИПР, табы этапов (без «Все»; в черновике — ✎ и корзина).
+ * «Добавить» / «Добавить этап» — текстовые (btn onbg), плюс справа.
  */
 @Component({
   selector: '[adapt-tasks]',
@@ -57,12 +59,12 @@ const stageOf = (t: IprTask) => (t as AdaptTask).stage || '';
         </span>
       }
       @if (s.editable()) {
-        <button class="btn raised ad-stadd" type="button" (click)="editStage.emit(-1)"><app-icon name="plus" />Добавить этап</button>
+        <button class="btn onbg ad-stadd" type="button" (click)="editStage.emit(-1)">Добавить этап<app-icon name="plus" /></button>
       }
     </div>
     <app-filter-bar placeholder="Поиск по задачам" [(query)]="q">
       @if (s.editable()) {
-        <button ftAction class="btn pri ipadd" type="button" (click)="onAdd()">Добавить</button>
+        <button ftAction class="btn onbg ipadd" type="button" (click)="onAdd()">Добавить<app-icon name="plus" /></button>
       }
       @if (T.length) {
         <div class="fchips" ftName="Статус">
@@ -75,9 +77,9 @@ const stageOf = (t: IprTask) => (t as AdaptTask).stage || '';
       }
     </app-filter-bar>
     <div class="cb iptcb">
-      @if (T.length) {
+      @if (visible().length) {
         <div class="iplist ipcards">
-          @for (r of list(); track r.i) {
+          @for (r of visible(); track r.i) {
             <div
               ipr-task-card
               [task]="r.t"
@@ -90,7 +92,6 @@ const stageOf = (t: IprTask) => (t as AdaptTask).stage || '';
               [cm]="(s.comments()[r.i] || []).length"
               runIcon="checkSquare"
               runTitle="Завершить задачу"
-              [class.hidden]="!r.ok"
               (act)="act.emit($event)"
             ></div>
           }
@@ -98,8 +99,8 @@ const stageOf = (t: IprTask) => (t as AdaptTask).stage || '';
       } @else {
         <div class="empty">
           <div class="wipi"><app-icon name="emptyTasks" /></div>
-          <b>Задач пока нет</b>
-          <small>{{ s.editable() ? 'Добавьте первую задачу: что нужно сделать, какой результат ожидается и к какому сроку.' : 'В этом плане нет задач.' }}</small>
+          <b>{{ emptyTitle() }}</b>
+          <small>{{ emptyHint() }}</small>
         </div>
       }
     </div>
@@ -171,6 +172,22 @@ export class AdaptTasks {
         (!this.by() || t.by === this.by());
       return { t, i, ok };
     });
+  });
+  protected readonly visible = computed(() => this.list().filter((r) => r.ok));
+  private readonly filtered = computed(
+    () => !!this.q().trim() || !!this.f().size || rangeOn(this.due()) || !!this.by(),
+  );
+  protected readonly emptyTitle = computed(() =>
+    this.s.plan().tasks.length && this.filtered() ? 'Ничего не найдено' : 'Задач пока нет',
+  );
+  protected readonly emptyHint = computed(() => {
+    if (!this.s.plan().tasks.length) {
+      return this.s.editable()
+        ? 'Добавьте первую задачу: что нужно сделать, какой результат ожидается и к какому сроку.'
+        : 'В этом плане нет задач.';
+    }
+    if (this.filtered()) return 'Измените поиск или фильтры.';
+    return this.s.editable() ? 'Добавьте задачу в этот этап или выберите другой.' : 'В этом этапе нет задач.';
   });
 
   protected flip(k: Chip): void {

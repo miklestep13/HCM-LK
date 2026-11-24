@@ -24,8 +24,8 @@ import { AdapttplnewState } from './adapttplnew.state';
   providers: [AdapttplnewState, AdaptStore, { provide: IprStore, useExisting: AdaptStore }],
   template: `
     <app-page-head title="Добавление шаблона плана адаптации" backTo="adapttpl" backLabel="К шаблонам" />
-    <div adapttplnew-info></div>
     <div class="atn-body">
+      <div adapttplnew-info></div>
       <div adapt-tasks (add)="taskForm.set(-1)" (editStage)="stageForm.set($event)" (act)="onTask($event)"></div>
       <div adapt-goals></div>
     </div>

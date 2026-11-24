@@ -1277,18 +1277,56 @@
   width: 14px;
   height: 14px;
 }
-/* «Добавить этап» — плюс + текст, на одной линии с табами */
-.pg-adapt .ctabs .ad-stadd {
+/* «Добавить» / «Добавить этап» — текстовые (onbg), плюс справа */
+.pg-adapt .ctabs .ad-stadd,
+.pg-adapt .ipsect .ipadd {
   flex-shrink: 0;
-  align-self: center;
-  margin: 0 0 1px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  padding-left: 0;
+  padding-right: 0;
 }
-.pg-adapt .ctabs .ad-stadd svg {
+.pg-adapt .ctabs .ad-stadd {
+  align-self: center;
+  margin: 0 0 1px;
+}
+.pg-adapt .ctabs .ad-stadd svg,
+.pg-adapt .ipsect .ipadd svg {
   width: 14px;
   height: 14px;
+}
+/* пустой список задач — как в реестрах */
+.pg-adapt .ipsect .empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  text-align: center;
+}
+.pg-adapt .ipsect .wipi {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+}
+.pg-adapt .ipsect .wipi app-icon,
+.pg-adapt .ipsect .wipi svg {
+  width: 26px;
+  height: 26px;
+}
+.pg-adapt .ipsect .empty b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+.pg-adapt .ipsect .empty small {
+  max-width: 420px;
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
 }
 /* меньше зазор между поиском и карточками задач */
 .pg-adapt .ipsect > .ftbar {
