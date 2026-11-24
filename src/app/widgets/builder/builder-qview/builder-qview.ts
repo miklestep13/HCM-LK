@@ -155,10 +155,7 @@ import { Slider } from '../../../shared/ui/slider/slider';
           <app-date-field class="sqdt" [value]="$any(v()[k]) || ''" (valueChange)="set(k, $event)" />
         }
         @case ('file') {
-          <app-attach edit [files]="$any(v()[k]) ?? []" (filesChange)="set(k, $event)" />
-          @if (Q.ph || Q.max) {
-            <small class="sqcnt pvfh">{{ Q.ph || 'Любые форматы' }}{{ Q.max ? ', до ' + Q.max + ' МБ' : '' }}</small>
-          }
+          <app-attach edit [hint]="fileHint(Q)" [files]="$any(v()[k]) ?? []" (filesChange)="set(k, $event)" />
         }
       }
       }
@@ -203,6 +200,11 @@ export class BldQview {
     const span = (+this.q().mx || 100) - (+this.q().mn || 0);
     return span > 20 ? 5 : 1;
   });
+  /** подпись внутри зоны загрузки: типы и лимит из «Тип загрузки» */
+  protected fileHint(q: PollQuestion): string {
+    const types = q.ph || 'Любые форматы';
+    return q.max ? types + ', до ' + q.max + ' МБ' : types;
+  }
   protected add(arr: string[]): void {
     arr.push('');
     this.edited.emit();

@@ -1104,11 +1104,13 @@
   margin-left: auto;
   margin-right: auto;
 }
-/* ответы — на всю ширину колонки, кроме «Да / Нет» */
-.bld .bldsv .sqa :is(.choice, .rank, .slider, .scale, .sqin, .sqsel, .sqdt, .sqta) {
+/* ответы — на всю ширину колонки (choice/rank без display:block — иначе ломается раскладка) */
+.bld .bldsv .sqa :is(.choice, .rank, .slider, .scale, .sqin, .sqsel, .sqdt, .sqta, app-attach) {
   width: 100%;
   max-width: none;
   min-width: 0;
+}
+.bld .bldsv .sqa :is(.slider, .scale, .sqin, .sqsel, .sqdt, .sqta, app-attach) {
   display: block;
 }
 .bld .bldsv .sqa .scale:not(.txt) .scl {

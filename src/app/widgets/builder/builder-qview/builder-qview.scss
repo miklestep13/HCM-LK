@@ -27,11 +27,13 @@
 .sqv .sqa {
   margin-top: 16px;
 }
-/* ответы — на всю ширину колонки, как в предпросмотре / прохождении (кроме «Да / Нет») */
-.sqv .sqa :is(.choice, .rank, .slider, .scale, .sqin, .sqsel, .sqdt, .sqta) {
+/* ответы — на всю ширину колонки (choice/rank оставляем flex — иначе ломается раскладка строк) */
+.sqv .sqa :is(.choice, .rank, .slider, .scale, .sqin, .sqsel, .sqdt, .sqta, app-attach) {
   width: 100%;
   max-width: none;
   min-width: 0;
+}
+.sqv .sqa :is(.slider, .scale, .sqin, .sqsel, .sqdt, .sqta, app-attach) {
   display: block;
 }
 /* числа рейтинга / eNPS — растянуть кнопки на всю ширину колонки */
@@ -59,10 +61,6 @@
   display: block;
   text-align: right;
   margin-top: 4px;
-}
-.sqv .sqcnt.pvfh {
-  text-align: left;
-  margin-top: 8px;
 }
 .sqv .pvstl {
   max-width: 260px;

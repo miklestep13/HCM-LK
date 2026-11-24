@@ -2558,7 +2558,7 @@ input[type='number']::-webkit-outer-spin-button {
   outline-offset: 2px;
 }
 
-/* варианты: строки-плашки с радиокнопкой / чек-боксом */
+/* варианты: строки-плашки без радио / чек-боксов — выбор подсветкой (у multi — галочка справа) */
 .choice {
   display: flex;
   flex-direction: column;
@@ -2567,32 +2567,44 @@ input[type='number']::-webkit-outer-spin-button {
 }
 .choice .cho {
   font: var(--q-font-ui-body-2);
+  font-family: var(--q-font-family);
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 7px 12px;
+  width: 100%;
+  padding: 9px 12px;
   border: 1px solid var(--stroke2);
-  border-radius: 8px;
+  border-radius: 10px;
+  background: var(--q-content-background);
   color: var(--t1);
+  text-align: left;
   cursor: pointer;
 }
-.choice .cho:hover {
+.choice .cho:hover:not(:disabled) {
   border-color: var(--blue-br);
 }
 .choice .cho.on {
   border-color: var(--blue);
   background: var(--blue-bg);
 }
-.choice .cho.dis {
+.choice .cho.dis,
+.choice .cho:disabled {
   color: var(--t4);
   cursor: default;
 }
-.choice .cho.dis:hover {
+.choice .cho.dis:hover,
+.choice .cho:disabled:hover {
   border-color: var(--stroke2);
 }
-.choice .cho .ckb,
-.choice .cho .rdb {
-  flex-shrink: 0;
+.choice .chot {
+  flex: 1;
+  min-width: 0;
+}
+.choice .chook {
+  width: 16px;
+  height: 16px;
+  color: var(--blue);
+  flex: none;
 }
 .choice .choin {
   width: 100%;
@@ -2690,12 +2702,19 @@ input[type='number']::-webkit-outer-spin-button {
   color: var(--t3);
 }
 
-/* ранжирование: строки с ручкой, местом и стрелками */
+/* ранжирование: общая рамка (список + подсказка порядка), строки с ручкой и стрелками */
 .rank {
+  display: block;
+  max-width: 560px;
+}
+.rank .rkw {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  max-width: 560px;
+  padding: 10px;
+  border: 1px solid var(--stroke2);
+  border-radius: 10px;
+  background: var(--q-content-background);
 }
 .rank .rki {
   font: var(--q-font-ui-body-2);
@@ -2734,7 +2753,7 @@ input[type='number']::-webkit-outer-spin-button {
   background: var(--blue-bg);
   color: var(--blue);
 }
-/* состояние ответа под списком: не задан — серым с «Оставить этот порядок», задан — зеленым «✓ Порядок задан» и «Сбросить» */
+/* состояние ответа — внутри рамки, под списком */
 .rank .rkst {
   font: var(--q-font-ui-description-1);
   color: var(--t3);
@@ -2743,6 +2762,8 @@ input[type='number']::-webkit-outer-spin-button {
   flex-wrap: wrap;
   gap: 4px 12px;
   margin-top: 4px;
+  padding: 8px 4px 2px;
+  border-top: 1px dashed var(--stroke2);
 }
 .rank .rkst .lnk {
   font: var(--q-font-ui-description-1);
