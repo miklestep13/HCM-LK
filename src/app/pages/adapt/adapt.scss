@@ -1253,8 +1253,9 @@
   border-bottom-color: var(--blue);
   background: none;
 }
-/* правка / добавление этапа у табов */
+/* правка / удаление / добавление этапа у табов */
 .pg-adapt .ctabs .ad-sted,
+.pg-adapt .ctabs .ad-stdel,
 .pg-adapt .ctabs .ad-stadd {
   width: 24px;
   height: 24px;
@@ -1266,7 +1267,12 @@
   color: var(--blue);
   background: var(--blue-bg);
 }
+.pg-adapt .ctabs .ad-stdel:hover {
+  color: var(--q-error-500);
+  background: var(--q-error-50);
+}
 .pg-adapt .ctabs .ad-sted svg,
+.pg-adapt .ctabs .ad-stdel svg,
 .pg-adapt .ctabs .ad-stadd svg {
   width: 14px;
   height: 14px;

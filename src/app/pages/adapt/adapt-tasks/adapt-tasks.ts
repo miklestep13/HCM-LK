@@ -3,10 +3,12 @@ import { iprSortTasks, iprTaskSt } from '../../../core/demo/ipr-store.service';
 import { AdaptTask } from '../../../data/adapt.data';
 import { LEARN_COURSES } from '../../../data/learn.data';
 import { IprTask } from '../../../interface/ipr';
+import { ConfirmService } from '../../../shared/ui/confirm/confirm.service';
 import { DateRange, DateRangeField, EMPTY_RANGE, inRange } from '../../../shared/ui/date-range/date-range';
 import { FilterBar } from '../../../shared/ui/filter-bar/filter-bar';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { Select } from '../../../shared/ui/select/select';
+import { ToastService } from '../../../shared/ui/toast/toast.service';
 import { IprTaskAct, IprTaskCard } from '../../../widgets/ipr-task-card/ipr-task-card';
 import { AdaptStore } from '../adapt-store';
 
@@ -15,7 +17,7 @@ const uniq = (a: string[]) => [...new Set(a)].filter(Boolean).sort((x, y) => x.l
 const stageOf = (t: IprTask) => (t as AdaptTask).stage || '';
 
 /**
- * «Задачи» плана адаптации: карточки как у ИПР, табы этапов (редактируемые в черновике).
+ * «Задачи» плана адаптации: карточки как у ИПР, табы этапов (без «Все»; в черновике — ✎ и корзина).
  */
 @Component({
   selector: '[adapt-tasks]',
@@ -30,7 +32,7 @@ const stageOf = (t: IprTask) => (t as AdaptTask).stage || '';
       @for (tab of tabs(); track tab.id) {
         <span [class.on]="stage() === tab.id" (click)="stage.set(tab.id)">
           {{ tab.name }}<span class="pntc">{{ tab.n }}</span>
-          @if (s.editable() && tab.id !== 'all') {
+          @if (s.editable()) {
             <button
               class="actb ad-sted"
               type="button"
@@ -40,6 +42,17 @@ const stageOf = (t: IprTask) => (t as AdaptTask).stage || '';
             >
               <app-icon name="edit" />
             </button>
+            @if (s.stages().length > 1) {
+              <button
+                class="actb ad-stdel"
+                type="button"
+                title="Удалить этап"
+                aria-label="Удалить этап"
+                (click)="$event.stopPropagation(); delStage(tab.i)"
+              >
+                <app-icon name="trashSm" />
+              </button>
+            }
           }
         </span>
       }
@@ -98,6 +111,8 @@ const stageOf = (t: IprTask) => (t as AdaptTask).stage || '';
 })
 export class AdaptTasks {
   protected readonly s = inject(AdaptStore);
+  private readonly confirm = inject(ConfirmService);
+  private readonly toast = inject(ToastService);
   readonly add = output<void>();
   readonly act = output<IprTaskAct>();
   /** индекс этапа для сайдбара; −1 — новый */
@@ -108,14 +123,15 @@ export class AdaptTasks {
 
   constructor() {
     effect(() => this.cold.set(this.finished()));
-    // если удалили активный этап — вернуться на «Все»
+    // первый этап по умолчанию; если удалили активный — соседний
     effect(() => {
+      const stages = this.s.stages();
       const id = this.stage();
-      if (id === 'all') return;
-      if (!this.s.stages().some((x) => x.name === id)) this.stage.set('all');
+      if (!stages.length) return;
+      if (!stages.some((x) => x.name === id)) this.stage.set(stages[0].name);
     });
   }
-  protected readonly stage = signal('all');
+  protected readonly stage = signal(this.s.stages()[0]?.name || '');
   protected readonly q = signal('');
   protected readonly f = signal(new Set<Chip>());
   protected readonly due = signal<DateRange>(EMPTY_RANGE);
@@ -123,16 +139,16 @@ export class AdaptTasks {
 
   protected readonly tabs = computed(() => {
     const T = this.s.plan().tasks;
-    const stages = this.s.stages();
-    const n = (id: string) => (id === 'all' ? T.length : T.filter((t) => stageOf(t) === id).length);
-    return [
-      { id: 'all', name: 'Все', n: n('all'), i: -1 },
-      ...stages.map((s, i) => ({ id: s.name, name: s.name, n: n(s.name), i })),
-    ];
+    return this.s.stages().map((s, i) => ({
+      id: s.name,
+      name: s.name,
+      n: T.filter((t) => stageOf(t) === s.name).length,
+      i,
+    }));
   });
   protected readonly byOpts = computed(() => uniq(this.s.plan().tasks.map((t) => t.by)));
   protected readonly chips = computed(() => {
-    const T = this.s.plan().tasks.filter((t) => this.stage() === 'all' || stageOf(t) === this.stage());
+    const T = this.s.plan().tasks.filter((t) => stageOf(t) === this.stage());
     return [
       { k: 'work' as Chip, label: 'В работе', n: T.filter((t) => !t.done && iprTaskSt(t) !== 'Просрочено').length },
       { k: 'over' as Chip, label: 'Просрочено', n: T.filter((t) => iprTaskSt(t) === 'Просрочено').length },
@@ -150,7 +166,7 @@ export class AdaptTasks {
     return iprSortTasks(this.s.plan().tasks).map(({ t, i }) => {
       const st = iprTaskSt(t);
       const ok =
-        (tab === 'all' || stageOf(t) === tab) &&
+        stageOf(t) === tab &&
         (!F.size || (F.has('done') && t.done) || (F.has('work') && !t.done && st !== 'Просрочено') || (F.has('over') && st === 'Просрочено')) &&
         (!q || this.text(t).includes(q)) &&
         inRange(this.due(), t.due) &&
@@ -167,9 +183,20 @@ export class AdaptTasks {
     });
   }
   protected onAdd(): void {
-    const tab = this.stage();
-    const stages = this.s.stages();
-    this.s.nextStage = tab === 'all' ? stages[0]?.name || '' : tab;
+    this.s.nextStage = this.stage() || this.s.stages()[0]?.name || '';
     this.add.emit();
+  }
+
+  protected async delStage(i: number): Promise<void> {
+    const st = this.s.stages()[i];
+    if (!st || this.s.stages().length <= 1) return;
+    const n = this.s.plan().tasks.filter((t) => stageOf(t) === st.name).length;
+    const text =
+      n > 0
+        ? `Этап **${st.name}** будет удален. ${n} ${n === 1 ? 'задача перейдет' : 'задач перейдут'} в соседний этап.`
+        : `Этап **${st.name}** будет удален из плана.`;
+    if (!(await this.confirm.ask({ title: 'Удалить этап?', text, ok: 'Удалить', danger: true }))) return;
+    this.s.removeStage(i);
+    this.toast.show('Этап удален', st.name);
   }
 }
