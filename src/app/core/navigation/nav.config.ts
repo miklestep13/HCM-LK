@@ -358,6 +358,10 @@ export const NAV_TABS: NavTab[] = [
         page: 'reports',
         hidden: true,
       },
+      {
+        title: 'Настройки',
+        page: 'settings',
+      },
     ],
   },
 ];
