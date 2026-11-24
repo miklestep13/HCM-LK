@@ -41,6 +41,13 @@ export const POLL_RATING_SCALES: [number, string][] = [
   [10, '1–10'],
   [11, '0–10'],
 ];
+/** шкалы ползунка: задают минимум / максимум / единицу и подписи краев */
+export const POLL_SLIDER_SCALES: { id: string; label: string; mn: string; mx: string; unit: string; lo: string; hi: string }[] = [
+  { id: '0-100pct', label: '0–100 %', mn: '0', mx: '100', unit: '%', lo: '0 %', hi: '100 %' },
+  { id: '0-10', label: '0–10', mn: '0', mx: '10', unit: '', lo: '0', hi: '10' },
+  { id: '1-5', label: '1–5', mn: '1', mx: '5', unit: '', lo: '1', hi: '5' },
+  { id: '0-100', label: '0–100', mn: '0', mx: '100', unit: '', lo: '0', hi: '100' },
+];
 export const POLL_SHORT_FORMATS = ['Любой текст', 'Число', 'Email', 'Телефон', 'Дата'];
 
 /** шкала согласия — столбцы матрицы по умолчанию */
@@ -49,10 +56,10 @@ export const POLL_AGREE = ['Полностью не согласен', 'Скор
 /** новый вопрос с настройками по умолчанию */
 export function newPollQuestion(t: PollQType, x: Partial<PollQuestion> = {}): PollQuestion {
   const q: PollQuestion = {
-    t, n: '', d: '', req: true, opts: ['Вариант 1', 'Вариант 2', 'Вариант 3'], rows: [], unit: '', other: false, scale: 5, view: 'star',
-    lo: 'Плохо', hi: 'Отлично', ph: '', max: '', fmt: 'Любой текст', mn: '', mx: '', srch: false,
+    t, n: '', d: '', req: true, opts: ['Вариант 1', 'Вариант 2', 'Вариант 3'], rows: [], unit: '', other: false, scale: 5, view: 'num',
+    lo: '', hi: '', ph: '', max: '', fmt: 'Любой текст', mn: '', mx: '', srch: false,
   };
-  if (t === 'enps') Object.assign(q, { n: 'Насколько вероятно, что вы порекомендуете компанию как место работы друзьям или знакомым?', lo: 'Точно не порекомендую', hi: 'Точно порекомендую' });
+  if (t === 'enps') Object.assign(q, { n: 'Насколько вероятно, что вы порекомендуете компанию как место работы друзьям или знакомым?' });
   if (t === 'long') Object.assign(q, { ph: 'Ваш ответ', max: '1000' });
   if (t === 'short') q.max = '200';
   if (t === 'yesno') q.opts = ['Да', 'Нет'];
@@ -123,7 +130,7 @@ export const POLL_MAIL =
 /** пример опроса со всеми типами вопросов (кроме матрицы — ее в опросах нет): один модуль — в опросе модули не добавляют */
 const ALL_TYPES_POLL: PollSection[] = [
   { name: 'Все типы вопросов', d: 'По вопросу каждого типа: оценки, выбор, свободные ответы', q: [
-    Q('rating', 'Оцените, насколько вам удобно работать с порталом', { lo: 'Неудобно', hi: 'Очень удобно' }),
+    Q('rating', 'Оцените, насколько вам удобно работать с порталом'),
     Q('enps', 'Насколько вероятно, что вы порекомендуете компанию как место работы друзьям или знакомым?'),
     Q('slider', 'Какую долю рабочего времени вы тратите на встречи?', { req: false }),
     Q('yesno', 'Пользуетесь ли вы мобильным приложением портала?'),

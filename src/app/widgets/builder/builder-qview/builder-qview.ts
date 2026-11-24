@@ -7,19 +7,18 @@ import { Choice } from '../../../shared/ui/choice/choice';
 import { DateField } from '../../../shared/ui/date-field/date-field';
 import { Matrix } from '../../../shared/ui/matrix/matrix';
 import { Rank } from '../../../shared/ui/rank/rank';
-import { Rating } from '../../../shared/ui/rating/rating';
 import { Scale } from '../../../shared/ui/scale/scale';
 import { Select } from '../../../shared/ui/select/select';
 import { Slider } from '../../../shared/ui/slider/slider';
 
 /**
  * Вопрос «как увидит сотрудник» (конструктор, предпросмотр, форма опроса): как на странице прохождения (pages/survey) — «Вопрос N», заголовок с *,
- * описание и поле ответа из тех же компонентов (choice, scale, rating, matrix, rank, slider, select, date-field, attach).
- * В превью можно ответить — ответ живет только здесь и ни на что не влияет.
+ * описание и поле ответа из тех же компонентов (choice, scale, matrix, rank, slider, select, date-field, attach).
+ * Рейтинг и eNPS — только числа на всю ширину, без подписей краев. В превью можно ответить — ответ живет только здесь.
  */
 @Component({
   selector: '[bld-qview]',
-  imports: [Choice, Scale, Rating, Matrix, Rank, Slider, Select, DateField, Attach, Icon],
+  imports: [Choice, Scale, Matrix, Rank, Slider, Select, DateField, Attach, Icon],
   template: `
     @let Q = q();
     @let k = key();
@@ -40,7 +39,7 @@ import { Slider } from '../../../shared/ui/slider/slider';
     @if (Q.t === 'multi' && (Q.mn || Q.mx)) {
       <div class="sqd">Выберите {{ Q.mn ? 'от ' + Q.mn + ' ' : '' }}{{ Q.mx ? 'до ' + Q.mx : '' }}</div>
     }
-    <div class="sqa" [class.sqfit]="edit() && edgeLabels.includes(Q.t)">
+    <div class="sqa">
       @if (edit() && inline.includes(Q.t)) {
         @if (Q.t === 'matrix') {
           <!-- матрица: столбцы шкалы и утверждения правятся на месте -->
@@ -90,7 +89,8 @@ import { Slider } from '../../../shared/ui/slider/slider';
                   <span class="sqern">{{ i + 1 }}</span>
                 } @else if (Q.t === 'drop') {
                   <span class="sqen">{{ i + 1 }}</span>
-                } @else {
+                } @else if (Q.t !== 'yesno') {
+                  <!-- у «Да / Нет» без кружков — как кнопки прохождения -->
                   <button class="sqemk" [class.multi]="Q.t === 'multi'" [class.ok]="correct() && Q.ok?.includes(i)" [disabled]="!correct()"
                     [title]="correct() ? (Q.ok?.includes(i) ? 'Верный ответ' : 'Отметить как верный') : ''" (click)="toggleOk(i)"><app-icon name="checkSm" /></button>
                 }
@@ -100,8 +100,8 @@ import { Slider } from '../../../shared/ui/slider/slider';
                 }
               </div>
             }
-            @if (Q.other && (Q.t === 'single' || Q.t === 'multi')) {
-              <div class="sqeo oth"><span class="sqemk" [class.multi]="Q.t === 'multi'"></span><span>Другое — сотрудник впишет свой ответ</span></div>
+            @if (Q.other && Q.t === 'multi') {
+              <div class="sqeo oth"><span class="sqemk multi"></span><span>Другое — сотрудник впишет свой ответ</span></div>
             }
           </div>
           @if (Q.t !== 'yesno') {
@@ -114,7 +114,7 @@ import { Slider } from '../../../shared/ui/slider/slider';
       } @else {
       @switch (Q.t) {
         @case ('single') {
-          <app-choice [options]="Q.opts" [other]="Q.other" [value]="$any(v()[k])" (valueChange)="set(k, $event)" />
+          <app-choice [options]="Q.opts" [value]="$any(v()[k])" (valueChange)="set(k, $event)" />
         }
         @case ('multi') {
           <app-choice multi [max]="+Q.mx || 0" [other]="Q.other" [options]="Q.opts" [value]="$any(v()[k]) ?? []" (valueChange)="set(k, $event)" />
@@ -126,17 +126,11 @@ import { Slider } from '../../../shared/ui/slider/slider';
           <app-scale [items]="Q.opts" [value]="$any(v()[k]) ?? null" (valueChange)="set(k, $event)" />
         }
         @case ('rating') {
-          @if (Q.view === 'star' && Q.scale !== 11) {
-            <app-rating [max]="Q.scale" [value]="$any(v()[k]) ?? null" (valueChange)="set(k, $event)" />
-            @if ((Q.lo || Q.hi) && !edit()) {
-              <div class="sclh pvstl"><span>1 — {{ Q.lo }}</span><span>{{ Q.scale }} — {{ Q.hi }}</span></div>
-            }
-          } @else {
-            <app-scale [from]="Q.scale === 11 ? 0 : 1" [to]="Q.scale === 11 ? 10 : Q.scale" [minLabel]="edit() ? '' : Q.lo" [maxLabel]="edit() ? '' : Q.hi" [value]="$any(v()[k]) ?? null" (valueChange)="set(k, $event)" />
-          }
+          <!-- только числа на всю ширину, без подписей краев и без звезд -->
+          <app-scale [from]="Q.scale === 11 ? 0 : 1" [to]="Q.scale === 11 ? 10 : Q.scale" [value]="$any(v()[k]) ?? null" (valueChange)="set(k, $event)" />
         }
         @case ('enps') {
-          <app-scale nps [from]="0" [to]="10" [minLabel]="edit() ? '' : Q.lo" [maxLabel]="edit() ? '' : Q.hi" [value]="$any(v()[k]) ?? null" (valueChange)="set(k, $event)" />
+          <app-scale nps [from]="0" [to]="10" [value]="$any(v()[k]) ?? null" (valueChange)="set(k, $event)" />
         }
         @case ('matrix') {
           <app-matrix [rows]="Q.rows" [cols]="Q.opts" [value]="$any(v()[k]) ?? {}" (valueChange)="set(k, $event)" />
@@ -145,7 +139,7 @@ import { Slider } from '../../../shared/ui/slider/slider';
           <app-rank [options]="Q.opts" [value]="$any(v()[k]) ?? []" (valueChange)="set(k, $event)" />
         }
         @case ('slider') {
-          <app-slider [min]="+Q.mn || 0" [max]="+Q.mx || 100" [step]="step()" [unit]="Q.unit" [minLabel]="edit() ? '' : Q.lo" [maxLabel]="edit() ? '' : Q.hi" [value]="$any(v()[k]) ?? null" (valueChange)="set(k, $event)" />
+          <app-slider [min]="+Q.mn || 0" [max]="+Q.mx || 100" [step]="step()" [unit]="Q.unit" [minLabel]="Q.lo" [maxLabel]="Q.hi" [value]="$any(v()[k]) ?? null" (valueChange)="set(k, $event)" />
         }
         @case ('short') {
           @if (edit()) {
@@ -176,14 +170,8 @@ import { Slider } from '../../../shared/ui/slider/slider';
           }
         }
       }
-      @if (edit() && edgeLabels.includes(Q.t)) {
-        <!-- подписи краев шкалы — на месте -->
-        <div class="sqel">
-          <input class="bldin" placeholder="Подпись минимума" [value]="Q.lo" (input)="Q.lo = $any($event.target).value; edited.emit()" />
-          <input class="bldin r" placeholder="Подпись максимума" [value]="Q.hi" (input)="Q.hi = $any($event.target).value; edited.emit()" />
-        </div>
       }
-      }
+
     </div>
     @if (Q.cmt) {
       <!-- поле «Комментарий» под ответом (настройка вопроса) -->
@@ -213,8 +201,6 @@ export class BldQview {
   readonly edited = output<void>();
   /** типы, у которых ответы правятся на месте списком (или матрицей) */
   protected readonly inline = ['single', 'multi', 'drop', 'rank', 'yesno', 'matrix'];
-  /** типы с подписями краев шкалы */
-  protected readonly edgeLabels = ['rating', 'enps', 'slider'];
   /** ответы в превью: ключ — тип и настройки вопроса (смена типа сбрасывает ответ) */
   protected readonly v = signal<Record<string, unknown>>({});
   protected readonly key = computed(() => {

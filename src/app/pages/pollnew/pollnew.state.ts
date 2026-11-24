@@ -266,6 +266,11 @@ export class PollnewState {
     if (this.openWave() === w.id) this.openWave.set(null);
   }
 
+  /** «Отмена» — назад к списку без сохранения */
+  cancel(): void {
+    this.nav.go('polls');
+  }
+
   /** «Сохранить черновик» / «Сохранить и опубликовать»: проверки шагов (у публикации — и процедур), затем — в список опросов */
   save(pub: boolean): void {
     for (const i of pub ? [0, 1, 2] : [0, 1])

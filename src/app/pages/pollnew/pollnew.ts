@@ -9,8 +9,7 @@ import { POLL_STEPS, PollnewState } from './pollnew.state';
 /**
  * «Управление персоналом → Опросы → Новый опрос / Редактирование опроса» (перенесено из старого прототипа, pg-pollnew):
  * верхние вкладки «Общая информация → Вопросы → Процедуры назначения» (shared/ui/form-tabs, как у курса);
- * вопросы — в конструкторе (widgets/builder); внизу — «Назад», «Далее» (проверяет шаг), на последнем шаге — «Сохранить»
- * (статус — из формы). Форма-страница — без «Отменить» (правило 11).
+ * вопросы — в конструкторе (widgets/builder); внизу — «Отмена» / «Сохранить» (вкладки переключают шаги).
  * Параметр адреса poll — номер опроса для редактирования; без него — новый опрос с нуля.
  */
 @Component({
@@ -34,14 +33,8 @@ import { POLL_STEPS, PollnewState } from './pollnew.state';
     }
     <div class="c ipisl">
       <div class="ipff">
-        @if (s.step() > 0) {
-          <button class="btn raised" (click)="s.back()">Назад</button>
-        }
-        @if (s.step() < steps.length - 1) {
-          <button class="btn pri" (click)="s.next()">Далее</button>
-        } @else {
-          <button class="btn pri" (click)="save()">Сохранить</button>
-        }
+        <button class="btn raised" (click)="cancel()">Отмена</button>
+        <button class="btn pri" (click)="save()">Сохранить</button>
       </div>
     </div>
   `,
@@ -61,6 +54,10 @@ export class Pollnew {
       const p = this.poll();
       untracked(() => this.s.open(p));
     });
+  }
+  /** «Отмена» — к списку опросов без сохранения */
+  protected cancel(): void {
+    this.s.cancel();
   }
   /** «Сохранить»: статус — из формы («Черновик» — без публикации, иначе — с проверкой процедур) */
   protected save(): void {

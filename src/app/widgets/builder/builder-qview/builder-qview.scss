@@ -28,9 +28,19 @@
   margin-top: 16px;
 }
 /* ответы — на всю ширину колонки, как в предпросмотре / прохождении (кроме «Да / Нет») */
-.sqv .sqa :is(.choice, .rank, .slider, .sqin, .sqsel, .sqdt, .sqta) {
+.sqv .sqa :is(.choice, .rank, .slider, .scale, .sqin, .sqsel, .sqdt, .sqta) {
   width: 100%;
   max-width: none;
+  min-width: 0;
+  display: block;
+}
+/* числа рейтинга / eNPS — растянуть кнопки на всю ширину колонки */
+.sqv .sqa .scale:not(.txt) .scl {
+  width: 100%;
+}
+.sqv .sqa .scale:not(.txt) .sclb {
+  flex: 1 1 0;
+  width: auto;
   min-width: 0;
 }
 .sqv :is(.sqin, .sqsel, .sqdt) {
@@ -135,13 +145,19 @@
   padding: 9px 12px;
   border-style: dashed;
 }
-/* «Да / Нет» — две кнопки в ряд */
+/* «Да / Нет» — две кнопки в ряд без кружков, на всю ширину */
 .sqv .sqe-yesno {
   flex-direction: row;
-  max-width: 420px;
+  max-width: none;
+  width: 100%;
 }
 .sqv .sqe-yesno .sqeo {
   flex: 1;
+  justify-content: center;
+  padding: 8px 12px;
+}
+.sqv .sqe-yesno .sqeoi {
+  text-align: center;
 }
 /* кружок (один ответ) или квадрат (несколько): в тесте отмечает верный ответ */
 .sqv .sqemk {

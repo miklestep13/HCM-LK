@@ -42,10 +42,10 @@ import { SurveyPassState } from '../survey.state';
           <app-scale class="sqyn" [items]="['Да', 'Нет']" [value]="$any(a()) ?? null" (valueChange)="set($event)" />
         }
         @case ('scale') {
-          <app-scale [from]="Q.from ?? 1" [to]="Q.max || 5" [minLabel]="Q.minLabel || ''" [maxLabel]="Q.maxLabel || ''" [value]="$any(a()) ?? null" (valueChange)="set($event)" />
+          <app-scale [from]="Q.from ?? 1" [to]="Q.max || 5" [value]="$any(a()) ?? null" (valueChange)="set($event)" />
         }
         @case ('nps') {
-          <app-scale nps [from]="0" [to]="10" [minLabel]="Q.minLabel || ''" [maxLabel]="Q.maxLabel || ''" [value]="$any(a()) ?? null" (valueChange)="set($event)" />
+          <app-scale nps [from]="0" [to]="10" [value]="$any(a()) ?? null" (valueChange)="set($event)" />
         }
         @case ('stars') {
           <app-rating [max]="Q.max || 5" [value]="$any(a()) ?? null" (valueChange)="set($event)" />

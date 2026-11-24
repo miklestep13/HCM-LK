@@ -233,6 +233,8 @@ export class BuilderState {
     if (t === 'enps' && !q.n) q.n = d.n;
     if (t === 'yesno' || t === 'matrix' || !q.opts?.length) q.opts = d.opts;
     if (t === 'matrix' && !q.rows?.length) q.rows = d.rows;
+    /* «Другое» только у множественного выбора */
+    if (t !== 'multi') q.other = false;
     this.touch();
   }
 }
