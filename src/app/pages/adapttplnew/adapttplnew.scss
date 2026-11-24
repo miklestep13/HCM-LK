@@ -1,0 +1,19 @@
+/* форма добавления шаблона: отступы между блоками и остров кнопок */
+.pg-adapttplnew .atn-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.pg-adapttplnew .c.ipisl {
+  padding: 16px 24px;
+  margin-top: 24px;
+}
+
+.pg-adapttplnew .ipff {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 0;
+}

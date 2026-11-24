@@ -1,9 +1,9 @@
 import { paginate } from '../../shared/ui/pager/pager';
 import { Injectable, computed, inject, signal } from '@angular/core';
+import { NavService } from '../../core/navigation/nav.service';
 import { ADAPT_TEMPLATES } from '../../data/adapt-templates.data';
 import { AdaptTemplateRow } from '../../interface/adapt-template';
 import { DateRange, EMPTY_RANGE, inRange } from '../../shared/ui/date-range/date-range';
-import { ToastService } from '../../shared/ui/toast/toast.service';
 
 const iso = (d: string) => (d && d !== '—' ? d.split('.').reverse().join('') : '99999999');
 
@@ -20,7 +20,7 @@ const SORT_KEYS: Record<string, (p: AdaptTemplateRow) => string | number> = {
  */
 @Injectable({ providedIn: 'root' })
 export class AdapttplState {
-  private readonly toast = inject(ToastService);
+  private readonly nav = inject(NavService);
   readonly list = signal<AdaptTemplateRow[]>(ADAPT_TEMPLATES.map((p) => ({ ...p })));
   readonly q = signal('');
   readonly created = signal<DateRange>(EMPTY_RANGE);
@@ -53,6 +53,6 @@ export class AdapttplState {
   }
 
   create(): void {
-    this.toast.show('В разработке', 'Создание шаблона плана адаптации — в разработке.');
+    this.nav.go('adapttplnew');
   }
 }
