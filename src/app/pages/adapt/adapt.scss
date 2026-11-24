@@ -1277,11 +1277,18 @@
   width: 14px;
   height: 14px;
 }
-/* «Добавить этап» — на одной линии с табами */
+/* «Добавить этап» — плюс + текст, на одной линии с табами */
 .pg-adapt .ctabs .ad-stadd {
   flex-shrink: 0;
   align-self: center;
   margin: 0 0 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pg-adapt .ctabs .ad-stadd svg {
+  width: 14px;
+  height: 14px;
 }
 /* меньше зазор между поиском и карточками задач */
 .pg-adapt .ipsect > .ftbar {
