@@ -15,7 +15,7 @@ import { AdaptStore } from '../adapt-store';
 type Chip = 'work' | 'over' | 'done';
 const uniq = (a: string[]) => [...new Set(a)].filter(Boolean).sort((x, y) => x.localeCompare(y, 'ru'));
 const stageOf = (t: IprTask) => (t as AdaptTask).stage || '';
-const rangeOn = (r: DateRange) => !!(r.from || r.to);
+const rangeOn = (r: DateRange) => !!(r.a || r.b);
 
 /**
  * «Задачи» плана адаптации: карточки как у ИПР, табы этапов (без «Все»; в черновике — ✎ и корзина).
