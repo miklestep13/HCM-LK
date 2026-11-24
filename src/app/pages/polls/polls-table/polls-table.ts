@@ -48,6 +48,7 @@ import { PollsState } from '../polls.state';
                 </span>
               </td>
             </tr>
+          }
         </tbody>
       </table>
     </div>
