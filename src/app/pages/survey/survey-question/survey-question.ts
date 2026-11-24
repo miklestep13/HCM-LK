@@ -33,7 +33,7 @@ import { SurveyPassState } from '../survey.state';
           <app-choice [options]="Q.options!" [value]="$any(a())" (valueChange)="set($event)" />
         }
         @case ('many') {
-          <app-choice multi [max]="Q.max || 0" [other]="!!Q.other" [options]="Q.options!" [value]="$any(a()) ?? []" (valueChange)="set($event)" [otherText]="s.other()[Q.id] || ''" (otherTextChange)="s.setOther(Q.id, $event)" />
+          <app-choice multi [max]="Q.max || 0" [options]="Q.options!" [value]="$any(a()) ?? []" (valueChange)="set($event)" />
         }
         @case ('select') {
           <app-select class="sqsel" [options]="Q.options!" [placeholder]="Q.placeholder || 'Выберите вариант'" [value]="$any(a()) || ''" (valueChange)="set($event)" />
