@@ -50,7 +50,7 @@ export class PollsState {
   }
   readonly q = signal('');
   readonly status = signal('');
-  /** фильтр «Время прохождения»: подпись «N мин» или пусто */
+  /** фильтр «Время прохождения»: минуты цифрами или пусто */
   readonly dur = signal('');
   readonly start = signal<DateRange>(EMPTY_RANGE);
   readonly end = signal<DateRange>(EMPTY_RANGE);
@@ -60,12 +60,6 @@ export class PollsState {
   readonly people = signal<Poll | null>(null);
 
   readonly statuses: PollLiveStatus[] = ['Действует', 'Не действует'];
-  /** уникальные времена прохождения в текущем разделе — для фильтра */
-  readonly durOpts = computed(() =>
-    [...new Set(this.list().filter((p) => this.inKind(p) && p.dur).map((p) => p.dur!))]
-      .sort((a, b) => a - b)
-      .map((m) => m + ' мин'),
-  );
   /** постранично: <app-pager [p]="s.pg" /> */
   readonly pg = paginate(() => this.rows());
   readonly rows = computed(() => {
@@ -79,7 +73,7 @@ export class PollsState {
       (p) =>
         this.inKind(p) &&
         (!st || pollLive(p) === st) &&
-        (!dur || pollDurLabel(p) === dur) &&
+        (!dur || p.dur === +dur) &&
         (p.start === '—' ? !rs.a && !rs.b : inRange(rs, p.start)) &&
         (p.end === '—' ? !re.a && !re.b : inRange(re, p.end)) &&
         (!q || p.n.toLowerCase().includes(q)),
