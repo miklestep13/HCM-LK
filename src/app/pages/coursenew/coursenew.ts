@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, effect, inject }
 import { DevPanelService, devValue } from '../../core/layout/dev-panel/dev-panel.service';
 import { COURSE_STEPS } from '../../data/coursenew.data';
 import { PageHead } from '../../shared/ui/page-head/page-head';
-import { Stepper } from '../../shared/ui/stepper/stepper';
+import { FormTabs } from '../../shared/ui/form-tabs/form-tabs';
 import { Builder } from '../../widgets/builder/builder';
 import { CoursenewInfo } from './coursenew-info/coursenew-info';
 import { CoursenewState } from './coursenew.state';
@@ -10,17 +10,17 @@ import { CoursenewWaves } from './coursenew-waves/coursenew-waves';
 
 /**
  * «Управление персоналом → Обучение → Добавить курс» (перенесено из старого прототипа, pg-coursenew), как форма опроса:
- * степпер «Общая информация → Структура → Процедуры назначения»; структура — общий конструктор материалов
- * (widgets/builder: раздел → модуль → блоки, справа настройки, «Предпросмотр»). Внизу — «Назад», «Далее», на последнем шаге «Сохранить»
+ * верхние вкладки «Общая информация → Структура → Процедуры назначения» (shared/ui/form-tabs); структура — общий конструктор
+ * материалов (widgets/builder: раздел → модуль → блоки, «Предпросмотр»). Внизу — «Назад», «Далее», на последнем шаге «Сохранить»
  * (форма-страница — без «Отменить»). Демо в dev-панели: пустой курс (по умолчанию), пример или все виды модулей.
  */
 @Component({
   selector: 'app-coursenew',
-  imports: [PageHead, Stepper, Builder, CoursenewInfo, CoursenewWaves],
+  imports: [PageHead, FormTabs, Builder, CoursenewInfo, CoursenewWaves],
   providers: [CoursenewState],
   template: `
     <app-page-head title="Добавление курса" backTo="learn" backLabel="К каталогу курсов" />
-    <app-stepper [steps]="steps" [step]="s.step()" (stepChange)="s.go($event)" [reached]="s.reached()" />
+    <app-form-tabs [steps]="steps" [step]="s.step()" (stepChange)="s.go($event)" [reached]="s.reached()" />
     @switch (s.step()) {
       @case (0) {
         <div coursenew-info></div>

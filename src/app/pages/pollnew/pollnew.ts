@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, effect, inject, input, untracked } from '@angular/core';
 import { PageHead } from '../../shared/ui/page-head/page-head';
-import { Stepper } from '../../shared/ui/stepper/stepper';
+import { FormTabs } from '../../shared/ui/form-tabs/form-tabs';
 import { PollnewInfo } from './pollnew-info/pollnew-info';
 import { PollnewWaves } from './pollnew-waves/pollnew-waves';
 import { PollnewPub } from './pollnew-pub/pollnew-pub';
@@ -9,17 +9,18 @@ import { POLL_STEPS, PollnewState } from './pollnew.state';
 
 /**
  * «Управление персоналом → Опросы → Новый опрос / Редактирование опроса» (перенесено из старого прототипа, pg-pollnew):
- * степпер «Общая информация → Вопросы → Процедуры опроса → Публикация» (shared/ui/stepper); вопросы — в конструкторе (widgets/builder); внизу — «Назад», «Далее»
- * (проверяет шаг), на последнем шаге — «Сохранить» (статус — из формы). Форма-страница — без «Отменить» (правило 11).
+ * верхние вкладки «Общая информация → Вопросы → Процедуры назначения → Публикация» (shared/ui/form-tabs, как у курса);
+ * вопросы — в конструкторе (widgets/builder); внизу — «Назад», «Далее» (проверяет шаг), на последнем шаге — «Сохранить»
+ * (статус — из формы). Форма-страница — без «Отменить» (правило 11).
  * Параметр адреса poll — номер опроса для редактирования; без него — новый опрос с нуля.
  */
 @Component({
   selector: 'app-pollnew',
-  imports: [PageHead, PollnewInfo, Builder, PollnewWaves, PollnewPub, Stepper],
+  imports: [PageHead, PollnewInfo, Builder, PollnewWaves, PollnewPub, FormTabs],
   providers: [PollnewState],
   template: `
     <app-page-head [title]="s.editIdx() != null ? 'Редактирование опроса' : 'Новый опрос'" backTo="polls" backLabel="К опросам" />
-    <app-stepper [steps]="steps" [step]="s.step()" (stepChange)="s.go($event)" [reached]="s.reached()" />
+    <app-form-tabs [steps]="steps" [step]="s.step()" (stepChange)="s.go($event)" [reached]="s.reached()" />
     @switch (s.step()) {
       @case (0) {
         <div pollnew-info></div>

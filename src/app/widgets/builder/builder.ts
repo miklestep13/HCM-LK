@@ -35,7 +35,8 @@ import { BuilderState } from './builder.state';
       <app-seg [options]="modes" [value]="s.mode()" (valueChange)="s.mode.set($event)" />
     </div>
     @if (s.mode() === 'edit') {
-      <div class="bldgrid" [class.notree]="!tree()" [class.narrow]="!tree() && !!survey()">
+      <!-- без узкой колонки 760: в редакторе опроса вопросы на всю ширину, как в предпросмотре / прохождении -->
+      <div class="bldgrid" [class.notree]="!tree()">
         @if (tree()) {
           <div bld-tree></div>
         }

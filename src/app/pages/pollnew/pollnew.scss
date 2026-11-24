@@ -1271,15 +1271,7 @@
   display: block;
   margin-top: 4px;
 }
-/* шаг «Процедуры опроса»: пояснение, карточки процедур (скрываемые), «Добавить процедуру» внизу */
-.pg-pollnew .c.pnwhint .cb {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-.pg-pollnew .c.pnwhint .svchint {
-  margin: 0;
-}
-.pg-pollnew .c.pnwhint + .c.pnwave,
+/* вкладка «Процедуры назначения»: карточки процедур (скрываемые), «Добавить процедуру» внизу */
 .pg-pollnew .c.pnwave + .c.pnwave {
   margin-top: 16px;
 }
