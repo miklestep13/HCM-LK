@@ -1427,6 +1427,12 @@
   font: var(--q-font-ui-headline-3);
   color: var(--q-content-text);
 }
+.pg-adapt .ad-gacts {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
 .pg-adapt .ad-gcard {
   display: flex;
   flex-direction: column;
