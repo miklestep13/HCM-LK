@@ -799,7 +799,7 @@
 .bld .bldbs {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px 16px;
+  gap: 20px 16px;
   align-items: start;
   margin-top: 16px;
   padding-top: 16px;
@@ -895,11 +895,12 @@
   display: none;
 }
 
-/* переключатели вопроса — в одну строку */
+/* переключатели вопроса — в одну строку; под ними — больший отступ до полей (Шкала и др.) */
 .bld .bldsws {
   display: flex;
   flex-wrap: wrap;
   gap: 12px 32px;
+  margin-bottom: 4px;
 }
 
 /* ——— курс: виды модулей, настройки модуля, шаблоны модулей ——— */
