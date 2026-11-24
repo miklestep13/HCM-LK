@@ -6,6 +6,7 @@ import { PageHead } from '../../shared/ui/page-head/page-head';
 import { ToastService } from '../../shared/ui/toast/toast.service';
 import { IprTaskAct } from '../../widgets/ipr-task-card/ipr-task-card';
 import { AdaptGoals } from '../adapt/adapt-goals/adapt-goals';
+import { AdaptStageForm } from '../adapt/adapt-stage-form/adapt-stage-form';
 import { AdaptStore } from '../adapt/adapt-store';
 import { AdaptTaskForm } from '../adapt/adapt-task-form/adapt-task-form';
 import { AdaptTasks } from '../adapt/adapt-tasks/adapt-tasks';
@@ -19,13 +20,13 @@ import { AdapttplnewState } from './adapttplnew.state';
  */
 @Component({
   selector: 'app-adapttplnew',
-  imports: [PageHead, AdapttplnewInfo, AdaptTasks, AdaptGoals, AdaptTaskForm],
+  imports: [PageHead, AdapttplnewInfo, AdaptTasks, AdaptGoals, AdaptTaskForm, AdaptStageForm],
   providers: [AdapttplnewState, AdaptStore, { provide: IprStore, useExisting: AdaptStore }],
   template: `
     <app-page-head title="Добавление шаблона плана адаптации" backTo="adapttpl" backLabel="К шаблонам" />
     <div adapttplnew-info></div>
     <div class="atn-body">
-      <div adapt-tasks (add)="taskForm.set(-1)" (act)="onTask($event)"></div>
+      <div adapt-tasks (add)="taskForm.set(-1)" (editStage)="stageForm.set($event)" (act)="onTask($event)"></div>
       <div adapt-goals></div>
     </div>
     <div class="c ipisl">
@@ -36,6 +37,9 @@ import { AdapttplnewState } from './adapttplnew.state';
     </div>
     @if (taskForm() !== null) {
       <app-adapt-task-form [index]="taskForm()!" (closed)="taskForm.set(null)" />
+    }
+    @if (stageForm() !== null) {
+      <app-adapt-stage-form [index]="stageForm()!" (closed)="stageForm.set(null)" />
     }
   `,
   styleUrls: ['../adapt/adapt.scss', './adapttplnew.scss'],
@@ -50,6 +54,7 @@ export class Adapttplnew {
   private readonly toast = inject(ToastService);
   private readonly confirm = inject(ConfirmService);
   protected readonly taskForm = signal<number | null>(null);
+  protected readonly stageForm = signal<number | null>(null);
 
   constructor() {
     // шаблон правится как черновик — задачи можно добавлять и менять

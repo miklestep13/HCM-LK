@@ -32,7 +32,23 @@ export const ADAPT_FROM = '14.09.2026';
 export const ADAPT_TO = '04.10.2026';
 export const PROBATION_TO = '11.12.2026';
 
-export const ADAPT_STAGES = ['Первая неделя', 'Вторая неделя', 'Третья неделя'] as const;
+/** Этап плана адаптации: название и длительность в днях (для срока задач). */
+export interface AdaptStage {
+  id: string;
+  name: string;
+  /** длительность этапа в днях */
+  days: number;
+}
+
+/** Этапы по умолчанию — табы «Первая / Вторая / Третья неделя». */
+export const ADAPT_STAGE_LIST: AdaptStage[] = [
+  { id: 's1', name: 'Первая неделя', days: 7 },
+  { id: 's2', name: 'Вторая неделя', days: 7 },
+  { id: 's3', name: 'Третья неделя', days: 7 },
+];
+
+/** Имена этапов (для обратной совместимости с задачами). */
+export const ADAPT_STAGES = ADAPT_STAGE_LIST.map((s) => s.name);
 
 const task = (stage: string, t: string, res: string, due: string, by: string, done: boolean, extra: Partial<AdaptTask> = {}): AdaptTask => ({
   t,

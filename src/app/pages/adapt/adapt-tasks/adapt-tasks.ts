@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, output, signal } from '@angular/core';
 import { iprSortTasks, iprTaskSt } from '../../../core/demo/ipr-store.service';
-import { ADAPT_STAGES, AdaptTask } from '../../../data/adapt.data';
+import { AdaptTask } from '../../../data/adapt.data';
 import { LEARN_COURSES } from '../../../data/learn.data';
 import { IprTask } from '../../../interface/ipr';
 import { DateRange, DateRangeField, EMPTY_RANGE, inRange } from '../../../shared/ui/date-range/date-range';
@@ -12,10 +12,10 @@ import { AdaptStore } from '../adapt-store';
 
 type Chip = 'work' | 'over' | 'done';
 const uniq = (a: string[]) => [...new Set(a)].filter(Boolean).sort((x, y) => x.localeCompare(y, 'ru'));
-const stageOf = (t: IprTask) => (t as AdaptTask).stage || ADAPT_STAGES[0];
+const stageOf = (t: IprTask) => (t as AdaptTask).stage || '';
 
 /**
- * «Задачи» плана адаптации: те же карточки, что у ИПР, и вкладки этапов.
+ * «Задачи» плана адаптации: карточки как у ИПР, табы этапов (редактируемые в черновике).
  */
 @Component({
   selector: '[adapt-tasks]',
@@ -28,7 +28,25 @@ const stageOf = (t: IprTask) => (t as AdaptTask).stage || ADAPT_STAGES[0];
     </div>
     <div class="ctabs">
       @for (tab of tabs(); track tab.id) {
-        <span [class.on]="stage() === tab.id" (click)="stage.set(tab.id)">{{ tab.name }}<span class="pntc">{{ tab.n }}</span></span>
+        <span [class.on]="stage() === tab.id" (click)="stage.set(tab.id)">
+          {{ tab.name }}<span class="pntc">{{ tab.n }}</span>
+          @if (s.editable() && tab.id !== 'all') {
+            <button
+              class="actb ad-sted"
+              type="button"
+              title="Редактировать этап"
+              aria-label="Редактировать этап"
+              (click)="$event.stopPropagation(); editStage.emit(tab.i)"
+            >
+              <app-icon name="edit" />
+            </button>
+          }
+        </span>
+      }
+      @if (s.editable()) {
+        <button class="actb ad-stadd" type="button" title="Добавить этап" aria-label="Добавить этап" (click)="editStage.emit(-1)">
+          <app-icon name="plus" />
+        </button>
       }
     </div>
     <app-filter-bar placeholder="Поиск по задачам" [(query)]="q">
@@ -82,12 +100,20 @@ export class AdaptTasks {
   protected readonly s = inject(AdaptStore);
   readonly add = output<void>();
   readonly act = output<IprTaskAct>();
+  /** индекс этапа для сайдбара; −1 — новый */
+  readonly editStage = output<number>();
 
   protected readonly cold = signal(false);
   private readonly finished = computed(() => ['Выполнено', 'Выполнено частично', 'Не выполнено'].includes(this.s.st()));
 
   constructor() {
     effect(() => this.cold.set(this.finished()));
+    // если удалили активный этап — вернуться на «Все»
+    effect(() => {
+      const id = this.stage();
+      if (id === 'all') return;
+      if (!this.s.stages().some((x) => x.name === id)) this.stage.set('all');
+    });
   }
   protected readonly stage = signal('all');
   protected readonly q = signal('');
@@ -97,8 +123,12 @@ export class AdaptTasks {
 
   protected readonly tabs = computed(() => {
     const T = this.s.plan().tasks;
+    const stages = this.s.stages();
     const n = (id: string) => (id === 'all' ? T.length : T.filter((t) => stageOf(t) === id).length);
-    return [{ id: 'all', name: 'Все', n: n('all') }, ...ADAPT_STAGES.map((name) => ({ id: name, name, n: n(name) }))];
+    return [
+      { id: 'all', name: 'Все', n: n('all'), i: -1 },
+      ...stages.map((s, i) => ({ id: s.name, name: s.name, n: n(s.name), i })),
+    ];
   });
   protected readonly byOpts = computed(() => uniq(this.s.plan().tasks.map((t) => t.by)));
   protected readonly chips = computed(() => {
@@ -138,8 +168,8 @@ export class AdaptTasks {
   }
   protected onAdd(): void {
     const tab = this.stage();
-    this.s.nextStage = tab === 'all' ? ADAPT_STAGES[0] : tab;
+    const stages = this.s.stages();
+    this.s.nextStage = tab === 'all' ? stages[0]?.name || '' : tab;
     this.add.emit();
   }
-
 }

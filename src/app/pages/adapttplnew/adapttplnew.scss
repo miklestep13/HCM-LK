@@ -17,3 +17,14 @@
   gap: 8px;
   margin-top: 0;
 }
+
+/* основная информация: 2 колонки; наименование и описание на всю ширину */
+.pg-adapttplnew .frm.atnfrm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 20px;
+}
+
+.pg-adapttplnew .frm.atnfrm > .full {
+  grid-column: 1 / -1;
+}

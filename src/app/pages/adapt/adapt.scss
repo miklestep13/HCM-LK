@@ -1224,8 +1224,11 @@
 }
 .pg-adapt .ctabs {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 4px;
   border-bottom: 1px solid var(--stroke);
+  padding: 0 24px;
 }
 .pg-adapt .ctabs > span {
   font: var(--q-font-ui-headline-4);
@@ -1249,6 +1252,34 @@
   color: var(--blue);
   border-bottom-color: var(--blue);
   background: none;
+}
+/* правка / добавление этапа у табов */
+.pg-adapt .ctabs .ad-sted,
+.pg-adapt .ctabs .ad-stadd {
+  width: 24px;
+  height: 24px;
+  margin: -2px 0 0;
+  color: var(--q-base-500);
+}
+.pg-adapt .ctabs .ad-sted:hover,
+.pg-adapt .ctabs .ad-stadd:hover {
+  color: var(--blue);
+  background: var(--blue-bg);
+}
+.pg-adapt .ctabs .ad-sted svg,
+.pg-adapt .ctabs .ad-stadd svg {
+  width: 14px;
+  height: 14px;
+}
+/* меньше зазор между поиском и карточками задач */
+.pg-adapt .ipsect > .ftbar {
+  padding-bottom: 8px;
+}
+.pg-adapt .ipsect > .ftbar + .cb.iptcb {
+  padding-top: 0;
+}
+.pg-adapt .ipsect > .ftbar + .cb.iptcb .iplist {
+  margin-top: 0;
 }
 .pg-adapt .ad-bnr {
   position: relative;
