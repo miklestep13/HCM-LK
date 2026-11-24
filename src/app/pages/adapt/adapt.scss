@@ -1277,22 +1277,18 @@
   width: 14px;
   height: 14px;
 }
-/* «Добавить» / «Добавить этап» — текстовые (onbg), плюс справа */
-.pg-adapt .ctabs .ad-stadd,
-.pg-adapt .ipsect .ipadd {
+/* «Добавить этап» — текстовая (onbg), плюс справа; «Добавить» задачу — синяя pri */
+.pg-adapt .ctabs .ad-stadd {
   flex-shrink: 0;
+  align-self: center;
+  margin: 0 0 1px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding-left: 0;
   padding-right: 0;
 }
-.pg-adapt .ctabs .ad-stadd {
-  align-self: center;
-  margin: 0 0 1px;
-}
-.pg-adapt .ctabs .ad-stadd svg,
-.pg-adapt .ipsect .ipadd svg {
+.pg-adapt .ctabs .ad-stadd svg {
   width: 14px;
   height: 14px;
 }

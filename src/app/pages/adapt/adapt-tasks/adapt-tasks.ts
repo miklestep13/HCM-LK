@@ -19,7 +19,7 @@ const rangeOn = (r: DateRange) => !!(r.a || r.b);
 
 /**
  * «Задачи» плана адаптации: карточки как у ИПР, табы этапов (без «Все»; в черновике — ✎ и корзина).
- * «Добавить» / «Добавить этап» — текстовые (btn onbg), плюс справа.
+ * «Добавить» задачу — синяя; «Добавить этап» — текстовая (btn onbg), плюс справа.
  */
 @Component({
   selector: '[adapt-tasks]',
@@ -64,7 +64,7 @@ const rangeOn = (r: DateRange) => !!(r.a || r.b);
     </div>
     <app-filter-bar placeholder="Поиск по задачам" [(query)]="q">
       @if (s.editable()) {
-        <button ftAction class="btn onbg ipadd" type="button" (click)="onAdd()">Добавить<app-icon name="plus" /></button>
+        <button ftAction class="btn pri ipadd" type="button" (click)="onAdd()">Добавить</button>
       }
       @if (T.length) {
         <div class="fchips" ftName="Статус">
