@@ -2210,6 +2210,11 @@ input[type='number']::-webkit-outer-spin-button {
   padding: 0 10px 0 4px;
   box-shadow: none;
 }
+/* пустое числовое поле фильтра — «Все», как у селекта / периода */
+.ft2w.ft2in.is-empty > .fin::placeholder {
+  color: var(--q-content-text);
+  opacity: 1;
+}
 
 /* все фильтры в панели — 12px: подписи, значения, поля, чипы */
 .ftbar .ftpanel :is(.fsel, .fsel .ft2lab, .fsel .fsv, .fin, .ft2lab, .fchip, .seg > span, .lnk, select.sel, em),

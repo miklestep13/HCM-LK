@@ -23,7 +23,7 @@ import { PollsState } from './polls.state';
     </app-page-head>
     <div class="c">
       <app-filter-bar [placeholder]="s.kind() === 'test' ? 'Поиск по названию проверки' : 'Поиск по названию опроса'" [(query)]="s.q" [(opened)]="s.opened">
-        <app-filter-input label="Время прохождения" digits [max]="3" [group]="false" [(value)]="s.dur" />
+        <app-filter-input label="Время прохождения" digits [max]="3" [group]="false" placeholder="Все" [(value)]="s.dur" />
         <app-date-range label="Дата начала" [(value)]="s.start" />
         <app-date-range label="Дата окончания" [(value)]="s.end" />
         <app-select label="Статус" allLabel="Все" [options]="s.statuses" [(value)]="s.status" />
