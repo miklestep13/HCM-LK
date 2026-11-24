@@ -4,10 +4,21 @@ import { NavService } from '../../core/navigation/nav.service';
 import { ADAPT_PLANS, ADAPT_PLAN_STATUSES, ADAPT_PLAN_TYPES } from '../../data/adapt-plans.data';
 import { AdaptPlanRow, AdaptPlanStatus } from '../../interface/adapt-plan';
 import { DateRange, EMPTY_RANGE, inRange } from '../../shared/ui/date-range/date-range';
+
 const iso = (d: string) => (d && d !== '—' ? d.split('.').reverse().join('') : '99999999');
 
 /** сегодня в демо — 30.09.2026 */
 const TODAY = '20260930';
+
+/** план пересекается с выбранным периодом (или период не задан) */
+const overlaps = (r: DateRange, from: string, to: string): boolean => {
+  if (!r.a) return true;
+  const a = iso(from),
+    b = iso(to),
+    fa = r.a,
+    fb = r.b || r.a;
+  return a <= fb && b >= fa;
+};
 
 const SORT_KEYS: Record<string, (p: AdaptPlanRow) => string | number> = {
   name: (p) => p.name,
@@ -29,6 +40,8 @@ export class AdaptplansState {
   readonly q = signal('');
   readonly type = signal('');
   readonly status = signal('');
+  /** фильтр по периоду адаптации (пересечение с from–to) */
+  readonly periodRange = signal<DateRange>(EMPTY_RANGE);
   readonly created = signal<DateRange>(EMPTY_RANGE);
   readonly opened = signal(false);
   readonly sort = signal<{ k: string; dir: number }>({ k: '', dir: 1 });
@@ -41,12 +54,14 @@ export class AdaptplansState {
     const q = this.q().trim().toLowerCase(),
       type = this.type(),
       st = this.status(),
+      per = this.periodRange(),
       cr = this.created(),
       { k, dir } = this.sort();
     const rows = this.list().filter(
       (p) =>
         (!type || p.type === type) &&
         (!st || p.status === st) &&
+        overlaps(per, p.from, p.to) &&
         inRange(cr, p.created) &&
         (!q || p.name.toLowerCase().includes(q) || p.pos.toLowerCase().includes(q) || p.type.toLowerCase().includes(q)),
     );
@@ -92,10 +107,6 @@ export class AdaptplansState {
   }
 
   open(p: AdaptPlanRow): void {
-    this.nav.go('adapt');
-  }
-
-  create(): void {
     this.nav.go('adapt');
   }
 }

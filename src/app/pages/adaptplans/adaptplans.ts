@@ -10,19 +10,18 @@ import { AdaptplansState } from './adaptplans.state';
 
 /**
  * «Управление персоналом → Адаптация → Список планов сотрудников» (pg-adaptplans):
- * поиск, фильтры (тип, состояние, дата создания), таблица и пагинация с разделительной линией.
+ * поиск, фильтры (тип, состояние, период адаптации, дата создания), таблица и пагинация с разделительной линией.
  */
 @Component({
   selector: 'app-adaptplans',
   imports: [Pager, PageHead, FilterBar, Select, DateRangeField, AdaptplansTable, Icon],
   template: `
-    <app-page-head title="Список планов сотрудников" [noBack]="true">
-      <button class="btn pri" (click)="s.create()">Добавить</button>
-    </app-page-head>
+    <app-page-head title="Список планов сотрудников" [noBack]="true" />
     <div class="c">
       <app-filter-bar placeholder="Поиск по сотруднику или типу плана" [(query)]="s.q" [(opened)]="s.opened">
         <app-select label="Тип плана" allLabel="Все" [options]="s.types" [(value)]="s.type" />
         <app-select label="Состояние" allLabel="Все" [options]="s.statuses" [(value)]="s.status" />
+        <app-date-range label="Период адаптации" [(value)]="s.periodRange" />
         <app-date-range label="Дата создания" [(value)]="s.created" />
       </app-filter-bar>
       <div class="cb plbox">

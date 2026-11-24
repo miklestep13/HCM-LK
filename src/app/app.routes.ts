@@ -254,6 +254,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/adaptplans/adaptplans').then((m) => m.Adaptplans),
   },
   {
+    path: 'adapttpl',
+    title: 'Шаблоны плана адаптации · Q.HCM',
+    loadComponent: () => import('./pages/adapttpl/adapttpl').then((m) => m.Adapttpl),
+  },
+  {
     path: 'mygoalview',
     title: 'Просмотр цели · Q.HCM',
     loadComponent: () => import('./pages/mygoalview/mygoalview').then((m) => m.Mygoalview),
