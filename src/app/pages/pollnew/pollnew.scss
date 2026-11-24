@@ -902,10 +902,23 @@
   place-items: center;
   margin-bottom: 6px;
 }
+/* равные промежутки: шапка → вкладки → контент → подвал (как gap карточек на странице) */
+.pg-pollnew {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pg-pollnew > .pf-top {
+  margin-bottom: 0;
+}
+.pg-pollnew .c.pnwave + .c.pnwave,
+.pg-pollnew .pnwadd {
+  margin-top: 0;
+}
 /* кнопки внизу — остров, как в формах сообщества и мероприятия */
 .pg-pollnew .c.ipisl {
   padding: 16px 24px;
-  margin-top: 24px;
+  margin-top: 0;
 }
 .pg-pollnew .ipff {
   display: flex;
@@ -1271,15 +1284,7 @@
   display: block;
   margin-top: 4px;
 }
-/* шаг «Процедуры опроса»: пояснение, карточки процедур (скрываемые), «Добавить процедуру» внизу */
-.pg-pollnew .c.pnwhint .cb {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-.pg-pollnew .c.pnwhint .svchint {
-  margin: 0;
-}
-.pg-pollnew .c.pnwhint + .c.pnwave,
+/* вкладка «Процедуры назначения»: карточки процедур (скрываемые), «Добавить процедуру» внизу */
 .pg-pollnew .c.pnwave + .c.pnwave {
   margin-top: 16px;
 }
@@ -1363,7 +1368,6 @@
 }
 .pg-pollnew .pnwadd {
   width: 100%;
-  margin-top: 16px;
 }
 
 /* «Сделать опрос анонимным» (внизу формы «Общая информация») — тумблер слева от подписи, подпись 14 обычным */

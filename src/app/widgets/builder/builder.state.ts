@@ -229,7 +229,10 @@ export class BuilderState {
   /** смена типа вопроса: настройки ответа — по умолчанию нового типа, текст и варианты сохраняются */
   setQType(q: PollQuestion, t: PollQType): void {
     const d = newPollQuestion(t);
-    Object.assign(q, { t, scale: d.scale, view: d.view, lo: d.lo, hi: d.hi, ph: d.ph, max: d.max, unit: d.unit, mn: d.mn, mx: d.mx, ok: [] });
+    Object.assign(q, {
+      t, scale: d.scale, view: d.view, lo: d.lo, hi: d.hi, ph: d.ph, max: d.max, unit: d.unit,
+      mn: d.mn, mx: d.mx, fmt: d.fmt, other: false, srch: false, ok: [],
+    });
     if (t === 'enps' && !q.n) q.n = d.n;
     if (t === 'yesno' || t === 'matrix' || !q.opts?.length) q.opts = d.opts;
     if (t === 'matrix' && !q.rows?.length) q.rows = d.rows;

@@ -27,12 +27,25 @@
 .sqv .sqa {
   margin-top: 16px;
 }
-.sqv :is(.sqin, .sqsel, .sqdt) {
+/* ответы — на всю ширину колонки (choice/rank оставляем flex — иначе ломается раскладка строк) */
+.sqv .sqa :is(.choice, .rank, .slider, .scale, .sqin, .sqsel, .sqdt, .sqta, app-attach) {
   width: 100%;
   max-width: none;
+  min-width: 0;
 }
-/* ответы choice — на всю ширину колонки (как прохождение опроса в узком виде) */
-.sqv .sqa > .choice {
+.sqv .sqa :is(.slider, .scale, .sqin, .sqsel, .sqdt, .sqta, app-attach) {
+  display: block;
+}
+/* числа рейтинга / eNPS — растянуть кнопки на всю ширину колонки */
+.sqv .sqa .scale:not(.txt) .scl {
+  width: 100%;
+}
+.sqv .sqa .scale:not(.txt) .sclb {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+}
+.sqv :is(.sqin, .sqsel, .sqdt) {
   width: 100%;
   max-width: none;
 }
@@ -48,10 +61,6 @@
   display: block;
   text-align: right;
   margin-top: 4px;
-}
-.sqv .sqcnt.pvfh {
-  text-align: left;
-  margin-top: 8px;
 }
 .sqv .pvstl {
   max-width: 260px;
@@ -134,13 +143,23 @@
   padding: 9px 12px;
   border-style: dashed;
 }
-/* «Да / Нет» — две кнопки в ряд */
+/* «Да / Нет» — две компактные кнопки в ряд без кружков (не на всю ширину) */
 .sqv .sqe-yesno {
   flex-direction: row;
   max-width: 420px;
+  width: auto;
 }
 .sqv .sqe-yesno .sqeo {
   flex: 1;
+  justify-content: center;
+}
+.sqv .sqe-yesno .sqeoi {
+  text-align: center;
+}
+/* в редакторе опроса — декоративные радио / чек-бокс (как у прохождения), клик не нужен */
+.sqv .sqemkvis {
+  pointer-events: none;
+  flex: none;
 }
 /* кружок (один ответ) или квадрат (несколько): в тесте отмечает верный ответ */
 .sqv .sqemk {

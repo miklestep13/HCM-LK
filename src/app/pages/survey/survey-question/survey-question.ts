@@ -33,7 +33,7 @@ import { SurveyPassState } from '../survey.state';
           <app-choice [options]="Q.options!" [value]="$any(a())" (valueChange)="set($event)" />
         }
         @case ('many') {
-          <app-choice multi [max]="Q.max || 0" [other]="!!Q.other" [options]="Q.options!" [value]="$any(a()) ?? []" (valueChange)="set($event)" [otherText]="s.other()[Q.id] || ''" (otherTextChange)="s.setOther(Q.id, $event)" />
+          <app-choice multi [max]="Q.max || 0" [options]="Q.options!" [value]="$any(a()) ?? []" (valueChange)="set($event)" />
         }
         @case ('select') {
           <app-select class="sqsel" [options]="Q.options!" [placeholder]="Q.placeholder || 'Выберите вариант'" [value]="$any(a()) || ''" (valueChange)="set($event)" />
@@ -42,10 +42,10 @@ import { SurveyPassState } from '../survey.state';
           <app-scale class="sqyn" [items]="['Да', 'Нет']" [value]="$any(a()) ?? null" (valueChange)="set($event)" />
         }
         @case ('scale') {
-          <app-scale [from]="Q.from ?? 1" [to]="Q.max || 5" [minLabel]="Q.minLabel || ''" [maxLabel]="Q.maxLabel || ''" [value]="$any(a()) ?? null" (valueChange)="set($event)" />
+          <app-scale [from]="Q.from ?? 1" [to]="Q.max || 5" [value]="$any(a()) ?? null" (valueChange)="set($event)" />
         }
         @case ('nps') {
-          <app-scale nps [from]="0" [to]="10" [minLabel]="Q.minLabel || ''" [maxLabel]="Q.maxLabel || ''" [value]="$any(a()) ?? null" (valueChange)="set($event)" />
+          <app-scale nps [from]="0" [to]="10" [value]="$any(a()) ?? null" (valueChange)="set($event)" />
         }
         @case ('stars') {
           <app-rating [max]="Q.max || 5" [value]="$any(a()) ?? null" (valueChange)="set($event)" />
@@ -73,7 +73,7 @@ import { SurveyPassState } from '../survey.state';
           <app-date-field class="sqdt" [value]="$any(a()) || ''" (valueChange)="set($event)" />
         }
         @case ('file') {
-          <app-attach edit [files]="$any(a()) ?? []" (filesChange)="set($event)" />
+          <app-attach edit [hint]="fileHint(Q)" [maxMb]="Q.max || 10" [files]="$any(a()) ?? []" (filesChange)="set($event)" />
         }
       }
     </div>
@@ -94,5 +94,10 @@ export class SurveyQuestionBlock {
   protected readonly a = computed<SurveyAnswer | undefined>(() => this.s.answers()[this.q().id]);
   protected set(v: SurveyAnswer | null): void {
     this.s.set(this.q().id, v);
+  }
+  /** подсказка в зоне загрузки: форматы + лимит (как в описании вопроса) */
+  protected fileHint(q: SurveyQuestion): string {
+    const mb = q.max || 10;
+    return (q.placeholder || 'PDF, DOCX, PPTX, JPG или PNG') + ', до ' + mb + ' МБ';
   }
 }

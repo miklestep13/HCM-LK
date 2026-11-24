@@ -33,6 +33,7 @@
     <div class="hd-r">
       <button class="ib" title="Поиск"><app-icon name="search" /></button>
       <button class="ib" title="Уведомления"><app-icon name="bell" /></button>
+      <button class="ib" title="Настройки" aria-label="Настройки" (click)="nav.go('settings')"><app-icon name="settings" /></button>
       <div class="nav me-nav" [class.closed]="closed() === 'me'" (mouseleave)="closed.set('')">
         <div class="me" data-drop>
           <img [src]="me.photo" alt="" />

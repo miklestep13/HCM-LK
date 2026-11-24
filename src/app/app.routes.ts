@@ -139,7 +139,7 @@ export const routes: Routes = [
   },
   {
     path: 'polls',
-    title: 'Опросы · Q.HCM',
+    title: 'Список опросов · Q.HCM',
     loadComponent: () => import('./pages/polls/polls').then((m) => m.Polls),
   },
   {

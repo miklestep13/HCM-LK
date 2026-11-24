@@ -3,13 +3,22 @@ import { ChangeDetectionStrategy, Component, booleanAttribute, input, model } fr
 /**
  * Поле в шапке фильтров с подписью внутри (.ft2w.ft2in): «Цена от», «Количество».
  * digits — только цифры, с пробелами между разрядами (12 850); value хранит цифры без пробелов.
+ * placeholder — как у селекта «Все», когда значение пустое.
  *   <app-filter-input label="Цена от" digits [max]="7" [(value)]="pmin" />
+ *   <app-filter-input label="Время прохождения" digits [group]="false" placeholder="Все" [(value)]="dur" />
  */
 @Component({
   selector: 'app-filter-input',
   template: `
     <span class="ft2lab">{{ label() }}</span>
-    <input class="fin" [class]="inputClass()" [attr.inputmode]="digits() ? 'numeric' : null" [value]="shown()" (input)="put($any($event.target))" />
+    <input
+      class="fin"
+      [class]="inputClass()"
+      [attr.inputmode]="digits() ? 'numeric' : null"
+      [placeholder]="placeholder()"
+      [value]="shown()"
+      (input)="put($any($event.target))"
+    />
   `,
   host: { class: 'ft2w ft2in', '[class.is-empty]': '!value()' },
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,6 +32,8 @@ export class FilterInput {
   /** форматировать разряды пробелами */
   readonly group = input(true, { transform: booleanAttribute });
   readonly inputClass = input('');
+  /** пустое поле — как «Все» у селекта / периода */
+  readonly placeholder = input('');
   protected shown(): string {
     const v = this.value();
     return this.digits() && this.group() && v ? v.replace(/\B(?=(\d{3})+(?!\d))/g, ' ') : v;

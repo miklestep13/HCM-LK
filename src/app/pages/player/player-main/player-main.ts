@@ -129,10 +129,10 @@ const TYPE: Record<string, string> = { text: 'Модуль', test: 'Тест', t
                           <app-scale class="sqyn" [items]="p.opts || ['Да', 'Нет']" [value]="$any(ans()[p.id]) ?? null" (valueChange)="setAns(p.id, $event)" />
                         }
                         @case ('scale') {
-                          <app-scale [from]="1" [to]="5" [minLabel]="p.lo || ''" [maxLabel]="p.hi || ''" [value]="$any(ans()[p.id]) ?? null" (valueChange)="setAns(p.id, $event)" />
+                          <app-scale [from]="1" [to]="5" [value]="$any(ans()[p.id]) ?? null" (valueChange)="setAns(p.id, $event)" />
                         }
                         @case ('nps') {
-                          <app-scale nps [from]="0" [to]="10" [minLabel]="p.lo || ''" [maxLabel]="p.hi || ''" [value]="$any(ans()[p.id]) ?? null" (valueChange)="setAns(p.id, $event)" />
+                          <app-scale nps [from]="0" [to]="10" [value]="$any(ans()[p.id]) ?? null" (valueChange)="setAns(p.id, $event)" />
                         }
                         @case ('long') {
                           <textarea class="fta sqta" rows="4" placeholder="Ваш ответ" [value]="$any(ans()[p.id]) || ''" (input)="setAns(p.id, $any($event.target).value)"></textarea>

@@ -268,11 +268,28 @@ export const NAV_TABS: NavTab[] = [
               kind: 'test',
             },
           },
+        ],
+      },
+      {
+        title: 'Опросы',
+        children: [
           {
-            title: 'Опросы',
+            title: 'Список опросов',
             page: 'polls',
             attrs: {
               kind: 'poll',
+            },
+          },
+          {
+            title: 'Процедуры назначения',
+            attrs: {
+              todo: 'Процедуры назначения опросов — в разработке.',
+            },
+          },
+          {
+            title: 'Анкеты опросов',
+            attrs: {
+              todo: 'Анкеты опросов — в разработке.',
             },
           },
         ],
@@ -340,6 +357,10 @@ export const NAV_TABS: NavTab[] = [
         title: 'Отчеты',
         page: 'reports',
         hidden: true,
+      },
+      {
+        title: 'Настройки',
+        page: 'settings',
       },
     ],
   },

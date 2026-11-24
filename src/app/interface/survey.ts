@@ -57,7 +57,7 @@ export interface SurveyQuestion {
   options?: string[];
   /** many — «Другое» с полем ввода */
   other?: boolean;
-  /** many — не больше N вариантов; long — не больше N символов; scale, stars — верх шкалы */
+  /** many — не больше N вариантов; long — не больше N символов; scale, stars — верх шкалы; file — лимит, МБ */
   max?: number;
   /** подписи краев шкалы: scale, nps, slider */
   minLabel?: string;

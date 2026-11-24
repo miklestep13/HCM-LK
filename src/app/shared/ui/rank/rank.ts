@@ -3,32 +3,33 @@ import { Icon } from '../icon/icon';
 
 /**
  * Ранжирование: варианты по порядку (наверху — первое место), перетаскивание за строку или стрелки ↑ ↓.
- * Пока порядок не задан — value пустой (вопрос без ответа): номера серые, под списком «Порядок не задан» и «Оставить этот порядок»
- * (если порядок по умолчанию уже подходит). Любое перемещение или эта кнопка задают ответ: номера синие, «✓ Порядок задан» и «Сбросить».
+ * Подсказка «Порядок не задан…» / «Оставить этот порядок» — под списком строк (без внешней рамки).
  *   <app-rank [options]="…" [(value)]="order" />
  */
 @Component({
   selector: 'app-rank',
   imports: [Icon],
   template: `
-    @for (o of order(); track o; let i = $index, last = $last) {
-      <div class="rki" draggable="true" [class.drag]="drag() === i" [class.set]="value().length > 0"
-        (dragstart)="drag.set(i)" (dragend)="drag.set(-1)" (dragover)="$event.preventDefault(); over(i)">
-        <app-icon class="rkg" name="grip" />
-        <span class="rkn">{{ i + 1 }}</span>
-        <span class="rkt">{{ o }}</span>
-        <button type="button" class="rkb" title="Выше" [disabled]="i === 0" (click)="move(i, i - 1)"><app-icon name="stepUp" /></button>
-        <button type="button" class="rkb" title="Ниже" [disabled]="last" (click)="move(i, i + 1)"><app-icon name="stepDown" /></button>
-      </div>
-    }
-    <div class="rkst" [class.set]="value().length > 0">
-      @if (value().length) {
-        <span class="rkok"><app-icon name="checkSm" />Порядок задан</span>
-        <button type="button" class="lnk" (click)="value.set([])">Сбросить</button>
-      } @else {
-        <span>Порядок не задан — перетащите варианты или подтвердите текущий</span>
-        <button type="button" class="lnk" (click)="value.set([...options()])">Оставить этот порядок</button>
+    <div class="rkw">
+      @for (o of order(); track o; let i = $index, last = $last) {
+        <div class="rki" draggable="true" [class.drag]="drag() === i" [class.set]="value().length > 0"
+          (dragstart)="drag.set(i)" (dragend)="drag.set(-1)" (dragover)="$event.preventDefault(); over(i)">
+          <app-icon class="rkg" name="grip" />
+          <span class="rkn">{{ i + 1 }}</span>
+          <span class="rkt">{{ o }}</span>
+          <button type="button" class="rkb" title="Выше" [disabled]="i === 0" (click)="move(i, i - 1)"><app-icon name="stepUp" /></button>
+          <button type="button" class="rkb" title="Ниже" [disabled]="last" (click)="move(i, i + 1)"><app-icon name="stepDown" /></button>
+        </div>
       }
+      <div class="rkst" [class.set]="value().length > 0">
+        @if (value().length) {
+          <span class="rkok"><app-icon name="checkSm" />Порядок задан</span>
+          <button type="button" class="lnk" (click)="value.set([])">Сбросить</button>
+        } @else {
+          <span>Порядок не задан — перетащите варианты или подтвердите текущий</span>
+          <button type="button" class="lnk" (click)="value.set([...options()])">Оставить этот порядок</button>
+        }
+      </div>
     </div>
   `,
   host: { class: 'rank', '[class.set]': 'value().length > 0' },

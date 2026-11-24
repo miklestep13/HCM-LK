@@ -10,7 +10,7 @@ import { attachKind, attachSize, nowDmyHm } from './attach.utils';
  *   <app-attach [files]="docs" />                    — просмотр: скопировать ссылку, скачать
  *   <app-attach edit [(files)]="docs" />             — редактирование: зона загрузки, переименовать, удалить, отмена загрузки
  *   <app-attach compact [files]="docs" />            — компактные карточки (плитка 32px, кнопки 28px) — в сайдбарах и списках
- *   <app-attach edit single hint="MP4 до 500 МБ" … /> — один файл: загружен — только карточка (заменить — сначала удалить), нет — только зона загрузки
+ *   <app-attach edit single hint="MP4 до 500 МБ" [maxMb]="500" … /> — один файл; maxMb — лимит проверки (по умолчанию 50)
  * Пока файл грузится — плитка со спиннером («Загружаем…»); занятость — attachBusy(files).
  */
 @Component({
@@ -21,10 +21,10 @@ import { attachKind, attachSize, nowDmyHm } from './attach.utils';
       <div class="dropz sm attdz" [class.over]="over()" (dragover)="$event.preventDefault(); over.set(true)" (dragleave)="leave($event)" (drop)="drop($event)">
         <div class="dzi"><app-icon name="upload" /></div>
         @if (single()) {
-          <b>Перетащите файл сюда</b><small>{{ hint() || 'Один файл до 50 МБ' }}</small>
+          <b>Перетащите файл сюда</b><small>{{ hint() || 'Один файл до ' + maxMb() + ' МБ' }}</small>
           <button class="btn raised" type="button" (click)="pick()">Выбрать файл</button>
         } @else {
-          <b>Перетащите файлы сюда</b><small>{{ hint() || 'PDF, DOCX, XLSX, PPTX, JPG или PNG, до 50 МБ каждый' }}</small>
+          <b>Перетащите файлы сюда</b><small>{{ hint() || 'PDF, DOCX, XLSX, PPTX, JPG или PNG, до ' + maxMb() + ' МБ каждый' }}</small>
           <button class="btn raised" type="button" (click)="pick()">Выбрать файлы</button>
         }
       </div>
@@ -83,6 +83,8 @@ export class Attach {
   readonly single = input(false, { transform: booleanAttribute });
   /** подпись под «Перетащите…» (форматы и размер) */
   readonly hint = input('');
+  /** лимит размера файла, МБ — и в подсказке по умолчанию, и в проверке при загрузке */
+  readonly maxMb = input(50);
   protected readonly pv = inject(AttachPreviewService);
   private readonly toast = inject(ToastService);
   private readonly el: HTMLElement = inject(ElementRef).nativeElement;
@@ -114,10 +116,11 @@ export class Attach {
   }
   /** загрузка: файл появляется сразу, через секунду-другую — готов */
   private add(list: FileList): void {
+    const lim = Math.max(1, +this.maxMb() || 50);
     const add: AttachFile[] = [];
     for (const file of Array.from(list).slice(0, this.single() ? 1 : undefined)) {
-      if (file.size > 50 * 1048576) {
-        this.toast.show('Файл слишком большой', `«${file.name}» больше 50 МБ.`);
+      if (file.size > lim * 1048576) {
+        this.toast.show('Файл слишком большой', `«${file.name}» больше ${lim} МБ.`);
         continue;
       }
       const f: AttachFile = { id: 'f' + Date.now() + Math.random().toString(36).slice(2, 6), name: file.name, size: file.size, st: 'load', url: URL.createObjectURL(file) };

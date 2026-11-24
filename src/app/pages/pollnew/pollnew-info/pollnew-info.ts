@@ -7,7 +7,7 @@ import { NumInput } from '../../../shared/ui/num-input/num-input';
 import { Select } from '../../../shared/ui/select/select';
 import { PollnewState } from '../pollnew.state';
 
-/** Шаг «Общая информация» (без заголовка): наименование и описание; дата начала (обязательная, у нового — сегодня), дата окончания (необязательная), время прохождения в минутах, статус; у теста — проходной балл; внизу — «Сделать опрос анонимным». */
+/** Вкладка «Общая информация»: наименование и описание; время прохождения, даты, статус; у теста — проходной балл; анонимность. */
 @Component({
   selector: '[pollnew-info]',
   imports: [Field, Select, DateField, NumInput],
@@ -19,14 +19,14 @@ import { PollnewState } from '../pollnew.state';
       <app-field label="Описание" full [filled]="!!s.d()">
         <textarea class="fta" rows="4" placeholder="Зачем проводится опрос и как будут использованы результаты" [value]="s.d()" (input)="s.d.set($any($event.target).value)"></textarea>
       </app-field>
+      <app-field label="Время прохождения" [filled]="!!s.dur()">
+        <app-num-input [min]="1" [max]="240" placeholder="В минутах, например 10" [value]="s.dur()" (valueChange)="s.dur.set($event)" />
+      </app-field>
       <app-field label="Дата начала" required [filled]="!!s.start()" [error]="s.isBad('start') && !s.start()">
         <app-date-field [value]="s.start()" (valueChange)="s.start.set($event)" />
       </app-field>
       <app-field label="Дата окончания" [filled]="!!s.end()" [error]="s.isBad('end')">
         <app-date-field [value]="s.end()" (valueChange)="s.end.set($event)" />
-      </app-field>
-      <app-field label="Время прохождения" [filled]="!!s.dur()">
-        <app-num-input [min]="1" [max]="240" placeholder="В минутах, например 10" [value]="s.dur()" (valueChange)="s.dur.set($event)" />
       </app-field>
       <app-field label="Статус" filled>
         <app-select [options]="statuses" [value]="s.status()" (valueChange)="s.status.set($any($event))" />
@@ -36,7 +36,6 @@ import { PollnewState } from '../pollnew.state';
           <app-num-input [min]="1" [max]="100" [value]="'' + s.pass()" (valueChange)="s.pass.set(+$event)" />
         </app-field>
       }
-      <!-- внизу формы — тумблер слева от подписи, 14 обычным -->
       <div class="fld full">
         <label class="swt pnanon"
           ><input type="checkbox" [checked]="s.anon()" (change)="s.anon.set($any($event.target).checked)" /><i></i

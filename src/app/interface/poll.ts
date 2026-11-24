@@ -1,7 +1,7 @@
 import { AudGroup } from './audience';
 import { Member } from './member';
 
-/** Опрос в разделе HR «Управление персоналом → Опросы» */
+/** Опрос в разделе HR «Управление персоналом → Опросы → Список опросов» */
 export interface Poll {
   /** номер опроса (у копий и новых — следующий свободный) */
   idx: number;
@@ -93,7 +93,7 @@ export interface PollQuestion {
   rows: string[];
   /** единица значения ползунка («%»): slider */
   unit: string;
-  /** «Другое» с полем ввода: single, multi */
+  /** устар.: «Другое» (в редакторе опроса больше не настраивается) */
   other: boolean;
   /** рейтинг: шкала 3, 5, 10 или 11 (0–10) и вид — звезды или числа */
   scale: number;
@@ -101,17 +101,18 @@ export interface PollQuestion {
   /** подписи краев шкалы: rating, enps, slider */
   lo: string;
   hi: string;
-  /** подсказка в поле и максимум символов: long, short; типы файлов и размер, МБ: file */
+  /** подсказка в поле: long, short; допустимые типы файлов: file */
   ph: string;
+  /** максимум символов (устар. в редакторе) или размер файла, МБ: file */
   max: string;
-  /** формат строки: short */
+  /** формат строки (устар.) или id вида загрузки: file (doc / img / …) */
   fmt: string;
   /** тест: номера верных вариантов (single, multi, yesno, drop); у ранжирования верный порядок — порядок opts */
   ok?: number[];
-  /** минимум и максимум выбранных: multi; границы шкалы: slider */
+  /** границы шкалы: slider (раньше — min/max выбранных у multi) */
   mn: string;
   mx: string;
-  /** поиск по списку: drop */
+  /** устар.: поиск по списку у drop */
   srch: boolean;
   /** под ответом — поле «Комментарий» */
   cmt?: boolean;

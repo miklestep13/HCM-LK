@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, booleanAttribute, computed, input, 
 const OTHER = 'Другое';
 
 /**
- * Список вариантов: один ответ (радиокнопки) или несколько (чек-боксы, multi).
+ * Список вариантов: один ответ (радиокнопки) или несколько (чек-боксы, multi) — строки-плашки на всю ширину.
  * max — не больше N вариантов (остальные блокируются), other — «Другое» с полем ввода (текст — otherText).
  *   <app-choice [options]="…" [(value)]="v" />  ·  <app-choice multi [max]="3" other [options]="…" [(value)]="arr" [(otherText)]="t" />
  */

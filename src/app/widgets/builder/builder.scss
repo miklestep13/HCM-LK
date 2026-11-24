@@ -31,15 +31,16 @@
   gap: 16px;
   align-items: start;
 }
-/* без структуры слева — модуль на всю ширину */
+/* без структуры слева — модуль на всю ширину колонки */
 .bld .bldgrid.notree {
   grid-template-columns: minmax(0, 1fr);
 }
-/* опрос: редактор — узкой колонкой 760 px по центру, как прохождение опроса и предпросмотр */
+/* опрос: редактор — колонка 760 px по центру, как прохождение (#/survey?sv=s3 .svnarrow) и предпросмотр */
 .bld .bldgrid.narrow {
   max-width: 760px;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
 }
 .bld .bldtree {
   /* прилипают под шапкой сайта (как колонка «Новостей») */
@@ -798,7 +799,7 @@
 .bld .bldbs {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px 16px;
+  gap: 20px 16px;
   align-items: start;
   margin-top: 16px;
   padding-top: 16px;
@@ -894,11 +895,12 @@
   display: none;
 }
 
-/* переключатели вопроса — в одну строку */
+/* переключатели вопроса — в одну строку; под ними — больший отступ до полей (Шкала и др.) */
 .bld .bldsws {
   display: flex;
   flex-wrap: wrap;
   gap: 12px 32px;
+  margin-bottom: 4px;
 }
 
 /* ——— курс: виды модулей, настройки модуля, шаблоны модулей ——— */
@@ -1092,20 +1094,31 @@
   height: 26px;
 }
 
-/* ——— предпросмотр опроса: как страница прохождения опроса (pages/survey) ——— */
+/* ——— предпросмотр опроса: как #/survey?sv=s3 — шапка, вопросы и «Завершить» колонкой 760 px по центру ——— */
 .bld .bldsv {
   display: block;
 }
-/* узкий вид прохождения опроса: шапка, вопросы и «Завершить» — колонкой 760 px по центру */
 .bld .bldsv > * {
   max-width: 760px;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
-/* ответы — на всю ширину колонки, кроме «Да / Нет» */
-.bld .bldsv .sqa :is(.choice, .rank, .slider, .sqin, .sqsel, .sqdt, .sqta) {
+/* ответы — на всю ширину колонки (choice/rank без display:block — иначе ломается раскладка) */
+.bld .bldsv .sqa :is(.choice, .rank, .slider, .scale, .sqin, .sqsel, .sqdt, .sqta, app-attach) {
   width: 100%;
   max-width: none;
+  min-width: 0;
+}
+.bld .bldsv .sqa :is(.slider, .scale, .sqin, .sqsel, .sqdt, .sqta, app-attach) {
+  display: block;
+}
+.bld .bldsv .sqa .scale:not(.txt) .scl {
+  width: 100%;
+}
+.bld .bldsv .sqa .scale:not(.txt) .sclb {
+  flex: 1 1 0;
+  width: auto;
   min-width: 0;
 }
 .bld .bldsvanon {
