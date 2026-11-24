@@ -4,7 +4,7 @@ import { Tooltip } from '../../../shared/ui/tooltip/tooltip';
 import { PollsState } from '../polls.state';
 
 /**
- * Таблица опросов: название (под ним — «Анонимный»), даты, время прохождения, статус; справа — изменить, по образцу, удалить.
+ * Таблица опросов: название (под ним — «Анонимный»), время прохождения, даты, статус; справа — изменить, по образцу, удалить.
  */
 @Component({
   selector: '[polls-table]',
@@ -36,9 +36,9 @@ import { PollsState } from '../polls.state';
                   <small class="svsub">Анонимный</small>
                 }
               </td>
+              <td class="gr num">{{ s.durLabel(p) }}</td>
               <td class="gr">{{ p.start }}</td>
               <td class="gr">{{ p.end }}</td>
-              <td class="gr num">{{ s.durLabel(p) }}</td>
               <td><span class="bdg" [class.ok]="live === 'Действует'">{{ live }}</span></td>
               <td class="tact">
                 <span class="acts">
@@ -62,9 +62,9 @@ export class PollsTable {
   protected readonly num = ['dur'];
   protected readonly cols: [string, string, number?][] = [
     ['n', 'Наименование'],
+    ['dur', 'Время прохождения', 160],
     ['start', 'Дата начала', 125],
     ['end', 'Дата окончания', 145],
-    ['dur', 'Время прохождения', 160],
     ['st', 'Статус', 140],
   ];
 }
