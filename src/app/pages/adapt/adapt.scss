@@ -1226,13 +1226,13 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 4px;
+  gap: 4px 8px;
   border-bottom: 1px solid var(--stroke);
   padding: 0 24px;
 }
 .pg-adapt .ctabs > span {
   font: var(--q-font-ui-headline-4);
-  padding: 8px 12px 12px;
+  padding: 8px 12px;
   color: var(--q-page-text-ui);
   cursor: pointer;
   border-bottom: 2px solid transparent;
@@ -1242,8 +1242,10 @@
   border-radius: 0;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   white-space: nowrap;
+  min-height: 40px;
+  box-sizing: border-box;
 }
 .pg-adapt .ctabs > span:hover {
   color: var(--blue);
@@ -1253,17 +1255,16 @@
   border-bottom-color: var(--blue);
   background: none;
 }
-/* правка / удаление / добавление этапа у табов */
+/* карандаш и корзина — одна линия с подписью таба */
 .pg-adapt .ctabs .ad-sted,
-.pg-adapt .ctabs .ad-stdel,
-.pg-adapt .ctabs .ad-stadd {
+.pg-adapt .ctabs .ad-stdel {
   width: 24px;
   height: 24px;
-  margin: -2px 0 0;
+  margin: 0;
+  flex-shrink: 0;
   color: var(--q-base-500);
 }
-.pg-adapt .ctabs .ad-sted:hover,
-.pg-adapt .ctabs .ad-stadd:hover {
+.pg-adapt .ctabs .ad-sted:hover {
   color: var(--blue);
   background: var(--blue-bg);
 }
@@ -1272,10 +1273,15 @@
   background: var(--q-error-50);
 }
 .pg-adapt .ctabs .ad-sted svg,
-.pg-adapt .ctabs .ad-stdel svg,
-.pg-adapt .ctabs .ad-stadd svg {
+.pg-adapt .ctabs .ad-stdel svg {
   width: 14px;
   height: 14px;
+}
+/* «Добавить этап» — на одной линии с табами */
+.pg-adapt .ctabs .ad-stadd {
+  flex-shrink: 0;
+  align-self: center;
+  margin: 0 0 1px;
 }
 /* меньше зазор между поиском и карточками задач */
 .pg-adapt .ipsect > .ftbar {
