@@ -48,9 +48,6 @@ import { PollsState } from '../polls.state';
                 </span>
               </td>
             </tr>
-          } @empty {
-            <tr><td colspan="6" class="empty sm">Опросов нет</td></tr>
-          }
         </tbody>
       </table>
     </div>

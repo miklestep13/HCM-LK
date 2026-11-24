@@ -28,11 +28,7 @@
 .pg-polls table.tbl :is(th, td):last-child {
   padding-right: 0px;
 }
-.pg-polls .tbl tr:last-child td {
-  border-bottom-width: medium;
-  border-bottom-style: none;
-  border-bottom-color: currentcolor;
-}
+/* без пагинации — у последней строки линии нет; с .plbox — линия у pager */
 .pg-polls .tbl td b {
   font: var(--q-font-ui-headline-4);
   color: var(--t1);
@@ -169,9 +165,54 @@
 .pg-polls .mtccnt {
   margin-top: 16px;
 }
-.pg-polls .c .tbl tbody > tr:not(.hidden):not(:has(~ tr:not(.hidden):not([hidden]))) > td {
-  padding-bottom: 0px;
-  border-bottom: 0px;
+/* таблица + пагинация в одном .cb: линия у pager, у последней строки больше padding снизу — hover не обрезается */
+.pg-polls .plbox {
+  padding-top: 4px;
+}
+.pg-polls .plbox .tw {
+  overflow-x: auto;
+  overflow-y: visible;
+}
+.pg-polls .plbox .tbl tbody > tr:last-child > td {
+  border-bottom: none;
+  padding-bottom: 16px;
+}
+.pg-polls .plbox .pgr {
+  border-top: 1px solid var(--stroke);
+  padding-top: 12px;
+  margin-top: 0;
+}
+/* пустой список: иконка X в голубом квадрате */
+.pg-polls .empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  text-align: center;
+}
+.pg-polls .wipi {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+}
+.pg-polls .wipi app-icon,
+.pg-polls .wipi svg {
+  width: 26px;
+  height: 26px;
+}
+.pg-polls .empty b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+.pg-polls .empty small {
+  max-width: 420px;
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
 }
 .pg-polls .av {
   width: 26px;
