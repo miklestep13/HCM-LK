@@ -1218,7 +1218,11 @@
   font: var(--q-font-ui-description-1);
   color: var(--q-base-500);
 }
-.pg-adapt .ctabs {
+/* меньше зазор между шапкой «Задачи» и табами этапов (глобальный .c > .ctabs даёт 12 сверху) */
+.pg-adapt .ipsect > .ch:has(+ .ctabs) {
+  padding-bottom: 4px;
+}
+.pg-adapt.pg-adapt .c > .ctabs {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
