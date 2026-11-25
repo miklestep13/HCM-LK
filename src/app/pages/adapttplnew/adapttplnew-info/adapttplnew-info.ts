@@ -6,7 +6,7 @@ import { AdapttplnewState } from '../adapttplnew.state';
 
 /**
  * Блок «Основная информация» без заголовка: наименование, описание;
- * ответственный и правило назначения — в один ряд (~50 % каждое).
+ * ответственный и должность — в один ряд (~50 % каждое).
  */
 @Component({
   selector: '[adapttplnew-info]',
@@ -38,8 +38,14 @@ import { AdapttplnewState } from '../adapttplnew.state';
           placeholder="Выберите сотрудника"
         />
       </app-field>
-      <app-field label="Правило назначения" [filled]="!!s.rule()">
-        <app-select [options]="s.rules" [value]="s.rule()" (valueChange)="s.rule.set($event)" />
+      <app-field label="Должность" [filled]="!!s.role()">
+        <app-select
+          placeholder="Выберите должность"
+          [search]="true"
+          [options]="s.roles"
+          [value]="s.role()"
+          (valueChange)="s.role.set($event)"
+        />
       </app-field>
     </div>
   `,

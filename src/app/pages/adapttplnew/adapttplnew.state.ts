@@ -1,25 +1,20 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { NavService } from '../../core/navigation/nav.service';
+import { AUD_FIELDS } from '../../data/audience.data';
 import { PEOPLE } from '../../data/people.data';
 import { AdaptTemplateRow } from '../../interface/adapt-template';
 import { PickPerson } from '../../shared/ui/emp-pick/emp-pick';
 import { ToastService } from '../../shared/ui/toast/toast.service';
 import { AdapttplState } from '../adapttpl/adapttpl.state';
 
-/** Правила назначения шаблона плана адаптации (демо). */
-export const ADAPT_TPL_RULES = [
-  'Без правила',
-  'Все новые сотрудники',
-  'Новые сотрудники подразделения',
-  'По должности',
-  'По условиям отбора',
-];
-
 /** Ответственные: сотрудники из демо-пула (аватар + ФИО + должность). */
 export const ADAPT_TPL_OWNERS: PickPerson[] = PEOPLE.map(([name, post, , av]) => ({ name, post, av: +av || 1 }));
 
+/** Должности для шаблона — справочник отбора участников. */
+export const ADAPT_TPL_ROLES = AUD_FIELDS['Должность'] ?? [];
+
 /**
- * Форма «Добавление шаблона плана адаптации»: наименование, описание, ответственный, правило назначения.
+ * Форма «Добавление шаблона плана адаптации»: наименование, описание, ответственный, должность.
  * Задачи и цели правятся через AdaptStore на странице.
  */
 @Injectable()
@@ -32,11 +27,12 @@ export class AdapttplnewState {
   readonly desc = signal('');
   /** один ответственный — EmpPick с ограничением до одного */
   readonly owner = signal<string[]>([]);
-  readonly rule = signal(ADAPT_TPL_RULES[0]);
+  /** должность, для которой шаблон */
+  readonly role = signal('');
   readonly bad = signal(false);
 
   readonly people = ADAPT_TPL_OWNERS;
-  readonly rules = ADAPT_TPL_RULES;
+  readonly roles = ADAPT_TPL_ROLES;
 
   /** EmpPick — мультивыбор; оставляем только последнего выбранного. */
   setOwner(names: string[]): void {

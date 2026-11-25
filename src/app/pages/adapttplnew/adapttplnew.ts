@@ -4,7 +4,6 @@ import { DevPanelService, devValue } from '../../core/layout/dev-panel/dev-panel
 import { NavService } from '../../core/navigation/nav.service';
 import { ConfirmService } from '../../shared/ui/confirm/confirm.service';
 import { PageHead } from '../../shared/ui/page-head/page-head';
-import { Seg } from '../../shared/ui/seg/seg';
 import { ToastService } from '../../shared/ui/toast/toast.service';
 import { IprTaskAct } from '../../widgets/ipr-task-card/ipr-task-card';
 import { AdaptGoals } from '../adapt/adapt-goals/adapt-goals';
@@ -19,16 +18,14 @@ type Demo = 'empty' | 'filled';
 
 /**
  * «Управление персоналом → Адаптация → Шаблоны плана адаптации → Добавить»
- * (pg-adapttplnew): основная информация, задачи и цели; демо empty|filled (?demo=… / сегмент / панель «Демо»).
+ * (pg-adapttplnew): основная информация, задачи и цели; демо empty|filled (?demo=… / панель «Демо»).
  */
 @Component({
   selector: 'app-adapttplnew',
-  imports: [PageHead, Seg, AdapttplnewInfo, AdaptTasks, AdaptGoals, AdaptTaskForm, AdaptStageForm],
+  imports: [PageHead, AdapttplnewInfo, AdaptTasks, AdaptGoals, AdaptTaskForm, AdaptStageForm],
   providers: [AdapttplnewState, AdaptStore, { provide: IprStore, useExisting: AdaptStore }],
   template: `
-    <app-page-head title="Добавление шаблона плана адаптации" backTo="adapttpl" backLabel="К шаблонам">
-      <app-seg [options]="demoOpts" [value]="mode()" (valueChange)="setDemo($event)" />
-    </app-page-head>
+    <app-page-head title="Добавление шаблона плана адаптации" backTo="adapttpl" backLabel="К шаблонам" />
     <div class="atn-body">
       <div adapttplnew-info></div>
       <div adapt-tasks (add)="taskForm.set(-1)" (editStage)="stageForm.set($event)" (act)="onTask($event)"></div>
@@ -53,7 +50,7 @@ type Demo = 'empty' | 'filled';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Adapttplnew {
-  /** параметр адреса: empty | filled (по умолчанию filled) */
+  /** параметр адреса: empty | filled (по умолчанию filled); сегмент в шапке убран — переключение через ?demo= / панель «Демо» */
   readonly demo = input<string>('filled');
   protected readonly form = inject(AdapttplnewState);
   private readonly s = inject(AdaptStore);
@@ -64,10 +61,6 @@ export class Adapttplnew {
   protected readonly taskForm = signal<number | null>(null);
   protected readonly stageForm = signal<number | null>(null);
   protected readonly mode = signal<Demo>('filled');
-  protected readonly demoOpts: { value: Demo; label: string }[] = [
-    { value: 'filled', label: 'Заполненный' },
-    { value: 'empty', label: 'Пустой' },
-  ];
 
   constructor() {
     this.s.arole.set('mgr');
@@ -94,7 +87,7 @@ export class Adapttplnew {
     });
   }
 
-  /** сегмент или панель «Демо» — пишем в адрес, effect подхватит */
+  /** панель «Демо» — пишем в адрес, effect подхватит */
   protected setDemo(v: Demo): void {
     this.nav.go('adapttplnew', v === 'filled' ? {} : { demo: v });
   }
