@@ -4,6 +4,7 @@ import { Icon } from '../icon/icon';
 /**
  * Поле-число со стрелками прототипа (.numin): ввод только цифр, справа — «больше» / «меньше» (шаг 1, в пределах min…max).
  * Значение — строка ('' — пусто), как у обычного поля.
+ * unit — единица справа бейджем (например «дн.»).
  *   <app-field label="Количество попыток" [filled]="!!n()"><app-num-input [min]="1" [(value)]="n" /></app-field>
  */
 @Component({
@@ -11,6 +12,9 @@ import { Icon } from '../icon/icon';
   imports: [Icon],
   template: `
     <input class="fin" inputmode="numeric" [placeholder]="placeholder()" [value]="value()" (input)="type($event)" />
+    @if (unit()) {
+      <span class="bdg sm numunit">{{ unit() }}</span>
+    }
     <span class="nustep"
       ><button type="button" class="nub" title="Больше" aria-label="Больше" (click)="step(1)"><app-icon name="stepUp" /></button
       ><button type="button" class="nub" title="Меньше" aria-label="Меньше" (click)="step(-1)"><app-icon name="stepDown" /></button
@@ -24,6 +28,8 @@ export class NumInput {
   readonly min = input<number | null>(null);
   readonly max = input<number | null>(null);
   readonly placeholder = input('');
+  /** единица измерения справа бейджем, например «дн.» */
+  readonly unit = input('');
   /** ввод: только цифры (и минус, если min не задан или меньше нуля) */
   protected type(e: Event): void {
     const f = e.target as HTMLInputElement;

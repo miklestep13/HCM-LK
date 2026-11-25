@@ -1401,6 +1401,13 @@ input[type='number']::-webkit-outer-spin-button {
   padding: 0px 8px 0px 12px;
   border-radius: 0px;
 }
+/* единица измерения справа в поле-числе (бейдж «дн.» и т. п.) */
+.numin > .numunit {
+  align-self: center;
+  flex: none;
+  margin-right: 8px;
+  pointer-events: none;
+}
 .nustep {
   display: flex;
   flex-direction: column;

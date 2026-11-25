@@ -32,7 +32,7 @@ import { AdaptStore } from '../adapt-store';
           />
         </app-field>
         <app-field label="Длительность этапа" required full [filled]="!!days()" [error]="bad() && !+days()">
-          <app-num-input [min]="1" [max]="365" placeholder="Дней" [(value)]="days" />
+          <app-num-input [min]="1" [max]="365" unit="дн." [(value)]="days" />
         </app-field>
       </div>
       @if (index() >= 0 && canDel()) {

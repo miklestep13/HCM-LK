@@ -124,9 +124,9 @@ export const WIDGETS: WidgetInfo[] = [
   {
     key: 'ipr-task-card',
     title: 'Задача ИПР',
-    use: '<div ipr-task-card [task] [index] [status]></div>',
-    desc: 'Задача плана развития: название, бейджи выполнения и просрочки, результат, материалы, компетенции, действия по статусу.',
-    pages: ['ИПР', 'Бланк аттестации — ИПР'],
+    use: '<div ipr-task-card [task] [index] [status] [showAuthor] [showDoneAt] [dueText]></div>',
+    desc: 'Задача плана развития: название, бейджи выполнения и просрочки, результат, материалы, компетенции, действия по статусу. На адаптации: showAuthor=false, showDoneAt=false, dueText — длительность этапа («7 дней»).',
+    pages: ['ИПР', 'Бланк аттестации — ИПР', 'Адаптация'],
   },
   {
     key: 'ipr-task-form',

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, output, signal } from '@angular/core';
-import { iprSortTasks, iprTaskSt } from '../../../core/demo/ipr-store.service';
+import { iprPl, iprSortTasks, iprTaskSt } from '../../../core/demo/ipr-store.service';
 import { AdaptTask } from '../../../data/adapt.data';
 import { LEARN_COURSES } from '../../../data/learn.data';
 import { IprTask } from '../../../interface/ipr';
@@ -90,6 +90,9 @@ const rangeOn = (r: DateRange) => !!(r.a || r.b);
               [mgr]="s.isMgr()"
               [rate]="s.att()[r.i]"
               [cm]="(s.comments()[r.i] || []).length"
+              [showAuthor]="false"
+              [showDoneAt]="false"
+              [dueText]="stageDays(r.t)"
               runIcon="checkSquare"
               runTitle="Завершить задачу"
               (act)="act.emit($event)"
@@ -189,6 +192,14 @@ export class AdaptTasks {
     if (this.filtered()) return 'Измените поиск или фильтры.';
     return this.s.editable() ? 'Добавьте задачу в этот этап или выберите другой.' : 'В этом этапе нет задач.';
   });
+
+  /** срок в карточке — длительность этапа задачи («7 дней») */
+  protected stageDays(t: IprTask): string {
+    const name = stageOf(t);
+    const st = this.s.stages().find((x) => x.name === name);
+    const n = st?.days ?? 0;
+    return n + ' ' + iprPl(n, 'день', 'дня', 'дней');
+  }
 
   protected flip(k: Chip): void {
     this.f.update((s) => {

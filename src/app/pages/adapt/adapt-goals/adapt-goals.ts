@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, booleanAttribute, effect, inject, input, signal } from '@angular/core';
+import { NavService } from '../../../core/navigation/nav.service';
 import { ADAPT_GOALS, AdaptGoal } from '../../../data/adapt.data';
 import { GOAL_COLORS } from '../../../data/goals.data';
 import { ConfirmService } from '../../../shared/ui/confirm/confirm.service';
@@ -83,8 +84,6 @@ import { Tooltip } from '../../../shared/ui/tooltip/tooltip';
                 ><svg viewBox="0 0 16 16" fill="none"><path d="M2.6 11.4a5.6 5.6 0 1 1 10.8 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /><path d="M8 10.2 10.6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" /><circle cx="8" cy="10.4" r="1.2" fill="currentColor" /></svg
                 ><b>{{ g.kind }}</b></span
               >
-              <span class="glmi" appTip="Срок сдачи"><app-icon name="calSm" /><b>до {{ g.due }}</b></span>
-              <span class="glmi" appTip="Заказчик"><app-icon name="user" /><b>{{ g.who }}</b></span>
             </div>
           </div>
           <span class="glgr">
@@ -111,6 +110,7 @@ import { Tooltip } from '../../../shared/ui/tooltip/tooltip';
 export class AdaptGoals {
   private readonly toast = inject(ToastService);
   private readonly confirm = inject(ConfirmService);
+  private readonly nav = inject(NavService);
   /** без целей — empty state (форма шаблона, демо empty) */
   readonly empty = input(false, { transform: booleanAttribute });
   protected readonly goals = signal<AdaptGoal[]>([]);
@@ -137,7 +137,7 @@ export class AdaptGoals {
   }
 
   protected add(): void {
-    this.toast.show('Скоро', 'Добавление цели на испытательный срок — в разработке.');
+    this.nav.go('mygoalnew', { lvl: 'Индивидуальная', ev: 'draft' });
   }
 
   protected open(_i: number): void {

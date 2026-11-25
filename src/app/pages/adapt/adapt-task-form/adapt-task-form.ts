@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, input, output, signal } from '@angular/core';
-import { AdaptTask } from '../../../data/adapt.data';
+import { iprPl } from '../../../core/demo/ipr-store.service';
+import { AdaptStage, AdaptTask } from '../../../data/adapt.data';
 import { IPR_ARTICLES } from '../../../data/ipr.data';
 import { LEARN_COURSES } from '../../../data/learn.data';
 import { IprTask } from '../../../interface/ipr';
@@ -12,8 +13,8 @@ import { AdaptStore } from '../adapt-store';
 const NONE = '—';
 
 /**
- * Сайдбар «Добавление задачи» / «Задача адаптации»: формулировка, результат, этап (select),
- * «Выполнить до» — только чтение (считается от этапа), способы развития. Без компетенций.
+ * Сайдбар «Добавление задачи» / «Задача адаптации»: формулировка, результат,
+ * этап с длительностью в списке. Срок считается от этапа, поле «Выполнить до» не показываем. Без компетенций.
  */
 @Component({
   selector: 'app-adapt-task-form',
@@ -28,10 +29,7 @@ const NONE = '—';
           <textarea class="fta" rows="3" placeholder="Чем подтверждается результат" [value]="res()" [disabled]="ro" (input)="res.set($any($event.target).value)"></textarea>
         </app-field>
         <app-field label="Этап" required full [filled]="!!stage()" [class.dis]="ro">
-          <app-select [class.dis]="ro" [options]="stageOpts()" [value]="stage()" (valueChange)="setStage($event)" />
-        </app-field>
-        <app-field label="Выполнить до" required full filled class="dis">
-          <input class="fin" [value]="due()" disabled />
+          <app-select [class.dis]="ro" [options]="stageOpts()" [value]="stageOpt()" (valueChange)="setStage($event)" />
         </app-field>
         <div class="ipsec full">
           <div class="ipsech">Способы развития</div>
@@ -82,14 +80,17 @@ export class AdaptTaskForm implements OnInit {
   protected readonly t = signal('');
   protected readonly res = signal('');
   protected readonly stage = signal('');
-  protected readonly due = signal('');
   protected readonly crs = signal('');
   protected readonly link = signal('');
   protected readonly art = signal('');
   protected readonly done = signal(false);
   protected readonly note = signal('');
 
-  protected readonly stageOpts = computed(() => this.s.stages().map((x) => x.name));
+  protected readonly stageOpts = computed(() => this.s.stages().map((x) => this.label(x)));
+  protected readonly stageOpt = computed(() => {
+    const st = this.s.stages().find((x) => x.name === this.stage());
+    return st ? this.label(st) : this.stage();
+  });
 
   ngOnInit(): void {
     const i = this.index(),
@@ -101,7 +102,6 @@ export class AdaptTaskForm implements OnInit {
     this.res.set(t?.res ?? '');
     const st = t?.stage || this.s.nextStage || this.s.stages()[0]?.name || '';
     this.stage.set(st);
-    this.due.set(st ? this.s.dueFor(st) : t?.due ?? '');
     this.crs.set(t?.crs ? (LEARN_COURSES[t.crs]?.t ?? '') : '');
     this.link.set(t?.link ?? '');
     this.art.set(t?.art ?? '');
@@ -109,17 +109,17 @@ export class AdaptTaskForm implements OnInit {
     this.note.set(t?.note ?? '');
   }
 
-  protected setStage(name: string): void {
-    this.stage.set(name);
-    if (name) this.due.set(this.s.dueFor(name));
+  protected setStage(opt: string): void {
+    const st = this.s.stages().find((x) => this.label(x) === opt || x.name === opt);
+    this.stage.set(st?.name || '');
   }
 
   protected save(): void {
     const t = this.t().trim(),
       res = this.res().trim(),
-      stage = this.stage().trim(),
-      due = this.due().trim();
+      stage = this.stage().trim();
     if (!t || !res || !stage) return this.toast.show('Задание', 'Заполните формулировку, ожидаемый результат и этап.');
+    const due = this.s.dueFor(stage);
     const o = this.src,
       crs = this.crs() ? Object.keys(LEARN_COURSES).find((k) => LEARN_COURSES[k].t === this.crs()) : undefined;
     const nt: AdaptTask = {
@@ -140,5 +140,9 @@ export class AdaptTaskForm implements OnInit {
     this.s.saveTask(this.index(), nt as IprTask);
     this.closed.emit();
     this.toast.show('Сохранено', nt.t);
+  }
+
+  private label(s: AdaptStage): string {
+    return s.name + ' · ' + s.days + ' ' + iprPl(s.days, 'день', 'дня', 'дней');
   }
 }

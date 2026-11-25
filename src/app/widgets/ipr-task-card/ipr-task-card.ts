@@ -60,7 +60,16 @@ export interface IprTaskAct {
         }
       </div>
       <div class="iprm">
-        <span [class.dgt]="over()"><app-icon name="calendar" />до {{ t.due }}{{ t.done && t.doneAt ? ' · выполнена ' + t.doneAt : '' }}</span>
+        <span [class.dgt]="!dueText() && over()">
+          <app-icon name="calendar" />
+          @if (dueText(); as d) {
+            {{ d }}
+          } @else {
+            до {{ t.due }}@if (showDoneAt() && t.done && t.doneAt) {
+              · выполнена {{ t.doneAt }}
+            }
+          }
+        </span>
         @if (run() && t.crs && !t.done) {
           <span>Обучение · закроется после прохождения курса</span>
         }
@@ -70,7 +79,9 @@ export interface IprTaskAct {
         @if (t.comps.length) {
           <span class="ipmc"><app-icon name="docLines" />{{ t.comps.length }} {{ pl(t.comps.length, 'компетенция', 'компетенции', 'компетенций') }}</span>
         }
-        <span class="ipmx"><app-icon name="userXs" />{{ t.by }}</span>
+        @if (showAuthor()) {
+          <span class="ipmx"><app-icon name="userXs" />{{ t.by }}</span>
+        }
       </div>
     </div>
     <span class="iprr">
@@ -131,6 +142,12 @@ export class IprTaskCard {
   readonly runTitle = input('Выполнение задачи');
   /** показывать кнопку выполнения задачи (на ИПР HR — нет) */
   readonly canRun = input(true, { transform: booleanAttribute });
+  /** автор в мета-строке (на адаптации шаблона — нет) */
+  readonly showAuthor = input(true, { transform: booleanAttribute });
+  /** «· выполнена дд.мм.гггг» после срока */
+  readonly showDoneAt = input(true, { transform: booleanAttribute });
+  /** свой текст срока вместо «до …» (например «7 дней» от этапа) */
+  readonly dueText = input<string | null>(null);
   readonly act = output<IprTaskAct>();
 
   protected readonly rates = IPR_RATES;
