@@ -1054,14 +1054,10 @@
 .pg-adapt .ad-ht h3 {
   flex: none;
 }
-.pg-adapt .ad-head,
-.pg-adapt .ad-goals {
+.pg-adapt .ad-head {
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-.pg-adapt .ad-goals {
-  padding: 24px;
 }
 .pg-adapt .ad-title {
   display: flex;
@@ -1222,14 +1218,21 @@
   font: var(--q-font-ui-description-1);
   color: var(--q-base-500);
 }
-.pg-adapt .ctabs {
+/* меньше зазор между шапкой «Задачи» и табами этапов (глобальный .c > .ctabs даёт 12 сверху) */
+.pg-adapt .ipsect > .ch:has(+ .ctabs) {
+  padding-bottom: 4px;
+}
+.pg-adapt.pg-adapt .c > .ctabs {
   display: flex;
-  gap: 4px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
   border-bottom: 1px solid var(--stroke);
+  padding: 0 24px;
 }
 .pg-adapt .ctabs > span {
   font: var(--q-font-ui-headline-4);
-  padding: 8px 12px 12px;
+  padding: 8px 12px;
   color: var(--q-page-text-ui);
   cursor: pointer;
   border-bottom: 2px solid transparent;
@@ -1239,8 +1242,10 @@
   border-radius: 0;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   white-space: nowrap;
+  min-height: 40px;
+  box-sizing: border-box;
 }
 .pg-adapt .ctabs > span:hover {
   color: var(--blue);
@@ -1249,6 +1254,85 @@
   color: var(--blue);
   border-bottom-color: var(--blue);
   background: none;
+}
+/* карандаш и корзина — одна линия с подписью таба */
+.pg-adapt .ctabs .ad-sted,
+.pg-adapt .ctabs .ad-stdel {
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  flex-shrink: 0;
+  color: var(--q-base-500);
+}
+.pg-adapt .ctabs .ad-sted:hover {
+  color: var(--blue);
+  background: var(--blue-bg);
+}
+.pg-adapt .ctabs .ad-stdel:hover {
+  color: var(--q-error-500);
+  background: var(--q-error-50);
+}
+.pg-adapt .ctabs .ad-sted svg,
+.pg-adapt .ctabs .ad-stdel svg {
+  width: 14px;
+  height: 14px;
+}
+/* «Добавить этап» — текстовая (onbg), плюс справа; «Добавить» задачу — синяя pri */
+.pg-adapt .ctabs .ad-stadd {
+  flex-shrink: 0;
+  align-self: center;
+  margin: 0 0 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.pg-adapt .ctabs .ad-stadd svg {
+  width: 14px;
+  height: 14px;
+}
+/* пустой список задач / целей — как в реестрах */
+.pg-adapt .ipsect .empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  text-align: center;
+}
+.pg-adapt .ipsect .wipi {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+}
+.pg-adapt .ipsect .wipi app-icon,
+.pg-adapt .ipsect .wipi svg {
+  width: 26px;
+  height: 26px;
+}
+.pg-adapt .ipsect .empty b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+.pg-adapt .ipsect .empty small {
+  max-width: 420px;
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+/* меньше зазор между поиском и карточками задач */
+.pg-adapt .ipsect > .ftbar {
+  padding-bottom: 8px;
+}
+.pg-adapt .ipsect > .ftbar + .cb.iptcb {
+  padding-top: 0;
+}
+.pg-adapt .ipsect > .ftbar + .cb.iptcb .iplist {
+  margin-top: 0;
 }
 .pg-adapt .ad-bnr {
   position: relative;
@@ -1319,84 +1403,160 @@
   width: 16px;
   height: 16px;
 }
-.pg-adapt .ad-ghead {
-  display: flex;
-  flex-direction: column;
-  gap: 31px;
-}
-.pg-adapt .ad-glist {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.pg-adapt .ad-sub {
-  display: flex;
+/* блок «Цели»: шапка как на карте целей + карточки «Заведение целей» */
+.pg-adapt .ipsect > .ch {
   align-items: center;
   gap: 8px;
-  padding-top: 16px;
 }
-.pg-adapt .ad-sub h3 {
-  margin: 0;
-  font: var(--q-font-ui-headline-3);
-  color: var(--q-content-text);
+.pg-adapt .ipsect > .ch .ipcol {
+  margin-left: -8px;
 }
-.pg-adapt .ad-gcard {
+.pg-adapt .ipsect > .ch .ipcol svg,
+.pg-adapt .ipsect > .ch .ipcol app-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.15s;
+}
+.pg-adapt .glsecb {
+  margin-left: auto;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 16px;
-  border: 1px solid var(--stroke);
-  border-radius: 12px;
+  gap: 8px;
 }
-.pg-adapt .ad-gt {
+.pg-adapt .c > .cb.iptcb {
+  padding-top: 4px;
+}
+.pg-adapt .glgoal {
+  align-items: flex-start;
+  gap: 14px;
+}
+.pg-adapt .glgr {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 4px;
+}
+.pg-adapt .glgoal.gllite:hover {
+  border-color: var(--stroke);
+}
+.pg-adapt .glgoal.gllite:hover .iprn {
+  color: var(--t1);
+}
+.pg-adapt .glgoal.gllite .actb {
+  color: var(--blue);
+}
+.pg-adapt .actb.dg:hover {
+  background: var(--dg-bg);
+  color: var(--red);
+}
+.pg-adapt .glach {
   display: flex;
   align-items: flex-start;
   gap: 8px;
+  padding-right: 72px;
 }
-.pg-adapt .ad-gt h4 {
-  margin: 0;
-  flex: 1 1 auto;
-  font: var(--q-font-ui-headline-4);
-  color: var(--q-content-text);
+.pg-adapt .glac .glnw {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  row-gap: 4px;
 }
-.pg-adapt .ad-gcard p {
-  margin: 0;
+.pg-adapt .glnl {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+.pg-adapt .glnl:hover {
+  color: var(--blue);
+}
+.pg-adapt .glgoal .iprn {
+  font: var(--q-font-ui-headline-3);
+}
+.pg-adapt .glac .iprb > .iprd {
+  margin-top: 12px;
+}
+.pg-adapt .glac .iprd.gldsc {
   font: var(--q-font-ui-body-2);
   color: var(--q-content-text);
 }
-.pg-adapt .ad-gnums {
+.pg-adapt .glacg.glacw {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px 24px;
+  gap: 12px 48px;
+  margin-top: 12px;
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+  white-space: nowrap;
 }
-.pg-adapt .ad-gnums span {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+.pg-adapt .glacg .iprd {
+  margin: 0;
 }
-.pg-adapt .ad-gnums small {
-  font: var(--q-font-ui-description-1);
-  color: var(--q-base-500);
-}
-.pg-adapt .ad-gnums b {
+.pg-adapt .glwv {
   font: var(--q-font-ui-headline-4);
-  font-weight: 600;
+  color: var(--t1);
 }
-.pg-adapt .ad-gmeta {
+.pg-adapt .glpkdot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  margin-left: 12px;
+}
+.pg-adapt .nusf {
+  font: var(--q-font-ui-body-2);
+  display: flex;
+  align-items: center;
+  color: var(--t3);
+  padding-right: 8px;
+}
+.pg-adapt .glacw .glwf .numin.glcw {
+  width: 112px;
+  height: 28px;
+  margin-top: 4px;
+  align-items: center;
+}
+.pg-adapt .glacw .glcw .fin {
+  height: 26px;
+  padding-left: 8px;
+  font: var(--q-font-ui-body-2);
+  font-variant-numeric: tabular-nums;
+}
+.pg-adapt .glacw .glcw .nustep {
+  width: 24px;
+  align-self: stretch;
+}
+.pg-adapt .glacw .glcw .nub svg {
+  width: 10px;
+  height: 10px;
+}
+.pg-adapt .glgoal .glmeta {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 16px;
-  font: var(--q-font-ui-description-1);
-  color: var(--q-base-500);
+  gap: 4px 16px;
+  margin-top: 12px;
 }
-.pg-adapt .ad-gmeta span {
+.pg-adapt .glgoal .glmeta .glmi {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  cursor: default;
 }
-.pg-adapt .ad-gmeta svg {
+.pg-adapt .glgoal .glmeta .glmi :is(svg, .app-icon) {
   width: 14px;
   height: 14px;
+  flex: none;
+  color: var(--t3);
+}
+.pg-adapt .glgoal .glmeta b {
+  font-weight: inherit;
+  color: var(--t1);
 }
 .pg-adapt .ad-side .mbgrid {
   grid-template-columns: 1fr;

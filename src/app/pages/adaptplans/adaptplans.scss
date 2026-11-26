@@ -1,0 +1,164 @@
+/* «Управление персоналом → Адаптация → Список планов сотрудников» */
+:is(.pg-adaptplans, .pg-adapttpl) .tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--q-font-family);
+}
+:is(.pg-adaptplans, .pg-adapttpl) .tbl th {
+  font: var(--q-font-ui-headline-4);
+  text-align: left;
+  color: var(--t3);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--stroke);
+}
+:is(.pg-adaptplans, .pg-adapttpl) .tbl td {
+  font: var(--q-font-ui-body-2);
+  padding: 12px;
+  border-bottom: 1px solid var(--stroke);
+  vertical-align: middle;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .thh {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .sortb {
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--t4);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .sortb svg {
+  width: 12px;
+  height: 12px;
+  display: block;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .sortb:hover {
+  color: var(--q-page-text-ui);
+}
+:is(.pg-adaptplans, .pg-adapttpl) .sortb.on {
+  color: var(--blue);
+}
+:is(.pg-adaptplans, .pg-adapttpl) .rtbl th {
+  white-space: nowrap;
+  background: var(--q-content-background);
+  position: sticky;
+  top: 0;
+  padding: 8px 12px;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .rtbl td.gr {
+  color: var(--t2);
+}
+:is(.pg-adaptplans, .pg-adapttpl) .nw {
+  white-space: nowrap;
+}
+/* таблица + пагинация: линия у pager */
+:is(.pg-adaptplans, .pg-adapttpl) .plbox {
+  padding-top: 4px;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .plbox .tw {
+  overflow-x: auto;
+  overflow-y: visible;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .plbox .tbl tbody > tr:last-child > td {
+  border-bottom: none;
+  padding-bottom: 16px;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .plbox .pgr {
+  border-top: 1px solid var(--stroke);
+  padding: 12px 12px 0;
+  margin-top: 0;
+  box-sizing: border-box;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .mttbl tbody tr {
+  cursor: pointer;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .mttbl tbody tr:hover td {
+  background: var(--q-primary-50);
+}
+/* сотрудник: аватар + ФИО + должность */
+:is(.pg-adaptplans, .pg-adapttpl) .adpp {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .adpp .av {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .adpp .cnm {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .adpp .cnm b {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+:is(.pg-adaptplans, .pg-adapttpl) .adpp .cnm small {
+  font: var(--q-font-ui-description-1);
+  color: var(--t3);
+}
+:is(.pg-adaptplans, .pg-adapttpl) .adpprog {
+  min-width: 130px;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .tbl td .prs.prsb b {
+  font: var(--q-font-ui-description-1);
+}
+:is(.pg-adaptplans, .pg-adapttpl) .mttbl td .bdg {
+  white-space: nowrap;
+}
+/* пустой список */
+:is(.pg-adaptplans, .pg-adapttpl) .empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  text-align: center;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .wipi {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: var(--blue-bg);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .wipi app-icon,
+:is(.pg-adaptplans, .pg-adapttpl) .wipi svg {
+  width: 26px;
+  height: 26px;
+}
+:is(.pg-adaptplans, .pg-adapttpl) .empty b {
+  font: var(--q-font-ui-headline-3);
+  color: var(--t1);
+}
+:is(.pg-adaptplans, .pg-adapttpl) .empty small {
+  max-width: 420px;
+  font: var(--q-font-ui-body-2);
+  color: var(--t3);
+}
+
+:is(.pg-adaptplans, .pg-adapttpl) .tplname {
+  font: var(--q-font-ui-headline-4);
+  color: var(--t1);
+}
+:is(.pg-adapttpl) .mttbl tbody tr {
+  cursor: default;
+}
+:is(.pg-adapttpl) .mttbl tbody tr:hover td {
+  background: transparent;
+}

@@ -221,12 +221,21 @@ export const NAV_TABS: NavTab[] = [
         ],
       },
       {
-        title: 'Аттестация',
+        title: 'Адаптация',
         children: [
           {
-            title: 'Адаптации',
-            page: 'adapt',
+            title: 'Список планов сотрудников',
+            page: 'adaptplans',
           },
+          {
+            title: 'Шаблоны плана адаптации',
+            page: 'adapttpl',
+          },
+        ],
+      },
+      {
+        title: 'Аттестация',
+        children: [
           {
             title: 'ИПР',
             page: 'attest',

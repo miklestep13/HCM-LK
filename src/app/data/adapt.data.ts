@@ -8,6 +8,7 @@ export interface AdaptTask extends IprTask {
 
 /** Цель испытательного срока — отражение карты целей, без ее логики */
 export interface AdaptGoal {
+  id: string;
   t: string;
   d: string;
   /** подпись бейджа */
@@ -32,7 +33,23 @@ export const ADAPT_FROM = '14.09.2026';
 export const ADAPT_TO = '04.10.2026';
 export const PROBATION_TO = '11.12.2026';
 
-export const ADAPT_STAGES = ['Первая неделя', 'Вторая неделя', 'Третья неделя'] as const;
+/** Этап плана адаптации: название и длительность в днях (для срока задач). */
+export interface AdaptStage {
+  id: string;
+  name: string;
+  /** длительность этапа в днях */
+  days: number;
+}
+
+/** Этапы по умолчанию — табы «Первая / Вторая / Третья неделя». */
+export const ADAPT_STAGE_LIST: AdaptStage[] = [
+  { id: 's1', name: 'Первая неделя', days: 7 },
+  { id: 's2', name: 'Вторая неделя', days: 7 },
+  { id: 's3', name: 'Третья неделя', days: 7 },
+];
+
+/** Имена этапов (для обратной совместимости с задачами). */
+export const ADAPT_STAGES = ADAPT_STAGE_LIST.map((s) => s.name);
 
 const task = (stage: string, t: string, res: string, due: string, by: string, done: boolean, extra: Partial<AdaptTask> = {}): AdaptTask => ({
   t,
@@ -128,10 +145,11 @@ export const ADAPT_PEOPLE: Member[] = [
 /** Испытательный срок: шапка карты и список целей на одном белом фоне. Цифры не из карты Павла */
 export const ADAPT_GOALS: AdaptGoal[] = [
   {
+    id: 'ag1',
     t: 'Самостоятельно довести 12 кредитных заявок до комитета',
     d: 'От консультации клиента до пакета на кредитный комитет, без правок наставника в финальной версии.',
-    st: 'Выполняется',
-    tone: 'warn',
+    st: 'Черновик',
+    tone: '',
     w: 40,
     plan: '12 заявок',
     fact: '—',
@@ -142,10 +160,11 @@ export const ADAPT_GOALS: AdaptGoal[] = [
     who: 'Крылов М. П.',
   },
   {
+    id: 'ag2',
     t: 'Освоить линейку розничных кредитов',
     d: 'Консультировать по потребительскому кредиту, кредитной карте и рефинансированию без подсказки наставника.',
-    st: 'Выполняется',
-    tone: 'warn',
+    st: 'Черновик',
+    tone: '',
     w: 30,
     plan: '3 продукта',
     fact: '—',
@@ -156,10 +175,11 @@ export const ADAPT_GOALS: AdaptGoal[] = [
     who: 'Федорова Ю. С.',
   },
   {
+    id: 'ag3',
     t: 'Держать качество пакета заявки',
     d: 'Возвраты от управления рисков — только по новым обстоятельствам, не по комплектности документов.',
-    st: 'Выполняется',
-    tone: 'warn',
+    st: 'Черновик',
+    tone: '',
     w: 30,
     plan: 'не больше 2',
     fact: '—',

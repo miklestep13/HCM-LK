@@ -1,0 +1,35 @@
+/* одинаковый зазор между основной информацией, задачами и целями */
+.pg-adapttplnew .atn-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* у целей класс .mt дает +16 — на форме шаблона зазор только от .atn-body */
+.pg-adapttplnew .atn-body .mt {
+  margin-top: 0;
+}
+
+/* тот же 16px, что gap в .atn-body — между целями и панелью Отмена/Сохранить */
+.pg-adapttplnew .c.ipisl {
+  padding: 16px 24px;
+  margin-top: 16px;
+}
+
+.pg-adapttplnew .ipff {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 0;
+}
+
+/* основная информация: 2 колонки; наименование и описание на всю ширину */
+.pg-adapttplnew .frm.atnfrm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 20px;
+}
+
+.pg-adapttplnew .frm.atnfrm > .full {
+  grid-column: 1 / -1;
+}

@@ -22,6 +22,7 @@ import { AdaptGoals } from './adapt-goals/adapt-goals';
 import { AdaptHead } from './adapt-head/adapt-head';
 import { AdaptParams } from './adapt-params/adapt-params';
 import { AdaptStore } from './adapt-store';
+import { AdaptStageForm } from './adapt-stage-form/adapt-stage-form';
 import { AdaptTaskForm } from './adapt-task-form/adapt-task-form';
 import { AdaptTasks } from './adapt-tasks/adapt-tasks';
 
@@ -60,6 +61,7 @@ const STATUSES: { value: IprDemoStatus; label: string }[] = [
     IprIsland,
     AdaptEmpty,
     AdaptTaskForm,
+    AdaptStageForm,
     IprTaskRun,
     AdaptParams,
     IprChat,
@@ -89,7 +91,7 @@ const STATUSES: { value: IprDemoStatus; label: string }[] = [
               (closed)="bannerOff.set(true)"
             ></div>
           }
-          <div adapt-tasks (add)="taskForm.set(-1)" (act)="onTask($event)"></div>
+          <div adapt-tasks (add)="taskForm.set(-1)" (editStage)="stageForm.set($event)" (act)="onTask($event)"></div>
           @if (!s.creating()) {
             <div adapt-goals></div>
           }
@@ -111,6 +113,9 @@ const STATUSES: { value: IprDemoStatus; label: string }[] = [
     }
     @if (taskForm() !== null) {
       <app-adapt-task-form [index]="taskForm()!" (closed)="taskForm.set(null)" />
+    }
+    @if (stageForm() !== null) {
+      <app-adapt-stage-form [index]="stageForm()!" (closed)="stageForm.set(null)" />
     }
     @if (run() !== null) {
       <app-ipr-task-run [index]="run()!" (closed)="run.set(null)" />
@@ -145,6 +150,7 @@ export class Adapt {
   protected readonly fields: MemberField[] = ['av', 'name', 'pos', 'role'];
 
   protected readonly taskForm = signal<number | null>(null);
+  protected readonly stageForm = signal<number | null>(null);
   protected readonly run = signal<number | null>(null);
   protected readonly params = signal(false);
   protected readonly chat = signal<{ i: number; why: boolean } | null>(null);

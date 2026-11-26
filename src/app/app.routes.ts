@@ -249,6 +249,21 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/adapt/adapt').then((m) => m.Adapt),
   },
   {
+    path: 'adaptplans',
+    title: 'Список планов сотрудников · Q.HCM',
+    loadComponent: () => import('./pages/adaptplans/adaptplans').then((m) => m.Adaptplans),
+  },
+  {
+    path: 'adapttpl',
+    title: 'Шаблоны плана адаптации · Q.HCM',
+    loadComponent: () => import('./pages/adapttpl/adapttpl').then((m) => m.Adapttpl),
+  },
+  {
+    path: 'adapttplnew',
+    title: 'Добавление шаблона плана адаптации · Q.HCM',
+    loadComponent: () => import('./pages/adapttplnew/adapttplnew').then((m) => m.Adapttplnew),
+  },
+  {
     path: 'mygoalview',
     title: 'Просмотр цели · Q.HCM',
     loadComponent: () => import('./pages/mygoalview/mygoalview').then((m) => m.Mygoalview),
