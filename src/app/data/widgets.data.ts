@@ -180,7 +180,7 @@ export const WIDGETS: WidgetInfo[] = [
 ];
 
 /** демо для «Сводки плана» */
-export const WIDGET_PLAN = { title: 'Карта целей · 2026', status: 'Утверждено', date: '01.01.2026 – 31.12.2026', progress: 64, caption: 'Выполнено 7 из 11 целей' };
+export const WIDGET_PLAN = { title: 'Карта целей · 2026', status: 'Утверждено', date: '01.01.2026 – 31.12.2026', progress: 33, caption: 'Закрыто 2 из 6 целей' };
 
 /** демо для «Кнопки действия обучения» */
 export const WIDGET_ACTIONS: LearnAction[] = [

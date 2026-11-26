@@ -24,6 +24,9 @@ export interface GoalPeriod {
   to: string;
 }
 
+/** Статус цели в виджете обзора (бейдж справа) */
+export type GoalItemStatus = 'Черновик' | 'Исполнение' | 'Оценка' | 'Оценена';
+
 /** Цель карты (минимум полей для главной; полная модель — при переносе модуля «Цели») */
 export interface Goal {
   id: string;
@@ -32,6 +35,8 @@ export interface Goal {
   weight?: number | null;
   /** итоговая оценка на этапе «Итог» (демо) */
   finalGrade?: Grade;
+  /** статус строки на Обзоре */
+  status?: GoalItemStatus;
 }
 
 /** Строка «Списка целей» */

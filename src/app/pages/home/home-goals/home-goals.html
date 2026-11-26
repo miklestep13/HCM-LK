@@ -1,6 +1,15 @@
 <app-card title="Карта целей" [counter]="goals.length" open="mygoals" openTitle="Карта целей">
-  <div class="cb">
-    <app-plan-summary [title]="period.title" [status]="stage().label" [statusTone]="stage().tone" [date]="period.from + ' – ' + period.to">
+  <div class="hm-goals-body">
+    <app-plan-summary
+      inset
+      [title]="period.title"
+      [status]="stage().label"
+      [statusTone]="stage().tone"
+      [date]="period.from + ' – ' + period.to"
+      [progress]="isFinal() ? null : progress()"
+      [progressTone]="progressTone()"
+      [caption]="isFinal() ? '' : caption()"
+    >
       @if (isFinal()) {
         <div class="st2">
           <app-stat-cell label="Итоговая оценка"><span class="hmgft"><span class="clbg" [class]="'g' + finalGrade()">{{ finalGrade() }}</span>{{ gradeLabel(finalGrade()) }}</span></app-stat-cell>
@@ -8,11 +17,19 @@
       }
     </app-plan-summary>
     @if (!isFinal()) {
-      @for (g of goals; track g.id) {
-        <app-list-item [title]="g.title" [meta]="[{ icon: 'calendarGrey', text: 'до ' + g.due }]" link (click)="nav.go('mygoals')" />
-      } @empty {
-        <div class="hmglem">Цели на период еще не поставлены</div>
-      }
+      <div class="cb" style="padding-top:0">
+        @for (g of goals; track g.id) {
+          <app-list-item
+            [title]="g.title"
+            [meta]="[{ icon: 'calendarGrey', text: 'до ' + g.due }]"
+            [badge]="badgeOf(g)"
+            link
+            (click)="nav.go('mygoals')"
+          />
+        } @empty {
+          <div class="hmglem">Цели на период еще не поставлены</div>
+        }
+      </div>
     }
   </div>
 </app-card>
